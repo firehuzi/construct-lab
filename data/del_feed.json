@@ -1,0 +1,27 @@
+{
+  "last_run": "2026-06-26T22:36:48.718566",
+  "del2": {
+    "oil_price": 82,
+    "inflation": 3.5,
+    "interest_rate": 5.25,
+    "sanctions": 3,
+    "gdp_growth": 1.5
+  },
+  "del3": {
+    "event_count": 78,
+    "signal_words": [
+      "tariff",
+      "alliance",
+      "crisis",
+      "military",
+      "sanctions"
+    ],
+    "threshold": 50,
+    "last_update": "2026-06-26T22:00:00"
+  },
+  "sources": {
+    "gdelt": false,
+    "fred": false,
+    "manual": false
+  }
+}

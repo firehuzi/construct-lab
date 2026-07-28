@@ -1,0 +1,20 @@
+{
+  "subjects": ["US", "CN", "RU", "JP", "EU"],
+  "del_sources": {
+    "del1_annual": {
+      "gdp": {"source": "world_bank_api", "endpoint": "GDP (current US$)", "threshold_change": 0.05},
+      "military": {"source": "sipri_api", "endpoint": "military_expenditure", "threshold_change": 0.10},
+      "population": {"source": "world_bank_api", "endpoint": "population_total", "threshold_change": 0.02}
+    },
+    "del2_monthly": {
+      "oil_price": {"source": "manual_rss", "url": "https://www.eia.gov/rss/", "threshold_change": 0.10},
+      "inflation": {"source": "imf_api", "endpoint": "CPI", "threshold_change": 0.02},
+      "interest_rate": {"source": "fred_api", "endpoint": "FEDFUNDS", "threshold_change": 0.25},
+      "sanctions": {"source": "manual_input", "description": "Manual tracking of new sanctions"}
+    },
+    "del3_daily": {
+      "gdel_events": {"source": "gdelt_api", "query": "SELECT * FROM events WHERE Actor1CountryCode IN ('USA','CHN','RUS','JPN') AND EventDate >= '{today}'", "threshold": 50},
+      "signal_words": {"source": "manual_regex", "terms": ["crisis", "conflict", "sanction", "military", "tariff", "invasion", "nuclear"]}
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "_description": "United States — Identity Translation Rules & Signal Detection Rules",
+  "_dna": {"d1": "中心地位+交易能力", "d2": "交易式", "d3": "中", "d4": "低"},
+  
+  "del_translations": {
+    "gdp": {
+      "del_path": "del1.gdp",
+      "baseline": 27720000000000,
+      "threshold": 0.03,
+      "identity_label": "中心地位的物理基础——GDP增长=维持中心地位的能力"
+    },
+    "military": {
+      "del_path": "del1.military",
+      "baseline": 968000000000,
+      "threshold": 0.05,
+      "identity_label": "全球投射的物质保障——军费变化=全球角色的信号"
+    },
+    "oil_price": {
+      "del_path": "del2.oil_price",
+      "baseline": 75,
+      "threshold": 0.10,
+      "identity_label": "通胀/页岩油竞争力——油价波动=选民感知+产业健康度"
+    },
+    "interest_rate": {
+      "del_path": "del2.interest_rate",
+      "baseline": 4.75,
+      "threshold": 0.25,
+      "identity_label": "美债吸引力+财政空间——利率=中心地位的金融成本"
+    },
+    "inflation": {
+      "del_path": "del2.inflation",
+      "baseline": 3.2,
+      "threshold": 0.02,
+      "identity_label": "民众感知——通胀='中心地位对普通人还有意义吗'"
+    }
+  },
+
+  "signal_rules": [
+    {
+      "trigger": "rate_hike_crisis",
+      "severity": "high",
+      "description": "美联储紧急加息——触发金融稳定性恐惧。财政空间收缩→全球投射能力受限"
+    },
+    {
+      "trigger": "military_surge_asia",
+      "severity": "high",
+      "description": "印太军费骤增——东亚同盟承诺测试。'保护盟友'的叙事正在被要求兑现"
+    },
+    {
+      "trigger": "debt_ceiling_crisis",
+      "severity": "critical",
+      "description": "债务上限危机——中心地位的财政基础被质疑。美元信用动摇=L8恐惧激活"
+    },
+    {
+      "trigger": "ally_defection",
+      "severity": "medium",
+      "description": "核心盟友转向——沙特/欧盟/日本在外交/经济上单方面行动。交易式Identity承受结构性损伤"
+    },
+    {
+      "trigger": "taiwan_escalation",
+      "severity": "critical",
+      "description": "台海军演升级——核心利益区被迫回应。交易式Identity面临'不打=信誉崩塌/打=不可控升级'的双重锁定"
+    }
+  ],
+
+  "baseline_data": {
+    "last_update": "2026-06-01",
+    "gdp_growth": 1.8,
+    "cpi": 3.2,
+    "unemployment": 4.2,
+    "federal_funds_rate": 4.75,
+    "debt_to_gdp": 124,
+    "military_budget": 968,
+    "direction": "→",
+    "notes": "财政空间趋紧但未破裂。交易重谈在多个盟友关系中同时推进。"
+  }
+}

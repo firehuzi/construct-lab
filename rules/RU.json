@@ -1,0 +1,36 @@
+{
+  "_description": "Russia — Identity Translation Rules",
+  "_dna": {
+    "d1": "第三罗马",
+    "d2": "武力锁定(方法B)",
+    "d3": "中",
+    "d4": "中(CN非对称)"
+  },
+  "_icc": "低耦合 (<0.5)",
+  "del_translations": {
+    "oil_price": {
+      "del_path": "del2.oil_price",
+      "baseline": 75,
+      "threshold": 0.1,
+      "identity_label": "财政空间的生命线——油价<60=军事行动的财政空间急剧收缩"
+    },
+    "inflation": {
+      "del_path": "del2.inflation",
+      "baseline": 8.0,
+      "threshold": 0.1,
+      "identity_label": "社会稳定性——高通胀=内部稳定度承压"
+    }
+  },
+  "signal_rules": [
+    {
+      "trigger": "oil_price_collapse",
+      "severity": "critical",
+      "description": "油价崩跌至<60——财政空间极度压缩。低ICC主体更可能过冲——“必须发生什么事来打破僵局”"
+    },
+    {
+      "trigger": "nato_escalation",
+      "severity": "high",
+      "description": "北约东翼强化——缓冲区受压。“缓冲区=身份”——放弃缓冲区=Identity危机"
+    }
+  ]
+}

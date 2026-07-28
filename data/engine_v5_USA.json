@@ -1,0 +1,110 @@
+{
+  "timestamp": "2026-07-26T19:33:50.801846",
+  "subject": "USA",
+  "name": "United States",
+  "del_summary": {
+    "event_count_30d": 1706,
+    "avg_tone_30d": -2.54,
+    "signal_words": [
+      "statement",
+      "011",
+      "012",
+      "013",
+      "014",
+      "015",
+      "016",
+      "017",
+      "018",
+      "appeal"
+    ],
+    "macro_baseline": {
+      "gdp": 27720000000000,
+      "military": 968000000000,
+      "oil_price": 84.38,
+      "interest_rate": 4.75,
+      "inflation": 3.2
+    }
+  },
+  "identity": {
+    "status": "ok",
+    "subject": "USA",
+    "dna": {
+      "d1": "中心地位+交易能力",
+      "d2": "交易式",
+      "d3": "中",
+      "d4": "低",
+      "icc": "不适用"
+    },
+    "params": {
+      "gdp": {
+        "value": 27720000000000,
+        "direction": "→",
+        "change_pct": 0.0,
+        "interpretation": "中心地位的物理基础——GDP增长=维持中心地位的能力: → (0%)"
+      },
+      "military": {
+        "value": 968000000000,
+        "direction": "→",
+        "change_pct": 0.0,
+        "interpretation": "全球投射的物质保障——军费变化=全球角色的信号: → (0%)"
+      },
+      "oil_price": {
+        "value": 84.38,
+        "direction": "↑",
+        "change_pct": 12.5,
+        "interpretation": "通胀/页岩油竞争力——油价波动=选民感知+产业健康度: ↑ (12.5%)"
+      },
+      "interest_rate": {
+        "value": 4.75,
+        "direction": "→",
+        "change_pct": 0.0,
+        "interpretation": "美债吸引力+财政空间——利率=中心地位的金融成本: → (0%)"
+      },
+      "inflation": {
+        "value": 3.2,
+        "direction": "→",
+        "change_pct": 0.0,
+        "interpretation": "民众感知——通胀='中心地位对普通人还有意义吗': → (0%)"
+      }
+    }
+  },
+  "signals": [
+    {
+      "trigger": "event_surge",
+      "severity": "medium",
+      "description": "事件脉冲超阈值: 1706条 > 50条",
+      "keywords": [
+        "statement",
+        "011",
+        "012",
+        "013",
+        "014"
+      ],
+      "timestamp": "2026-07-26T19:33:50.801829"
+    }
+  ],
+  "consistency": {
+    "consistency": "stable",
+    "direction_distribution": {
+      "→": [
+        "gdp",
+        "military",
+        "interest_rate",
+        "inflation"
+      ],
+      "↑": [
+        "oil_price"
+      ]
+    },
+    "signal_alignment": 1,
+    "diagnosis": "正常波动"
+  },
+  "sul": {
+    "intent": 0.45,
+    "capability": 0.6,
+    "execution": 0.52,
+    "reaction": 0.53,
+    "opaque": 0.5,
+    "confidence": 0.48
+  }
+}

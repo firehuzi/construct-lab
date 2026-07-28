@@ -1,0 +1,22 @@
+[
+  {
+    "code": "US",
+    "direction": 1,
+    "direction_down": 0,
+    "signals": 3,
+    "signal_high": 2,
+    "sul_confidence": 0.46,
+    "consistency": "structural_shift",
+    "timestamp": "2026-06-26T22:37:13.157867"
+  },
+  {
+    "code": "SG",
+    "direction": 0,
+    "direction_down": 0,
+    "signals": 1,
+    "signal_high": 0,
+    "sul_confidence": 0.49,
+    "consistency": "stable",
+    "timestamp": "2026-06-26T22:37:13.157944"
+  }
+]

@@ -1,0 +1,132 @@
+{
+  "US": {
+    "timestamp": "2026-06-26T22:37:13.157867",
+    "identity": {
+      "status": "ok",
+      "subject": "US",
+      "dna": {
+        "d1": "中心地位+交易能力",
+        "d2": "交易式",
+        "d3": "中",
+        "d4": "低"
+      },
+      "params": {
+        "gdp": {
+          "value": 0,
+          "direction": "→",
+          "interpretation": "数据缺失: 中心地位的物理基础——GDP增长=维持中心地位的能力"
+        },
+        "military": {
+          "value": 0,
+          "direction": "→",
+          "interpretation": "数据缺失: 全球投射的物质保障——军费变化=全球角色的信号"
+        },
+        "oil_price": {
+          "value": 82,
+          "direction": "→",
+          "change_pct": 9.3,
+          "interpretation": "通胀/页岩油竞争力——油价波动=选民感知+产业健康度: → (9.3%)"
+        },
+        "interest_rate": {
+          "value": 5.25,
+          "direction": "→",
+          "change_pct": 10.5,
+          "interpretation": "美债吸引力+财政空间——利率=中心地位的金融成本: → (10.5%)"
+        },
+        "inflation": {
+          "value": 3.5,
+          "direction": "↑",
+          "change_pct": 9.4,
+          "interpretation": "民众感知——通胀='中心地位对普通人还有意义吗': ↑ (9.4%)"
+        }
+      }
+    },
+    "signals": [
+      {
+        "trigger": "ally_defection",
+        "severity": "high",
+        "description": "核心盟友转向——沙特/欧盟/日本在外交/经济上单方面行动。交易式Identity承受结构性损伤",
+        "timestamp": "2026-06-26T22:37:13.157767"
+      },
+      {
+        "trigger": "taiwan_escalation",
+        "severity": "high",
+        "description": "台海军演升级——核心利益区被迫回应。交易式Identity面临'不打=信誉崩塌/打=不可控升级'的双重锁定",
+        "timestamp": "2026-06-26T22:37:13.157848"
+      },
+      {
+        "trigger": "event_surge",
+        "severity": "medium",
+        "description": "事件脉冲超阈值: 78条 > 50条",
+        "keywords": [
+          "tariff",
+          "alliance",
+          "crisis",
+          "military",
+          "sanctions"
+        ],
+        "timestamp": "2026-06-26T22:37:13.157852"
+      }
+    ],
+    "consistency": {
+      "consistency": "structural_shift",
+      "direction_distribution": {
+        "→": [
+          "gdp",
+          "military",
+          "oil_price",
+          "interest_rate"
+        ],
+        "↑": [
+          "inflation"
+        ]
+      },
+      "signal_alignment": 3,
+      "diagnosis": "多信号同向=结构性变化"
+    },
+    "sul": {
+      "intent": 0.45,
+      "capability": 0.6,
+      "execution": 0.56,
+      "reaction": 0.59,
+      "opaque": 0.5,
+      "confidence": 0.46
+    }
+  },
+  "SG": {
+    "timestamp": "2026-06-26T22:37:13.157944",
+    "identity": {
+      "status": "no_rules",
+      "params": {}
+    },
+    "signals": [
+      {
+        "trigger": "event_surge",
+        "severity": "medium",
+        "description": "事件脉冲超阈值: 78条 > 50条",
+        "keywords": [
+          "tariff",
+          "alliance",
+          "crisis",
+          "military",
+          "sanctions"
+        ],
+        "timestamp": "2026-06-26T22:37:13.157935"
+      }
+    ],
+    "consistency": {
+      "consistency": "stable",
+      "direction_distribution": {},
+      "signal_alignment": 1,
+      "diagnosis": "正常波动"
+    },
+    "sul": {
+      "intent": 0.4,
+      "capability": 0.6,
+      "execution": 0.52,
+      "reaction": 0.53,
+      "opaque": 0.5,
+      "confidence": 0.49
+    }
+  }
+}

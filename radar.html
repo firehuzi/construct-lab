@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ConStruct Radar v4.0</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0b0e14;font-family:'Inter','Segoe UI',system-ui,sans-serif;color:#eef2ff;padding:0;min-height:100vh;}
+.container{max-width:1200px;margin:0 auto;padding:1.5rem;}
+
+.header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding:1rem 0;}
+.header h1{font-size:1.4rem;font-weight:600;background:linear-gradient(135deg,#e8b44c,#c27ddb);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.header .meta{font-size:0.75rem;color:#5b6e8c;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem;margin:1rem 0;}
+
+.card{background:rgba(18,24,34,0.9);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.2rem;transition:all 0.2s;}
+.card:hover{border-color:rgba(232,180,76,0.3);}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.8rem;}
+.card-code{font-size:1.1rem;font-weight:700;color:#e8b44c;font-family:monospace;}
+.card-label{font-size:0.72rem;color:#5b6e8c;}
+.card-dna{font-size:0.75rem;color:#8d9aaf;margin-bottom:0.6rem;}
+
+.indicators{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;}
+.ind{background:rgba(0,0,0,0.2);border-radius:8px;padding:0.6rem 0.7rem;}
+.ind-label{font-size:0.65rem;color:#5b6e8c;margin-bottom:0.25rem;text-transform:uppercase;letter-spacing:0.5px;}
+.ind-val{font-size:1rem;font-weight:700;}
+.ind-sub{font-size:0.65rem;color:#5b6e8c;}
+
+.val-up{color:#4caf50;}
+.val-down{color:#f44336;}
+.val-stable{color:#ff9800;}
+.val-good{color:#4caf50;}
+.val-warn{color:#ff9800;}
+.val-bad{color:#f44336;}
+
+.sul-bar{width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;margin:0.4rem 0;overflow:hidden;}
+.sul-fill{height:100%;border-radius:3px;transition:width 0.5s;}
+.sul-good{background:#4caf50;}
+.sul-warn{background:#ff9800;}
+.sul-bad{background:#f44336;}
+
+.signals{margin-top:0.6rem;font-size:0.7rem;}
+.signal-item{padding:0.2rem 0;color:#8d9aaf;border-bottom:1px solid rgba(255,255,255,0.03);}
+.signal-sev-high{color:#f44336;}
+.signal-sev-critical{color:#f44336;font-weight:700;}
+
+.alert-bar{background:rgba(244,67,54,0.15);border:1px solid rgba(244,67,54,0.3);border-radius:10px;padding:0.8rem 1rem;margin:0.8rem 0;display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;}
+.alert-dot{width:8px;height:8px;border-radius:50%;background:#f44336;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+.status-bar{display:flex;align-items:center;gap:0.8rem;padding:0.6rem 0;font-size:0.72rem;color:#5b6e8c;flex-wrap:wrap;}
+.status-dot{width:6px;height:6px;border-radius:50%;}
+.status-ok{background:#4caf50;}
+.status-warn{background:#ff9800;}
+.status-bad{background:#f44336;}
+
+.empty-state{text-align:center;padding:3rem;color:#5b6e8c;}
+.footnote{text-align:center;margin-top:2rem;font-size:0.7rem;color:#3a4254;}
+@media(max-width:600px){.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div>
+    <h1>ConStruct Radar · 地缘信号监测</h1>
+    <div class="meta">v4.0 — 实时引擎 · 四引擎架构</div>
+  </div>
+  <div class="meta" id="updateTime"></div>
+</div>
+
+<div id="alertZone"></div>
+<div class="status-bar"><span class="status-dot status-ok" id="statusDot"></span><span id="statusText">等待数据...</span></div>
+<div class="grid" id="cardGrid"></div>
+<div class="footnote">ConStruct Engine v4.0 · Identity Interpreter → Signal Detector → Consistency Checker → SUL Scorer</div>
+
+</div>
+
+<script>
+function loadData(){
+  fetch('data/radar_data.json?'+Date.now())
+    .then(r=>r.json())
+    .then(render)
+    .catch(e=>{
+      document.getElementById('statusText').textContent='雷达数据未生成。运行 python run.py radar';
+      document.getElementById('statusDot').className='status-dot status-warn';
+    });
+}
+
+function sulClass(v){
+  if(v>=0.70) return 'sul-good';
+  if(v>=0.50) return 'sul-warn';
+  return 'sul-bad';
+}
+
+function render(data){
+  if(!data.length){
+    document.getElementById('cardGrid').innerHTML='<div class="empty-state"><p>暂无主体数据。运行 python run.py engine 生成。</p></div>';
+    return;
+  }
+
+  const grid = document.getElementById('cardGrid');
+  grid.innerHTML = '';
+  
+  let alerts = [];
+  
+  data.forEach(d=>{
+    const sul = d.sul_confidence;
+    const sCls = sulClass(sul);
+    const dir = d.direction - d.direction_down;
+    const dirSymbol = dir>0 ? '↑' : dir<0 ? '↓' : '→';
+    const dirCls = dir>0 ? 'val-up' : dir<0 ? 'val-down' : 'val-stable';
+
+    if(d.signal_high>0) alerts.push(d.code+': '+d.signal_high+' high signals');
+    
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-top">
+        <div>
+          <span class="card-code">${d.code}</span>
+          <span class="card-label"> · ${d.consistency}</span>
+        </div>
+        <div class="card-label">${new Date(d.timestamp).toLocaleDateString()}</div>
+      </div>
+      <div class="indicators">
+        <div class="ind">
+          <div class="ind-label">方向</div>
+          <div class="ind-val ${dirCls}">${dirSymbol} ${Math.abs(dir)}</div>
+        </div>
+        <div class="ind">
+          <div class="ind-label">信号</div>
+          <div class="ind-val ${d.signal_high>0?'val-bad':'val-good'}">${d.signal_high}</div>
+          <div class="ind-sub">high/critical</div>
+        </div>
+        <div class="ind">
+          <div class="ind-label">SUL 置信度</div>
+          <div class="ind-val ${sCls==='sul-good'?'val-good':sCls==='sul-warn'?'val-warn':'val-bad'}">${(sul*100).toFixed(0)}%</div>
+          <div class="sul-bar"><div class="sul-fill ${sCls}" style="width:${sul*100}%"></div></div>
+        </div>
+        <div class="ind">
+          <div class="ind-label">信号总数</div>
+          <div class="ind-val">${d.signals}</div>
+        </div>
+      </div>
+      ${d.signal_high>0 ? '<div class="signals"><div class="signal-item signal-sev-high">⚠ '+d.signal_high+' 个高/严重信号</div></div>' : ''}
+    `;
+    grid.appendChild(card);
+  });
+
+  if(alerts.length){
+    document.getElementById('alertZone').innerHTML = '<div class="alert-bar"><span class="alert-dot"></span> Active alerts: '+alerts.join(', ')+'</div>';
+  } else {
+    document.getElementById('alertZone').innerHTML = '';
+  }
+
+  const totalSignals = data.reduce((a,b)=>a+b.signals,0);
+  const totalHigh = data.reduce((a,b)=>a+b.signal_high,0);
+  if(totalHigh>0){
+    document.getElementById('statusText').textContent = totalHigh+' 个高/严重信号 · '+data.length+' 个主体在线';
+    document.getElementById('statusDot').className = 'status-dot status-bad';
+  } else if(totalSignals>0){
+    document.getElementById('statusText').textContent = totalSignals+' 个信号 · '+data.length+' 个主体在线';
+    document.getElementById('statusDot').className = 'status-dot status-warn';
+  } else {
+    document.getElementById('statusText').textContent = '系统稳定 · '+data.length+' 个主体在线';
+    document.getElementById('statusDot').className = 'status-dot status-ok';
+  }
+
+  document.getElementById('updateTime').textContent = 'Last: '+new Date(data[0].timestamp).toLocaleString();
+}
+
+loadData();
+setInterval(loadData, 60000);
+</script>
+</body>
+</html>

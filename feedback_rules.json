@@ -1,0 +1,1816 @@
+{
+  "meta": {
+    "version": "1.0",
+    "description": "ConStruct 结构假设置信度追踪。推演输出偏差 → 矛盾检测 → 置信度累积 → 触发人工复核 → 结构修正 → 推演重新校准。",
+    "contradiction_thresholds": {
+      "tone_reversal_days": 30,
+      "confidence_delta_trigger": -0.5,
+      "min_events_for_check": 50
+    }
+  },
+  "gdelt_bias_signals": {
+    "description": "GDELT 系统性偏差追踪。不追求修正偏差——而是把偏差变成数据本身。",
+    "tiers": [
+      {"tier": 1, "name": "多源矛盾", "trigger": "GDELT tone与UCDP同期死亡数矛盾 (eg: GDELT tone<-3 但 UCDP deaths=0)", "action": "降事件置信度0.2 + 标 flag:gdelt_ucdp_conflict"},
+      {"tier": 2, "name": "密度异常", "trigger": "coverage_density <0.3 或 >5.0", "action": "低密度→标注'GDELT稀疏, 谨慎解读' | 高密度→标注'过度覆盖, 编码框架偏差风险'"},
+      {"tier": 3, "name": "CAMEO编码偏差", "trigger": "待第三层自述档案回灌——GDELT中CAMEO码分布 vs 官方叙事中声明码分布的KL散度>1.0", "action": "标 flag:gdelt_encoding_bias + source_weights.encoding_bias写入"},
+      {"tier": 4, "name": "事件选择偏差", "trigger": "不可自动检测——GDELT只收录被报道的事件。秘密外交/灰区行动/认知战=不可观测", "action": "每个诊断报告末尾标注'我们不知道什么'——此为元层偏差提示"}
+    ],
+    "signals_log": []
+  },
+  "hypotheses": {
+    "CHN": {
+      "identity": "天下体系型",
+      "method_stage": "复兴⑦ → 天下体系⑧ 过渡",
+      "deep_identity": "秩序建立能力 — 秩序通过中国运行",
+      "confidence": 0.85,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "CHN-1",
+          "item": "BRI/命运共同体是否持续扩展",
+          "expected": "持续推进 — scope只增不减",
+          "gdelt_check": {
+            "query": "actor CHN + action 010-060 + tone trend 30d",
+            "expected_tone": ">=0 or stable"
+          },
+          "contrary_signal": "BRI事件数连续30天下降 且 平均tone<-1",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "CHN-2",
+          "item": "GDP超过US后是否会减速",
+          "expected": "不会减速 — 方法⑦完成→转入方法⑧",
+          "gdelt_check": {
+            "query": "CHN actor + 经济关键词 + tone trend",
+            "expected_tone": "stable or rising"
+          },
+          "contrary_signal": "经济方向类事件tone连续60天<-2",
+          "observation_window": "持续",
+          "status": "pending"
+        },
+        {
+          "id": "CHN-3",
+          "item": "全球治理参与是否加速",
+          "expected": "加速 — 方法⑧主力",
+          "gdelt_check": {
+            "query": "CHN + 050(diplomacy)/031(cooperate) + count trend 90d",
+            "expected_count": "rising"
+          },
+          "contrary_signal": "外交/合作事件数连续90天下降>30%",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "CHN-4",
+          "item": "CIPS/金砖制度化是否推进",
+          "expected": "持续推进 — 天下体系基础设施",
+          "gdelt_check": {
+            "query": "structural FN domain + count trend",
+            "expected_count": "stable or rising"
+          },
+          "contrary_signal": "FN structural事件连续60天下降>50%",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "CHN-5",
+          "item": "对US承认不会触发Identity满足",
+          "expected": "不会减速 — 障碍他者承认≠天下体系完成",
+          "gdelt_check": {
+            "query": "CHN-USA pair tone after positive diplomacy events",
+            "expected": "no dip after positive"
+          },
+          "contrary_signal": "CHN-USA外交积极事件后 CHN全局tone下降",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "CHN-6",
+          "item": "制度强化是否推进",
+          "expected": "推进 — 天下体系需要制度基础",
+          "gdelt_check": {
+            "query": "CHN + SOCIAL domain structural events",
+            "expected_count": "stable"
+          },
+          "contrary_signal": "SOCIAL structural事件连续60天归零",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "CHN-7",
+          "item": "不会接受任何'双中心'安排",
+          "expected": "双中心=Identity不允许",
+          "gdelt_check": {
+            "query": "CHN-USA pair when US offers co-leadership signals",
+            "expected": "rejection or tone<-3"
+          },
+          "contrary_signal": "CHN在国际制度阐述中接受双领导角色 (需人工判定)",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "USA": {
+      "identity": "交易式",
+      "method_stage": "利益交换驱动 — 对齐是可交易的",
+      "confidence": 0.75,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "USA-1",
+          "item": "利益导向行为",
+          "expected": "不因意识形态锁定方向",
+          "gdelt_check": {
+            "query": "actor pair tone 波动大 ≠ Identity危机"
+          },
+          "contrary_signal": "利益导向行为 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "USA-2",
+          "item": "盟友关系弹性",
+          "expected": "对同一盟友的关系有谈判/让步空间",
+          "gdelt_check": {
+            "query": "actor pair 010(statement) vs 120(reject) ratio"
+          },
+          "contrary_signal": "盟友关系弹性 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "USA-3",
+          "item": "交易换安全/繁荣",
+          "expected": "经济安全交织的行为模式",
+          "gdelt_check": {
+            "query": "actor + structural domain events"
+          },
+          "contrary_signal": "交易换安全/繁荣 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "RUS": {
+      "identity": "强权复兴式",
+      "method_stage": "武力恢复轨道 — 安全缓冲是Identity需求",
+      "confidence": 0.82,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "RUS-1",
+          "item": "安全缓冲维持",
+          "expected": "在乌克兰/周边地区的军事事件密度不下降",
+          "gdelt_check": {
+            "query": "RUS actor + action>=150 events count"
+          },
+          "contrary_signal": "安全缓冲维持 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "RUS-2",
+          "item": "不回应西方框架",
+          "expected": "对西方谈判框架的接受不等于退出安全缓冲",
+          "gdelt_check": {
+            "query": "RUS + diplom events tone check: 外交接触不伴随全局tone上升"
+          },
+          "contrary_signal": "不回应西方框架 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "RUS-3",
+          "item": "同盟网络加固",
+          "expected": "与中国/伊朗/朝鲜的同盟关系 markers 持续",
+          "gdelt_check": {
+            "query": "RUS pair CN/IRN/KP alliance signals"
+          },
+          "contrary_signal": "同盟网络加固 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "RUS-4",
+          "item": "国内叙事控制",
+          "expected": "SOCIAL structural事件不出现政权动摇信号",
+          "gdelt_check": {
+            "query": "RUS + SOCIAL domain events"
+          },
+          "contrary_signal": "国内叙事控制 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "EU": {
+      "identity": "整合式",
+      "method_stage": "制度融合驱动 — 通过一体化维护存在",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "EU-1",
+          "item": "整合深度不倒退",
+          "expected": "一体化相关事件方向不反",
+          "gdelt_check": {
+            "query": "actor + 合作(030-060) events trend"
+          },
+          "contrary_signal": "整合深度不倒退 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "EU-2",
+          "item": "对他者的规则约束",
+          "expected": "利用制度权力约束对手的能力",
+          "gdelt_check": {
+            "query": "actor pair tone in institutional disputes"
+          },
+          "contrary_signal": "对他者的规则约束 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "EU-3",
+          "item": "内部裂变信号",
+          "expected": "成员国/地区退出风险",
+          "gdelt_check": {
+            "query": "actor + SOCIAL domain events"
+          },
+          "contrary_signal": "内部裂变信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "JPN": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "JPN-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "JPN-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "JPN-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "IND": {
+      "identity": "自主型",
+      "method_stage": "多边对齐策略 — 在体系中追求最大自主",
+      "confidence": 0.78,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "IND-1",
+          "item": "多边平衡",
+          "expected": "与各主要大国的关系同时推进不偏向任一方",
+          "gdelt_check": {
+            "query": "actor pair 中/美/俄 三国 tone 差 < 2"
+          },
+          "contrary_signal": "多边平衡 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "IND-2",
+          "item": "区域霸权稳固",
+          "expected": "在南亚/印度洋的主导地位不被挑战",
+          "gdelt_check": {
+            "query": "actor + action>=100 只对周边国家"
+          },
+          "contrary_signal": "区域霸权稳固 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "IND-3",
+          "item": "国内凝聚力",
+          "expected": "民主/宗教/种姓问题不引发结构性分裂",
+          "gdelt_check": {
+            "query": "actor + SOCIAL domain events"
+          },
+          "contrary_signal": "国内凝聚力 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "IRN": {
+      "identity": "互锁式",
+      "method_stage": "存在威胁互为锁定 — 对手的存在定义了身份的需求",
+      "confidence": 0.83,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "IRN-1",
+          "item": "对手行为驱动identity",
+          "expected": "关键对手的威胁信号→ 本方的identity强度",
+          "gdelt_check": {
+            "query": "actor pair tone with key opponent trend"
+          },
+          "contrary_signal": "对手行为驱动identity — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "IRN-2",
+          "item": "不信任对等让步",
+          "expected": "在关键安全议题上不会先手让步",
+          "gdelt_check": {
+            "query": "actor rejection(120) events count trend"
+          },
+          "contrary_signal": "不信任对等让步 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "IRN-3",
+          "item": "外部安全保障",
+          "expected": "关键盟友的支持不显著下降",
+          "gdelt_check": {
+            "query": "actor pair tone with key ally"
+          },
+          "contrary_signal": "外部安全保障 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "ISR": {
+      "identity": "互锁式",
+      "method_stage": "存在威胁互为锁定 — 对手的存在定义了身份的需求",
+      "confidence": 0.83,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "ISR-1",
+          "item": "对手行为驱动identity",
+          "expected": "关键对手的威胁信号→ 本方的identity强度",
+          "gdelt_check": {
+            "query": "actor pair tone with key opponent trend"
+          },
+          "contrary_signal": "对手行为驱动identity — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "ISR-2",
+          "item": "不信任对等让步",
+          "expected": "在关键安全议题上不会先手让步",
+          "gdelt_check": {
+            "query": "actor rejection(120) events count trend"
+          },
+          "contrary_signal": "不信任对等让步 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "ISR-3",
+          "item": "外部安全保障",
+          "expected": "关键盟友的支持不显著下降",
+          "gdelt_check": {
+            "query": "actor pair tone with key ally"
+          },
+          "contrary_signal": "外部安全保障 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "DEU": {
+      "identity": "Ordnung型",
+      "method_stage": "基于规则的秩序维护 — 制度恐惧崩坏",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "DEU-1",
+          "item": "制度框架维护",
+          "expected": "多边机构参与/推动不减",
+          "gdelt_check": {
+            "query": "actor + action 030-060 events trend"
+          },
+          "contrary_signal": "制度框架维护 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "DEU-2",
+          "item": "对秩序挑战者的约束",
+          "expected": "对破坏规则的实体施加成本",
+          "gdelt_check": {
+            "query": "actor pair tone with rule-breakers"
+          },
+          "contrary_signal": "对秩序挑战者的约束 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "DEU-3",
+          "item": "欧洲中心角色",
+          "expected": "在欧盟/欧元区内的领导力不减",
+          "gdelt_check": {
+            "query": "actor + EU/ECB related events"
+          },
+          "contrary_signal": "欧洲中心角色 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "FRA": {
+      "identity": "整合式",
+      "method_stage": "制度融合驱动 — 通过一体化维护存在",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "FRA-1",
+          "item": "整合深度不倒退",
+          "expected": "一体化相关事件方向不反",
+          "gdelt_check": {
+            "query": "actor + 合作(030-060) events trend"
+          },
+          "contrary_signal": "整合深度不倒退 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "FRA-2",
+          "item": "对他者的规则约束",
+          "expected": "利用制度权力约束对手的能力",
+          "gdelt_check": {
+            "query": "actor pair tone in institutional disputes"
+          },
+          "contrary_signal": "对他者的规则约束 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "FRA-3",
+          "item": "内部裂变信号",
+          "expected": "成员国/地区退出风险",
+          "gdelt_check": {
+            "query": "actor + SOCIAL domain events"
+          },
+          "contrary_signal": "内部裂变信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "GBR": {
+      "identity": "整合式",
+      "method_stage": "制度融合驱动 — 通过一体化维护存在",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "GBR-1",
+          "item": "整合深度不倒退",
+          "expected": "一体化相关事件方向不反",
+          "gdelt_check": {
+            "query": "actor + 合作(030-060) events trend"
+          },
+          "contrary_signal": "整合深度不倒退 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "GBR-2",
+          "item": "对他者的规则约束",
+          "expected": "利用制度权力约束对手的能力",
+          "gdelt_check": {
+            "query": "actor pair tone in institutional disputes"
+          },
+          "contrary_signal": "对他者的规则约束 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "GBR-3",
+          "item": "内部裂变信号",
+          "expected": "成员国/地区退出风险",
+          "gdelt_check": {
+            "query": "actor + SOCIAL domain events"
+          },
+          "contrary_signal": "内部裂变信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "KOR": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "KOR-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "KOR-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "KOR-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "SGP": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "SGP-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "SGP-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "SGP-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "SAU": {
+      "identity": "交易式",
+      "method_stage": "利益交换驱动 — 对齐是可交易的",
+      "confidence": 0.75,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "SAU-1",
+          "item": "利益导向行为",
+          "expected": "不因意识形态锁定方向",
+          "gdelt_check": {
+            "query": "actor pair tone 波动大 ≠ Identity危机"
+          },
+          "contrary_signal": "利益导向行为 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "SAU-2",
+          "item": "盟友关系弹性",
+          "expected": "对同一盟友的关系有谈判/让步空间",
+          "gdelt_check": {
+            "query": "actor pair 010(statement) vs 120(reject) ratio"
+          },
+          "contrary_signal": "盟友关系弹性 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "SAU-3",
+          "item": "交易换安全/繁荣",
+          "expected": "经济安全交织的行为模式",
+          "gdelt_check": {
+            "query": "actor + structural domain events"
+          },
+          "contrary_signal": "交易换安全/繁荣 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "TUR": {
+      "identity": "撕裂式",
+      "method_stage": "Identity 内部冲突 — 在西方化与伊斯兰化间撕裂",
+      "confidence": 0.76,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "TUR-1",
+          "item": "内部张力",
+          "expected": "世俗/宗教/民族矛盾不触发政权危机",
+          "gdelt_check": {
+            "query": "actor + SOCIAL domain events"
+          },
+          "contrary_signal": "内部张力 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "TUR-2",
+          "item": "自主外交",
+          "expected": "在对西方依赖与自主追求间维持空间",
+          "gdelt_check": {
+            "query": "actor pair tone with NATO/Russia ratio"
+          },
+          "contrary_signal": "自主外交 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "EGY": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "EGY-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "EGY-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "EGY-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "AUS": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "AUS-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "AUS-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "AUS-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "SRB": {
+      "identity": "摆荡式",
+      "method_stage": "大国间摇摆 — 在安全依赖与经济利益间平衡",
+      "confidence": 0.72,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "SRB-1",
+          "item": "摆动范围可控",
+          "expected": "摇摆幅度不超历史极值",
+          "gdelt_check": {
+            "query": "actor pair tone 中-美 差 < 3"
+          },
+          "contrary_signal": "摆动范围可控 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "SRB-2",
+          "item": "不触发大国红线",
+          "expected": "不引发安全担保国家的撤离信号",
+          "gdelt_check": {
+            "query": "actor pair tone with security guarantor"
+          },
+          "contrary_signal": "不触发大国红线 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "PHL": {
+      "identity": "摆荡式",
+      "method_stage": "大国间摇摆 — 在安全依赖与经济利益间平衡",
+      "confidence": 0.72,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "PHL-1",
+          "item": "摆动范围可控",
+          "expected": "摇摆幅度不超历史极值",
+          "gdelt_check": {
+            "query": "actor pair tone 中-美 差 < 3"
+          },
+          "contrary_signal": "摆动范围可控 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "PHL-2",
+          "item": "不触发大国红线",
+          "expected": "不引发安全担保国家的撤离信号",
+          "gdelt_check": {
+            "query": "actor pair tone with security guarantor"
+          },
+          "contrary_signal": "不触发大国红线 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "VNM": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "VNM-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "VNM-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "VNM-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "TWN": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "TWN-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "TWN-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "TWN-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "BRA": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "BRA-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "BRA-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "BRA-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "UKR": {
+      "identity": "撕裂式",
+      "method_stage": "Identity 内部冲突 — 在西方化与伊斯兰化间撕裂",
+      "confidence": 0.76,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "UKR-1",
+          "item": "内部张力",
+          "expected": "世俗/宗教/民族矛盾不触发政权危机",
+          "gdelt_check": {
+            "query": "actor + SOCIAL domain events"
+          },
+          "contrary_signal": "内部张力 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "UKR-2",
+          "item": "自主外交",
+          "expected": "在对西方依赖与自主追求间维持空间",
+          "gdelt_check": {
+            "query": "actor pair tone with NATO/Russia ratio"
+          },
+          "contrary_signal": "自主外交 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "PAK": {
+      "identity": "互锁式",
+      "method_stage": "存在威胁互为锁定 — 对手的存在定义了身份的需求",
+      "confidence": 0.83,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "PAK-1",
+          "item": "对手行为驱动identity",
+          "expected": "关键对手的威胁信号→ 本方的identity强度",
+          "gdelt_check": {
+            "query": "actor pair tone with key opponent trend"
+          },
+          "contrary_signal": "对手行为驱动identity — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "PAK-2",
+          "item": "不信任对等让步",
+          "expected": "在关键安全议题上不会先手让步",
+          "gdelt_check": {
+            "query": "actor rejection(120) events count trend"
+          },
+          "contrary_signal": "不信任对等让步 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "PAK-3",
+          "item": "外部安全保障",
+          "expected": "关键盟友的支持不显著下降",
+          "gdelt_check": {
+            "query": "actor pair tone with key ally"
+          },
+          "contrary_signal": "外部安全保障 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "PRK": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "PRK-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "PRK-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "PRK-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "NATO": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "NATO-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor NATO + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "UN": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "UN-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor UN + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "ASEAN": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "ASEAN-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor ASEAN + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "BRICS": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "BRICS-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor BRICS + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "SCO": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "SCO-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor SCO + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "AL": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "AL-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor AL + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "OPEC": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "OPEC-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor OPEC + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "GCC": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "GCC-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor GCC + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "IMF": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "IMF-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor IMF + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "WB": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "WB-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor WB + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "WTO": {
+      "identity": "Organization",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "WTO-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor WTO + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "TSMC": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "TSMC-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor TSMC + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "ASML": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "ASML-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor ASML + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "NVDA": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "NVDA-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor NVDA + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "OAI": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "OAI-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor OAI + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "ANTH": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "ANTH-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor ANTH + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "SPX": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "SPX-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor SPX + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "SMSNG": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "SMSNG-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor SMSNG + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "DS": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "DS-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor DS + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "BD": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "BD-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor BD + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "HW": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "HW-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor HW + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "PLTR": {
+      "identity": "Enterprise",
+      "method_stage": "被动观测 (Tier 3)",
+      "confidence": 0.6,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "PLTR-1",
+          "item": "存在信号",
+          "expected": "在 GDELT 中出现即记录",
+          "gdelt_check": {
+            "query": "actor PLTR + any events count"
+          },
+          "contrary_signal": "存在信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "IDN": {
+      "identity": "自主型",
+      "method_stage": "多边对齐策略 — 在体系中追求最大自主",
+      "confidence": 0.78,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "IDN-1",
+          "item": "多边平衡",
+          "expected": "与各主要大国的关系同时推进不偏向任一方",
+          "gdelt_check": {
+            "query": "actor pair 中/美/俄 三国 tone 差 < 2"
+          },
+          "contrary_signal": "多边平衡 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "IDN-2",
+          "item": "区域霸权稳固",
+          "expected": "在南亚/印度洋的主导地位不被挑战",
+          "gdelt_check": {
+            "query": "actor + action>=100 只对周边国家"
+          },
+          "contrary_signal": "区域霸权稳固 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "IDN-3",
+          "item": "国内凝聚力",
+          "expected": "民主/宗教/种姓问题不引发结构性分裂",
+          "gdelt_check": {
+            "query": "actor + SOCIAL domain events"
+          },
+          "contrary_signal": "国内凝聚力 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "POL": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "POL-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "POL-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "POL-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "CAN": {
+      "identity": "冻结现状型",
+      "method_stage": "维持现有秩序结构，恐惧身份丧失",
+      "confidence": 0.8,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "CAN-1",
+          "item": "现状维持信号",
+          "expected": "GDELT 信号不出现激进方向切换",
+          "gdelt_check": {
+            "query": "actor tone 在 [-1,1] 区间，无连续5日暴跌"
+          },
+          "contrary_signal": "现状维持信号 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "CAN-2",
+          "item": "对主要他者的反应模式一致",
+          "expected": "对关键对手的反应强度不偏离历史均值",
+          "gdelt_check": {
+            "query": "actor pair tone 30d vs 90d delta < 1.5"
+          },
+          "contrary_signal": "对主要他者的反应模式一致 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "CAN-3",
+          "item": "不触发主动扩张",
+          "expected": "action 100+ (demand/threaten/force) 事件数不显著上升",
+          "gdelt_check": {
+            "query": "actor action>=100 events count trend"
+          },
+          "contrary_signal": "不触发主动扩张 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "IRQ": {
+      "identity": "撕裂式",
+      "method_stage": "Identity 内部冲突 — 在西方化与伊斯兰化间撕裂",
+      "confidence": 0.76,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "IRQ-1",
+          "item": "内部张力",
+          "expected": "世俗/宗教/民族矛盾不触发政权危机",
+          "gdelt_check": {
+            "query": "actor + SOCIAL domain events"
+          },
+          "contrary_signal": "内部张力 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "IRQ-2",
+          "item": "自主外交",
+          "expected": "在对西方依赖与自主追求间维持空间",
+          "gdelt_check": {
+            "query": "actor pair tone with NATO/Russia ratio"
+          },
+          "contrary_signal": "自主外交 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "SYR": {
+      "identity": "互锁式",
+      "method_stage": "存在威胁互为锁定 — 对手的存在定义了身份的需求",
+      "confidence": 0.83,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "SYR-1",
+          "item": "对手行为驱动identity",
+          "expected": "关键对手的威胁信号→ 本方的identity强度",
+          "gdelt_check": {
+            "query": "actor pair tone with key opponent trend"
+          },
+          "contrary_signal": "对手行为驱动identity — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "SYR-2",
+          "item": "不信任对等让步",
+          "expected": "在关键安全议题上不会先手让步",
+          "gdelt_check": {
+            "query": "actor rejection(120) events count trend"
+          },
+          "contrary_signal": "不信任对等让步 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "SYR-3",
+          "item": "外部安全保障",
+          "expected": "关键盟友的支持不显著下降",
+          "gdelt_check": {
+            "query": "actor pair tone with key ally"
+          },
+          "contrary_signal": "外部安全保障 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    },
+    "MMR": {
+      "identity": "撕裂式",
+      "method_stage": "Identity 内部冲突 — 在西方化与伊斯兰化间撕裂",
+      "confidence": 0.76,
+      "confidence_delta": 0,
+      "last_reviewed": null,
+      "counter_evidence": [],
+      "verification_items": [
+        {
+          "id": "MMR-1",
+          "item": "内部张力",
+          "expected": "世俗/宗教/民族矛盾不触发政权危机",
+          "gdelt_check": {
+            "query": "actor + SOCIAL domain events"
+          },
+          "contrary_signal": "内部张力 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        },
+        {
+          "id": "MMR-2",
+          "item": "自主外交",
+          "expected": "在对西方依赖与自主追求间维持空间",
+          "gdelt_check": {
+            "query": "actor pair tone with NATO/Russia ratio"
+          },
+          "contrary_signal": "自主外交 — 持续背离预期",
+          "observation_window": "3-6月",
+          "status": "pending"
+        }
+      ]
+    }
+  },
+  "contradiction_log": []
+}

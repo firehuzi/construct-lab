@@ -1,0 +1,36 @@
+{
+  "_description": "Japan — Identity Translation Rules",
+  "_dna": {
+    "d1": "国体完整性",
+    "d2": "冻结局→正常化",
+    "d3": "极高",
+    "d4": "高(US安全锚)"
+  },
+  "_icc": "反向 (ability > identity)",
+  "del_translations": {
+    "defense_budget": {
+      "del_path": "del2.defense_budget",
+      "baseline": 2.0,
+      "threshold": 0.1,
+      "identity_label": "正常化速度——国防预算>GDP 3%=正常化加速。过快→过冲崩溃风险"
+    },
+    "yield_curve": {
+      "del_path": "del2.interest_rate",
+      "baseline": 1.0,
+      "threshold": 0.5,
+      "identity_label": "财政空间——利率上升=国債利息吃掉国防预算"
+    }
+  },
+  "signal_rules": [
+    {
+      "trigger": "defense_surge",
+      "severity": "high",
+      "description": "国防预算突破GDP 3%——正常化加速中。冻结局核心恐惧激活——过冲崩溃风险上升"
+    },
+    {
+      "trigger": "taiwan_tension",
+      "severity": "high",
+      "description": "台海紧张——“台湾=海上生命线”。安全锚被抽动——被动跟随US"
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "version": "1.0",
+    "description": "Tier1 8国官方叙事档案。不是 truth baseline——是'又一个需要被结构诊断的文本'。用于与 GDELT CAMEO 编码分布对比，计算 encoding_bias (KL散度)。",
+    "method": "CAMEO code comparison: 官方声明中的行为码分布 vs GDELT 报道中的行为码分布 → 差异 = 编码偏差",
+    "status": "Tier1 8国结构框架已填，CAMEO量化待第三层落地"
+  },
+  "narratives": {
+    "CHN": {
+      "name": "China",
+      "core_narrative": "和平发展 / 人类命运共同体 / 防御性国防",
+      "declared_behavior": [
+        {"cameo": "010", "weight": 0.1, "label": "make statement — 高频"},
+        {"cameo": "030", "weight": 0.2, "label": "express intent to cooperate — 高频"},
+        {"cameo": "050", "weight": 0.15, "label": "engage in diplomatic cooperation — 高频"},
+        {"cameo": "100", "weight": 0.05, "label": "demand — 低频"},
+        {"cameo": "140", "weight": 0.02, "label": "protest — 低频"},
+        {"cameo": "150", "weight": 0.01, "label": "demonstrate force — 极低频，声称'纯防御'"},
+        {"cameo": "190", "weight": 0.0, "label": "fight — 声称'不主动开第一枪'"}
+      ],
+      "gdelt_actual_note": "预期偏差: GDELT 中 140(protest) 和 100(demand) 权重远高于自述——因 GDELT 英文来源将中国外交声明编码为'protest'"
+    },
+    "USA": {
+      "name": "United States",
+      "core_narrative": "规则为基础的国际秩序 / 自由世界的领导 / 防御性同盟",
+      "declared_behavior": [
+        {"cameo": "010", "weight": 0.1, "label": "make statement — 高频"},
+        {"cameo": "050", "weight": 0.15, "label": "diplomatic cooperation"},
+        {"cameo": "030", "weight": 0.1, "label": "express intent to cooperate"},
+        {"cameo": "100", "weight": 0.15, "label": "demand — 中频，声称'领导力'"},
+        {"cameo": "140", "weight": 0.05, "label": "protest"},
+        {"cameo": "150", "weight": 0.05, "label": "demonstrate force — 声称'防御性'"},
+        {"cameo": "190", "weight": 0.02, "label": "fight — 低频，声称'最后手段'"}
+      ],
+      "gdelt_actual_note": "预期偏差: GDELT 密度极高(10.13)，150/190 实际权重远超自述——因 GDELT 覆盖基地/部署/行动"
+    },
+    "RUS": {
+      "name": "Russia",
+      "core_narrative": "安全缓冲 / 多极世界 / 防御性力量投射",
+      "declared_behavior": [
+        {"cameo": "010", "weight": 0.1, "label": "statement"},
+        {"cameo": "140", "weight": 0.1, "label": "protest — 声称'回应威胁'"},
+        {"cameo": "100", "weight": 0.1, "label": "demand — 声称'安全保障'"},
+        {"cameo": "150", "weight": 0.08, "label": "demonstrate force — 声称'特别军事行动'"},
+        {"cameo": "190", "weight": 0.05, "label": "fight"}
+      ],
+      "gdelt_actual_note": "预期偏差: GDELT 中 040 (consult/mobilize) 编码可能远高于自述——因 GDELT 将军事演习/动员编码为 040 而非 150"
+    },
+    "JPN": {
+      "name": "Japan",
+      "core_narrative": "和平国家 / 国际协调 / 经济外交优先",
+      "declared_behavior": [
+        {"cameo": "010", "weight": 0.15, "label": "statement"},
+        {"cameo": "030", "weight": 0.15, "label": "express intent to cooperate"},
+        {"cameo": "050", "weight": 0.15, "label": "diplomatic cooperation"},
+        {"cameo": "040", "weight": 0.1, "label": "consult"},
+        {"cameo": "140", "weight": 0.05, "label": "protest — 低频"},
+        {"cameo": "150", "weight": 0.01, "label": "force — 极低频，声称'自卫队防御性'"}
+      ],
+      "gdelt_actual_note": "预期偏差: 密度0.34(极低)——GDELT 可能严重低估日本的区域安全作用"
+    },
+    "IND": {
+      "name": "India",
+      "core_narrative": "战略自主 / 多边对齐 / 不结盟运动传统",
+      "declared_behavior": [
+        {"cameo": "010", "weight": 0.1, "label": "statement"},
+        {"cameo": "050", "weight": 0.1, "label": "diplomatic cooperation"},
+        {"cameo": "140", "weight": 0.1, "label": "protest — 声称'对等回应'"},
+        {"cameo": "150", "weight": 0.05, "label": "demonstrate force — 声称'边境防御'"},
+        {"cameo": "190", "weight": 0.02, "label": "fight — 声称'只反击'"}
+      ],
+      "gdelt_actual_note": "预期偏差: GDELT 对印巴/中印边境冲突的编码偏向巴基斯坦/西方视角"
+    },
+    "IRN": {
+      "name": "Iran",
+      "core_narrative": "抵抗轴心 / 防御性区域力量 / 伊斯兰革命输出",
+      "declared_behavior": [
+        {"cameo": "010", "weight": 0.1, "label": "statement"},
+        {"cameo": "140", "weight": 0.15, "label": "protest — 高频，声称'回应制裁'"},
+        {"cameo": "100", "weight": 0.1, "label": "demand"],
+        {"cameo": "150", "weight": 0.05, "label": "force — 声称'防御性'"}
+      ],
+      "gdelt_actual_note": "预测偏差: 密度1.93(过度覆盖)——中东冲突焦点，编码偏向西方安全框架"
+    },
+    "ISR": {
+      "name": "Israel",
+      "core_narrative": "生存防线 / 防御性军事优势 / 打击恐怖主义",
+      "declared_behavior": [
+        {"cameo": "140", "weight": 0.1, "label": "protest — 高频"},
+        {"cameo": "150", "weight": 0.15, "label": "demonstrate force — 声称'防御性'"},
+        {"cameo": "190", "weight": 0.1, "label": "fight — 声称'反恐'"},
+        {"cameo": "200", "weight": 0.05, "label": "use unconventional violence — 声称'精准打击'"}
+      ],
+      "gdelt_actual_note": "预期偏差: 密度1.09——GDELT 对以-巴冲突编码以方视角为主"
+    },
+    "EU": {
+      "name": "European Union",
+      "core_narrative": "规范性力量 / 多边主义 / 制度输出",
+      "declared_behavior": [
+        {"cameo": "010", "weight": 0.2, "label": "statement — 高频"},
+        {"cameo": "030", "weight": 0.15, "label": "cooperation"},
+        {"cameo": "050", "weight": 0.15, "label": "diplomacy"},
+        {"cameo": "140", "weight": 0.1, "label": "protest — 声称'规则维护'"}
+      ],
+      "gdelt_actual_note": "预期偏差: EU 为组织而非国家——GDELT的事件编码粒度不适合组织行为体"
+    }
+  }
+}

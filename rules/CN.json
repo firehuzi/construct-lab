@@ -1,0 +1,55 @@
+{
+  "_description": "China — Identity Translation Rules & Signal Detection Rules",
+  "_dna": {"d1": "天下型——文明中心地位", "d2": "渐进整合(复兴=方法⑦)", "d3": "高", "d4": "低"},
+  "_icc": "中耦合↓ (0.7-0.9)",
+  
+  "del_translations": {
+    "gdp_growth": {
+      "del_path": "del2.gdp_growth",
+      "baseline": 4.5,
+      "threshold": 0.05,
+      "identity_label": "中心能力的基础——GDP增速=文明复兴的物质证明。低于4%=中心地位维持能力衰减的预警"
+    },
+    "inflation": {
+      "del_path": "del2.inflation",
+      "baseline": 1.5,
+      "threshold": 0.03,
+      "identity_label": "社会稳定性锚——通胀>2%='天下秩序内部的分配失衡'"
+    },
+    "exports": {
+      "del_path": "del2.exports",
+      "baseline": 0,
+      "threshold": 0.08,
+      "identity_label": "外部需求=天下体系的贸易层——出口下降=外部不承认中心的贸易能力"
+    },
+    "tech_sanctions": {
+      "del_path": "del2.tech_sanctions",
+      "baseline": 0,
+      "threshold": 1,
+      "identity_label": "技术封锁=中心能力的核心挑战——'被排除在外的文明中心不是真正的中心'"
+    }
+  },
+
+  "signal_rules": [
+    {
+      "trigger": "gdp_below_4",
+      "severity": "high",
+      "description": "GDP增速跌破4%——天下型Identity的物质基础动摇。ICC可能从中耦合→低耦合"
+    },
+    {
+      "trigger": "tech_breakthrough",
+      "severity": "medium",
+      "description": "技术突破（DeepSeek式效率革命或芯片自给突破）——正信号。证明'限制锻造创新'"
+    },
+    {
+      "trigger": "taiwan_escalation",
+      "severity": "critical",
+      "description": "台海紧张升级——核心利益区被迫回应。indifference在台海失效——必须行动"
+    },
+    {
+      "trigger": "global_tariffs",
+      "severity": "high",
+      "description": "全球加征针对中国的高关税——'天下体系的贸易层被封堵'。外部承认削弱=中心能力衰减"
+    }
+  ]
+}

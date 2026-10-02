@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """case_check.py —— B4.3：对一个填好的案例跑三条检查，并量出 pending_manual 队列
 
 ★★ 这个工具的产出里，**最重要的一行是 pending_manual 的长度。**
@@ -411,6 +411,60 @@ def apply_causal_prefix(path: dict, verdicts: list) -> dict:
             "limit": "★ 前缀规则只抓「前缀没中」，抓不了「前缀中了但原因不同」—— 部分修，不是完整修。"}
 
 
+def check_evidence_list(ev, sources: dict) -> tuple:
+    """★★ S1.2 交叉印证（抄 2026-07-25 方案 §5.2）+ S1.1 分级 + §5.3 置信度。
+
+    原方案写的是：
+      · 同事实 ≥ 2 独立源 ⇒ confidence↑
+      · 源间矛盾 ⇒ 标 contradiction
+      · conf = f(source_reliability, corroboration, recency)
+
+    ★ 为什么 evidence 要允许【一个列表】：现在一条判断只能挂一份依据，
+      而「两个独立来源互证」显然比「一个来源说」强 —— 那正是原方案要的。
+      ⇒ evidence 可以是对象，也可以是对象数组。
+
+    ★ 独立性怎么判：**不同 outlet 就算独立源**（同 outlet 的多篇不算）。
+      这条粗糙但可核，而且它把「两篇转载同一稿」与「两家各自报道」分开了。
+    """
+    items = ev if isinstance(ev, list) else [ev]
+    items = [x for x in items if x]
+    if not items:
+        return None, "没有 evidence", {}
+
+    obs_list, outs, details = [], [], []
+    for it in items:
+        ok, why = check_evidence(it, sources)
+        if ok is None:
+            return None, why, {}
+        rec = sources.get(it.get("slug")) or {}
+        obs_list.append(ok)
+        outs.append((it.get("outlet") or rec.get("outlet")
+                     or (rec.get("url") or "")[:60]))
+        details.append({"slug": it.get("slug"), "observed": ok,
+                        "tier": rec.get("tier"), "reliability": rec.get("reliability"),
+                        "witness_type": rec.get("witness_type")})
+
+    # ① 矛盾：两个来源对同一 observable 给出相反的 observed
+    contradiction = len(set(obs_list)) > 1
+
+    # ② 独立源数：按 outlet 去重
+    n_indep = len(set(o for o in outs if o))
+
+    # ③ 置信度：取各源 reliability 的均值 × 互证加成（上限 1.0）
+    rels = [d["reliability"] for d in details if d.get("reliability") is not None]
+    base = (sum(rels) / len(rels)) if rels else None
+    if base is None:
+        conf = None                       # ★ 给不出 reliability ⇒ 不给置信度（不猜）
+    else:
+        bonus = {0: 0.0, 1: 0.0, 2: 0.10}.get(n_indep, 0.15)
+        conf = min(1.0, round(base + bonus, 3))
+    return obs_list[0], "", {
+        "observed_all": obs_list, "n_sources": len(items), "n_independent": n_indep,
+        "contradiction": contradiction, "base_reliability": base, "confidence": conf,
+        "sources": details,
+    }
+
+
 # ══ 主检查 ══════════════════════════════════════════════════════════════════════
 def load_sources() -> dict:
     """读依据档案索引。
@@ -518,16 +572,22 @@ def check_case(case: dict, dyads: dict) -> dict:
 
         # ① 每条判断都可以带【人判＋依据可核】的 evidence —— 走三道机器闸
         if evidence:
-            ok, why = check_evidence(evidence, sources)
+            ok, why, corr = check_evidence_list(evidence, sources)
             if ok is None:
                 return to_manual("evidence 不合格：%s" % why)
             # 三道过了 ⇒ 用人写的 observed 来映射，但标明依据来源是人＋存档
             v = ("falsified" if ok else "not_yet_falsified") if kind == "exclusion" \
                 else ("confirmed" if ok else "missed")
+            _d = "★ 人判＋依据可核（过了三道机器闸）"
+            if corr.get("n_independent", 0) >= 2:
+                _d += "；**%d 个独立源互证**（置信度 %s）" % (corr["n_independent"], corr["confidence"])
+            if corr.get("contradiction"):
+                _d += "；⛔ **源间矛盾**（同一 observable 两个来源给了相反的 observed）"
             return {"verdict": v, "basis": "human_with_evidence",
-                    "evidence_slug": evidence.get("slug"),
-                    "evidence_quote": (evidence.get("quote") or "")[:120],
-                    "detail": "★ 人判＋依据可核（过了三道机器闸：在索引里／verified_open／contemporary）"}
+                    "evidence_slug": (evidence[0] if isinstance(evidence, list)
+                                      else evidence).get("slug"),
+                    "corroboration": corr,
+                    "detail": _d}
 
         if not src:
             return to_manual("没有 source 也没有 evidence ⇒ 没有任何依据")
@@ -725,6 +785,32 @@ def selftest() -> int:
             {"slug": _one["slug"], "observed": True}, _srcs)
         ck("★★用 slug（不带扩展名）写 evidence 必须能过闸①",
            "① 依据" not in _why, _why or "过了")
+    # ★★ S1.2 交叉印证（抄 2026-07-25 方案 §5.2）
+    _sw = load_sources()
+    _a = next(r for r in {id(x): x for x in _sw.values()}.values()
+              if r.get("witness_type") == "contemporary" and r.get("tier") == "P0")
+    _b = next(r for r in {id(x): x for x in _sw.values()}.values()
+              if r.get("witness_type") == "contemporary" and r.get("url", "").find("jta.org") > 0)
+    ok1, w1, c1 = check_evidence_list([{"slug": _a["slug"], "observed": False,
+                                        "outlet": "A"}, {"slug": _b["slug"],
+                                        "observed": False, "outlet": "B"}], _sw)
+    ck("★★两个独立源 ⇒ n_independent=2 且置信度高于单源",
+       c1.get("n_independent") == 2 and c1.get("confidence") > (c1.get("base_reliability") or 0),
+       str(c1.get("confidence")))
+    ck("★★两个来源 observed 相反 ⇒ 标 contradiction",
+       check_evidence_list([{"slug": _a["slug"], "observed": True, "outlet": "A"},
+                            {"slug": _b["slug"], "observed": False, "outlet": "B"}],
+                           _sw)[2].get("contradiction") is True)
+    ck("★同一 outlet 的两篇【不算】独立源",
+       check_evidence_list([{"slug": _a["slug"], "observed": False, "outlet": "A"},
+                            {"slug": _a["slug"], "observed": False, "outlet": "A"}],
+                           _sw)[2].get("n_independent") == 1)
+    ck("★单源也能过（向后兼容）",
+       check_evidence_list({"slug": _a["slug"], "observed": False}, _sw)[0] is False)
+    ck("★★给不出 reliability ⇒ 不给置信度（不猜）",
+       check_evidence_list([{"slug": next(r["slug"] for r in _sw.values()
+                                          if r.get("reliability") is None),
+                             "observed": False, "outlet": "W"}], _sw)[2].get("confidence") is None)
     ck("★★word_in：短码必须整词匹配（'CN' 不命中 ''NSCN''-IM 里的片段）",
        word_in("CN", "NSCN-IM") is False and word_in("CN", "NS CN IM") is True,
        "%s / %s" % (word_in("CN", "NSCN-IM"), word_in("CN", "NS CN IM")))

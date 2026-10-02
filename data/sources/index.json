@@ -19,7 +19,9 @@
       "http_status": 200,
       "content_type": "text/html",
       "final_url": "https://www.govinfo.gov/content/pkg/PPP-1991-book1/html/PPP-1991-book1-doc-pg176.htm",
-      "error": null
+      "error": null,
+      "tier": "P0",
+      "reliability": 0.85
     },
     {
       "url": "https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action",
@@ -38,7 +40,9 @@
       "http_status": 200,
       "content_type": "text/html; charset=UTF-8",
       "final_url": "https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action",
-      "error": null
+      "error": null,
+      "tier": "P1",
+      "reliability": 0.7
     },
     {
       "url": "https://www.baltimoresun.com/1991/01/19/israeli-restraint-hailed-but-action-now-more-likely-war-in-the-gulf-2/",
@@ -57,7 +61,9 @@
       "http_status": 200,
       "content_type": "text/html; charset=utf-8",
       "final_url": "https://www.baltimoresun.com/1991/01/19/israeli-restraint-hailed-but-action-now-more-likely-war-in-the-gulf-2/",
-      "error": null
+      "error": null,
+      "tier": "P1",
+      "reliability": 0.7
     },
     {
       "url": "https://www.latimes.com/archives/la-xpm-1991-01-15-mn-342-story.html",
@@ -76,7 +82,9 @@
       "http_status": 200,
       "content_type": "text/html;charset=UTF-8",
       "final_url": "https://www.latimes.com/archives/la-xpm-1991-01-15-mn-342-story.html",
-      "error": null
+      "error": null,
+      "tier": "P1",
+      "reliability": 0.7
     },
     {
       "url": "https://en.wikipedia.org/wiki/1991_Iraqi_missile_strikes_on_Israel",
@@ -95,7 +103,9 @@
       "http_status": 200,
       "content_type": "text/html; charset=UTF-8",
       "final_url": "https://en.wikipedia.org/wiki/1991_Iraqi_missile_strikes_on_Israel",
-      "error": null
+      "error": null,
+      "tier": null,
+      "reliability": null
     },
     {
       "url": "http://news.bbc.co.uk/onthisday/hi/dates/stories/february/28/newsid_2515000/2515289.stm",
@@ -114,7 +124,9 @@
       "http_status": 200,
       "content_type": "text/html",
       "final_url": "http://news.bbc.co.uk/onthisday/hi/dates/stories/february/28/newsid_2515000/2515289.stm",
-      "error": null
+      "error": null,
+      "tier": "P1",
+      "reliability": 0.7
     },
     {
       "url": "https://www.govinfo.gov/content/pkg/PPP-1991-book1/html/PPP-1991-book1-doc-pg187.htm",
@@ -133,7 +145,9 @@
       "http_status": 200,
       "content_type": "text/html",
       "final_url": "https://www.govinfo.gov/content/pkg/PPP-1991-book1/html/PPP-1991-book1-doc-pg187.htm",
-      "error": null
+      "error": null,
+      "tier": "P0",
+      "reliability": 0.85
     },
     {
       "url": "https://archive.nytimes.com/www.nytimes.com/learning/general/onthisday/big/0227.html",
@@ -152,7 +166,9 @@
       "http_status": 200,
       "content_type": "text/html; charset=utf-8",
       "final_url": "https://archive.nytimes.com/www.nytimes.com/learning/general/onthisday/big/0227.html",
-      "error": null
+      "error": null,
+      "tier": "P1",
+      "reliability": 0.7
     }
   ]
 }

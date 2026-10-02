@@ -253,16 +253,30 @@
             "from": "1991-01-17",
             "to": "1991-03-31"
           },
-          "evidence": {
-            "slug": "jta.org_schools_closed_streets_were_empty_as_isr",
-            "observed": false,
-            "quote": "Schools Closed, Streets Were Empty As Israel Awaited Military Action — January 17, 1991. The Education Ministry ordered Israeli schools closed Wednesday after consultations with the...",
-            "note": "★ 两个独立来源互相印证：JTA（1991-01-17）「Israel Awaited」＋ Baltimore Sun（1991-01-19）「Israeli 'restraint' hailed, but action now more likely」。⇒ 「以色列没有还击」这件事，拿到的是【当时还在等待／克制】的正面证据，而不是「搜不到」。",
-            "witness_type": "contemporary",
-            "published": "",
-            "url": "https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action",
-            "verified_open": true
-          }
+          "evidence": [
+            {
+              "slug": "jta.org_schools_closed_streets_were_empty_as_isr",
+              "observed": false,
+              "quote": "Schools Closed, Streets Were Empty As Israel Awaited Military Action — January 17, 1991. The Education Ministry ordered Israeli schools closed Wednesday after consultations with the...",
+              "note": "★ 两个独立来源互相印证：JTA（1991-01-17）「Israel Awaited」＋ Baltimore Sun（1991-01-19）「Israeli 'restraint' hailed, but action now more likely」。⇒ 「以色列没有还击」这件事，拿到的是【当时还在等待／克制】的正面证据，而不是「搜不到」。",
+              "witness_type": "contemporary",
+              "published": "",
+              "url": "https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action",
+              "verified_open": true,
+              "outlet": "JTA"
+            },
+            {
+              "slug": "baltimoresun.com_index",
+              "observed": false,
+              "quote": "Israeli 'restraint' hailed, but action now more likely — January 19, 1991",
+              "note": "★ 第二个独立源（与 JTA 不同报社、相隔两天）—— 用来验交叉印证。",
+              "witness_type": "contemporary",
+              "published": "",
+              "url": "https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action",
+              "verified_open": true,
+              "outlet": "Baltimore Sun"
+            }
+          ]
         },
         {
           "stage": "盟友退出",

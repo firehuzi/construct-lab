@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """archive_source.py —— 取证：把一条线索变成【可复现的依据】
 
 ★★ 为什么必须有这一步
@@ -50,6 +50,39 @@ UA = "Mozilla/5.0 (ConStruct Lab research archive; +local)"
 
 # 事后叙述的强信号 —— 命中就标 retrospective，**不能用于时间锁定**
 RETRO_HINTS = [r"wiki", r"britannica", r"history\.com", r"thoughtco", r"/20(1[6-9]|2\d)/"]
+
+
+# ══ S1.1 来源分级（抄 2026-07-25 方案 §2）══════════════════════════════════════
+# ★ 为什么要分级：现在所有依据的可信度一样，而「美国政府出版局的原始文件」与
+#   「一篇新闻」显然不该同权。原方案给了四档，我们抄它的【字段】，不抄它的栈。
+TIERS = {
+    "P0": {"name": "主源（自动 / 结构化）", "reliability": 0.85},
+    "P1": {"name": "次源（RSS / API / 新闻）", "reliability": 0.70},
+    "P2": {"name": "策源（已策展）", "reliability": 0.90},
+    "P3": {"name": "用户输入（人工补录）", "reliability": 0.30},
+}
+
+# ★ 按域名判级 —— 可核、可扩、不猜。判不出来的【不给级】（而不是给个默认）。
+TIER_BY_HOST = [
+    (r"govinfo\.gov|gpo\.gov|\.gov$|\.gov/|un\.org|worldbank\.org|imf\.org", "P0"),
+    (r"reuters|apnews|bbc\.co\.uk|nytimes|baltimoresun|latimes|jta\.org|"
+     r"theguardian|washingtonpost|ft\.com|economist", "P1"),
+    (r"archive\.org", "P1"),
+]
+
+
+def tier_of(url: str):
+    """按域名判来源级。★ 判不出来返回 None —— 不给默认级（那会变成静默的假可信度）。"""
+    low = (url or "").lower()
+    for pat, tier in TIER_BY_HOST:
+        if re.search(pat, low):
+            return tier
+    return None
+
+
+def reliability_of(url: str, tier: str = None):
+    t = tier or tier_of(url)
+    return TIERS[t]["reliability"] if t in TIERS else None
 
 
 def slug(url: str) -> str:
@@ -156,6 +189,9 @@ def archive(url: str, outlet: str = "", published: str = "", query_used: str = "
            #   放在建记录时设，不能只放在取回成功的分支里 —— 否则 do_fetch=False 时它会空着。
            "doc_date": None,
            "witness_basis": (witness_basis or "★ 人工指定（未给依据）") if witness_type else None,
+           # ★ S1.1 来源分级（P0–P3）
+           "tier": tier_of(url),
+           "reliability": reliability_of(url),
            "archived_snapshot": None, "verified_open": False,
            "sha256": None, "bytes": 0, "http_status": None, "content_type": "",
            "final_url": None, "error": None}
@@ -329,6 +365,17 @@ def selftest() -> int:
             print("  ❌ %s   %s" % (name, detail))
 
     print("# archive_source 自证")
+    # ★★ S1.1 来源分级
+    ck("★★govinfo.gov ⇒ P0（政府出版局，主源）", tier_of("https://www.govinfo.gov/x") == "P0",
+       str(tier_of("https://www.govinfo.gov/x")))
+    ck("★★bbc / jta / latimes ⇒ P1（次源）",
+       tier_of("http://news.bbc.co.uk/x") == "P1" and tier_of("https://www.jta.org/x") == "P1"
+       and tier_of("https://www.latimes.com/x") == "P1")
+    ck("★★判不出来的【不给级】（不给默认，避免静默的假可信度）",
+       tier_of("https://some-unknown-site.example/x") is None,
+       str(tier_of("https://some-unknown-site.example/x")))
+    ck("★reliability 由级派生", reliability_of("https://www.govinfo.gov/x") == 0.85,
+       str(reliability_of("https://www.govinfo.gov/x")))
     ck("★slug 稳定且可读",
        slug("https://www.govinfo.gov/content/pkg/PPP-1991-book1/html/x.htm").startswith("govinfo.gov_"),
        slug("https://www.govinfo.gov/content/pkg/PPP-1991-book1/html/x.htm"))

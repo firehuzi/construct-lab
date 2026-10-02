@@ -41,7 +41,15 @@ WS = os.path.dirname(HERE)
 # 对齐 UCDP 自身的战争定义（与本项目 WAR_DEATH_THRESHOLD 同源、已冻结）
 WAR_DEATHS = 1000
 # 对照臂上限：年度死亡低于此数视为「安静年」
-QUIET_DEATHS = 25          # UCDP GED 对组织化暴力的收录下限量级
+# ★★ 这个 25 原来是拍脑袋定的，理由写的是「UCDP GED 对组织化暴力的收录下限量级」——
+#    查数据后发现【与数据矛盾】：数据里有 8 条【0 死亡】的单元，
+#    所以 25 并不是收录下限。**一个理由听起来对、但没核过的数。**
+#    而它当场造成了误标：CN-IN 2020 有 25 起死亡（加勒万河谷冲突），
+#    被标成 `arm: quiet`（对照臂）。**一次致命冲突被叫成「安静」。**
+#    现在保留 25 作为【选择规则】的阈值，但：
+#      · 把理由改成诚实的说法（它是我定的分档线，不是 UCDP 的下限）
+#      · 并记录该对在数据里有几年 —— 只有一年的，加 caveat（它根本不是「某场冲突的安静年」）
+QUIET_DEATHS = 25          # ★ 我定的分档线，不是 UCDP 的收录下限
 
 ARCHIVE_DIRS = [os.path.join(WS, "ConStruct_Archive"), os.path.join(WS, "actors")]
 
@@ -183,6 +191,12 @@ def case_id_for(dyad: str, year: str) -> str:
     return "%s_%s@%s" % (re.sub(r"[^\w]+", "_", dyad)[:36], h, year)
 
 
+def dyad_years(dyad: str) -> int:
+    """该双边对在数据里有几年记录。★ 只有一年的对，其「安静年」是误称。"""
+    dy = load_dyads().get(dyad) or {}
+    return len([y for y in dy if y != "_cid"])
+
+
 def skeleton(dyad: str, year: str, events: int, deaths: int, arm: str, idx: dict) -> dict:
     a_raw, _, b_raw = dyad.partition(" || ")
     a, b = clean_name(a_raw), clean_name(b_raw)
@@ -194,7 +208,15 @@ def skeleton(dyad: str, year: str, events: int, deaths: int, arm: str, idx: dict
     s = {
         "schema": "construct-case-skeleton-v1",
         "case_id": case_id_for(dyad, year),
-        "arm": arm,                               # high = 高冲突臂 / quiet = 对照臂（零效应臂）
+        "arm": arm,                               # high = 高冲突臂 / quiet = 对照臂（低冲突臂）
+        # ★★ 「对照臂」这个标签可能误导：CN-IN 2020 有 25 起死亡（加勒万河谷冲突），
+        #    却因为 ≤25 的阈值被标成 quiet。**一次致命冲突被叫成「安静」。**
+        #    而且那个对在数据里【只有这一年】—— 它根本不是「某场冲突的安静年」。
+        #    ⇒ 把年数和 caveat 显式记出来，让误标【可见】而不是静默。
+        "dyad_years_in_data": dyad_years(dyad),
+        "label_caveat": ("★ 该双边对在数据里只有 %d 年记录 ⇒ 这一条【不是】"
+                         "某场冲突的安静年，它是这个对唯一出现的那一年。" % dyad_years(dyad))
+                        if dyad_years(dyad) <= 2 else None,
         "selection": {                            # ★ 透明：这个案例为什么被选中
             "rule": "年度战斗死亡 ≥ %d ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂" % WAR_DEATHS,
             "dyad_raw": dyad, "year": year,
@@ -375,6 +397,7 @@ def selftest() -> int:
        len(_ss) < len(dyads) / 5, "国家 %d / 全部 %d" % (len(_ss), len(dyads)))
     _us = units(_ss)
     _h = [u for u in _us if u[3] >= WAR_DEATHS]
+    # ★★ 国家对国家里【达战争门槛的单元数是个位数】—— 撑不起「一批」
     ck("★★国家对国家里【达战争门槛的单元数是个位数】—— 撑不起「一批」",
        len(_h) < 10, str(len(_h)))
     us = units(dyads)
@@ -407,6 +430,18 @@ def selftest() -> int:
     ck("★★UCDP 给不出「真正的零」—— 对照臂的最低死亡应仍可能 >0 或 =0，但事件数 >0",
        all(u[2] > 0 for u in q2), str([u[2] for u in q2]))
     ck("★档案索引非空（>50 个主体名）", len(idx) > 50, str(len(idx)))
+    # ★★ 「对照臂」标签可能误导 —— CN-IN 2020 有 25 起死亡（加勒万河谷）却被标 quiet，
+    #    而那个对在数据里【只有这一年】⇒ 它根本不是「某场冲突的安静年」。
+    ck("★★该对年数能被算出来", dyad_years("Government of China || Government of India") == 1,
+       str(dyad_years("Government of China || Government of India")))
+    _sk = skeleton("Government of China || Government of India", "2020", 2, 25, "quiet", idx)
+    ck("★★只有一年的对会带 caveat（让误标可见而不是静默）",
+       "只有 1 年" in (_sk.get("label_caveat") or ""), str(_sk.get("label_caveat")))
+    ck("★★骨架里记了 dyad_years_in_data", _sk.get("dyad_years_in_data") == 1,
+       str(_sk.get("dyad_years_in_data")))
+    ck("★数据里有 0 死亡的单元 ⇒ QUIET_DEATHS=25 不是收录下限（旧注释与数据矛盾）",
+       len([u for u in units(load_dyads()) if u[3] == 0]) > 0,
+       str(len([u for u in units(load_dyads()) if u[3] == 0])))
     ck("★档案命中：伊拉克不在档案里（实测结论）", archive_hit("Iraq", idx) is None)
     ck("★档案命中：俄罗斯在档案里", archive_hit("Russia", idx) is not None,
        str(archive_hit("Russia", idx)))

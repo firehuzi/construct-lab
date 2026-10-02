@@ -54,8 +54,70 @@ DOC_INV = "ConStruct 项目 · 完成内容与版本迭代（2026.06.26）.md"
 DOC_V5 = "ConStruct_Engine_v5.0_迁移路线图.md"
 DOC_DATA = "ConStruct_Phase0_验证指南.md"
 DOC_0730 = "ConStruct Lab：复杂系统结构化认知基础设施项目.txt"
+DOC_FOUND = "## 全球地缘政治认知引擎项目开发计划书（V1.0）.txt"
+DOC_ENG = "## ConStruct Engine · 系统设计文档v1.0.txt"
+DOC_CWKB3 = "ConStruct World Model Knowledge Base（CWKB）v3.0.txt"
 
 C = [
+    # ══ 立项文档（06-19/06-20）设计的东西，建了没有 ══════════════════════════════
+    #   这一组是本账【最要紧】的部分：它们全是「记录失败／记录反例／限时验证」的构件。
+    dict(id="F-1", doc=DOC_ENG, quote="SQLite是唯一的数据真相源。Markdown永远是从SQLite生成的",
+         kind="find", term="schema.sql",
+         note="立项设计把 SQLite 定为唯一真相源。版本演进.md 后来明写存储其实是 JSON 文件。"),
+    dict(id="F-2", doc=DOC_FOUND, quote="Prediction Graveyard 预测坟场：记录失败预测／误判原因／模型修正",
+         kind="find", term="graveyard",
+         note="★ 这是立项时就设计的【失败账本】—— 全工程零命中。"),
+    dict(id="F-3", doc=DOC_FOUND, quote="Counterexample Library 反例库：表象与本质不一致案例",
+         kind="find", term="counterexample",
+         note="★ 立项时就设计的【反例账本】—— 零命中。"),
+    dict(id="F-4", doc=DOC_CWKB3, quote="Strategic Playbook Library 战略剧本库（v3.0 最值钱的动态数据库）",
+         kind="find", term="playbook"),
+    dict(id="F-5", doc=DOC_CWKB3, quote="Layer 8 约束层／Layer 9 激励层／Layer 10 战略目标层",
+         kind="find", term="Constraint",
+         note="找 x_Constraint.yaml 一类文件。ConStruct_Archive 下只有 Tier1/2/3 + Scenarios + References。"),
+    dict(id="F-6", doc="## ConStruct Lab · 全球地缘政治知识库建设方案.txt",
+         quote="知识库六层（Layer1 理论 … Layer6 主体档案），总预估约10天完成MVP",
+         kind="find", term="construct-knowledge-base"),
+    dict(id="F-7", doc=DOC_ENG, quote="Phase 2：引擎核心 + 美国30天实验",
+         kind="doc_text", pattern=r"30\s*天实验.{0,40}(完成|已跑|跑完|结果|结论|命中)",
+         note="★ 立项时【唯一一个有时限、可证伪的活体协议】。用【结果的形态】搜"
+              "（「30天实验…完成/结果」），不是判据措辞。0 命中 ⇒ 未见跑过的记录。"),
+    # ══ CWKB_Vault 的实况（06-26，43 文件）—— v3.0「Phase 1 日本 MVP」的落地 ══════
+    dict(id="CV-1", doc=DOC_CWKB3, quote="Phase 1（2周）：日本MVP（概念+档案+约束+激励+目标+剧本）",
+         kind="count",
+         pattern=["**/CWKB_Vault/08_Constraint/*.md", "**/CWKB_Vault/09_Incentive/*.md",
+                  "**/CWKB_Vault/10_Objectives/*.md"],
+         under=None, threshold=3,
+         note="08/09/10 三层各有「日本.md」⇒ 日本 MVP 确实做了。"),
+    dict(id="CV-2", doc=DOC_CWKB3, quote="约束/激励/目标三层应覆盖主要大国（Phase 2：美中欧俄）",
+         kind="count",
+         pattern=["**/CWKB_Vault/08_Constraint/*.md", "**/CWKB_Vault/09_Incentive/*.md",
+                  "**/CWKB_Vault/10_Objectives/*.md"],
+         under=None, threshold=47,
+         note="★ 阈值按主体总数 47 算。实测只有日本 1 个主体 × 3 层 ⇒ 建了首条就停了。"),
+    dict(id="CV-3", doc=DOC_FOUND, quote="Prediction Graveyard：记录失败预测／误判原因／模型修正",
+         kind="count", pattern="**/CWKB_Vault/Special/Prediction_Graveyard/*.md", under=None,
+         threshold=10,
+         note="★ 坟场的意义是【持续记录失败】。实测 1 条（俄罗斯经济半年崩溃）⇒ 有首条，未成库。"),
+    dict(id="CV-4", doc=DOC_FOUND, quote="Counterexample Library：表象与本质不一致案例",
+         kind="count", pattern="**/CWKB_Vault/Special/Counterexamples/*.md", under=None,
+         threshold=10, note="实测 1 条（日本加息）。"),
+    dict(id="CV-5", doc=DOC_CWKB3, quote="五大动态数据库（含 Event Chain / Strategy Timeline）",
+         kind="count",
+         pattern=["**/CWKB_Vault/Special/Event_Chains/*.md",
+                  "**/CWKB_Vault/Special/Strategy_Timeline/*.md"],
+         under=None, threshold=1, note="★ 这两个目录【空】。"),
+    dict(id="CV-6", doc=DOC_CWKB3, quote="索引层（Index Layer）—— 知识层与引擎之间的枢纽",
+         kind="count", pattern="**/CWKB_Vault/Indexes/*", under=None, threshold=1,
+         note="★ 设计里的「索引层」是空的。"),
+    dict(id="F-8", doc=DOC_ENG, quote="rules/ 每个主体一份 signal + del 规则（US/EU/Japan…）",
+         kind="count", pattern="**/rules/*.json", under="construct-engine", threshold=47,
+         note="★ 设计是【每个主体一份】；实测 rules/ 只有 5 个文件（CN/JP/RU/US/USA）⇒ 覆盖 4/47。"),
+    dict(id="F-9", doc=DOC_CWKB3, quote="（新增）CWKB_v3.0_source.txt 与 CWKB v3.0.txt 是否同一份",
+         kind="dup", a="ConStruct World Model Knowledge Base（CWKB）v3.0.txt",
+         b="CWKB_v3.0_source.txt",
+         note="两文件字节完全相同（同一 SHA256）⇒ 同一份文档两个名字。"
+              "版本演进.md 已记过一次同类：磁盘上 v1.2 有两份。"),
     # ── v2.0 的三道可证伪判据：最要紧的一组 ──
     # ★ 模式必须找【结果的形态】（"命中率 = 58%"），不能找【判据的形态】（"命中率 > 65%"）。
     #   第一版我用的是判据措辞，于是必然命中重述判据的那几份文档，永远显示 ✅。
@@ -133,20 +195,38 @@ C = [
 
 
 # ══ 核对引擎 ════════════════════════════════════════════════════════════════════
-def _glob(pattern: str, under: str | None) -> list:
+def _glob(pattern, under: str | None) -> list:
+    """pattern 可以是【一个字符串或一串字符串】。
+    ★ 为什么要支持列表：Python 的 glob 【不支持】花括号展开（`{a,b}` 是 bash 语法）。
+      我第一版写了 `0[89]_*`（漏掉 10_Objectives）和 `{Event_Chains,Strategy_Timeline}`
+      （被当成字面量）—— 前者报了假数字，后者【碰巧】结果正确但机制是错的。
+    """
+    pats = pattern if isinstance(pattern, (list, tuple)) else [pattern]
     base = os.path.join(ROOT, under) if under else ROOT
     out = []
-    for p in glob.glob(os.path.join(base, pattern), recursive=True):
-        if "node_modules" in p or "\\.git\\" in p:
-            continue
-        out.append(os.path.relpath(p, ROOT))
+    for pat in pats:
+        for p in glob.glob(os.path.join(base, pat), recursive=True):
+            if "node_modules" in p or "\\.git\\" in p:
+                continue
+            r = os.path.relpath(p, ROOT)
+            if r not in out:
+                out.append(r)
     return sorted(out)
 
 
 def find_by_name(term: str, under: str | None = None) -> list:
     """★ 必须同时找【文件与目录】—— 只找文件会让 ConStruct_Archive/ 这种目录被误报零命中
-    （我第一版就是只判 isfile，于是两个确实存在的目录被报 ⛔）。"""
-    return [p for p in _glob("**/*", under) if term in os.path.basename(p)]
+    （我第一版就是只判 isfile，于是两个确实存在的目录被报 ⛔）。
+
+    ★ 必须【忽略大小写】—— 第二版我用的是大小写敏感的 `in`，于是：
+        术语 "graveyard" 匹配不到目录 `Prediction_Graveyard`
+        术语 "counterexample" 匹配不到目录 `Counterexamples`
+        术语 "playbook" 匹配不到目录 `Playbooks`
+      三个【确实存在】的东西被报成 ⛔ 零命中。这是本检查器最危险的一个 bug ——
+      它会让整份结论反向。修法是 .lower()。
+    """
+    t = term.lower()
+    return [p for p in _glob("**/*", under) if t in os.path.basename(p).lower()]
 
 
 def count_in_text(text: str, pattern: str) -> int:
@@ -204,6 +284,15 @@ def evaluate(c: dict) -> dict:
                                 % (n, "　⇒ 结论成立" if n == 0 else "　⇒ 结论不成立，别处提过")}
         return {"status": "⚠️" if n == 0 else "✅",
                 "evidence": "docs/（除本文档外）命中 %d 处%s" % (n, "　⇒ 【未见任何结果记录】" if n == 0 else "")}
+    if k == "dup":
+        pa, pb = os.path.join(DOCS, c["a"]), os.path.join(DOCS, c["b"])
+        if not (os.path.isfile(pa) and os.path.isfile(pb)):
+            return {"status": "⛔", "evidence": "至少一份不存在"}
+        ha = hashlib.sha256(open(pa, "rb").read()).hexdigest()[:16]
+        hb = hashlib.sha256(open(pb, "rb").read()).hexdigest()[:16]
+        if ha == hb:
+            return {"status": "⚠️", "evidence": "两份【字节完全相同】（%s）⇒ 重复文件" % ha}
+        return {"status": "✅", "evidence": "两份不同（%s vs %s）" % (ha, hb)}
     return {"status": "ℹ️", "evidence": "机器核不了"}
 
 
@@ -331,6 +420,16 @@ def selftest() -> int:
     check("★find 必须能找到【目录】（只判 isfile 会把 ConStruct_Archive 误报零命中）",
           any(os.path.basename(h) == "ConStruct_Archive" for h in find_by_name("ConStruct_Archive")),
           str(find_by_name("ConStruct_Archive")[:2]))
+    # ★ 大小写：第二版在这里翻过车 —— 小写术语匹配不到大驼峰目录
+    check("★find 忽略大小写：小写 graveyard 能找到 Prediction_Graveyard",
+          any("Graveyard" in h for h in find_by_name("graveyard")),
+          str(find_by_name("graveyard")[:2]))
+    check("★find 忽略大小写：小写 counterexample 能找到 Counterexamples",
+          any("Counterexample" in h for h in find_by_name("counterexample")),
+          str(find_by_name("counterexample")[:2]))
+    check("★find 忽略大小写：小写 playbook 能找到 Playbooks",
+          any("Playbook" in h for h in find_by_name("playbook")),
+          str(find_by_name("playbook")[:2]))
     # ★ 判据 vs 结果：这两个字符串必须被区别对待，否则「判据有没有被执行」永远 ✅
     crit = "验证标准：预测命中率 > 65%"
     res = "实测命中率 = 58%"
@@ -355,6 +454,24 @@ def selftest() -> int:
                     "expect_zero": True})["status"] == "⚠️")
     check("semantic ⇒ ℹ️（不冒充机器判）",
           evaluate({"kind": "semantic"})["status"] == "ℹ️")
+    # dup：同内容 ⇒ ⚠️（重复文件）；不同内容 ⇒ ✅
+    cw3 = "ConStruct World Model Knowledge Base（CWKB）v3.0.txt"
+    cw2 = "ConStruct World Model Knowledge Base（CWKB）v2.0.txt"
+    check("★dup：两份字节相同 ⇒ ⚠️ 重复文件",
+          evaluate({"kind": "dup", "a": cw3, "b": "CWKB_v3.0_source.txt"})["status"] == "⚠️")
+    check("★dup：两份不同 ⇒ ✅",
+          evaluate({"kind": "dup", "a": cw3, "b": cw2})["status"] == "✅")
+    check("dup：文件不存在 ⇒ ⛔",
+          evaluate({"kind": "dup", "a": "__nope__", "b": cw2})["status"] == "⛔")
+    # ★ glob 支持【列表】（Python glob 不展开花括号，所以多模式必须靠列表）
+    n1 = len(_glob(["**/CWKB_Vault/08_Constraint/*.md", "**/CWKB_Vault/09_Incentive/*.md",
+                    "**/CWKB_Vault/10_Objectives/*.md"], None))
+    check("★glob 列表：08+09+10 三层合计命中 3 份（单模式 0[89]_* 只能命中 2）",
+          n1 == 3, str(n1))
+    n2 = len(_glob(["**/CWKB_Vault/Special/Event_Chains/*.md",
+                    "**/CWKB_Vault/Special/Strategy_Timeline/*.md"], None))
+    check("★glob 列表：两个空目录合计 0（花括号写法会静默变 0，结果同但机制错）",
+          n2 == 0, str(n2))
     # 指纹两个方向
     a = {"id": "T", "kind": "find", "term": "abc"}
     b = {"id": "T", "kind": "find", "term": "abc"}

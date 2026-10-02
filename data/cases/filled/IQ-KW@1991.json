@@ -1,0 +1,61 @@
+{
+  "schema": "construct-run-v1",
+  "run_id": "IQ-KW@1991",
+  "committed_at": "2026-10-02T21:11:58+08:00",
+  "built_by": "s1.py",
+  "cellId": "9c56f601",
+  "judgmentsFnv": "741638a5",
+  "arm": "high",
+  "selection": {
+    "rule": "UCDP GED v26.1；达战争门槛（死亡 ≥1000）⇒ 高冲突臂，否则低冲突臂",
+    "dyad_raw": "Government of Iraq || Government of Kuwait",
+    "year": "1991",
+    "events": 69,
+    "deaths": 21790,
+    "dyad_years_in_data": 2,
+    "caveat": "★ 该双边对在数据里只有 2 年记录 ⇒ 这一条【不是】某场冲突的安静年。"
+  },
+  "event": {
+    "text": null,
+    "source": {
+      "dataset": "UCDP GED v26.1",
+      "dyad": "Government of Iraq || Government of Kuwait",
+      "year": "1991",
+      "events": 69,
+      "deaths": 21790
+    },
+    "event_date": "1991",
+    "time_lock": null,
+    "actors": [
+      "Iraq",
+      "Kuwait"
+    ]
+  },
+  "data_layer": {
+    "ucdp": {
+      "dyad": "Government of Iraq || Government of Kuwait",
+      "year": "1991",
+      "events": 69,
+      "deaths": 21790,
+      "meets_war_threshold": true
+    },
+    "archive": {
+      "Iraq": {
+        "status": "★ 无档案"
+      },
+      "Kuwait": {
+        "status": "★ 无档案"
+      }
+    },
+    "geo": {}
+  },
+  "paths": [],
+  "exclusions": [],
+  "needs_human": [
+    "event.text（F1 原文）—— 入口拿不到，**不许编**",
+    "event.time_lock（F3 时间锁定）—— 必须人定；UCDP 只到年精度",
+    "paths —— 路径空间（3–5 条），见《路径空间写法指南》",
+    "exclusions —— 排除断言",
+    "diagnoses —— 主体诊断（若主体不在 47 档案里，显式标「无档案」）"
+  ]
+}

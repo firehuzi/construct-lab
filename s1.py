@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """s1.py —— S1 的入口。把四个工具串成一条命令。
 
 ★★ 它存在的理由
@@ -49,6 +49,67 @@ def _load(mod):
     return m
 
 
+# ══ S1.3 同一性（抄 TaoPaw 的 cellId 做法）══════════════════════════════════════
+# ★★ 要解决的真问题：我们的记录里带【时间戳】（committed_at / fetched_at）⇒
+#    同一份输入跑两次，文件必然不同。所以**哈希不能打在文件上**。
+#    TaoPaw 的做法是 `cellId = fnv1a(canonicalJson(cell))` —— **cell 是【输入】不是产物**。
+#    ⇒ 我们照做：哈希打在【输入格】上；时间戳是【运输字段】，不属于同一性。
+#
+# ★ 为什么需要它：这是《读数口径登记表》C2 那一格 ——「同输入两次跑 ⇒ 逐位相同」。
+#   它是**其余读数的可信度之根**：没有它，上面所有数字都不知道能不能复现。
+def canonical(obj) -> str:
+    """规范化 JSON：排序键、无空白。同一份语义 ⇒ 同一个字符串。"""
+    return json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def fnv1a32(s: str) -> str:
+    """FNV-1a 32 位。★ 与 TaoPaw 同一族；只为「同不同」服务，不做密码学用途。"""
+    h = 0x811C9DC5
+    for b in s.encode("utf-8"):
+        h ^= b
+        h = (h * 0x01000193) & 0xFFFFFFFF
+    return "%08x" % h
+
+
+def cell_of(rec: dict) -> dict:
+    """从记录里抽出【输入格】—— 只有这些进哈希。
+
+    ⛔ 刻意排除：committed_at（时间戳）、built_by（工具版本）。
+    ★ 刻意包含：双边对、年份、臂、选择规则、两个主体 —— 它们定义了「这是哪一格」。
+    """
+    return {
+        "dyad": rec["selection"]["dyad_raw"],
+        "year": rec["selection"]["year"],
+        "arm": rec["arm"],
+        "rule": rec["selection"]["rule"],
+        "actors": rec["event"]["actors"],
+    }
+
+
+def cell_id_of(rec: dict) -> str:
+    return fnv1a32(canonical(cell_of(rec)))
+
+
+def judgments_fnv(rec: dict) -> str:
+    """判断的指纹 —— 人对 paths/exclusions 的输入。
+
+    ★ 它与 cellId 分开：**cellId 说「这是哪一格」，judgmentsFnv 说「这一格里写了什么」。**
+      两个都要有：只知道 cellId，无法判断内容变没变；只知道 judgmentsFnv，
+      无法判断还在不在同一格上。
+    """
+    slim = []
+    for p in rec.get("paths") or []:
+        slim.append({"id": p.get("id"), "label": p.get("label"),
+                     "stages": [{"stage": s.get("stage"),
+                                 "discriminating": s.get("discriminating"),
+                                 "observable": s.get("observable")}
+                                for s in (p.get("stages") or [])]})
+    for x in rec.get("exclusions") or []:
+        slim.append({"id": x.get("id"), "content": x.get("content"),
+                     "observable": x.get("observable")})
+    return fnv1a32(canonical(slim))
+
+
 def build(dyad_spec: str, year: str) -> dict:
     """一个双边对 ＋ 年份 → 一份形状正确的 construct-run-v1。"""
     cs = _load("case_skeleton")
@@ -85,6 +146,8 @@ def build(dyad_spec: str, year: str) -> dict:
         "run_id": "%s-%s@%s" % (want[0], want[1], year),
         "committed_at": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
         "built_by": "s1.py",
+        # ★ S1.3 两个指纹（见函数注释：cellId 说「这是哪一格」，judgmentsFnv 说「写了什么」）
+        "cellId": None, "judgmentsFnv": None,
         "arm": "high" if deaths >= cs.WAR_DEATHS else "quiet",
         "selection": {
             "rule": "UCDP GED v26.1；达战争门槛（死亡 ≥%d）⇒ 高冲突臂，否则低冲突臂"
@@ -120,6 +183,8 @@ def build(dyad_spec: str, year: str) -> dict:
             "diagnoses —— 主体诊断（若主体不在 47 档案里，显式标「无档案」）",
         ],
     }
+    rec["cellId"] = cell_id_of(rec)
+    rec["judgmentsFnv"] = judgments_fnv(rec)
     return rec
 
 
@@ -175,6 +240,21 @@ def main() -> int:
     print("     ④ 找到依据：python -B archive_source.py <url>      ← 取证并存档")
     print("     ⑤ 跑检查：  python -B case_check.py <本文件>")
 
+    if "--same" in sys.argv:
+        print()
+        print("  ── ★ S1.3 同一性（同输入两次跑）")
+        r1, r2 = build(dyad, year), build(dyad, year)
+        ok_c = r1["cellId"] == r2["cellId"]
+        ok_j = r1["judgmentsFnv"] == r2["judgmentsFnv"]
+        print("     cellId       %s  %s" % (r1["cellId"], "✅ 相同" if ok_c else "⛔ 不同"))
+        print("     judgmentsFnv %s  %s" % (r1["judgmentsFnv"], "✅ 相同" if ok_j else "⛔ 不同"))
+        print("     （时间戳两次必然不同 —— 它是【运输字段】，不进哈希：%s / %s）"
+              % (r1["committed_at"][11:19], r2["committed_at"][11:19]))
+        if not (ok_c and ok_j):
+            print("     ⛔ 同一性不成立 —— 这是最该修的一类问题。")
+            return 1
+        print("     ✅ 同一性成立：同一格 ＋ 同一输入 ⇒ 同一指纹。")
+
     if "--check" in sys.argv:
         print()
         print("  ── 预检（确认工具读得到这份产物）")
@@ -212,6 +292,22 @@ def selftest() -> int:
     print("# s1 自证")
     rec = build("IQ,KW", "1991")
     ck("★能建出记录", rec["schema"] == "construct-run-v1")
+    # ★★ S1.3 同一性
+    ck("★★同输入两次跑 ⇒ cellId 相同（S1.3 的核心）",
+       cell_id_of(rec) == cell_id_of(build("IQ,KW", "1991")), cell_id_of(rec))
+    ck("★★不同输入 ⇒ cellId 不同（否则它区分不开任何东西）",
+       cell_id_of(rec) != cell_id_of(build("IN,PK", "2023")))
+    _t1 = build("IQ,KW", "1991"); _t1["committed_at"] = "1999-01-01T00:00:00"
+    ck("★★时间戳【不进】哈希（它是运输字段，不是同一性）",
+       cell_id_of(_t1) == cell_id_of(rec))
+    ck("★judgmentsFnv 对空路径空间是稳定的",
+       judgments_fnv(rec) == judgments_fnv(build("IQ,KW", "1991")))
+    _j = dict(rec, paths=[{"id": "X", "label": "L", "stages": []}])
+    ck("★★写了判断之后 judgmentsFnv 会变（否则它量不到内容）",
+       judgments_fnv(_j) != judgments_fnv(rec))
+    ck("★canonical 排序键（同语义 ⇒ 同字符串）",
+       canonical({"b": 1, "a": 2}) == canonical({"a": 2, "b": 1}))
+    ck("★fnv1a32 输出 8 位十六进制", len(fnv1a32("x")) == 8 and all(c in "0123456789abcdef" for c in fnv1a32("x")))
     ck("★★paths / exclusions 在【顶层】（那位盲测者撞到的坑）",
        "paths" in rec and "exclusions" in rec and "path_space" not in rec)
     ck("★event.text 是 None 而不是空串（F1：拿不到就不编）", rec["event"]["text"] is None)

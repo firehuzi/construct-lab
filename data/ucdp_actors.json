@@ -1,0 +1,2465 @@
+{
+  "source": "UCDP GED v26.1",
+  "rows_scanned": 417968,
+  "own_gw": {
+    "EG": "651",
+    "IN": "750",
+    "PK": "770",
+    "ES": "230",
+    "GB": "200",
+    "RS": "345",
+    "CN": "710",
+    "IR": "630",
+    "PH": "840",
+    "IQ": "645",
+    "TR": "640",
+    "IL": "666",
+    "RU": "365",
+    "MX": "70",
+    "US": "2",
+    "UA": "369"
+  },
+  "gw_names": {
+    "651": "Government of Egypt",
+    "750": "Government of India",
+    "770": "Government of Pakistan",
+    "230": "Government of Spain",
+    "200": "Government of United Kingdom",
+    "345": "Government of Serbia (Yugoslavia)",
+    "710": "Government of China",
+    "630": "Government of Iran",
+    "840": "Government of Philippines",
+    "645": "Government of Iraq",
+    "640": "Government of Turkey",
+    "666": "Government of Israel",
+    "365": "Government of Russia (Soviet Union)",
+    "70": "Government of Mexico",
+    "2": "Government of United States of America",
+    "2;200;900": "Government of Australia, Government of United Kingdom, Government of United States of America",
+    "369": "Government of Ukraine"
+  },
+  "actors": {
+    "AUS": {
+      "2003": {
+        "abroad": 0,
+        "home": 0,
+        "unknown": 95,
+        "deaths_abroad": 0
+      }
+    },
+    "CN": {
+      "1990": {
+        "abroad": 0,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1999": {
+        "abroad": 0,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2003": {
+        "abroad": 1,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2007": {
+        "abroad": 0,
+        "home": 1,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2008": {
+        "abroad": 0,
+        "home": 5,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2017": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2020": {
+        "abroad": 2,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 25
+      }
+    },
+    "EG": {
+      "1992": {
+        "abroad": 0,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1993": {
+        "abroad": 0,
+        "home": 38,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1994": {
+        "abroad": 0,
+        "home": 58,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1995": {
+        "abroad": 1,
+        "home": 76,
+        "unknown": 0,
+        "deaths_abroad": 4
+      },
+      "1996": {
+        "abroad": 0,
+        "home": 46,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1997": {
+        "abroad": 0,
+        "home": 24,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1998": {
+        "abroad": 0,
+        "home": 9,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1999": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2000": {
+        "abroad": 0,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2014": {
+        "abroad": 0,
+        "home": 31,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2015": {
+        "abroad": 0,
+        "home": 59,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2016": {
+        "abroad": 0,
+        "home": 34,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2017": {
+        "abroad": 0,
+        "home": 93,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2018": {
+        "abroad": 0,
+        "home": 81,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2019": {
+        "abroad": 0,
+        "home": 113,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2020": {
+        "abroad": 0,
+        "home": 112,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2021": {
+        "abroad": 0,
+        "home": 57,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2022": {
+        "abroad": 0,
+        "home": 65,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2023": {
+        "abroad": 0,
+        "home": 1,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2025": {
+        "abroad": 0,
+        "home": 1,
+        "unknown": 0,
+        "deaths_abroad": 0
+      }
+    },
+    "ES": {
+      "1989": {
+        "abroad": 0,
+        "home": 12,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1990": {
+        "abroad": 0,
+        "home": 10,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1991": {
+        "abroad": 0,
+        "home": 23,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1992": {
+        "abroad": 0,
+        "home": 15,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1993": {
+        "abroad": 0,
+        "home": 6,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1994": {
+        "abroad": 0,
+        "home": 9,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1995": {
+        "abroad": 0,
+        "home": 10,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1996": {
+        "abroad": 0,
+        "home": 4,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1997": {
+        "abroad": 0,
+        "home": 11,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1998": {
+        "abroad": 0,
+        "home": 6,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2000": {
+        "abroad": 0,
+        "home": 15,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2001": {
+        "abroad": 0,
+        "home": 12,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2002": {
+        "abroad": 0,
+        "home": 4,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2003": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2007": {
+        "abroad": 1,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 2
+      },
+      "2008": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2009": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      }
+    },
+    "GB": {
+      "1989": {
+        "abroad": 2,
+        "home": 21,
+        "unknown": 0,
+        "deaths_abroad": 3
+      },
+      "1990": {
+        "abroad": 2,
+        "home": 26,
+        "unknown": 0,
+        "deaths_abroad": 3
+      },
+      "1991": {
+        "abroad": 0,
+        "home": 20,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1992": {
+        "abroad": 0,
+        "home": 14,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1993": {
+        "abroad": 0,
+        "home": 14,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1994": {
+        "abroad": 0,
+        "home": 6,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1996": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1997": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1998": {
+        "abroad": 0,
+        "home": 1,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2001": {
+        "abroad": 100,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 1397
+      },
+      "2003": {
+        "abroad": 95,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 7927
+      },
+      "2009": {
+        "abroad": 0,
+        "home": 1,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2011": {
+        "abroad": 0,
+        "home": 1,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2019": {
+        "abroad": 0,
+        "home": 1,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2023": {
+        "abroad": 1,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 17
+      },
+      "2024": {
+        "abroad": 33,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 130
+      },
+      "2025": {
+        "abroad": 64,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 781
+      }
+    },
+    "IL": {
+      "1989": {
+        "abroad": 20,
+        "home": 7,
+        "unknown": 0,
+        "deaths_abroad": 69
+      },
+      "1990": {
+        "abroad": 17,
+        "home": 15,
+        "unknown": 0,
+        "deaths_abroad": 65
+      },
+      "1991": {
+        "abroad": 17,
+        "home": 17,
+        "unknown": 0,
+        "deaths_abroad": 45
+      },
+      "1992": {
+        "abroad": 36,
+        "home": 41,
+        "unknown": 0,
+        "deaths_abroad": 102
+      },
+      "1993": {
+        "abroad": 59,
+        "home": 48,
+        "unknown": 0,
+        "deaths_abroad": 137
+      },
+      "1994": {
+        "abroad": 37,
+        "home": 31,
+        "unknown": 0,
+        "deaths_abroad": 95
+      },
+      "1995": {
+        "abroad": 47,
+        "home": 17,
+        "unknown": 0,
+        "deaths_abroad": 90
+      },
+      "1996": {
+        "abroad": 40,
+        "home": 19,
+        "unknown": 0,
+        "deaths_abroad": 95
+      },
+      "1997": {
+        "abroad": 49,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 89
+      },
+      "1998": {
+        "abroad": 34,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 54
+      },
+      "1999": {
+        "abroad": 25,
+        "home": 1,
+        "unknown": 0,
+        "deaths_abroad": 43
+      },
+      "2000": {
+        "abroad": 14,
+        "home": 55,
+        "unknown": 0,
+        "deaths_abroad": 29
+      },
+      "2001": {
+        "abroad": 4,
+        "home": 139,
+        "unknown": 0,
+        "deaths_abroad": 7
+      },
+      "2002": {
+        "abroad": 1,
+        "home": 286,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2003": {
+        "abroad": 1,
+        "home": 111,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2004": {
+        "abroad": 1,
+        "home": 196,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2005": {
+        "abroad": 3,
+        "home": 70,
+        "unknown": 0,
+        "deaths_abroad": 3
+      },
+      "2006": {
+        "abroad": 244,
+        "home": 216,
+        "unknown": 0,
+        "deaths_abroad": 1189
+      },
+      "2007": {
+        "abroad": 0,
+        "home": 145,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2008": {
+        "abroad": 1,
+        "home": 143,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2009": {
+        "abroad": 0,
+        "home": 146,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2010": {
+        "abroad": 2,
+        "home": 38,
+        "unknown": 0,
+        "deaths_abroad": 2
+      },
+      "2011": {
+        "abroad": 0,
+        "home": 50,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2012": {
+        "abroad": 0,
+        "home": 143,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2013": {
+        "abroad": 0,
+        "home": 10,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2014": {
+        "abroad": 6,
+        "home": 915,
+        "unknown": 0,
+        "deaths_abroad": 24
+      },
+      "2015": {
+        "abroad": 5,
+        "home": 9,
+        "unknown": 0,
+        "deaths_abroad": 21
+      },
+      "2016": {
+        "abroad": 2,
+        "home": 6,
+        "unknown": 0,
+        "deaths_abroad": 2
+      },
+      "2017": {
+        "abroad": 6,
+        "home": 7,
+        "unknown": 0,
+        "deaths_abroad": 13
+      },
+      "2018": {
+        "abroad": 10,
+        "home": 40,
+        "unknown": 0,
+        "deaths_abroad": 113
+      },
+      "2019": {
+        "abroad": 25,
+        "home": 40,
+        "unknown": 0,
+        "deaths_abroad": 166
+      },
+      "2020": {
+        "abroad": 44,
+        "home": 4,
+        "unknown": 0,
+        "deaths_abroad": 469
+      },
+      "2021": {
+        "abroad": 26,
+        "home": 99,
+        "unknown": 0,
+        "deaths_abroad": 168
+      },
+      "2022": {
+        "abroad": 21,
+        "home": 44,
+        "unknown": 0,
+        "deaths_abroad": 56
+      },
+      "2023": {
+        "abroad": 81,
+        "home": 1385,
+        "unknown": 0,
+        "deaths_abroad": 300
+      },
+      "2024": {
+        "abroad": 1223,
+        "home": 3115,
+        "unknown": 0,
+        "deaths_abroad": 4951
+      },
+      "2025": {
+        "abroad": 278,
+        "home": 3129,
+        "unknown": 0,
+        "deaths_abroad": 1742
+      }
+    },
+    "IN": {
+      "1989": {
+        "abroad": 0,
+        "home": 53,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1990": {
+        "abroad": 2,
+        "home": 124,
+        "unknown": 0,
+        "deaths_abroad": 3
+      },
+      "1991": {
+        "abroad": 6,
+        "home": 126,
+        "unknown": 0,
+        "deaths_abroad": 27
+      },
+      "1992": {
+        "abroad": 0,
+        "home": 149,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1993": {
+        "abroad": 1,
+        "home": 229,
+        "unknown": 0,
+        "deaths_abroad": 3
+      },
+      "1994": {
+        "abroad": 8,
+        "home": 223,
+        "unknown": 0,
+        "deaths_abroad": 36
+      },
+      "1995": {
+        "abroad": 10,
+        "home": 189,
+        "unknown": 0,
+        "deaths_abroad": 16
+      },
+      "1996": {
+        "abroad": 2,
+        "home": 126,
+        "unknown": 0,
+        "deaths_abroad": 5
+      },
+      "1997": {
+        "abroad": 16,
+        "home": 195,
+        "unknown": 0,
+        "deaths_abroad": 49
+      },
+      "1998": {
+        "abroad": 21,
+        "home": 245,
+        "unknown": 0,
+        "deaths_abroad": 52
+      },
+      "1999": {
+        "abroad": 10,
+        "home": 375,
+        "unknown": 0,
+        "deaths_abroad": 32
+      },
+      "2000": {
+        "abroad": 27,
+        "home": 1215,
+        "unknown": 0,
+        "deaths_abroad": 59
+      },
+      "2001": {
+        "abroad": 7,
+        "home": 278,
+        "unknown": 0,
+        "deaths_abroad": 16
+      },
+      "2002": {
+        "abroad": 63,
+        "home": 835,
+        "unknown": 0,
+        "deaths_abroad": 130
+      },
+      "2003": {
+        "abroad": 68,
+        "home": 671,
+        "unknown": 0,
+        "deaths_abroad": 148
+      },
+      "2004": {
+        "abroad": 0,
+        "home": 725,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2005": {
+        "abroad": 0,
+        "home": 646,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2006": {
+        "abroad": 0,
+        "home": 651,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2007": {
+        "abroad": 0,
+        "home": 494,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2008": {
+        "abroad": 0,
+        "home": 460,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2009": {
+        "abroad": 0,
+        "home": 551,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2010": {
+        "abroad": 3,
+        "home": 469,
+        "unknown": 0,
+        "deaths_abroad": 4
+      },
+      "2011": {
+        "abroad": 1,
+        "home": 229,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2012": {
+        "abroad": 1,
+        "home": 240,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2013": {
+        "abroad": 13,
+        "home": 208,
+        "unknown": 0,
+        "deaths_abroad": 15
+      },
+      "2014": {
+        "abroad": 15,
+        "home": 275,
+        "unknown": 0,
+        "deaths_abroad": 18
+      },
+      "2015": {
+        "abroad": 16,
+        "home": 242,
+        "unknown": 0,
+        "deaths_abroad": 31
+      },
+      "2016": {
+        "abroad": 18,
+        "home": 325,
+        "unknown": 0,
+        "deaths_abroad": 60
+      },
+      "2017": {
+        "abroad": 43,
+        "home": 290,
+        "unknown": 0,
+        "deaths_abroad": 92
+      },
+      "2018": {
+        "abroad": 20,
+        "home": 367,
+        "unknown": 0,
+        "deaths_abroad": 27
+      },
+      "2019": {
+        "abroad": 27,
+        "home": 248,
+        "unknown": 0,
+        "deaths_abroad": 53
+      },
+      "2020": {
+        "abroad": 35,
+        "home": 268,
+        "unknown": 0,
+        "deaths_abroad": 67
+      },
+      "2021": {
+        "abroad": 2,
+        "home": 223,
+        "unknown": 0,
+        "deaths_abroad": 2
+      },
+      "2022": {
+        "abroad": 0,
+        "home": 195,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2023": {
+        "abroad": 0,
+        "home": 129,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2024": {
+        "abroad": 0,
+        "home": 159,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2025": {
+        "abroad": 9,
+        "home": 170,
+        "unknown": 0,
+        "deaths_abroad": 69
+      }
+    },
+    "IQ": {
+      "1989": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1990": {
+        "abroad": 11,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 1058
+      },
+      "1991": {
+        "abroad": 19,
+        "home": 75,
+        "unknown": 0,
+        "deaths_abroad": 538
+      },
+      "1992": {
+        "abroad": 0,
+        "home": 26,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1993": {
+        "abroad": 0,
+        "home": 17,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1994": {
+        "abroad": 0,
+        "home": 6,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1995": {
+        "abroad": 0,
+        "home": 17,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1996": {
+        "abroad": 1,
+        "home": 29,
+        "unknown": 0,
+        "deaths_abroad": 11
+      },
+      "2003": {
+        "abroad": 0,
+        "home": 96,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2004": {
+        "abroad": 0,
+        "home": 284,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2005": {
+        "abroad": 0,
+        "home": 414,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2006": {
+        "abroad": 0,
+        "home": 446,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2007": {
+        "abroad": 0,
+        "home": 337,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2008": {
+        "abroad": 0,
+        "home": 316,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2009": {
+        "abroad": 0,
+        "home": 214,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2010": {
+        "abroad": 0,
+        "home": 247,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2011": {
+        "abroad": 0,
+        "home": 147,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2012": {
+        "abroad": 0,
+        "home": 145,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2013": {
+        "abroad": 1,
+        "home": 327,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2014": {
+        "abroad": 81,
+        "home": 657,
+        "unknown": 0,
+        "deaths_abroad": 629
+      },
+      "2015": {
+        "abroad": 138,
+        "home": 557,
+        "unknown": 0,
+        "deaths_abroad": 858
+      },
+      "2016": {
+        "abroad": 47,
+        "home": 550,
+        "unknown": 0,
+        "deaths_abroad": 328
+      },
+      "2017": {
+        "abroad": 21,
+        "home": 509,
+        "unknown": 0,
+        "deaths_abroad": 123
+      },
+      "2018": {
+        "abroad": 17,
+        "home": 134,
+        "unknown": 0,
+        "deaths_abroad": 71
+      },
+      "2019": {
+        "abroad": 2,
+        "home": 126,
+        "unknown": 0,
+        "deaths_abroad": 21
+      },
+      "2020": {
+        "abroad": 2,
+        "home": 159,
+        "unknown": 0,
+        "deaths_abroad": 3
+      },
+      "2021": {
+        "abroad": 3,
+        "home": 167,
+        "unknown": 0,
+        "deaths_abroad": 195
+      },
+      "2022": {
+        "abroad": 0,
+        "home": 93,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2023": {
+        "abroad": 0,
+        "home": 50,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2024": {
+        "abroad": 0,
+        "home": 61,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2025": {
+        "abroad": 0,
+        "home": 25,
+        "unknown": 0,
+        "deaths_abroad": 0
+      }
+    },
+    "IR": {
+      "1990": {
+        "abroad": 0,
+        "home": 14,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1991": {
+        "abroad": 1,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "1992": {
+        "abroad": 3,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 6
+      },
+      "1993": {
+        "abroad": 11,
+        "home": 17,
+        "unknown": 0,
+        "deaths_abroad": 33
+      },
+      "1994": {
+        "abroad": 3,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 2
+      },
+      "1995": {
+        "abroad": 4,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 9
+      },
+      "1996": {
+        "abroad": 2,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 6
+      },
+      "1997": {
+        "abroad": 2,
+        "home": 13,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "1998": {
+        "abroad": 2,
+        "home": 5,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "1999": {
+        "abroad": 4,
+        "home": 6,
+        "unknown": 0,
+        "deaths_abroad": 9
+      },
+      "2000": {
+        "abroad": 1,
+        "home": 18,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2001": {
+        "abroad": 6,
+        "home": 14,
+        "unknown": 0,
+        "deaths_abroad": 7
+      },
+      "2003": {
+        "abroad": 0,
+        "home": 1,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2005": {
+        "abroad": 1,
+        "home": 8,
+        "unknown": 0,
+        "deaths_abroad": 9
+      },
+      "2006": {
+        "abroad": 2,
+        "home": 20,
+        "unknown": 0,
+        "deaths_abroad": 5
+      },
+      "2007": {
+        "abroad": 1,
+        "home": 21,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2008": {
+        "abroad": 2,
+        "home": 19,
+        "unknown": 0,
+        "deaths_abroad": 4
+      },
+      "2009": {
+        "abroad": 0,
+        "home": 13,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2010": {
+        "abroad": 1,
+        "home": 11,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2011": {
+        "abroad": 7,
+        "home": 14,
+        "unknown": 0,
+        "deaths_abroad": 23
+      },
+      "2012": {
+        "abroad": 0,
+        "home": 5,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2013": {
+        "abroad": 0,
+        "home": 4,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2014": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2015": {
+        "abroad": 1,
+        "home": 8,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2016": {
+        "abroad": 2,
+        "home": 25,
+        "unknown": 0,
+        "deaths_abroad": 8
+      },
+      "2017": {
+        "abroad": 3,
+        "home": 12,
+        "unknown": 0,
+        "deaths_abroad": 3
+      },
+      "2018": {
+        "abroad": 11,
+        "home": 16,
+        "unknown": 0,
+        "deaths_abroad": 124
+      },
+      "2019": {
+        "abroad": 17,
+        "home": 14,
+        "unknown": 0,
+        "deaths_abroad": 139
+      },
+      "2020": {
+        "abroad": 42,
+        "home": 18,
+        "unknown": 0,
+        "deaths_abroad": 287
+      },
+      "2021": {
+        "abroad": 28,
+        "home": 16,
+        "unknown": 0,
+        "deaths_abroad": 171
+      },
+      "2022": {
+        "abroad": 24,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 76
+      },
+      "2023": {
+        "abroad": 39,
+        "home": 10,
+        "unknown": 0,
+        "deaths_abroad": 160
+      },
+      "2024": {
+        "abroad": 97,
+        "home": 28,
+        "unknown": 0,
+        "deaths_abroad": 555
+      },
+      "2025": {
+        "abroad": 11,
+        "home": 62,
+        "unknown": 0,
+        "deaths_abroad": 33
+      }
+    },
+    "MX": {
+      "1994": {
+        "abroad": 0,
+        "home": 10,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1995": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1996": {
+        "abroad": 0,
+        "home": 15,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1997": {
+        "abroad": 0,
+        "home": 4,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1998": {
+        "abroad": 0,
+        "home": 4,
+        "unknown": 0,
+        "deaths_abroad": 0
+      }
+    },
+    "PH": {
+      "1989": {
+        "abroad": 0,
+        "home": 109,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1990": {
+        "abroad": 0,
+        "home": 101,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1991": {
+        "abroad": 0,
+        "home": 95,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1992": {
+        "abroad": 0,
+        "home": 51,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1993": {
+        "abroad": 0,
+        "home": 31,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1994": {
+        "abroad": 0,
+        "home": 30,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1995": {
+        "abroad": 0,
+        "home": 13,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1996": {
+        "abroad": 0,
+        "home": 23,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1997": {
+        "abroad": 0,
+        "home": 33,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1998": {
+        "abroad": 0,
+        "home": 18,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1999": {
+        "abroad": 0,
+        "home": 44,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2000": {
+        "abroad": 0,
+        "home": 137,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2001": {
+        "abroad": 0,
+        "home": 120,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2002": {
+        "abroad": 0,
+        "home": 183,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2003": {
+        "abroad": 0,
+        "home": 125,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2004": {
+        "abroad": 0,
+        "home": 125,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2005": {
+        "abroad": 0,
+        "home": 114,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2006": {
+        "abroad": 0,
+        "home": 113,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2007": {
+        "abroad": 0,
+        "home": 89,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2008": {
+        "abroad": 0,
+        "home": 162,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2009": {
+        "abroad": 0,
+        "home": 130,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2010": {
+        "abroad": 0,
+        "home": 96,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2011": {
+        "abroad": 0,
+        "home": 125,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2012": {
+        "abroad": 0,
+        "home": 100,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2013": {
+        "abroad": 0,
+        "home": 130,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2014": {
+        "abroad": 0,
+        "home": 142,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2015": {
+        "abroad": 0,
+        "home": 164,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2016": {
+        "abroad": 0,
+        "home": 127,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2017": {
+        "abroad": 1,
+        "home": 235,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2018": {
+        "abroad": 0,
+        "home": 113,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2019": {
+        "abroad": 0,
+        "home": 110,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2020": {
+        "abroad": 0,
+        "home": 139,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2021": {
+        "abroad": 0,
+        "home": 126,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2022": {
+        "abroad": 0,
+        "home": 123,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2023": {
+        "abroad": 0,
+        "home": 99,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2024": {
+        "abroad": 0,
+        "home": 73,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2025": {
+        "abroad": 0,
+        "home": 57,
+        "unknown": 0,
+        "deaths_abroad": 0
+      }
+    },
+    "PK": {
+      "1989": {
+        "abroad": 1,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 25
+      },
+      "1990": {
+        "abroad": 5,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 25
+      },
+      "1991": {
+        "abroad": 9,
+        "home": 6,
+        "unknown": 0,
+        "deaths_abroad": 72
+      },
+      "1992": {
+        "abroad": 5,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 25
+      },
+      "1993": {
+        "abroad": 7,
+        "home": 1,
+        "unknown": 0,
+        "deaths_abroad": 7
+      },
+      "1994": {
+        "abroad": 2,
+        "home": 16,
+        "unknown": 0,
+        "deaths_abroad": 6
+      },
+      "1995": {
+        "abroad": 0,
+        "home": 13,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1996": {
+        "abroad": 4,
+        "home": 18,
+        "unknown": 0,
+        "deaths_abroad": 30
+      },
+      "1997": {
+        "abroad": 9,
+        "home": 16,
+        "unknown": 0,
+        "deaths_abroad": 82
+      },
+      "1998": {
+        "abroad": 33,
+        "home": 24,
+        "unknown": 0,
+        "deaths_abroad": 95
+      },
+      "1999": {
+        "abroad": 90,
+        "home": 10,
+        "unknown": 0,
+        "deaths_abroad": 902
+      },
+      "2000": {
+        "abroad": 58,
+        "home": 26,
+        "unknown": 0,
+        "deaths_abroad": 167
+      },
+      "2001": {
+        "abroad": 18,
+        "home": 7,
+        "unknown": 0,
+        "deaths_abroad": 32
+      },
+      "2002": {
+        "abroad": 46,
+        "home": 63,
+        "unknown": 0,
+        "deaths_abroad": 82
+      },
+      "2003": {
+        "abroad": 52,
+        "home": 68,
+        "unknown": 0,
+        "deaths_abroad": 89
+      },
+      "2004": {
+        "abroad": 0,
+        "home": 5,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2005": {
+        "abroad": 0,
+        "home": 7,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2006": {
+        "abroad": 0,
+        "home": 21,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2007": {
+        "abroad": 2,
+        "home": 127,
+        "unknown": 0,
+        "deaths_abroad": 12
+      },
+      "2008": {
+        "abroad": 5,
+        "home": 490,
+        "unknown": 0,
+        "deaths_abroad": 3
+      },
+      "2009": {
+        "abroad": 0,
+        "home": 736,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2010": {
+        "abroad": 7,
+        "home": 704,
+        "unknown": 0,
+        "deaths_abroad": 9
+      },
+      "2011": {
+        "abroad": 6,
+        "home": 446,
+        "unknown": 0,
+        "deaths_abroad": 46
+      },
+      "2012": {
+        "abroad": 5,
+        "home": 500,
+        "unknown": 0,
+        "deaths_abroad": 7
+      },
+      "2013": {
+        "abroad": 11,
+        "home": 246,
+        "unknown": 0,
+        "deaths_abroad": 16
+      },
+      "2014": {
+        "abroad": 23,
+        "home": 348,
+        "unknown": 0,
+        "deaths_abroad": 31
+      },
+      "2015": {
+        "abroad": 27,
+        "home": 242,
+        "unknown": 0,
+        "deaths_abroad": 36
+      },
+      "2016": {
+        "abroad": 29,
+        "home": 131,
+        "unknown": 0,
+        "deaths_abroad": 57
+      },
+      "2017": {
+        "abroad": 43,
+        "home": 132,
+        "unknown": 0,
+        "deaths_abroad": 82
+      },
+      "2018": {
+        "abroad": 62,
+        "home": 72,
+        "unknown": 0,
+        "deaths_abroad": 111
+      },
+      "2019": {
+        "abroad": 46,
+        "home": 93,
+        "unknown": 0,
+        "deaths_abroad": 111
+      },
+      "2020": {
+        "abroad": 44,
+        "home": 136,
+        "unknown": 0,
+        "deaths_abroad": 96
+      },
+      "2021": {
+        "abroad": 6,
+        "home": 175,
+        "unknown": 0,
+        "deaths_abroad": 7
+      },
+      "2022": {
+        "abroad": 16,
+        "home": 268,
+        "unknown": 0,
+        "deaths_abroad": 54
+      },
+      "2023": {
+        "abroad": 8,
+        "home": 339,
+        "unknown": 0,
+        "deaths_abroad": 30
+      },
+      "2024": {
+        "abroad": 27,
+        "home": 573,
+        "unknown": 0,
+        "deaths_abroad": 137
+      },
+      "2025": {
+        "abroad": 52,
+        "home": 940,
+        "unknown": 0,
+        "deaths_abroad": 277
+      }
+    },
+    "RS": {
+      "1991": {
+        "abroad": 0,
+        "home": 191,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1992": {
+        "abroad": 3714,
+        "home": 67,
+        "unknown": 0,
+        "deaths_abroad": 20782
+      },
+      "1993": {
+        "abroad": 1109,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 5398
+      },
+      "1994": {
+        "abroad": 1366,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 4959
+      },
+      "1995": {
+        "abroad": 696,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 9193
+      },
+      "1996": {
+        "abroad": 0,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1997": {
+        "abroad": 0,
+        "home": 3,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1998": {
+        "abroad": 0,
+        "home": 154,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1999": {
+        "abroad": 10,
+        "home": 301,
+        "unknown": 0,
+        "deaths_abroad": 26
+      }
+    },
+    "RU": {
+      "1990": {
+        "abroad": 0,
+        "home": 16,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1991": {
+        "abroad": 0,
+        "home": 31,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1993": {
+        "abroad": 0,
+        "home": 12,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1994": {
+        "abroad": 0,
+        "home": 22,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1995": {
+        "abroad": 0,
+        "home": 191,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1996": {
+        "abroad": 0,
+        "home": 141,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1997": {
+        "abroad": 0,
+        "home": 4,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1998": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1999": {
+        "abroad": 0,
+        "home": 50,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2000": {
+        "abroad": 0,
+        "home": 130,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2001": {
+        "abroad": 0,
+        "home": 116,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2002": {
+        "abroad": 2,
+        "home": 346,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2003": {
+        "abroad": 0,
+        "home": 69,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2004": {
+        "abroad": 1,
+        "home": 239,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2005": {
+        "abroad": 0,
+        "home": 243,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2006": {
+        "abroad": 0,
+        "home": 151,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2007": {
+        "abroad": 0,
+        "home": 135,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2008": {
+        "abroad": 0,
+        "home": 188,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2009": {
+        "abroad": 0,
+        "home": 314,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2010": {
+        "abroad": 0,
+        "home": 236,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2011": {
+        "abroad": 1,
+        "home": 231,
+        "unknown": 0,
+        "deaths_abroad": 3
+      },
+      "2012": {
+        "abroad": 0,
+        "home": 215,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2013": {
+        "abroad": 0,
+        "home": 172,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2014": {
+        "abroad": 2,
+        "home": 71,
+        "unknown": 0,
+        "deaths_abroad": 3
+      },
+      "2015": {
+        "abroad": 1,
+        "home": 30,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2016": {
+        "abroad": 1,
+        "home": 28,
+        "unknown": 0,
+        "deaths_abroad": 2
+      },
+      "2017": {
+        "abroad": 0,
+        "home": 28,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2018": {
+        "abroad": 0,
+        "home": 19,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2019": {
+        "abroad": 0,
+        "home": 12,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2020": {
+        "abroad": 0,
+        "home": 16,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2021": {
+        "abroad": 0,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2022": {
+        "abroad": 7242,
+        "home": 32,
+        "unknown": 0,
+        "deaths_abroad": 99416
+      },
+      "2023": {
+        "abroad": 10751,
+        "home": 87,
+        "unknown": 0,
+        "deaths_abroad": 76154
+      },
+      "2024": {
+        "abroad": 11091,
+        "home": 732,
+        "unknown": 0,
+        "deaths_abroad": 91762
+      },
+      "2025": {
+        "abroad": 7496,
+        "home": 536,
+        "unknown": 0,
+        "deaths_abroad": 90323
+      }
+    },
+    "TR": {
+      "1989": {
+        "abroad": 0,
+        "home": 163,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1990": {
+        "abroad": 0,
+        "home": 187,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "1991": {
+        "abroad": 8,
+        "home": 140,
+        "unknown": 0,
+        "deaths_abroad": 23
+      },
+      "1992": {
+        "abroad": 10,
+        "home": 285,
+        "unknown": 0,
+        "deaths_abroad": 38
+      },
+      "1993": {
+        "abroad": 7,
+        "home": 397,
+        "unknown": 0,
+        "deaths_abroad": 7
+      },
+      "1994": {
+        "abroad": 12,
+        "home": 588,
+        "unknown": 0,
+        "deaths_abroad": 213
+      },
+      "1995": {
+        "abroad": 32,
+        "home": 798,
+        "unknown": 0,
+        "deaths_abroad": 183
+      },
+      "1996": {
+        "abroad": 25,
+        "home": 636,
+        "unknown": 0,
+        "deaths_abroad": 218
+      },
+      "1997": {
+        "abroad": 57,
+        "home": 492,
+        "unknown": 0,
+        "deaths_abroad": 1335
+      },
+      "1998": {
+        "abroad": 13,
+        "home": 320,
+        "unknown": 0,
+        "deaths_abroad": 50
+      },
+      "1999": {
+        "abroad": 7,
+        "home": 257,
+        "unknown": 0,
+        "deaths_abroad": 265
+      },
+      "2000": {
+        "abroad": 2,
+        "home": 33,
+        "unknown": 0,
+        "deaths_abroad": 54
+      },
+      "2001": {
+        "abroad": 26,
+        "home": 49,
+        "unknown": 0,
+        "deaths_abroad": 64
+      },
+      "2002": {
+        "abroad": 25,
+        "home": 39,
+        "unknown": 0,
+        "deaths_abroad": 56
+      },
+      "2003": {
+        "abroad": 13,
+        "home": 65,
+        "unknown": 0,
+        "deaths_abroad": 14
+      },
+      "2004": {
+        "abroad": 18,
+        "home": 162,
+        "unknown": 0,
+        "deaths_abroad": 29
+      },
+      "2005": {
+        "abroad": 15,
+        "home": 162,
+        "unknown": 0,
+        "deaths_abroad": 16
+      },
+      "2006": {
+        "abroad": 21,
+        "home": 131,
+        "unknown": 0,
+        "deaths_abroad": 33
+      },
+      "2007": {
+        "abroad": 20,
+        "home": 193,
+        "unknown": 0,
+        "deaths_abroad": 34
+      },
+      "2008": {
+        "abroad": 22,
+        "home": 161,
+        "unknown": 0,
+        "deaths_abroad": 143
+      },
+      "2009": {
+        "abroad": 14,
+        "home": 79,
+        "unknown": 0,
+        "deaths_abroad": 24
+      },
+      "2010": {
+        "abroad": 4,
+        "home": 78,
+        "unknown": 0,
+        "deaths_abroad": 130
+      },
+      "2011": {
+        "abroad": 6,
+        "home": 113,
+        "unknown": 0,
+        "deaths_abroad": 156
+      },
+      "2012": {
+        "abroad": 3,
+        "home": 139,
+        "unknown": 0,
+        "deaths_abroad": 73
+      },
+      "2013": {
+        "abroad": 5,
+        "home": 5,
+        "unknown": 0,
+        "deaths_abroad": 12
+      },
+      "2014": {
+        "abroad": 0,
+        "home": 8,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2015": {
+        "abroad": 12,
+        "home": 224,
+        "unknown": 0,
+        "deaths_abroad": 24
+      },
+      "2016": {
+        "abroad": 88,
+        "home": 228,
+        "unknown": 0,
+        "deaths_abroad": 1186
+      },
+      "2017": {
+        "abroad": 133,
+        "home": 61,
+        "unknown": 0,
+        "deaths_abroad": 1103
+      },
+      "2018": {
+        "abroad": 96,
+        "home": 176,
+        "unknown": 0,
+        "deaths_abroad": 487
+      },
+      "2019": {
+        "abroad": 143,
+        "home": 137,
+        "unknown": 0,
+        "deaths_abroad": 346
+      },
+      "2020": {
+        "abroad": 93,
+        "home": 114,
+        "unknown": 0,
+        "deaths_abroad": 220
+      },
+      "2021": {
+        "abroad": 148,
+        "home": 82,
+        "unknown": 0,
+        "deaths_abroad": 358
+      },
+      "2022": {
+        "abroad": 279,
+        "home": 61,
+        "unknown": 0,
+        "deaths_abroad": 664
+      },
+      "2023": {
+        "abroad": 195,
+        "home": 56,
+        "unknown": 0,
+        "deaths_abroad": 280
+      },
+      "2024": {
+        "abroad": 220,
+        "home": 25,
+        "unknown": 0,
+        "deaths_abroad": 205
+      },
+      "2025": {
+        "abroad": 60,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 54
+      }
+    },
+    "UA": {
+      "2014": {
+        "abroad": 1,
+        "home": 1302,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2015": {
+        "abroad": 0,
+        "home": 871,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2016": {
+        "abroad": 0,
+        "home": 514,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2017": {
+        "abroad": 0,
+        "home": 216,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2018": {
+        "abroad": 0,
+        "home": 153,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2019": {
+        "abroad": 0,
+        "home": 199,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2020": {
+        "abroad": 0,
+        "home": 145,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2021": {
+        "abroad": 0,
+        "home": 167,
+        "unknown": 0,
+        "deaths_abroad": 0
+      },
+      "2022": {
+        "abroad": 32,
+        "home": 7292,
+        "unknown": 0,
+        "deaths_abroad": 67
+      },
+      "2023": {
+        "abroad": 49,
+        "home": 10751,
+        "unknown": 0,
+        "deaths_abroad": 100
+      },
+      "2024": {
+        "abroad": 701,
+        "home": 11091,
+        "unknown": 0,
+        "deaths_abroad": 10358
+      },
+      "2025": {
+        "abroad": 529,
+        "home": 7496,
+        "unknown": 0,
+        "deaths_abroad": 4418
+      }
+    },
+    "US": {
+      "1989": {
+        "abroad": 2,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 843
+      },
+      "2001": {
+        "abroad": 139,
+        "home": 2,
+        "unknown": 0,
+        "deaths_abroad": 2747
+      },
+      "2002": {
+        "abroad": 62,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 880
+      },
+      "2003": {
+        "abroad": 108,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 7992
+      },
+      "2004": {
+        "abroad": 88,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 378
+      },
+      "2005": {
+        "abroad": 48,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 108
+      },
+      "2006": {
+        "abroad": 29,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 246
+      },
+      "2007": {
+        "abroad": 31,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 186
+      },
+      "2008": {
+        "abroad": 47,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 291
+      },
+      "2009": {
+        "abroad": 53,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 493
+      },
+      "2010": {
+        "abroad": 107,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 329
+      },
+      "2011": {
+        "abroad": 62,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 203
+      },
+      "2012": {
+        "abroad": 47,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 225
+      },
+      "2013": {
+        "abroad": 30,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 38
+      },
+      "2014": {
+        "abroad": 36,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 138
+      },
+      "2015": {
+        "abroad": 25,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 87
+      },
+      "2016": {
+        "abroad": 21,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 117
+      },
+      "2017": {
+        "abroad": 18,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 111
+      },
+      "2018": {
+        "abroad": 8,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 20
+      },
+      "2019": {
+        "abroad": 8,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 37
+      },
+      "2020": {
+        "abroad": 4,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 16
+      },
+      "2022": {
+        "abroad": 1,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 1
+      },
+      "2023": {
+        "abroad": 1,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 17
+      },
+      "2024": {
+        "abroad": 33,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 130
+      },
+      "2025": {
+        "abroad": 64,
+        "home": 0,
+        "unknown": 0,
+        "deaths_abroad": 781
+      }
+    }
+  }
+}

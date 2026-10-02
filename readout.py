@@ -62,6 +62,10 @@ READOUT_WINDOW = {
     "R2_recent_dispute": ("COW MID 5.0", 2014),
     "R3_terr_total": ("COW Territorial Change v6", 2015),
     "R4_recent_terr_net": ("COW Territorial Change v6", 2015),
+    # ★ 第 6 步新增：UCDP GED v26.1 覆盖到 2025 ⇒ 与 2026 的轴值口径对齐（错位 1 年）
+    "R5_ucdp_abroad": ("UCDP GED v26.1", 2025),
+    "R6_ucdp_trend": ("UCDP GED v26.1", 2025),
+    "R7_ucdp_home": ("UCDP GED v26.1", 2025),
 }
 
 
@@ -181,61 +185,104 @@ def analyse() -> dict:
             "n_timeline": len(ro), "n_axis": len(axis_vals)}
 
 
+UCDP_PATH = os.path.join(HERE, "data", "ucdp_actors.json")
+
+
+def ucdp_readouts() -> dict:
+    """从 UCDP GED v26.1 聚合结果算读出口（覆盖到 2025 ⇒ 与 2026 的轴值口径对齐）。"""
+    if not os.path.exists(UCDP_PATH):
+        return {}
+    with open(UCDP_PATH, encoding="utf-8") as fh:
+        d = json.load(fh)
+    out = {}
+    for code, ys in d["actors"].items():
+        def s(a, b, k="abroad"):
+            return sum(ys.get(str(y), {}).get(k, 0) for y in range(a, b + 1))
+        out[code] = {
+            "R5_ucdp_abroad": s(2023, 2025),
+            "R6_ucdp_trend": s(2023, 2025) - s(2020, 2022),
+            "R7_ucdp_home": s(2023, 2025, "home"),
+        }
+    return out
+
+
+# 读出口登记表：(显示名, 键, 是否新加)
+READOUT_SPEC = [
+    ("R1 领土净变化（全程）", "R1_terr_net"),
+    ("R2 近期对外争端（≥2000）", "R2_recent_dispute"),
+    ("R3 领土变更总数（全程）", "R3_terr_total"),
+    ("R4 近期领土净变化（≥1990）⚠️探索性", "R4_recent_terr_net"),
+    ("R5 UCDP 对外投射（2023-25）", "R5_ucdp_abroad"),
+    ("R6 UCDP 对外投射趋势（23-25 减 20-22）", "R6_ucdp_trend"),
+    ("R7 UCDP 本国境内（2023-25）〔对照〕", "R7_ucdp_home"),
+]
+
+
 def main() -> int:
     if "--selftest" in sys.argv:
         return selftest()
     A = analyse()
-    both = A["both"]
+    ucdp = ucdp_readouts()
+    for code, vals in ucdp.items():
+        A["readouts"].setdefault(code, {}).update(vals)
+    both = sorted(set(A["axis_vals"]) & set(A["readouts"]))
+    A["both"] = both
     print("=" * 92)
-    print("# 「方向扩张性」的读出口检验 —— 外部量来自 COW 骨架（独立来源）")
+    print("# 「方向扩张性」的读出口检验 —— 外部量：COW 骨架 ＋ UCDP GED v26.1")
     print("=" * 92)
     print("\n  八维里有方向扩张性值的主体：%d" % A["n_axis"])
-    print("  时间线（COW 骨架）覆盖的主体：%d" % A["n_timeline"])
-    print("  ★ 两边都有 = 可用于检验的 n = %d" % len(both))
-    print("     %s" % "、".join(both))
+    print("  COW 骨架覆盖：%d　UCDP 覆盖：%d" % (A["n_timeline"], len(ucdp)))
+    print("  ★ 可用于检验的 n（至少有一个读出口）= %d" % len(both))
 
     if len(both) < 5:
         print("\n  ⛔ n < 5，做不了检验。")
         return 1
 
-    print("\n  ── 逐主体（方向值 / R1 领土净变化 / R2 近期争端 / R3 领土变更总数）")
-    print("     %-6s %6s %10s %10s %10s" % ("主体", "方向", "R1", "R2", "R3"))
+    print("\n  ── 逐主体（方向值 ／ R2 ／ R5 对外投射 ／ R7 本国）")
+    print("     %-6s %6s %8s %10s %10s" % ("主体", "方向", "R2", "R5", "R7"))
     for c in both:
-        print("     %-6s %6d %10d %10d %10d"
-              % (c, A["axis_vals"][c], A["readouts"][c]["R1_terr_net"],
-                 A["readouts"][c]["R2_recent_dispute"], A["readouts"][c]["R3_terr_total"]))
+        r = A["readouts"][c]
+        print("     %-6s %6d %8s %10s %10s"
+              % (c, A["axis_vals"][c], r.get("R2_recent_dispute", "—"),
+                 r.get("R5_ucdp_abroad", "—"), r.get("R7_ucdp_home", "—")))
 
-    xs = [A["axis_vals"][c] for c in both]
-    print("\n  ── 三个候选读出口各自与「方向扩张性」的关系")
+    print("\n  ── 各读出口 × 「方向扩张性」（★ n 逐个算：UCDP 覆盖稀疏，不许混用）")
     verdicts = {}
-    for name, key in (("R1 领土净变化（全程）", "R1_terr_net"),
-                      ("R2 近期对外争端（≥2000）", "R2_recent_dispute"),
-                      ("R3 领土变更总数（全程）", "R3_terr_total"),
-                      ("R4 近期领土净变化（≥1990）⚠️探索性·非预登记", "R4_recent_terr_net")):
-        ys = [A["readouts"][c][key] for c in both]
+    for name, key in READOUT_SPEC:
+        cs = [c for c in both if key in A["readouts"][c]]
+        if len(cs) < 6:
+            print("\n     %s　n=%d ⇒ 样本太少，跳过" % (name, len(cs)))
+            continue
+        xs = [A["axis_vals"][c] for c in cs]
+        ys = [A["readouts"][c][key] for c in cs]
+        if len(set(xs)) < 2:
+            print("\n     %s　轴值恒定 ⇒ 无区分力，跳过" % name)
+            continue
         rho, p = permutation_p(xs, ys)
         groups = defaultdict(list)
         for v, y in zip(xs, ys):
             groups[v].append(y)
         means = {v: sum(g) / len(g) for v, g in sorted(groups.items())}
         sd = (sum((y - sum(ys) / len(ys)) ** 2 for y in ys) / max(1, len(ys) - 1)) ** 0.5
+        cal = caliber_check(key) if key in READOUT_WINDOW else None
         print("\n     %s" % name)
-        print("       分组均值 %s" % " ／ ".join("方向%d: %.2f (n=%d)" % (v, m, len(groups[v]))
-                                                for v, m in means.items()))
-        print("       Spearman ρ = %+.3f　置换检验 p = %.3f（R=2000）" % (rho, p))
-        print("       噪声底 sd = %.2f　n = %d" % (sd, len(ys)))
-        # 幂：n_需 = 7.849·(sd/Δ)²，Δ 取「方向 4 与 2 的均值差」的绝对值
+        print("       n = %d　主体：%s" % (len(cs), "、".join(cs)))
+        print("       分组均值 %s" % " ／ ".join("方向%d: %.2f" % (v, m) for v, m in means.items()))
+        print("       Spearman ρ = %+.3f　置换 p = %.3f（R=2000）　噪声底 sd = %.2f" % (rho, p, sd))
         hi = [m for v, m in means.items() if v == 4]
         lo = [m for v, m in means.items() if v == 2]
+        n_need = None
         if hi and lo and hi[0] != lo[0] and sd > 0:
             delta = abs(hi[0] - lo[0])
             n_need = POW_K * (sd / delta) ** 2
-            print("       ★ Δ(方向4 − 方向2) = %.2f ⇒ n_需 ≈ %.0f　n_有 = %d ⇒ %s"
-                  % (delta, n_need, len(ys), "够" if len(ys) >= n_need else "**这一版测不了**"))
-        else:
-            n_need = None
-            print("       ★ 方向4 或 方向2 无样本（或均值相等）⇒ 幂算不出来")
-        verdicts[name] = {"rho": rho, "p": p, "sd": sd, "n": len(ys), "n_need": n_need}
+            print("       Δ(方向4−方向2) = %.2f ⇒ n_需 ≈ %.0f　n_有 = %d ⇒ %s"
+                  % (delta, n_need, len(cs), "够" if len(cs) >= n_need else "**这一版测不了**"))
+        if cal:
+            print("       口径：%s 窗口末 %s ⇒ 错位 %d 年 ⇒ %s"
+                  % (cal["source"], cal["window_end"], cal["lag"],
+                     "✅ 合格（p 值可当证据）" if cal["ok"] else "⛔ 不合格（p 值不能当证据）"))
+        verdicts[name] = {"rho": rho, "p": p, "sd": sd, "n": len(cs),
+                          "n_need": n_need, "caliber_ok": bool(cal and cal["ok"])}
 
     print("\n  ── 负对照：把【全部八根轴】都对 R2（近期对外争端）跑一遍")
     print("     （TaoPaw §4.5：「正 / 负对照 ⛔ 不许省」——没有对照，任何相关性都不可信）")
@@ -273,45 +320,86 @@ def main() -> int:
           % (AXIS_TIME, TOLERANCE_Y))
     print("\n  %-22s %-28s %6s %8s %s" % ("读出口", "来源", "窗口末", "错位", "判定"))
     cal = {}
-    for name, key in (("R1 领土净变化", "R1_terr_net"),
-                      ("R2 近期对外争端", "R2_recent_dispute"),
-                      ("R3 领土变更总数", "R3_terr_total"),
-                      ("R4 近期领土净变化", "R4_recent_terr_net")):
+    print("\n  %-38s %-26s %6s %7s %s" % ("读出口", "来源", "窗口末", "错位", "判定"))
+    for name, key in READOUT_SPEC:
+        if key not in READOUT_WINDOW:
+            continue
         c = caliber_check(key)
         cal[key] = c
-        print("  %-22s %-28s %6d %6d年 %s"
-              % (name, c["source"][:28], c["window_end"], c["lag"],
+        print("  %-38s %-26s %6d %6d年 %s"
+              % (name[:38], c["source"][:26], c["window_end"], c["lag"],
                  "✅ 合格" if c["ok"] else "⛔ 错位过大"))
-    all_bad = all(not c["ok"] for c in cal.values())
+    ok_keys = [k for k, c in cal.items() if c["ok"]]
+    bad_keys = [k for k, c in cal.items() if not c["ok"]]
 
     print("\n" + "=" * 92)
     print("  结论")
     print("=" * 92)
-    if all_bad:
-        print("  ⛔ **口径对账全部不通过 ⇒ 上面那些 p 值【不能当证据用】。**")
-        print()
-        print("  ★ 撤回上一轮（§9.2）的判读：")
-        print("     当时据 R2 的 p=0.276 判「幂够 ⇒ 效应不在那里」——")
-        print("     **统计功效确实够，但构造无效**：它量的是 2014 年以前的对外活动，")
-        print("     而八维的方向基线是 2026 年的判断 ⇒ 错位约 12 年。")
-        print("     ⇒ 正确的判读是「**这一版测不了**」，而不是「没有效应」。")
-        print()
-        print("  ⚠️ 这条错误本身就是本步的产出：")
-        print("     **「量错了东西」+「功效足够」会稳定地报出「无效应」，")
-        print("       而那个无效应对框架不构成证据 —— 它只证明两份数据对不上。**")
-        print()
-        print("  要跑通需要（二选一）：")
-        print("   ① 换覆盖近年的外部量（ACLED 1997–今 / GDELT 2015–今）——")
-        print("      本仓的 acled_collector.py 写 PostgreSQL 且需 token，磁盘上【没有数据】；")
-        print("   ② 或把轴值的声明时点改到与现有数据对齐（但那要先改档案的时间口径）。")
-        return 2
+    if bad_keys:
+        print("  ⛔ 口径不合格（p 值【不能当证据用】）：%s" % "、".join(bad_keys))
+        print("     —— 这正是上一轮（§9.2）我据 p=0.276 判「效应不在那里」时漏掉的那一步。")
+    if ok_keys:
+        print("  ✅ 口径合格（p 值可当证据）：%s" % "、".join(ok_keys))
 
-    sig = [k for k, v in verdicts.items() if v["p"] < 0.05]
     m = len(verdicts)
-    print("  比较了 %d 个读出口 ⇒ Bonferroni 阈值 = 0.05/%d = %.4f" % (m, m, 0.05 / m))
-    print("  未校正 p<0.05 的：%s" % ("、".join(sig) if sig else "**一个都没有**"))
-    bonf = [k for k, v in verdicts.items() if v["p"] < 0.05 / m]
-    print("  Bonferroni 后仍显著的：%s" % ("、".join(bonf) if bonf else "**一个都没有**"))
+    if m:
+        print("\n  比较了 %d 个读出口 ⇒ Bonferroni 阈值 = 0.05/%d = %.4f" % (m, m, 0.05 / m))
+    usable = {k: v for k, v in verdicts.items() if v["caliber_ok"]}
+    if not usable:
+        print("\n  ⛔ **没有一个【口径合格】的读出口 ⇒ 这一版仍然测不了。**")
+        return 2
+    print("\n  ── 只看【口径合格】的读出口")
+    for name, v in usable.items():
+        mark = "★显著" if v["p"] < 0.05 else "不显著"
+        print("     %-40s ρ=%+.3f  p=%.3f  n=%d  %s"
+              % (name[:40], v["rho"], v["p"], v["n"], mark))
+        if v["n_need"]:
+            print("        n_需 ≈ %.0f　n_有 = %d ⇒ %s"
+                  % (v["n_need"], v["n"], "够" if v["n"] >= v["n_need"] else "不足"))
+    sig = [k for k, v in usable.items() if v["p"] < 0.05]
+    bonf = [k for k, v in usable.items() if v["p"] < 0.05 / max(1, m)]
+    print("\n  未校正 p<0.05：%s" % ("、".join(sig) if sig else "**一个都没有**"))
+    print("  Bonferroni 后仍显著：%s" % ("、".join(bonf) if bonf else "**一个都没有**"))
+
+    # ── 留一法：ρ 会不会只由【一个主体】撑着？ ─────────────────────────────
+    key_of = {nm: k for nm, k in READOUT_SPEC}
+    print("\n  ── 留一法（drop-one）稳健性：这个 ρ 靠几个主体撑着？")
+    for name, v in usable.items():
+        key = key_of.get(name)
+        cs = [c for c in both if key in A["readouts"][c]]
+        if len(cs) < 5:
+            continue
+        base = v["rho"]
+        worst = None
+        for drop in cs:
+            sub = [c for c in cs if c != drop]
+            xs2 = [A["axis_vals"][c] for c in sub]
+            ys2 = [A["readouts"][c][key] for c in sub]
+            if len(set(xs2)) < 2:
+                continue
+            r2_, _ = permutation_p(xs2, ys2, R=0)      # 只要 rho
+            if worst is None or abs(r2_ - base) > abs(worst[1] - base):
+                worst = (drop, r2_)
+        if worst:
+            print("     %-40s ρ=%+.3f　去掉 %s 后 ρ=%+.3f　（Δ=%+.3f）"
+                  % (name[:40], base, worst[0], worst[1], worst[1] - base))
+
+    if not sig:
+        powered = [k for k, v in usable.items()
+                   if v["n_need"] and v["n"] >= v["n_need"]]
+        strong = [k for k in powered
+                  if verdicts[k]["n"] >= 1.5 * (verdicts[k]["n_need"] or 1)]
+        marginal = [k for k in powered if k not in strong]
+        if strong:
+            print("\n  ⇒ 有【功效充分】(n ≥ 1.5·n_需) 的口径合格读出口：%s" % "、".join(strong))
+            print("     ⇒ 可以判「**没有可检出的效应**」。")
+        if marginal:
+            print("\n  ⇒ 有【功能只是边缘】(n 仅略大于 n_需) 的口径合格读出口：%s" % "、".join(marginal))
+            print("     ⇒ 只能判「**证据不足**」—— ⛔ 不许说成「证明无效」，")
+            print("        也不许因为 ρ 看着大就说成「有效应」。")
+        if not powered:
+            print("\n  ⇒ 口径合格但【功效都不足】⇒ 仍属「这一版测不了」，不是「没有效应」。")
+    return 0 if sig else 1
     best = max(verdicts.items(), key=lambda kv: abs(kv[1]["rho"]))
     print("  最强的一个：%s，ρ = %+.3f，p = %.3f，n = %d"
           % (best[0], best[1]["rho"], best[1]["p"], best[1]["n"]))

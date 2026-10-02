@@ -28,6 +28,7 @@ import os
 import re
 import sys
 from collections import Counter, defaultdict
+from itertools import combinations
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -243,7 +244,7 @@ def encode_actor(code: str, text: str, mats: list[dict], pool: list[dict]) -> di
         got = None
         # ① 矩阵
         for p in ordered:
-            src_dim = "存在方式" if dim == "秩序价值" else dim   # 秩序价值与存在方式同源
+            src_dim = DUPLICATE_OF.get(dim, dim)   # 同源维度读同一格（声明只有一处）
             raw = p["data"].get(code, {}).get(src_dim)
             if not raw:
                 continue
@@ -495,9 +496,76 @@ def entropy(vals: list) -> float:
     return -sum((k / n) * math.log2(k / n) for k in c.values())
 
 
+def judge_dimension(dim: str, actors: list[dict]) -> dict:
+    """★ 纯判定函数 —— audit() 与 --selftest 【共用同一个】。
+    不重写被检查的逻辑：否则自证只能证明「副本自洽」，不能证明审计本身会失败。
+    """
+    got = [a["dims"][dim]["value"] for a in actors
+           if a["dims"].get(dim, {}).get("value") is not None]
+    kinds = len(set(got))
+    cov = len(got) / max(1, len(actors))
+    if not got:
+        verdict, level = "✗ 零覆盖 —— 无法区分（该维度当前不可用）", "bad"
+    elif kinds == 1:
+        verdict, level = "✗ 常量（所有主体同值）—— 装饰，不区分", "bad"
+    elif kinds == 2:
+        verdict, level = "⚠ 仅二分 —— 区分力弱", "weak"
+    else:
+        verdict, level = "✓ 可区分（%d 种取值，熵 %.2f）" % (kinds, entropy(got)), "ok"
+    return {"dim": dim, "filled": len(got), "coverage": cov,
+            "kinds": kinds, "verdict": verdict, "level": level}
+
+
+def derived_duplicates(actors: list[dict]) -> Counter:
+    """从【数据】推出哪些维度对共享同一格证据（同 source ＋ 同 text）。
+    TaoPaw §9.4：「账本里手写的读者表如果和代码扫出来的对不上就报 ❌」——
+    对应到这里，同源不该只靠手写声明，要能从数据扫出来、两边对账。
+    """
+    pairs = Counter()
+    for a in actors:
+        bycell = defaultdict(list)
+        for d, v in a["dims"].items():
+            if v.get("value") is not None and v.get("source") and v.get("text"):
+                bycell[(v["source"], v["text"])].append(d)
+        for _cell, ds in bycell.items():
+            if len(ds) >= 2:
+                for x, y in combinations(sorted(ds), 2):
+                    pairs[(x, y)] += 1
+    return pairs
+
+
+def reconcile_duplicates(actors: list[dict]) -> list[tuple]:
+    """声明的同源 vs 数据里扫出来的同源 —— 【两个方向】都查。"""
+    derived = derived_duplicates(actors)
+    declared = {tuple(sorted((k, v))) for k, v in DUPLICATE_OF.items()}
+    found = set(derived)
+    problems = []
+    for p in sorted(declared - found):
+        problems.append(("❌ 账本声明同源、数据里扫不出来", p[0], p[1], 0))
+    for p in sorted(found - declared):
+        problems.append(("❌ 数据里确是同源、账本没声明", p[0], p[1], derived[p]))
+    return problems
+
+
+def dim_defect(dim: str, actors: list[dict]) -> bool:
+    """★ 单条规则、单处定义：一个维度算不算不合格。
+    两种情形都算，且【每维只计一次】：
+      · 区分力不合格（零覆盖／常量）
+      · 同源重复（八根轴里两根是同一格数据）—— 这一条【独立于对账】：
+        即使账本声明与数据一致（对账 ✅），同源本身依然是框架缺陷。
+    """
+    return judge_dimension(dim, actors)["level"] == "bad" or dim in DUPLICATE_OF
+
+
+def audit_bad_count(actors: list[dict]) -> int:
+    """不合格维度数 + 对账不一致数 —— audit() 与 --selftest 共用这一个数。"""
+    return (sum(1 for d in SCALES if dim_defect(d, actors))
+            + len(reconcile_duplicates(actors)))
+
+
 def audit(actors: list[dict]) -> int:
     dims = list(SCALES.keys())
-    bad = 0
+    bad = audit_bad_count(actors)      # ★ 汇总只由这一个函数算，避免与表体分歧
     led = ledger(actors)
     print("=" * 92)
     print("# 八维结构诊断 · 区分性审计（%d 个主体）" % len(actors))
@@ -514,28 +582,16 @@ def audit(actors: list[dict]) -> int:
           % (led["cells_from_matrices"], led["independent_matrix_owners"],
              led["pseudo_replication_matrix"]))
     print("  ⚠️ %s" % led["note"])
+
     print("\n  %-12s %8s %8s %10s  %s" % ("维度", "有值", "覆盖率", "取值种类", "判定"))
     print("  " + "-" * 82)
     for d in dims:
-        vals = [a["dims"][d]["value"] for a in actors]
-        got = [v for v in vals if v is not None]
-        kinds = len(set(got))
-        cov = len(got) / max(1, len(actors))
-        if not got:
-            verdict = "✗ 零覆盖 —— 无法区分（该维度当前不可用）"
-            bad += 1
-        elif kinds == 1:
-            verdict = "✗ 常量（所有主体同值）—— 装饰，不区分"
-            bad += 1
-        elif kinds == 2:
-            verdict = "⚠ 仅二分 —— 区分力弱"
-        else:
-            verdict = "✓ 可区分（%d 种取值，熵 %.2f）" % (kinds, entropy(got))
+        j = judge_dimension(d, actors)
         note = ""
         if d in DUPLICATE_OF:
-            note = "  ← 与「%s」同源（同一单元格）" % DUPLICATE_OF[d]
-            bad += 1
-        print("  %-12s %8d %7.0f%% %10d  %s%s" % (d, len(got), cov * 100, kinds, verdict, note))
+            note = "  ← 与「%s」同源（账本声明）" % DUPLICATE_OF[d]
+        print("  %-12s %8d %7.0f%% %10d  %s%s"
+              % (d, j["filled"], j["coverage"] * 100, j["kinds"], j["verdict"], note))
 
     print("\n  每个主体填了几维（满分 8）：")
     dist = Counter(sum(1 for v in a["dims"].values() if v["value"] is not None) for a in actors)
@@ -546,15 +602,160 @@ def audit(actors: list[dict]) -> int:
     full = [a["code"] for a in actors if all(v["value"] is not None for v in a["dims"].values())]
     print("、".join(full) if full else "（无）")
 
+    # ── 同源对账：声明 vs 数据扫出来的（TaoPaw §9.4 的纪律）──
+    print("\n【同源对账 · 账本声明 vs 数据扫出来的】")
+    probs = reconcile_duplicates(actors)
+    if probs:
+        for msg, x, y, n in probs:
+            extra = "（数据里 %d 个主体同格）" % n if n else ""
+            print("  %s：%s ↔ %s%s" % (msg, x, y, extra))
+    else:
+        decl = "、".join("%s↔%s" % (k, v) for k, v in sorted(DUPLICATE_OF.items()))
+        print("  ✅ 两边一致：%s" % (decl or "（无声明）"))
+
     print("\n" + "=" * 92)
-    print("  判定汇总：%d 个维度不合格（零覆盖／常量／同源重复）" % bad)
+    print("  判定汇总：%d 个维度不合格（零覆盖／常量／同源对账不一致）" % bad)
     print("  ⚠️ 边界：覆盖率只说明【从档案里能否直接匹配到量表词】，")
     print("     不代表语义正确；未匹配≠该维度不适用，只表示【不允许我填默认值】。")
     print("=" * 92)
     return bad
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+# 自证（--selftest）：植入已知缺陷，验证审计【必须抓到】
+# TaoPaw §9.4 原话：「它不是一个永远绿灯的摆设。」
+# 每条断言都打在 judge_dimension / ledger / reconcile_duplicates 这些【真函数】上，
+# 不另写副本 —— 否则证明的只是副本自洽。
+# ══════════════════════════════════════════════════════════════════════════════
+
+def selftest() -> int:
+    n_pass = n_fail = 0
+
+    def check(name: str, cond: bool, detail: str = "") -> None:
+        nonlocal n_pass, n_fail
+        if cond:
+            n_pass += 1
+            print("  ✅ %s" % name)
+        else:
+            n_fail += 1
+            print("  ❌ %s   %s" % (name, detail))
+
+    def mk(vals: dict, code: str = "T") -> dict:
+        return {"code": code,
+                "dims": {d: {"value": vals.get(d), "key": None, "source": None,
+                             "text": None, "reason": None} for d in SCALES}}
+
+    print("=" * 92)
+    print("# 八维审计 · 自证（植入缺陷，审计必须抓到）")
+    print("=" * 92)
+
+    print("\n【A｜维度判定：四种形态各植一个】")
+    ones = [mk({"身份连续性": 3}) for _ in range(5)]
+    check("常量（5 个主体同值）⇒ bad", judge_dimension("身份连续性", ones)["level"] == "bad",
+          judge_dimension("身份连续性", ones)["verdict"])
+    empt = [mk({}) for _ in range(5)]
+    check("零覆盖（全空）⇒ bad", judge_dimension("身份连续性", empt)["level"] == "bad")
+    two = [mk({"身份连续性": v}) for v in (3, 4, 3, 4, 3)]
+    check("仅二分（{3,4}）⇒ weak", judge_dimension("身份连续性", two)["level"] == "weak")
+    three = [mk({"身份连续性": v}) for v in (2, 3, 4, 2, 3)]
+    check("三分（{2,3,4}）⇒ ok", judge_dimension("身份连续性", three)["level"] == "ok")
+    part = [mk({"身份连续性": 3}), mk({"身份连续性": 4}), mk({}), mk({}), mk({})]
+    check("覆盖率 = 2/5 = 0.4",
+          abs(judge_dimension("身份连续性", part)["coverage"] - 0.4) < 1e-9,
+          str(judge_dimension("身份连续性", part)["coverage"]))
+
+    print("\n【B｜熵：钉子值，不是感觉】")
+    check("全同 ⇒ 熵 0.0", abs(entropy([3, 3, 3, 3]) - 0.0) < 1e-9)
+    check("两值各半 ⇒ 熵 1.0", abs(entropy([3, 4, 3, 4]) - 1.0) < 1e-9)
+    check("空 ⇒ 熵 0.0", entropy([]) == 0.0)
+
+    print("\n【C｜账本：伪重复】")
+    same = []
+    for i in range(4):
+        a = mk({d: (i % 3) + 2 for d in SCALES})
+        for d in SCALES:                      # 全部来自同一份矩阵
+            a["dims"][d]["source"] = "矩阵(XX 档案)"
+            a["dims"][d]["text"] = "cell-%s" % d
+        same.append(a)
+    L = ledger(same)
+    check("全部同源 ⇒ 伪重复倍数 = 格数",
+          abs(L["pseudo_replication_matrix"] - L["cells_from_matrices"]) < 1e-9,
+          str(L["pseudo_replication_matrix"]))
+    indep = []
+    for i in range(4):
+        a = mk({d: (i % 3) + 2 for d in SCALES})
+        for j, d in enumerate(SCALES):        # 每【格】一个独一无二的来源
+            a["dims"][d]["source"] = "矩阵(X%d_%d 档案)" % (i, j)
+            a["dims"][d]["text"] = "cell"
+        indep.append(a)
+    L2 = ledger(indep)
+    check("每格独立 ⇒ 伪重复倍数 = 1.0",
+          abs(L2["pseudo_replication_matrix"] - 1.0) < 1e-9,
+          str(L2["pseudo_replication_matrix"]))
+    check("（对照）全部来源同一个 ⇒ 倍数 = 格数 32",
+          abs(ledger(same)["pseudo_replication_matrix"] - 32.0) < 1e-9,
+          str(ledger(same)["pseudo_replication_matrix"]))
+    ctrl = []
+    for i in range(4):
+        a = mk({d: 3 for d in SCALES})
+        for j, d in enumerate(SCALES):        # 每【维】一个来源，四主体共用
+            a["dims"][d]["source"] = "矩阵(M%d 档案)" % j
+            a["dims"][d]["text"] = "cell"
+        ctrl.append(a)
+    check("（对照）每维一个来源、四主体共用 ⇒ 倍数 = 主体数 4.0",
+          abs(ledger(ctrl)["pseudo_replication_matrix"] - 4.0) < 1e-9,
+          str(ledger(ctrl)["pseudo_replication_matrix"]))
+
+    print("\n【D｜同源对账：两个方向都要能报 ❌】")
+    dup = []
+    for i in range(3):
+        a = mk({"存在方式": 4, "秩序价值": 5})
+        for d in ("存在方式", "秩序价值"):
+            a["dims"][d]["source"] = "矩阵(US 档案)"
+            a["dims"][d]["text"] = "山巅之城/制度实验/例外论"
+        dup.append(a)
+    found = derived_duplicates(dup)
+    check("数据里扫得出同源对（存在方式↔秩序价值）",
+          ("秩序价值", "存在方式") in found or ("存在方式", "秩序价值") in found, str(dict(found)))
+    saved = dict(DUPLICATE_OF)
+    DUPLICATE_OF.clear()
+    probs = reconcile_duplicates(dup)
+    check("★改【账本】：清空声明 ⇒ 必须报『数据里同源、账本没声明』",
+          len(probs) == 1 and "没声明" in probs[0][0], str(probs))
+    DUPLICATE_OF["不存在的A"] = "不存在的B"
+    probs2 = reconcile_duplicates(dup)
+    check("★改【数据】：声明了一对扫不出来的 ⇒ 必须报『声明了但扫不出』",
+          any("扫不出" in p[0] for p in probs2), str(probs2))
+    DUPLICATE_OF.clear()
+    DUPLICATE_OF.update(saved)
+    probs3 = reconcile_duplicates(dup)
+    check("还原声明后 ⇒ 两边一致（无 ❌）", probs3 == [], str(probs3))
+
+    print("\n【E｜指纹：同内容同哈希、改一字节必变】")
+    check("同内容 ⇒ 同哈希", fnv1a32(b"abc") == fnv1a32(b"abc"))
+    check("改一字节 ⇒ 哈希必变", fnv1a32(b"abc") != fnv1a32(b"abd"))
+    check("空串也稳定", fnv1a32(b"") == fnv1a32(b""))
+
+    print("\n【F｜真产物上复算一遍（不是只测合成品）】")
+    real = collect()
+    j = judge_dimension("方向扩张性", real)
+    check("真数据：方向扩张性应判 ok（≥3 种取值）", j["level"] == "ok", j["verdict"])
+    check("真数据：合格维度数 = 1（同源重复那一根）", audit_bad_count(real) == 1,
+          str(audit_bad_count(real)))
+
+    print("\n" + "=" * 92)
+    print("  自证：通过 %d，失败 %d" % (n_pass, n_fail))
+    if n_fail:
+        print("  ❌ 审计有断言不成立 ⇒ 不能当结论用。")
+    else:
+        print("  ✅ 全部植入缺陷都被抓到 ⇒ 审计不是永远绿灯的摆设。")
+    print("=" * 92)
+    return 0 if n_fail == 0 else 1
+
+
 def main() -> int:
+    if "--selftest" in sys.argv:
+        return selftest()
     if "--gate" in sys.argv:
         return gate()
 

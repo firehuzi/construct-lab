@@ -1,9 +1,9 @@
 {
   "fingerprint": {
-    "encoder": "eightdim.py@579行·981c7654",
+    "encoder": "eightdim.py@780行·86f174ce",
     "corpus": "archives@47份·d260988a",
     "scales": "scales·5e2cd0ec",
-    "git": "664ee40"
+    "git": "b81fde1"
   },
   "scales": {
     "身份连续性": {

@@ -159,6 +159,80 @@ def check_ucdp_deaths(dyads: dict, spec: str):
             "detail": "%s 年该对死亡合计 %d（阈值 %d）" % (y, tot, thr)}
 
 
+def bigrams(s: str) -> set:
+    """中文字符二元组（与 judgment_ledger 同一套口径）。"""
+    s = re.sub(r"[\s\W_]+", "", s or "", flags=re.UNICODE)
+    return {s[i:i + 2] for i in range(len(s) - 1)} if len(s) > 1 else ({s} if s else set())
+
+
+def overlap(a: str, b: str) -> float:
+    x, y = bigrams(a), bigrams(b)
+    if not x or not y:
+        return 0.0
+    return len(x & y) / float(min(len(x), len(y)))
+
+
+def looks_opposite(a: str, b: str) -> bool:
+    """一侧有否定词、另一侧没有 ⇒ 很可能是【相反】而不是【相同】。"""
+    neg = ("不", "未", "无", "停止", "停", "拒绝", "没有")
+    return any(w in a for w in neg) != any(w in b for w in neg)
+
+
+def check_discriminating(case: dict, thresh: float = 0.5) -> dict:
+    """★★ 区分点【提示】—— 不是校验，而且它两个方向都会错。
+
+    ★★ 这个结论是第一版写错之后才想明白的，值得完整写下来：
+      海湾真跑（docs/ConStruct_路径空间试写_海湾.md）里我写过：
+        「停火是所有路径共通的终点 —— P01／P02／P03／P05 都以某种停火结束。
+          ⇒ 所以「停火」不是区分点」
+      然后在 IQ-KW-1991.json 里，我把 P03②「联军收手」标成了 `discriminating: true`。
+      **结论写了、实现时反着做、无人发现。** 于是我想做机器检查来抓这种自相矛盾。
+      **结果两个方向都错了：**
+
+        报了不该报的：P01③「停在边境，不向巴格达推进」对 P02③「越过边境向巴格达推进」
+                      —— 它们是【相反】的，却因为用词相同（联军地面部队／巴格达／推进）
+                         被判成高度重叠。
+        漏了该报的  ：P03②「联军收手」没被报 —— 它的 indicator 短而独特，
+                      而它的问题**不是词面像，是概念上【所有路径最后都会停火】**。
+
+      ⇒ **字符重叠度分不出「相同」与「相反」，而区分点恰恰最常表现成一对相反的阶段。**
+        这个口径在这一件事上两个方向都不对 —— 与本项目早先那次
+        （「命中率 = 58%」对「命中率 > 65%」被判成同类）是同型错误。
+
+    ⇒ 定位：**列出词面高度相似的对，让人自己判是「相同」还是「相反」。**
+      它不判对错，也不该被当成通过／不通过。
+      「是不是共通前提／共通终点」是语义判断，机器现在判不了 —— **这条限度照实说。**
+    """
+    hits = []
+    stages = [(p, st) for p in case.get("paths", []) for st in p.get("stages", [])
+              if st.get("discriminating")]
+    for p, st in stages:
+        obs = st.get("observable") or {}
+        mine = "%s %s" % (obs.get("object") or "", obs.get("indicator") or "")
+        for p2 in case.get("paths", []):
+            if p2 is p:
+                continue
+            for st2 in p2.get("stages", []):
+                obs2 = st2.get("observable") or {}
+                other = "%s %s" % (obs2.get("object") or "", obs2.get("indicator") or "")
+                ov = overlap(mine, other)
+                if ov >= thresh:
+                    opp = looks_opposite(mine, other)
+                    hits.append({
+                        "stage": "%s/%s" % (p.get("id"), st.get("stage")),
+                        "conflicts_with": "%s/%s" % (p2.get("id"), st2.get("stage")),
+                        "overlap": round(ov, 2),
+                        "likely_opposite": opp,
+                        "why": ("词面重叠 %.0f%%，但只有一侧含否定词 ⇒ 更可能是【相反】而非相同"
+                                "—— 若确实相反，它是有效区分点，不必改。" % (ov * 100)) if opp else
+                               ("词面重叠 %.0f%%，两侧都无否定词 ⇒ 更可能是【同义】"
+                                "—— 请确认它到底区分开了什么。" % (ov * 100)),
+                    })
+    return {"hits": hits, "checked": len(stages),
+            "limit": "★ 本项是【提示】不是校验：分不出「相同」与「相反」，"
+                     "也判不了「是不是所有路径共通的终点」—— 后者是语义判断。"}
+
+
 # ══ 主检查 ══════════════════════════════════════════════════════════════════════
 def check_case(case: dict, dyads: dict) -> dict:
     rows, pending = [], []
@@ -254,6 +328,18 @@ def main() -> int:
             if res.get("why"):
                 print("  %-5s   ↳ %s" % ("", res["why"]))
 
+        dg = check_discriminating(case)
+        print("\n  ── ★ 区分点校验（标了 discriminating=true 的阶段，是不是真的区分得开）")
+        if dg["hits"]:
+            for d in dg["hits"]:
+                tag = "↔️ 可能相反" if d["likely_opposite"] else "≈ 可能同义"
+                print("     %s %s" % (tag, d["stage"]))
+                print("        与 %s　%s" % (d["conflicts_with"], d["why"]))
+        else:
+            print("     （没有词面高度相似的阶段对）")
+        print("     %s" % dg["limit"])
+        print("     检查了 %d 个标 true 的阶段。" % dg["checked"])
+
         print("\n  ── ★ pending_manual 队列")
         if r["pending"]:
             for p in r["pending"]:
@@ -346,6 +432,28 @@ def selftest() -> int:
            % (res["n_auto"], res["n_manual"]))
         ck("★★待人工队列里的每一条都写明了【为什么只能人工】",
            all(p.get("why_manual") for p in res["pending"]))
+        # ★★ 区分点校验：必须能在真案例上报出 P03② （我自己标错的那条）
+        dg = check_discriminating(case)
+        ck("★区分点提示：真案例上有词面相似的对", len(dg["hits"]) > 0, str(len(dg["hits"])))
+        ck("★★它把【相反】的那对识别出来了（P01③停在边境 vs P02③占领巴格达）",
+           any(d["likely_opposite"] for d in dg["hits"]),
+           str([(d["stage"], d["likely_opposite"]) for d in dg["hits"]]))
+        ck("★★而它【漏了】P03②「联军收手」—— 照实记：这条检查判不了语义上的共通终点",
+           not any("P03" in d["stage"] and "收手" in d["stage"] for d in dg["hits"]),
+           str([d["stage"] for d in dg["hits"]]))
+        ck("★★返回值里带 limit（写明它两个方向都会错）", "limit" in dg and "提示" in dg["limit"])
+        ck("★looks_opposite：一侧有否定词才算相反",
+           looks_opposite("停在边境，不向巴格达推进", "越过边境向巴格达推进") is True
+           and looks_opposite("甲进攻乙", "甲攻击乙") is False)
+        # 反向：两条 observable 明显不同的阶段，不该被报
+        _fake = {"paths": [
+            {"id": "A", "stages": [{"stage": "s", "discriminating": True,
+              "observable": {"object": "伊拉克政府", "indicator": "宣布从科威特撤军"}}]},
+            {"id": "B", "stages": [{"stage": "s", "discriminating": True,
+              "observable": {"object": "以色列", "indicator": "对伊拉克本土实施军事报复"}}]}]}
+        ck("★★反向：observable 明显不同的两条不该被提示",
+           check_discriminating(_fake)["hits"] == [], str(check_discriminating(_fake)["hits"]))
+
         ck("★★★排除断言的判定词里【永远不出现「确认」】—— 单向可证伪",
            all(r.get("verdict") in ("falsified", "not_yet_falsified", "manual", "insufficient_data")
                for k, _i, _c, r in res["rows"] if k == "排除"),

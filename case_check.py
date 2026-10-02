@@ -465,6 +465,73 @@ def check_evidence_list(ev, sources: dict) -> tuple:
     }
 
 
+# ══ G4 · 概率空间的自洽性（抄 content/scenarios 那批场景的【区间】写法）════════
+# ★ 旧写法粗区间的映射。刻意做得很宽 —— **因为它本来就很粗，收窄是假装精确。**
+LEGACY_PROB = {
+    "high": (0.40, 0.70),
+    "medium": (0.15, 0.40),
+    "low": (0.02, 0.15),
+}
+
+
+def prob_range(p):
+    """把 probability 归一成 (low, high)。★ 返回 (低, 高, 是否粗) —— **粗的要标明**。
+
+    ★ 为什么接受两种写法但不假装它们等价：
+      区间（55-65%）携带「空间自洽性」这个信息；`high/medium/low` 不携带。
+      把字符串映射成一个【很宽】的区间（如 high → 40-70%），是为了让老案例能跑，
+      **而不是因为那个映射有依据** —— 所以第三个返回值标出它是粗的。
+    """
+    if isinstance(p, dict):
+        lo, hi = p.get("low"), p.get("high")
+        if isinstance(lo, (int, float)) and isinstance(hi, (int, float)):
+            if lo > 1:                      # 允许写 55 而不是 0.55
+                lo, hi = lo / 100.0, hi / 100.0
+            return float(lo), float(hi), False
+        return None, None, False
+    if isinstance(p, str) and p.strip().lower() in LEGACY_PROB:
+        lo, hi = LEGACY_PROB[p.strip().lower()]
+        return lo, hi, True                 # ★ 粗
+    return None, None, False
+
+
+def check_probability_space(case: dict) -> dict:
+    """G4：路径概率之和应当【跨过 1.0】。
+
+      · 上界 < 1.0（明显）  ⇒ **路径空间可能没穷尽**（还有路径没写）
+      · 下界 > 1.0          ⇒ **概率互相矛盾**（加起来必然超过 100%）
+      · 跨过 1.0            ⇒ 自洽
+
+    ★ 这只对 direction=affirm 的路径算（排除断言不是路径，不占概率）。
+    ★ 未填概率的路径【不算 0】—— 单独报出来，因为「没填」与「填了 0」不是一回事。
+    """
+    lo_sum = hi_sum = 0.0
+    n, coarse, missing = 0, 0, []
+    for p in case.get("paths") or []:
+        if p.get("direction") not in (None, "affirm"):
+            continue
+        lo, hi, is_coarse = prob_range(p.get("probability"))
+        if lo is None:
+            missing.append(p.get("id") or p.get("label"))
+            continue
+        lo_sum += lo
+        hi_sum += hi
+        n += 1
+        if is_coarse:
+            coarse += 1
+    if n == 0:
+        return {"n": 0, "verdict": "no_data",
+                "detail": "没有一条路径填了可解读的概率"}
+    if hi_sum < 1.0 - 0.05:
+        v, why = "gap", "上界 %.2f < 1.00 ⇒ **路径空间可能没穷尽**（还有路径没写）" % hi_sum
+    elif lo_sum > 1.0 + 0.05:
+        v, why = "conflict", "下界 %.2f > 1.00 ⇒ **概率互相矛盾**（加起来必然超过 100%%）" % lo_sum
+    else:
+        v, why = "consistent", "区间 %.2f ~ %.2f 跨过 1.00 ⇒ 自洽" % (lo_sum, hi_sum)
+    return {"n": n, "lo_sum": round(lo_sum, 3), "hi_sum": round(hi_sum, 3),
+            "coarse": coarse, "missing": missing, "verdict": v, "detail": why}
+
+
 # ══ 主检查 ══════════════════════════════════════════════════════════════════════
 def load_sources() -> dict:
     """读依据档案索引。
@@ -641,6 +708,7 @@ def check_case(case: dict, dyads: dict) -> dict:
     ev = [r for _k, _i, _c, r in rows if r.get("basis") == "human_with_evidence"]
     manual = [r for _k, _i, _c, r in rows if r.get("verdict") == "manual"]
     return {"rows": rows, "pending": pending, "n_judgeable": len(rows),
+            "prob_space": check_probability_space(case),
             "n_auto": len(auto), "n_evidence": len(ev), "n_manual": len(manual),
             "paths": path_results}
 
@@ -737,6 +805,22 @@ def main() -> int:
                 print("           ⇒ 这些阶段确认了，但【不是这条路径说的原因造成的】")
         if any(pr["isolated_confirmations"] for pr in r["paths"]):
             print("     %s" % r["paths"][0]["limit"])
+
+        ps = r["prob_space"]
+        print()
+        print("  ── ★ G4 概率空间（路径概率之和应当跨过 1.00）")
+        if ps["n"] == 0:
+            print("     （没有一条路径填了可解读的概率）")
+        else:
+            mark = {"consistent": "✅ 自洽", "gap": "⚠️ 可能没穷尽",
+                    "conflict": "⛔ 互相矛盾"}[ps["verdict"]]
+            print("     %d 条路径：区间 %.2f ~ %.2f　%s" % (ps["n"], ps["lo_sum"], ps["hi_sum"], mark))
+            print("     %s" % ps["detail"])
+            if ps.get("coarse"):
+                print("     ⚠️ 其中 %d 条写的是 high/medium/low（**粗**）—— 它不携带空间自洽性" % ps["coarse"])
+            if ps.get("missing"):
+                print("     ⚠️ %d 条【没填】概率：%s —— 没填 ≠ 填了 0"
+                      % (len(ps["missing"]), "、".join(str(x) for x in ps["missing"][:3])))
 
         print()
         print("  ── ★ pending_manual 队列")

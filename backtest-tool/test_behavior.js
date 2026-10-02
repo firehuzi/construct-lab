@@ -306,6 +306,44 @@ ck("★回执里出现「判据可能不对题」",
    /判据可能不对题/.test((nodes["save-status"] || {}).innerHTML || ""),
    (nodes["save-status"] || {}).innerHTML);
 
+// ⑩ ★导出不许「静默无反应」—— 这是用户报的第二件事（克里米亚那次没产出文件）
+console.log("\n  ── 导出不许静默失败");
+api.startBacktest("crimea");
+ck("★场景切换后 currentBT 是克里米亚", api.getBT().id === "crimea", api.getBT().id);
+// 一条排除断言都不写就导出 ⇒ 也必须产文件（空记录本身是信息）
+api.getState().exclusions = [];
+downloaded.length = 0;
+api.exportExclusions();
+ck("★★一条都没写时导出【仍然产文件】（原版直接 return，什么都不下载）",
+   downloaded.length === 1, "下载次数=" + downloaded.length);
+ck("★空记录文件名正确（exclusions-crimea.json）",
+   downloaded[0] && downloaded[0].name === "exclusions-crimea.json",
+   downloaded[0] && downloaded[0].name);
+const emptyRec = JSON.parse(lastBlob ? lastBlob.parts.join("") : "{}");
+ck("★空记录 summary.total = 0", emptyRec.summary && emptyRec.summary.total === 0,
+   JSON.stringify(emptyRec.summary));
+ck("★导出后有状态回执（用户能看到它真的触发了）",
+   /已导出/.test((nodes["save-status"] || {}).innerHTML || ""),
+   (nodes["save-status"] || {}).innerHTML);
+ck("★空导出时回执点明「一条都没写」",
+   /一条都没写/.test((nodes["save-status"] || {}).innerHTML || ""));
+
+// 没选场景时导出 ⇒ 必须给出可见反馈，不许静默
+api.startBacktest("crimea");
+const savedBT = api.getBT();
+nodes["save-status"].innerHTML = "";
+downloaded.length = 0;
+// 把 currentBT 置空（模拟还没选场景）
+const nullApi = new Function("document", "Blob", "URL", "alert", "confirm", "window",
+  bigScript + "\nreturn {exportExclusions:exportExclusions, setBT:function(v){currentBT=v;}};"
+)(document, FakeBlob, URL_, alert, confirm, sandbox);
+nullApi.setBT(null);
+nullApi.exportExclusions();
+ck("★★未选场景时导出【不静默】：给出可见回执",
+   /还没选场景|没有可导出/.test((nodes["save-status"] || {}).innerHTML || ""),
+   (nodes["save-status"] || {}).innerHTML);
+ck("★未选场景时不产生下载", downloaded.length === 0, "下载次数=" + downloaded.length);
+
 console.log(`\n  通过 ${nPass}，失败 ${nFail}`);
 console.log("  ⚠️ 覆盖范围：脚本加载/状态机/渲染/导出内容。**不含** CSS 与实际浏览器事件。");
 process.exit(nFail === 0 ? 0 : 1);

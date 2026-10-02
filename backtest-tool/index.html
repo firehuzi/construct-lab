@@ -1011,24 +1011,42 @@ function exportBacktest() {
 
 // ★ 结构化导出：给对账器吃的格式（schema = construct-exclusion-v1）
 function exportExclusions() {
-  if (!currentBT) return;
-  collectState();        // ★ 同上：导出前先收一遍
-  const rec = buildExclusionRecord(currentBT, state, new Date().toISOString());
-  if (!rec.exclusions.length) {
-    alert('还没有写排除断言。\n\n在「你的路径推演」那一步往下，有「🚫 我排除的路径」一栏。');
+  const el = document.getElementById('save-status');
+  const say = (msg, bad) => {
+    if (el) { el.innerHTML = msg; el.style.color = bad ? 'var(--danger)' : 'var(--accent)'; }
+  };
+  // ★ 修：原版 !currentBT 时【完全静默】return，用户只会看到「点了没反应」。
+  if (!currentBT) {
+    say('⛔ 还没选场景 ⇒ 没有可导出的东西。请先在上方选一个场景。', true);
+    alert('还没有选场景。请先在页面上选一个场景，走到最后一步再导出。');
     return;
   }
-  if (rec.summary.unfalsifiable || rec.summary.criterion_mismatch) {
-    const msgs = [];
-    if (rec.summary.unfalsifiable)
-      msgs.push('有 ' + rec.summary.unfalsifiable + ' 条【缺判据】，不可证伪，不携带信息。');
-    if (rec.summary.criterion_mismatch)
-      msgs.push('有 ' + rec.summary.criterion_mismatch + ' 条【判据可能不对题】'
-                + '（与被排除的路径零词面重叠）—— 很可能把「我认为会怎么走」填进了判据栏。');
-    if (!confirm(msgs.join('\n\n') + '\n\n仍然导出吗？（建议先改）')) return;
+  collectState();        // 导出前先收一遍，避免最后一刻的输入漏掉
+  const rec = buildExclusionRecord(currentBT, state, new Date().toISOString());
+
+  // ★ 修：原版在【一条都没写】时直接 return 不产文件 —— 于是「没文件」有两种含义
+  //   （没点按钮 / 点了但没东西），分不清。现在即使空也照样导出：
+  //   空记录本身是信息（「我没做排除断言」），且让失败模式变得可区分。
+  const problems = [];
+  if (rec.summary.unfalsifiable)
+    problems.push('有 ' + rec.summary.unfalsifiable + ' 条【缺判据】，不可证伪，不携带信息。');
+  if (rec.summary.criterion_mismatch)
+    problems.push('有 ' + rec.summary.criterion_mismatch + ' 条【判据可能不对题】'
+                  + '（与被排除的路径零词面重叠）—— 很可能把「我认为会怎么走」填进了判据栏。');
+  if (rec.summary.total === 0)
+    problems.push('你【一条排除断言都没写】。导出的会是一份空记录 —— 这本身也是信息，'
+                  + '但如果你本来想写，请先写。');
+  if (problems.length) {
+    if (!confirm(problems.join('\n\n') + '\n\n仍然导出吗？')) {
+      say('已取消导出。（没有下载任何文件）', true);
+      return;
+    }
   }
   download(JSON.stringify(rec, null, 2),
            `exclusions-${currentBT.id}.json`, 'application/json');
+  say('📄 <strong>已导出</strong> exclusions-' + currentBT.id + '.json　（排除断言 '
+      + rec.summary.total + ' 条）' + (rec.summary.total === 0 ? '　⚠️ 一条都没写' : ''),
+      rec.summary.total === 0 || rec.summary.unfalsifiable > 0 || rec.summary.criterion_mismatch > 0);
 }
 
 // ★ 自证：这段逻辑必须能【失败】才可信。控制台里调 selfTestExclusion()。

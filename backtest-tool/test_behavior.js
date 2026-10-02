@@ -292,9 +292,9 @@ api.getState().exclusions = [
   { excluded: "危机局势进一步加剧 进入核战前奏", criterion: "互撤导弹", window: "3年" }];
 const hMis = api.renderExclusions();
 ck("★界面就地提示「判据可能不对题」", hMis.includes("判据可能不对题"));
-ck("★界面点明原因：把「我认为会怎么走」填进来了",
-   hMis.includes("我认为会怎么走") || hMis.includes("路径预测"));
-ck("★界面明说这是【证伪条件】不是路径预测", hMis.includes("证伪条件"));
+ck("★界面点明原因（含两条真实记录的实例）",
+   hMis.includes("互撤导弹") && hMis.includes("条约约束"));
+ck("★界面用填空题语框逼出正确写法", hMis.includes("填空题") || hMis.includes("出现 ______"));
 ck("★界面给出可忽略的口子（语义等价可零重叠）",
    hMis.includes("语义等价") || hMis.includes("忽略此提示"));
 ck("★汇总里单列「判据可能不对题 N 条」", /判据可能不对题\s*1\s*条/.test(hMis.replace(/<[^>]+>/g, "")));

@@ -684,16 +684,18 @@ function renderExclusions() {
       <div class="field"><label>不可能发生的路径</label>
         <input data-exc="${i}" data-excfield="excluded" value="${esc(x.excluded || '')}"
                placeholder="例：欧盟实现无人机生产自主化"></div>
-      <div class="field"><label>证伪条件 —— 出现什么，就说明【我排除的这件事发生了】？（必填）</label>
+      <div class="field"><label>填空题 —— 如果这件事【发生了】，你会看到什么？<br>
+        <span style="color:var(--dim);font-weight:400">「它发生了」= 出现 ______</span></label>
         <input data-exc="${i}" data-excfield="criterion" value="${esc(x.criterion || '')}"
-               placeholder="例：欧盟本土无人机年产量 ≥ 其需求的 50%"></div>
+               placeholder="例：北约成员国军队在乌克兰境内与俄军直接交战"></div>
       <div class="field"><label>窗口（可选，但没窗口就只是「尚未发生」）</label>
         <input data-exc="${i}" data-excfield="window" value="${esc(x.window || '')}"
                placeholder="例：5 年 / 至今"></div>
       ${!crit ? '<div class="hint" style="color:var(--danger)">⚠️ 缺判据 ⇒ 这条断言不可证伪，不携带信息</div>' : ''}
       ${mismatch ? `<div class="hint" style="color:var(--danger)">⚠️ 判据与被排除的路径【没有一个字重叠】（重叠度 ${ov.toFixed(2)}）。<br>
-        常见原因：把「<strong>我认为会怎么走</strong>」（路径预测）填进了判据栏。<br>
-        判据要填的是<strong>证伪条件</strong>：出现什么，就说明你排除的那件事<strong>发生了</strong>。<br>
+        <strong>两条真实记录都栽在这里</strong>：一条填了「互撤导弹」（历史结果／预测），
+        一条填了「条约约束」（机制／理由）—— 都不是证伪条件。<br>
+        把上面那栏读成一句填空题：<strong>「它发生了」= 出现 ______</strong>，答案填在这里。<br>
         （若两者确实语义等价、只是用词不同，忽略此提示。）</div>` : ''}
     </div>`;
   });

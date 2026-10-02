@@ -80,7 +80,13 @@
 
 ```jsonc
 "evidence": {
-  "slug": "govinfo.gov_PPP_1991_book1_doc_pg176_htm.html",  // ★ 必须在 data/sources/index.json 里
+  // ★ slug 有【两个命名空间】，两种都能用（工具现在两种都查）：
+  //   · slug 字段   —— 不带扩展名，如 govinfo.gov_PPP_1991_book1_doc_pg176_htm
+  //   · 快照文件名   —— 带扩展名，如 govinfo.gov_PPP_1991_book1_doc_pg176_htm.html
+  //   ★★ 这个坑很贵：修之前工具只按【文件名】建索引，而 slug 字段不带扩展名
+  //      ⇒ 按 slug 字段写的人 8/8 过不了第①道闸，而报错说「不在索引里」——【而索引里就有】。
+  //      这是「错的读数与对的读数长得一样」的典型，也是「示例恰好覆盖实现」的第二次发作。
+  "slug": "govinfo.gov_PPP_1991_book1_doc_pg176_htm",
   "observed": false,          // ★ 必填：观察到 / 没观察到（是【你的判断】，不是工具算的）
   "quote": "原文里能支撑这条判断的那句话",
   "note": "依据强度、以及它没覆盖到的部分 —— 照实写",
@@ -90,6 +96,18 @@
   "verified_open": true
 }
 ```
+
+**★★ 哪些字段【真被读】（独立操作者逐一实测）**
+
+| 字段 | 工具读不读 |
+|---|---|
+| `slug` | ✅ **读**（查索引，两种命名空间都认） |
+| `observed` | ✅ **读** —— 这是**你的判断**，工具不替你判 |
+| `witness_type` / `published` / `url` / `verified_open` | ❌ **不读** —— 工具只读**索引记录里**的同名字段。写它们是为留痕，**不是为了让工具核** |
+| `quote` / `note` | ❌ 不读（给人看的） |
+
+> **★ 指南原先写「`witness_type` 会被工具用索引里的值复核」—— 它根本没被读，谈不上复核。**
+> **两边不一致时工具【静默取索引值】，不报冲突。**
 
 **★ `evidence` 与 `source` 同时写会怎样：`evidence` 优先，且【短路】—— `source` 被忽略。**
 （工具的 `judge()` 里 `if evidence:` 先返回。指南原先没说这一点。）

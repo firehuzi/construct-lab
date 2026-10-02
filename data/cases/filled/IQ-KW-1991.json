@@ -180,7 +180,7 @@
             "to": "1991-01-16"
           },
           "evidence": {
-            "slug": "govinfo.gov_PPP_1991_book1_doc_pg176_htm.html",
+            "slug": "govinfo.gov_PPP_1991_book1_doc_pg176_htm",
             "observed": false,
             "quote": "Saddam Hussein's radio statement last night contained the same diatribe as previous comments, with no commitment to complying with the 12 United Nations resolutions. His speech changes nothing.",
             "note": "★ 照实记：这份依据【只覆盖了 2 月 26 日那次声明】，而窗口问的是【最后期限（1 月 15 日）之前】。它证明「2 月那次不算撤军」，但【没有独立证明 1 月 15 日之前也没有宣布】。所以 observed=False 的依据强度是【部分】的，不是完整的。",
@@ -204,7 +204,7 @@
             "to": "1991-03-31"
           },
           "evidence": {
-            "slug": "govinfo.gov_PPP_1991_book1_doc_pg187_htm.html",
+            "slug": "govinfo.gov_PPP_1991_book1_doc_pg187_htm",
             "observed": true,
             "quote": "Address to the Nation on the Suspension of Allied Offensive Combat Operations in the Persian Gulf — George H. W. Bush, February 27, 1991",
             "note": "★ 这是【总统原始文件】，它就是「暂停进攻作战」那道命令本身。★ 但注意一个缺口：P03 的假设是「伊拉克撤军 ⇒ 联军收手」，而实际原因【不是撤军，是伊拉克战败】。⇒ 阶段被确认了，**因果链没有被验证**。这个缺口目前没有任何东西能查。",
@@ -254,7 +254,7 @@
             "to": "1991-03-31"
           },
           "evidence": {
-            "slug": "jta.org_schools_closed_streets_were_empty_as_isr.html",
+            "slug": "jta.org_schools_closed_streets_were_empty_as_isr",
             "observed": false,
             "quote": "Schools Closed, Streets Were Empty As Israel Awaited Military Action — January 17, 1991. The Education Ministry ordered Israeli schools closed Wednesday after consultations with the...",
             "note": "★ 两个独立来源互相印证：JTA（1991-01-17）「Israel Awaited」＋ Baltimore Sun（1991-01-19）「Israeli 'restraint' hailed, but action now more likely」。⇒ 「以色列没有还击」这件事，拿到的是【当时还在等待／克制】的正面证据，而不是「搜不到」。",
@@ -332,7 +332,7 @@
             "to": "1991-12-31"
           },
           "evidence": {
-            "slug": "news.bbc.co.uk_2515289_stm.html",
+            "slug": "news.bbc.co.uk_2515289_stm",
             "observed": false,
             "quote": "BBC ON THIS DAY | 28 February 1991: Jubilation follows Gulf War ceasefire",
             "note": "★ 地面战 2 月 24 日开始、2 月 28 日停火 —— 【100 小时】，与「持续超过 3 个月」相差两个数量级。依据是停火当天的报道。",

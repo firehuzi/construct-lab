@@ -48,6 +48,42 @@ ISO3_TO_ACTOR = {
 RECENT_FROM = 2000
 RECENT_TERR_FROM = 1990
 
+# ── 口径对账：外部量覆盖到哪一年 vs 轴值声明的是哪一年 ───────────────────────
+# ★★ 这是一条【我上一轮漏掉】的检查，也是本步最重要的产出。
+#    上一轮我拿 R2 的 p=0.276 判「幂够 ⇒ 效应不在那里」——
+#    但我【没有查外部量覆盖到哪一年】。实测：COW MID 5.0 止于 2014，
+#    而档案声明的「当前方向基线」是 2026 年的判断 ⇒ 错位 12 年。
+#    统计功效够 ≠ 构造有效。「量错了东西 + 功效足够」会稳定地报出「无效应」，
+#    而那个「无效应」对框架【不构成证据】——它只证明这两份数据对不上。
+AXIS_TIME = 2026        # actors/*/「当前方向基线」= 2026 年的判断
+TOLERANCE_Y = 3         # 允许的错位年数
+READOUT_WINDOW = {
+    "R1_terr_net": ("COW Territorial Change v6", 2015),
+    "R2_recent_dispute": ("COW MID 5.0", 2014),
+    "R3_terr_total": ("COW Territorial Change v6", 2015),
+    "R4_recent_terr_net": ("COW Territorial Change v6", 2015),
+}
+
+
+def source_coverage() -> dict:
+    """按来源统计覆盖年限 —— 口径对账的事实基础。"""
+    by = defaultdict(list)
+    for path in sorted(glob.glob(os.path.join(TIMELINES, "*.json"))):
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh)
+        for s in d.get("skeleton_cow") or []:
+            src = s.get("source") or "(无 source 字段)"
+            by[src].append(s.get("year_end") or s.get("year_start") or 0)
+    return {k: {"n": len(v), "min": min(v), "max": max(v)} for k, v in by.items()}
+
+
+def caliber_check(key: str, axis_time: int = AXIS_TIME, tol: int = TOLERANCE_Y) -> dict:
+    """读出口的窗口末端 vs 轴值声明时点 ⇒ 错位年数 ⇒ 合格／不合格。"""
+    src, end = READOUT_WINDOW[key]
+    lag = axis_time - end
+    return {"key": key, "source": src, "window_end": end,
+            "axis_time": axis_time, "lag": lag, "ok": lag <= tol}
+
 
 # ── 外部量：从 COW 骨架算读出口 ─────────────────────────────────────────────
 def readouts() -> dict:
@@ -227,8 +263,49 @@ def main() -> int:
           % ("、".join(any_sig) if any_sig else "**一根都没有**"))
 
     print("\n" + "=" * 92)
+    print("  口径对账：外部量覆盖到哪一年 vs 轴值声明的是哪一年")
+    print("=" * 92)
+    print("\n  %-34s %7s %7s %7s" % ("source", "条数", "最早", "最晚"))
+    cov = source_coverage()
+    for src, c in sorted(cov.items(), key=lambda kv: -kv[1]["n"]):
+        print("  %-34s %7d %7d %7d" % (src[:34], c["n"], c["min"], c["max"]))
+    print("\n  轴值声明的时点 = %d（档案「当前方向基线」）　容差 = ±%d 年"
+          % (AXIS_TIME, TOLERANCE_Y))
+    print("\n  %-22s %-28s %6s %8s %s" % ("读出口", "来源", "窗口末", "错位", "判定"))
+    cal = {}
+    for name, key in (("R1 领土净变化", "R1_terr_net"),
+                      ("R2 近期对外争端", "R2_recent_dispute"),
+                      ("R3 领土变更总数", "R3_terr_total"),
+                      ("R4 近期领土净变化", "R4_recent_terr_net")):
+        c = caliber_check(key)
+        cal[key] = c
+        print("  %-22s %-28s %6d %6d年 %s"
+              % (name, c["source"][:28], c["window_end"], c["lag"],
+                 "✅ 合格" if c["ok"] else "⛔ 错位过大"))
+    all_bad = all(not c["ok"] for c in cal.values())
+
+    print("\n" + "=" * 92)
     print("  结论")
     print("=" * 92)
+    if all_bad:
+        print("  ⛔ **口径对账全部不通过 ⇒ 上面那些 p 值【不能当证据用】。**")
+        print()
+        print("  ★ 撤回上一轮（§9.2）的判读：")
+        print("     当时据 R2 的 p=0.276 判「幂够 ⇒ 效应不在那里」——")
+        print("     **统计功效确实够，但构造无效**：它量的是 2014 年以前的对外活动，")
+        print("     而八维的方向基线是 2026 年的判断 ⇒ 错位约 12 年。")
+        print("     ⇒ 正确的判读是「**这一版测不了**」，而不是「没有效应」。")
+        print()
+        print("  ⚠️ 这条错误本身就是本步的产出：")
+        print("     **「量错了东西」+「功效足够」会稳定地报出「无效应」，")
+        print("       而那个无效应对框架不构成证据 —— 它只证明两份数据对不上。**")
+        print()
+        print("  要跑通需要（二选一）：")
+        print("   ① 换覆盖近年的外部量（ACLED 1997–今 / GDELT 2015–今）——")
+        print("      本仓的 acled_collector.py 写 PostgreSQL 且需 token，磁盘上【没有数据】；")
+        print("   ② 或把轴值的声明时点改到与现有数据对齐（但那要先改档案的时间口径）。")
+        return 2
+
     sig = [k for k, v in verdicts.items() if v["p"] < 0.05]
     m = len(verdicts)
     print("  比较了 %d 个读出口 ⇒ Bonferroni 阈值 = 0.05/%d = %.4f" % (m, m, 0.05 / m))
@@ -284,6 +361,22 @@ def selftest() -> int:
     check("读出口覆盖 29 个主体", len(r) == 29, str(len(r)))
     check("R1 = TERR_GAIN − TERR_LOSS（结构与定义一致）",
           all(v["R1_terr_net"] == v["TERR_GAIN"] - v["TERR_LOSS"] for v in r.values()))
+    # ── 口径对账（★ 本步新加，两个方向都证）──
+    c = caliber_check("R2_recent_dispute")
+    check("★口径：轴值 2026 vs COW MID 止于 2014 ⇒ 错位 12 年 ⇒ 不合格",
+          c["lag"] == 12 and not c["ok"], str(c))
+    c_ok = caliber_check("R2_recent_dispute", axis_time=2015)
+    check("★口径：把轴值时点改到 2015 ⇒ 错位 1 年 ⇒ 合格（门是可过的）",
+          c_ok["ok"], str(c_ok))
+    c_tol = caliber_check("R2_recent_dispute", axis_time=2016, tol=2)
+    check("★口径：2016／容差 2 ⇒ 错位 2 年 ⇒ 刚好合格",
+          c_tol["lag"] == 2 and c_tol["ok"], str(c_tol))
+    cov = source_coverage()
+    check("★口径：COW MID 5.0 的最大年确实是 2014",
+          cov.get("COW MID 5.0", {}).get("max") == 2014, str(cov.get("COW MID 5.0")))
+    check("★口径：全部来源合起来最新不超过 2020",
+          max(v["max"] for v in cov.values()) <= 2020,
+          str(max(v["max"] for v in cov.values())))
     print("\n  自证：通过 %d，失败 %d" % (n_pass, n_fail))
     print("=" * 92)
     return 0 if n_fail == 0 else 1

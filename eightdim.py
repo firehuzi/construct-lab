@@ -32,6 +32,13 @@ import sys
 from collections import Counter, defaultdict
 from itertools import combinations
 
+# 口径的【单一真相】在 readout.py（那里才有外部量的覆盖年限）。这里引用它，
+# 但在 readout.py 不可用时退化到同一组默认值 —— 独立运行不强依赖兄弟模块。
+try:
+    from readout import AXIS_TIME, TOLERANCE_Y
+except Exception:                     # pragma: no cover
+    AXIS_TIME, TOLERANCE_Y = 2026, 3
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 ACTORS_DIR = os.path.join(ROOT, "actors")
@@ -787,16 +794,30 @@ def selftest() -> int:
                  "readout": "外部量 Y", "zero_selfcheck": "点估计落在区间内"}
     r_full = gate_dimension_feasibility("方向扩张性", real, full_card)
     m_full = {n: m for n, m, _r in r_full["rows"]}
-    check("★卡填满【但读出口没写来源】⇒ ⑦ 仍 ⛔（不许只凭一句声明过关）",
-          m_full["⑦ 可识别性"] == "⛔" and r_full["blockers"] == 1,
-          "blockers=%s" % r_full["blockers"])
-    full_card2 = dict(full_card, readout_source="actor_timelines")
+    check("★卡填满【但读出口没写来源、没写覆盖年限】⇒ ⑦ 与 ⑧ 各挡一次（不许只凭声明过关）",
+          m_full["⑦ 可识别性"] == "⛔" and m_full["⑧ 口径对账"] == "⛔"
+          and r_full["blockers"] == 2,
+          "⑦=%s ⑧=%s blockers=%s" % (m_full["⑦ 可识别性"], m_full["⑧ 口径对账"],
+                                      r_full["blockers"]))
+    full_card2 = dict(full_card, readout_source="actor_timelines",
+                      readout_window_end=AXIS_TIME)
     r2 = gate_dimension_feasibility("方向扩张性", real, full_card2)
     m2 = {n: m for n, m, _r in r2["rows"]}
-    check("★卡填满且读出口来源【存在且不重叠】⇒ ⑦ ✅ 且 blockers = 0 ⇒ 该轴可跑",
-          m2["⑦ 可识别性"] == "✅" and r2["blockers"] == 0,
-          "⑦=%s blockers=%s" % (m2["⑦ 可识别性"], r2["blockers"]))
-    bad_src = dict(full_card, readout_source="八维矩阵")
+    check("★卡填满 ＋ 来源不重叠 ＋ 口径对齐 ⇒ ⑦✅ ⑧✅ 且 blockers = 0 ⇒ 该轴可跑",
+          m2["⑦ 可识别性"] == "✅" and m2["⑧ 口径对账"] == "✅" and r2["blockers"] == 0,
+          "⑦=%s ⑧=%s blockers=%s" % (m2["⑦ 可识别性"], m2["⑧ 口径对账"], r2["blockers"]))
+    stale_card = dict(full_card, readout_source="actor_timelines", readout_window_end=2014)
+    m_st = {n: m for n, m, _r in
+            gate_dimension_feasibility("方向扩张性", real, stale_card)["rows"]}
+    check("★读出口只覆盖到 2014（错位 12 年）⇒ ⑧ ⛔ ⇒ 该轴不可跑",
+          m_st["⑧ 口径对账"] == "⛔", str(m_st["⑧ 口径对账"]))
+    no_we = dict(full_card, readout_source="actor_timelines")
+    check("★读出口没声明覆盖年限 ⇒ ⑧ ⛔（不许含糊过关）",
+          {n: m for n, m, _r in gate_dimension_feasibility(
+              "方向扩张性", real, no_we)["rows"]}["⑧ 口径对账"] == "⛔")
+    check("★口径常量单一真相：与 readout.py 一致", AXIS_TIME == 2026 and TOLERANCE_Y == 3,
+          "%s/%s" % (AXIS_TIME, TOLERANCE_Y))
+    bad_src = dict(full_card, readout_source="八维矩阵", readout_window_end=AXIS_TIME)
     check("★读出口来源指向不存在的路径 ⇒ ⑦ ⛔",
           {n: m for n, m, _r in gate_dimension_feasibility(
               "方向扩张性", real, bad_src)["rows"]}["⑦ 可识别性"] == "⛔")
@@ -863,6 +884,7 @@ def card_template() -> dict:
                 "n_available": None,       # ③ n_有
                 "readout": None,           # ⑤ 机制级读出口（外部量，一句话说清）
                 "readout_source": None,    # ⑦ 读出口的来源路径（要能被机器核：存在且与轴值证据不重叠）
+                "readout_window_end": None,  # ⑧ 读出口覆盖到哪一年（口径对账用）
                 "readout_result": None,    # ⑤ 做了之后【结果是什么】—— 与「能不能做」是两件事
                 "zero_selfcheck": None}    # ⑥ 点估计是否落在它自己的区间里
             for d in SCALES
@@ -947,6 +969,26 @@ def gate_dimension_feasibility(dim: str, actors: list[dict], card: dict | None) 
         reason = "读出口来源与轴值证据重叠（%s vs %s）⇒ 仍是同一个估计量" % (ro_src, sorted(axis_kinds))
     rows.append(("⑦ 可识别性", "✅" if independent else "⛔", reason))
 
+    # ⑧ 口径对账（★ 本仓补充，非 TaoPaw 原有七道）
+    #   ★ 这一条是踩了坑才加的：上一轮我据 p=0.276 判「幂够 ⇒ 效应不在那里」，
+    #     却没查【外部量覆盖到哪一年】。实测 COW MID 5.0 止于 2014，而档案的
+    #     方向基线是 2026 年的判断 ⇒ 错位 12 年。
+    #     统计功效够 ≠ 构造有效。「量错了东西 + 功效足够」会稳定地报出「无效应」，
+    #     而那个无效应对框架【不构成证据】—— 它只证明两份数据对不上。
+    we = card.get("readout_window_end")
+    if not ro:
+        rows.append(("⑧ 口径对账", "⛔", "无读出口 ⇒ 无从对账"))
+    elif not we:
+        rows.append(("⑧ 口径对账", "⛔",
+                     "读出口没声明覆盖到哪一年（readout_window_end）⇒ 无法核是否量的是同一段时间"))
+    else:
+        lag = AXIS_TIME - int(we)
+        in_tol = lag <= TOLERANCE_Y
+        rows.append(("⑧ 口径对账", "✅" if in_tol else "⛔",
+                     "轴值时点 %d vs 读出口窗口末 %s ⇒ 错位 %d 年（容差 ±%d）%s"
+                     % (AXIS_TIME, we, lag, TOLERANCE_Y,
+                        "" if in_tol else " ⇒ ⛔ 量的不是同一段时间，p 值不能当证据")))
+
     blockers = sum(1 for _n, mark, _r in rows if mark == "⛔")
     return {"dim": dim, "rows": rows, "blockers": blockers,
             "verdict": ("⛔ 不可跑（缺 %d 项）" % blockers) if blockers else "✅ 可跑"}
@@ -982,7 +1024,7 @@ def feasibility(actors: list[dict]) -> int:
 
     cards = load_cards()
     print("=" * 92)
-    print("# 八维 · 事前准入（七道门槛）—— 被检验的主张：「该维度有解释力」")
+    print("# 八维 · 事前准入（TaoPaw 七道门槛 ＋ ⑧ 口径对账·本仓补充）")
     print("=" * 92)
     if not cards:
         print("  ⚠️ 未找到准入门槛卡 %s" % os.path.relpath(CARD_PATH, ROOT))
@@ -1002,11 +1044,20 @@ def feasibility(actors: list[dict]) -> int:
             print("       （⚑ 是【做了的结果】；上面的 ✅ 只表示【这个检验做得成】）")
     print("\n" + "=" * 92)
     print("  可跑：%d / %d 根轴（= 事前门槛过了，**不等于**效应被证实）" % (ok_cnt, len(SCALES)))
+    blocked_by_caliber = [d for d in SCALES
+                          if (cards.get(d) or {}).get("readout")
+                          and (cards.get(d) or {}).get("readout_window_end") is not None
+                          and AXIS_TIME - int((cards.get(d) or {})["readout_window_end"]) > TOLERANCE_Y]
     if ok_cnt == 0:
-        print("  ⇒ 结论：**按你自己的门槛，这八根轴【现在一根都不能跑】。**")
-        print("     这不是「这一版测不了」，而是【缺可检验性本身】——")
-        print("     最硬的一条是 ⑦：值 ≡ 证据的确定性函数，统计量与零点共用同一个估计量。")
-        print("     ⇒ 补法不是加刻度，是【另找一个外部量】做读出口。")
+        if blocked_by_caliber:
+            print("  ⇒ 有读出口、但【口径对不上】的有：%s" % "、".join(blocked_by_caliber))
+            print("     ⇒ 这些轴不是「缺读出口」，而是【读出口量的是另一段时间】——")
+            print("       **这一版测不了**，且那个「无效应」不构成对框架的证据。")
+        else:
+            print("  ⇒ 结论：**按你自己的门槛，这八根轴【现在一根都不能跑】。**")
+            print("     这不是「这一版测不了」，而是【缺可检验性本身】——")
+            print("     最硬的一条是 ⑦：值 ≡ 证据的确定性函数，统计量与零点共用同一个估计量。")
+            print("     ⇒ 补法不是加刻度，是【另找一个外部量】做读出口。")
     else:
         print("  ⚠️ 过了门槛的轴，请去 readout.py 看【实测结果】——")
         print("     「做得成」与「有效应」是两件事，不许把前者读成后者。")

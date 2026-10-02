@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地缘推演台 - 历史回溯版 V2</title>
+<!-- 百度统计 - 替换 YOUR_BAIDU_ID 为你的统计ID -->
+<script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?c01d534a41b440bfe5fff8258da19289";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>
+<style>
+:root {
+  --bg:#0a0a0a; --panel:#141414; --panel2:#1c1c1c; --border:#2a2a2a; --text:#d8d8d8; --text2:#aaa;
+  --accent:#e8b44c; --accent2:#5b9bd5; --danger:#e06060; --success:#4caf80; --warn:#e0a040; --dim:#666;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+#app{max-width:1000px;margin:0 auto;padding:24px}
+
+/* Header */
+.header{text-align:center;padding:40px 0 32px}
+.header h1{font-size:24px;color:var(--accent);margin-bottom:8px}
+.header .sub{font-size:13px;color:var(--text2);line-height:1.7}
+
+/* Scenario cards */
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:32px}
+.scenario-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:24px;cursor:pointer;transition:all .2s}
+.scenario-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.scenario-card .year{font-size:11px;color:var(--accent);font-weight:600;margin-bottom:8px;display:block}
+.scenario-card h3{font-size:16px;margin-bottom:6px}
+.scenario-card p{font-size:12px;color:var(--text2);line-height:1.6}
+.scenario-card .meta{display:flex;gap:12px;margin-top:12px;font-size:11px;color:var(--dim)}
+
+/* Time Lock Banner */
+.time-lock{background:#1a0f0f;border:2px solid var(--danger);border-radius:8px;padding:16px 20px;margin-bottom:24px;display:flex;gap:14px;align-items:flex-start}
+.time-lock .lock-icon{font-size:24px;flex-shrink:0}
+.time-lock .lock-body h4{font-size:13px;color:var(--danger);margin-bottom:4px}
+.time-lock .lock-body p{font-size:12px;color:var(--text2);line-height:1.6}
+
+/* Step navigation */
+.step-bar{display:flex;gap:4px;margin-bottom:24px;overflow-x:auto;padding-bottom:4px}
+.step-dot{flex-shrink:0;padding:8px 16px;border-radius:20px;font-size:11px;cursor:pointer;background:var(--panel);border:1px solid var(--border);color:var(--dim);transition:all .15s;white-space:nowrap}
+.step-dot:hover{color:var(--text2)}
+.step-dot.active{background:rgba(232,180,76,.12);border-color:var(--accent);color:var(--accent)}
+.step-dot.done{color:var(--success)}
+
+/* Content panels */
+.step-content{animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
+.panel h3{font-size:14px;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.panel .hint{font-size:11px;color:var(--dim);margin-bottom:14px;line-height:1.6}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:600}
+.field input,.field textarea,.field select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 14px;color:var(--text);font-size:13px;font-family:inherit}
+.field textarea{min-height:80px;resize:vertical;line-height:1.6}
+.field select{cursor:pointer}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent)}
+
+/* Info boxes */
+.info-box{background:var(--panel2);border-radius:8px;padding:14px;margin-bottom:8px;font-size:12px;line-height:1.7}
+.info-box strong{color:var(--accent)}
+.info-box .key{color:var(--accent2);font-weight:600}
+
+/* Path input */
+.path-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.path-card .path-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.prob-badge{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:700}
+.prob-h{background:rgba(76,175,128,.15);color:var(--success)}
+.prob-m{background:rgba(224,160,64,.15);color:var(--warn)}
+.prob-l{background:rgba(224,96,96,.15);color:var(--danger)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn-primary{background:var(--accent);color:#000;border-color:var(--accent)}
+.btn-primary:hover{background:#d4a343}
+.btn-sm{padding:5px 12px;font-size:11px}
+
+/* Comparison REVEAL */
+.reveal-section{margin-top:24px;display:none}
+.reveal-section.active{display:block}
+.reveal-header{background:linear-gradient(135deg,rgba(232,180,76,.1),rgba(224,96,96,.1));border:1px solid var(--accent);border-radius:10px;padding:20px;margin-bottom:20px;text-align:center}
+.reveal-header h3{font-size:18px;color:var(--accent);margin-bottom:8px}
+.reveal-header p{font-size:12px;color:var(--text2)}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:640px){.compare-grid{grid-template-columns:1fr}}
+.compare-col{background:var(--panel);border-radius:10px;padding:20px;border:1px solid var(--border)}
+.compare-col.user{border-color:var(--accent2)}
+.compare-col.history{border-color:var(--success)}
+.compare-col h4{font-size:13px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.compare-col.user h4{color:var(--accent2)}
+.compare-col.history h4{color:var(--success)}
+.compare-col .path-item{background:var(--panel2);border-radius:6px;padding:10px;margin-bottom:6px;font-size:12px}
+.gap-list{margin-top:16px}
+.gap-item{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
+.gap-item .gap-icon{flex-shrink:0;width:20px;text-align:center}
+.gap-item .gap-text{color:var(--text2);line-height:1.5}
+.gap-item .gap-text strong{color:var(--text)}
+
+/* Score */
+.score-bar{display:flex;gap:16px;margin:16px 0;flex-wrap:wrap}
+.score-item{flex:1;min-width:120px;background:var(--panel);border-radius:8px;padding:14px;text-align:center}
+.score-item .score-label{font-size:10px;color:var(--dim);margin-bottom:4px;text-transform:uppercase}
+.score-item .score-value{font-size:24px;font-weight:700;color:var(--accent)}
+.score-item .score-note{font-size:10px;color:var(--text2);margin-top:4px}
+
+/* Nav */
+.nav{display:flex;justify-content:space-between;margin-top:24px;padding-top:16px;border-top:1px solid var(--border)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="header"><h1>📜 地缘推演台 — 历史回溯版 V2</h1><p class="sub">地缘政治飞行模拟器——<br>用当时的已知信息做判断，然后看历史怎么走的。<br><strong>事后诸葛亮是廉价的，事前判断才是真功夫。</strong></p>
+    <!-- ★ 版本戳：用户三次导出都来自旧版而我们只能靠推断。
+         现在把「这份页面到底是哪个构建」印在脸上，不再靠猜。 -->
+    <div class="hint" id="build-stamp" style="margin-top:10px;font-size:11px"></div>
+  </div>
+
+  <!-- @@MODULE:backtest:START@@ -->
+  <!-- 板块① 历史回溯（时间锁推演）—— 由 build_tool.py 包成新版工具的一个板块 -->
+  <!-- SCENARIO SELECTION -->
+  <div id="scenario-select">
+    <div class="scenario-grid" id="scenario-grid"></div>
+    <!-- 历史推演记录挂在这里（用户报「没有历史推演记录」） -->
+    <div id="history-holder"></div>
+  </div>
+
+  <!-- BACKTEST FLOW (hidden initially) -->
+  <div id="backtest-flow" style="display:none">
+    <div id="time-lock-banner"></div>
+    <div class="step-bar" id="step-bar"></div>
+    <div class="step-content" id="step-content"></div>
+    <div class="nav">
+      <button class="btn" id="btn-prev" onclick="prevStep()">← 上一步</button>
+      <!-- ★ 提交按钮。第 4 步它会变成「提交本次推演（写入历史）」，
+           而且【必须】先提交才能揭示历史 —— 不再被「揭示历史」替代。 -->
+      <button class="btn" id="btn-commit" onclick="navCommit()">✔ 保存本步</button>
+      <span id="nav-spacer"></span>
+      <button class="btn btn-primary" id="btn-next" onclick="nextStep()">下一步 →</button>
+    </div>
+    <div id="save-status" class="hint" style="text-align:center;min-height:18px"></div>
+    <div class="reveal-section" id="reveal-section"></div>
+  </div>
+  <!-- @@MODULE:backtest:END@@ -->
+</div>
+
+<script>
+// ============================================================
+// BACKTEST DATA — 3 historical scenarios
+// ============================================================
+const BACKTESTS = {
+  'cuban-missile': {
+    id:'cuban-missile',
+    name:'古巴导弹危机',
+    year:'1962年10月',
+    tag:'超级大国博弈',
+    desc:'苏联在古巴部署核导弹。美国发现后，世界站在核战争边缘13天。最终苏联撤走导弹，美国秘密从土耳其撤走导弹。这是冷战最接近核战争的时刻——也是最经典的地缘博弈教学案例。',
+    timePoint:'1962年10月22日——肯尼迪发表电视讲话，宣布对古巴实施海上封锁。此时已知信息如下。',
+    learningGoal:'测试用户在没有事后信息的情况下，能否识别：① 核威慑的底层逻辑不是"谁会赢"而是"谁能承受不赢"；② 双方决策者都有退出需求；③ 内部约束（军方压力、国内政治）对决策的扭曲。',
+    timeLocked: {
+      scene:{name:'古巴导弹危机',description:'苏联在古巴部署中程核导弹（SS-4），距佛罗里达150km。美国发现后面临核战争升级风险。核心矛盾：美国必须让苏联撤走导弹，苏联不能被视为屈服。',date:'1962年10月'},
+      actors:[
+        {name:'美国',purposes:['苏联导弹撤出古巴（必然目的）','避免核战争（必然目的）','维护美洲霸权（手段性目的）'],timePreference:'very_high',subjectivityMode:'integrated',
+         dmNote:'肯尼迪：选举型权力基础，猪湾失败的教训使他不信任军方简单方案。军方（空军参谋长李梅）力推空袭。国会中期选举在即——示弱=政治自杀。',
+         subjectivityAnalysis:'【整合式建构 · 冷战框架】美国的整合式建构在1962年正处于巅峰——"自由世界领袖"叙事能够同时容纳：国内民主制度、全球军事扩张、核威慑战略、以及道德优越感。门罗主义（"美洲是美洲人的美洲"）自1823年以来就是美国身份的核心组成部分——一个外部强权在西半球部署军事力量是对这一身份的直接否定。\n\n【内部张力】但整合式建构不是没有裂缝。猪湾入侵（1961年4月）的失败——肯尼迪批准了CIA训练的流亡者入侵古巴，结果三天内全军覆没——暴露了"美国全知全能"叙事的裂缝。这场失败对肯尼迪个人的影响巨大：他不信任军方的简单方案，倾向于寻找军事行动以外的路径。军方（特别是空军参谋长李梅）则在积极推动空袭方案——"这是我们的机会，把古巴变成停车场"。军方的压力+中期选举的政治压力，构成了肯尼迪决策空间的内外束缚。\n\n【时间偏好的错位】美国作为整合式建构的超级大国，在古巴导弹危机中的时间偏好被迫拉到"极高"（13天倒计时）——这与整合式建构固有的长期规划倾向产生剧烈摩擦。整合式建构的优势（分层容纳矛盾、长周期规划）在极短决策窗口中反而可能成为劣势——需要快速决策时，"容纳矛盾"可能导致犹豫。'},
+        {name:'苏联',purposes:['缩小与美国的核差距（手段性目的）','保护古巴革命政权（手段性目的）','换取美国从土耳其撤走导弹（必然目的）'],timePreference:'high',subjectivityMode:'split',
+         dmNote:'赫鲁晓夫：党机器权力基础，但1961年柏林墙危机后被党内批评"软弱"。在古巴部署导弹是一次赌博——在自家后院平衡美国的核优势。摆荡式建构：否定斯大林但无法建立新合法性。',
+         subjectivityAnalysis:'【摆荡式建构 · "否定斯大林但填不上空"】苏联在斯大林死后经历了剧烈的摆荡。赫鲁晓夫1956年的"秘密报告"全盘否定了斯大林——这是摆荡式建构的典型操作：新主体=否定旧主体。但问题在于：否定斯大林之后，用什么来填充苏联的身份？"回到列宁"的政治公式过于模糊，"和平共处"路线又需要与西方竞争中共存——这个矛盾在古巴被推到了极限。\n\n【帝国的残影填充】摆荡式建构的关键特征：否定旧主体后，没有新主体能真正建立——只能拿旧帝国的残影和零部件来填充。赫鲁晓夫的权力基础是党机器，但他在柏林墙危机（1961年）后被党内保守派批评为"软弱"。"在古巴部署导弹"本质上是一次赌博——在自家后院平衡美国的核优势——目的不仅是战略威慑，更是向党内证明："我也能硬"。这恰恰是摆荡式人格的典型行为：通过一次极端行动来补偿之前的"软弱"指责。\n\n【目的结构的错位】苏联有三个目的但排序模糊。1）缩小核差距——这个目的是真实的（美国核优势17:1），但通过在古巴部署导弹来缩小差距，成本极高、风险极大；2）保护古巴革命——这个目的是手段性的，卡斯特罗的生存不是苏联的必然目的；3）换取美国从土耳其撤走导弹——这是真正的必然目的，但赫鲁晓夫不敢公开说（公开说=承认导弹是用来交易的）。三目的之间的排序不清——这正是摆荡式建构下"目的结构缺乏整合"的体现。当危机来临时，哪一个优先？赫鲁晓夫选择了"交易"——但交易必须秘密进行，公开的"胜利"叙事掩盖了战略撤退。'},
+        {name:'古巴',purposes:['政权生存（美国入侵恐惧）','革命输出（意识形态目的）'],timePreference:'very_high',subjectivityMode:'split',
+         dmNote:'卡斯特罗：革命合法性权力基础。猪湾入侵后相信美国入侵是时间问题。愿意接受核武器是"革命的终极保护"。但古巴的利益≠苏联的利益——苏联更关心全球平衡。',
+         subjectivityAnalysis:'【摆荡式建构 · "革命作为存在的唯一方式"】古巴的主体性建构是通过革命完成的——推翻巴蒂斯塔独裁政权（1959年）不是一次普通的政权更替，而是一次身份的重新定义。之前的古巴是"美国的后花园"（黑帮、赌场、甘蔗种植园），之后的古巴是"西半球第一个社会主义革命政权"。新主体=彻底否定旧主体——这是摆荡式建构的典型轨迹。\n\n【革命的"囚徒困境"】革命建构有一个致命弱点：它的身份完全依赖于"革命继续存在"。如果革命停止扩张、如果古巴"正常化"成普通小国——身份就崩塌了。这就是为什么卡斯特罗愿意接受核武器——不是为了战略平衡，而是"革命的终极保护"。猪湾入侵强化了这个逻辑："你看，美国确实要来消灭我们——所以我们需要核武器来保护革命"。但在超级大国的博弈中，古巴的利益≠苏联的利益——苏联更关心的是全球核平衡，古巴只是棋子。卡斯特罗在危机期间向赫鲁晓夫写信说"如果美国入侵，苏联应该发动全面核打击"——赫鲁晓夫被这个建议震惊了。这就是摆荡式建构的极端后果：革命的存在焦虑压倒了一切理性计算。\n\n【时间偏好的极端化】古巴的时间偏好是"极高"——生存尺度。这不是战略选择，是建构方式决定的：革命政权永远生活在"明天可能被推翻"的恐惧中。这种时间偏好使得古巴成为三个行为体中最不愿意妥协的一方——妥协=革命的死亡。'}
+      ],
+      foundation:{geography:'古巴距佛罗里达150km——核导弹飞行时间约5分钟。苏联距古巴9000km——补给线极长。土耳其（美国导弹部署地）距苏联边境不到200km。',economyNotes:'美国GDP≈苏联3倍+。但此时信息：苏联经济增长率看起来有竞争力（实际上即将陷入停滞）。',history:'1961年猪湾入侵——肯尼迪批准但失败，古巴和苏联认为美国入侵是时间问题。1961年柏林墙危机——赫鲁晓夫被党内批评"软弱后退"。1959古巴革命——卡斯特罗推翻亲美巴蒂斯塔政权。美苏从1940s冷战至今——核军备竞赛持续升级。',culture:'美国：门罗主义文化——"美洲是美国人的美洲"，不能容忍外部势力在西半球部署军力。苏联：革命国际主义——"支持全球反帝斗争"，在古巴部署导弹=展现社会主义阵营的团结。卡斯特罗的革命浪漫主义——愿意为革命牺牲一切。',ethnicity:'古巴的拉丁裔/非裔混血社会——与美国南部的种族隔离形成对比（卡斯特罗借此攻击美国）。加勒比海地区的地缘文化——长期处于美国势力范围的反弹。'},
+      constraints:{military:'已知：美国核优势约17:1（洲际导弹数量）。美国在土耳其有朱庇特导弹（距苏联边境近）。苏联在古巴部署SS-4中程导弹（射程2000km，覆盖美国东海岸）。核威慑——全面战争=互毁。',institutions:'联合国——正在讨论。美洲国家组织——支持美国封锁。北约——欧洲盟友担心被卷入。'},
+      externals:[{name:'美洲国家组织',role:'为美国封锁提供多边合法性',impact:'中——肯尼迪需要它来证明不是单边行动'},{name:'北约（欧洲盟友）',role:'担心被拖入核战争',impact:'中——英国/法国私下劝肯尼迪克制'},{name:'联合国',role:'外交博弈场所',impact:'低——美苏都有否决权'}],
+      decisionPoint:'1962年10月22日。肯尼迪选择了海上封锁（而非空袭或入侵）。苏联的反应未知。'
+    },
+    actualOutcome: {
+      summary:'苏联于10月28日宣布撤走古巴导弹。美国秘密同意6个月后从土耳其撤走朱庇特导弹（此秘密维持25年）。双方建立热线。1963年签署《部分禁止核试验条约》。',
+      mainPath:{label:'苏联撤走导弹+美国秘密从土耳其撤走导弹',why:'双方在公众面前都获得了"胜利"——赫鲁晓夫能说"保护了古巴"，肯尼迪能说"导弹撤走了"。秘密交易给双方提供了体面退出的通道。'},
+      keyFactors:['美国核优势使得苏联在全面战争中必败——但核威慑的核心不是"谁会赢"而是"谁能承受不赢"','海上封锁给了双方13天的谈判时间——空袭或入侵会使升级不可逆','双方决策者都有强烈的"不能被视为软弱"的国内政治压力——秘密交易解决了公开羞辱问题','古巴（卡斯特罗）最激进——愿意接受核战争——但古巴的利益不是苏联的利益','赫鲁晓夫被党内保守派批评"冒险后撤退"——两年后被政变下台'],
+      learningPoints:'最核心的洞察：核威慑下的博弈逻辑不同于常规博弈。双方都需要"赢"——但"赢"的重新定义（面子+秘密让步）才是解决之道。决策者个人约束（肯尼迪的猪湾教训、赫鲁晓夫的党内压力）主导了选择。海上封锁是最优方案——不是因为它"强硬"，而是因为它给了双方时间和台阶。'
+    },
+    guidedQuestions: [
+      {step:1,title:'行为体判断',questions:[
+        {id:'q1_1',type:'radio',q:'三个行为体中，谁的内部目的冲突最严重？',options:['美国——避免核战争 vs 中期选举示弱','苏联——缩小核差距 vs 保护古巴 vs 换土耳其导弹','古巴——生存恐惧 vs 接受核战争的意愿'],answer:1},
+        {id:'q1_2',type:'radio',q:'肯尼迪选择海上封锁而非空袭，最关键的个人因素是什么？',options:['猪湾失败的教训——不信任军方简单方案','害怕核战争——任何升级都可能失控','国内政治——空袭看起来"太软弱"'],answer:0},
+        {id:'q1_3',type:'radio',q:'赫鲁晓夫部署导弹的真正必然目的是？',options:['缩小与美国的核差距','保护古巴革命政权','换取美国从土耳其撤走导弹（但不敢公开说）'],answer:2}
+      ]},
+      {step:2,title:'底盘判断',questions:[
+        {id:'q2_1',type:'radio',q:'地理层最关键的不对称是什么？',options:['古巴距美国150km vs 苏联距古巴9000km——苏联补给线太长','土耳其距苏联200km——美国已经在苏联门口有导弹','加勒比海——美国海军的绝对主场'],answer:0},
+        {id:'q2_2',type:'radio',q:'历史层提供了什么关键洞察？',options:['猪湾入侵失败使古巴确信美国会再来','柏林墙危机使赫鲁晓夫被批评"软弱"','冷战军备竞赛是持续升级的惯性'],answer:0},
+        {id:'q2_3',type:'radio',q:'文化层如何影响这次博弈？',options:['门罗主义——美国不能容忍外部势力进入西半球','革命国际主义——苏联要展示"支持反帝"','两者同时作用——文化冲突缩小了妥协空间'],answer:2}
+      ]},
+      {step:3,title:'约束判断',questions:[
+        {id:'q3_1',type:'radio',q:'什么约束被当时的分析者最严重低估？',options:['联合国安理会——美苏都有否决权，决议无执行力','国内政治——肯尼迪的中期选举+赫鲁晓夫的党内压力','核威慑——全面战争=互毁的逻辑意味着双方都不敢打'],answer:1},
+        {id:'q3_2',type:'radio',q:'哪个外部场域的影响最大？',options:['美洲国家组织——为封锁提供了多边合法性','北约盟友——私下劝肯尼迪克制','联合国——安理会两个常任理事国对峙'],answer:0}
+      ]},
+      {step:4,title:'路径推演',questions:[
+        {id:'q4_1',type:'radio',q:'你觉得最可能的结局是什么？',options:['美国空袭古巴 → 苏联报复 → 核战争升级','海上封锁 → 苏联秘密撤退 + 美国从土耳其撤走导弹（秘密交易）','苏联坚持不撤 → 美国被迫接受古巴导弹存在'],answer:1},
+        {id:'q4_2',type:'radio',q:'如果古巴是苏联的"必然利益"而非"手段性利益"，会发生什么？',options:['苏联不会撤退——核战争不可避免','苏联会用更大的交易筹码交换古巴','古巴只是棋子——这个假设不成立'],answer:2}
+      ]}
+    ]
+  },
+
+  'gulf-war': {
+    id:'gulf-war',
+    name:'海湾战争',
+    year:'1990年8月-1991年2月',
+    tag:'常规军事博弈',
+    desc:'伊拉克入侵科威特后，美国组建了二战后最大的军事联盟。萨达姆拒绝撤退，美军发动"沙漠风暴"行动——100小时地面战争击溃伊拉克军队。但萨达姆在战败后仍存活并继续统治伊拉克12年。',
+    timePoint:'1991年1月15日——联合国安理会第678号决议的最后期限已过。美军和联军已完成部署（沙漠盾牌→沙漠风暴）。伊拉克拒绝从科威特撤军。此时已知信息如下。',
+    learningGoal:'测试用户是否高估了"越南综合征"（美军不愿伤亡）而低估了技术革命；是否预见到"击败萨达姆但保留萨达姆"的矛盾结局；是否识别了联盟政治的脆弱性。',
+    timeLocked: {
+      scene:{name:'海湾战争',description:'伊拉克于1990年8月2日入侵科威特并宣布吞并。联合国安理会对伊拉克实施全面制裁并授权使用"一切必要手段"。联军已完成部署。伊拉克军队（全球第四大）在科威特/伊拉克南部固守。',date:'1991年1月'},
+      actors:[
+        {name:'美国/联军',purposes:['解放科威特（必然目的）','摧毁伊拉克军事能力（手段性目的）','维护石油供应安全（必然目的）'],timePreference:'medium',subjectivityMode:'integrated',
+         dmNote:'老布什：选举型权力基础。越战老兵记忆——美军不愿再打消耗战。科林·鲍威尔提出"鲍威尔主义"：压倒性力量+明确退出策略。阿拉伯盟友（沙特、埃及、叙利亚）要求不能被视为"西方十字军"。',
+         subjectivityAnalysis:'【整合式建构 · "新世界秩序"的诞生时刻】1990-91年的美国正处于一个罕见的"整合"高点。冷战刚刚结束（柏林墙1989年倒塌，苏联即将解体），美国成为唯一的超级大国。老布什提出的"新世界秩序"叙事——用国际法和多国联盟取代单边主义——是一种整合式建构的完美表达：美国可以在"领导自由世界"的框架下同时容纳：军事霸权、国际合法性、盟友合作、以及道德使命。联合国安理会的授权（678号决议）为这次战争提供了前所未有的合法性。\n\n【"越南综合征"的内部裂隙】但整合式建构下有一个深藏的创伤：越南战争。15年前，美国在越南投入50万军队、伤亡5.8万人，最终以失败撤退。此后15年，"越南综合征"——美军极度恐惧人员伤亡和长期消耗战——主导了美国的军事思维。鲍威尔主义（"压倒性力量+明确退出策略"）就是越南综合征的产物。在海湾战争中，美军集结了二战后最大的军事联盟（34国），动员了50万+兵力——不是因为需要这么多人，而是"绝对不能再打一次越南"。\n\n【联盟政治的硬约束】整合式建构的优势也是它的约束。多国联盟中的阿拉伯盟友（沙特、埃及、叙利亚）提出了明确条件："只解放科威特，不推翻萨达姆。"推翻一个阿拉伯国家政权=西方十字军叙事坐实=国内政治无法承受。这意味着：即使美军有能力进入巴格达（事实上他们确实可以），政治上也"不应该"这样做。整合式建构的代价：必须容纳盟友的目的——而盟友的目的可能与美国的目的不一致。'},
+        {name:'伊拉克',purposes:['保留科威特（必然目的）','政权生存（终极必然目的）','成为阿拉伯世界领袖（手段性目的）'],timePreference:'high',subjectivityMode:'split',
+         dmNote:'萨达姆：党机器+军方权力基础。两伊战争（1980-88）后的经济困境——入侵科威特=劫掠财富+赖掉欠科威特的债务。摆荡式建构：泛阿拉伯主义→伊拉克民族主义，但两者矛盾——阿拉伯兄弟不会接受吞并另一个阿拉伯国家。',
+         subjectivityAnalysis:'【摆荡式建构 · "新萨拉丁"的自我催眠】萨达姆的主体性建构是摆荡式的经典案例。他从泛阿拉伯主义（纳赛尔的继承人、阿拉伯统一的领袖）摆荡到伊拉克民族主义（伊拉克优先、吞并科威特），但这两个身份互相矛盾——阿拉伯兄弟不会接受一个阿拉伯国家吞并另一个阿拉伯国家。这是摆荡式建构的典型困境：每一次摆荡都否定了上一次的身份，但没有一个身份能真正站住。\n\n【两伊战争的"胜利"幻觉】1980-88年的两伊战争是伊拉克主体性建构的关键事件。伊拉克在这场战争中伤亡50万+、经济损失数千亿、欠下巨额外债（仅科威特就欠$140亿）。但萨达姆政权将这场惨烈的消耗战宣传为"对波斯人的伟大胜利"——伊拉克是"阿拉伯世界的东大门"（阻挡伊朗输出革命）。这个叙事的问题在于：你不能一边说"我为阿拉伯世界牺牲"，一边吞并一个阿拉伯兄弟国家。科威特在两伊战争中的角色——借钱给伊拉克——本应是恩人，却被萨达姆重新定义为"欠债者偷了伊拉克的石油"。\n\n【荣誉/羞辱文化的决策约束】阿拉伯文化中的荣誉/羞辱动力学在这里扮演了关键角色。公开让步=丢脸=政权合法性动摇。两伊战争后的经济困境、对科威特的债务、国内什叶派/库尔德人的潜在不满——所有这些压力使得萨达姆需要一个"伟大的胜利"来巩固权力。"入侵科威特=控制全球20%石油储备"的幻想掩盖了所有风险评估。当撤退窗口打开时（联合国678号决议的最后期限），萨达姆无法利用——"撤退=羞辱=死亡"在他的建构中是真实的。不是他疯了，是他的建构方式不允许撤退。'},
+        {name:'以色列',purposes:['不卷入（必然目的）','维持与美国的特殊关系'],timePreference:'high',subjectivityMode:'split',
+         dmNote:'伊拉克用飞毛腿导弹攻击以色列——试图把以色列拖入战争→迫使阿拉伯盟友退出联军。以色列的克制（美国施压+爱国者导弹部署）是联盟存续的关键。',
+         subjectivityAnalysis:'【摆荡式建构 · "永远不能依赖他人保护"的创伤】以色列的主体性建构是摆荡式与互锁式的混合体。1948年建国=否定犹太人在欧洲的"无国状态"="再也不会"需要别人的保护。大屠杀记忆是身份的核心——不是历史记忆而是存在性基石："如果我们不保护自己，没人会。"这一建构使以色列在任何安全威胁面前都无法"克制"——克制=回归大屠杀前的脆弱状态。\n\n【飞毛腿攻击的身份测试】萨达姆的飞毛腿导弹攻击以色列（共42枚）是一次精心设计的主体性攻击——不是军事打击（飞毛腿精度极差），而是身份攻击："你敢不还手吗？"如果以色列还击，阿拉伯盟友就会退出联军（"我们在和以色列并肩作战？"）。以色列的不还手——在美国施压+爱国者导弹部署的帮助下——是一次罕见的"对主体性惯性的克服"。这背后是美国对以色列安全承诺的强力担保——让以色列可以在不损害"再也不会"叙事的前提下保持克制。\n\n【未被使用的维度】以色列的核武器（1960s起秘密发展但从未公开承认）是这场博弈中一个未被激活但始终存在的因素。如果飞毛腿携带的是化学弹头（萨达姆确实有化学武器），以色列的反应可能完全不同——核威慑的暗线始终在背景中存在。'}
+      ],
+      foundation:{geography:'科威特=波斯湾顶端，全球石油命脉。伊拉克和科威特平坦沙漠——没有自然屏障。沙特阿拉伯的沙漠基地是联军跳板。',economyNotes:'科威特石油储量=全球第六。伊拉克欠科威特$140亿（两伊战争借款）。石油价格因入侵飙升。',history:'两伊战争（1980-88）——伊拉克伤亡惨重、欠债累累。科威特在两伊战争中借钱给伊拉克——战后要求还债。伊拉克声称科威特历史上是伊拉克的一部分（奥斯曼时期的巴士拉省）。英国殖民划定的边界——萨达姆称"人造边界"。泛阿拉伯主义——萨达姆梦想成为纳赛尔之后的阿拉伯领袖。',culture:'阿拉伯荣誉文化——公开让步=丢脸=权力基础动摇。萨达姆的个人崇拜——把自己塑造成"新萨拉丁"（对抗十字军的阿拉伯英雄）。美国的"越南综合征"——极度恐惧人员伤亡+长期消耗战。阿拉伯世界对西方军事干预的深层不信任——十字军叙事。',ethnicity:'伊拉克：逊尼派少数统治什叶派多数+库尔德少数民族——内部裂隙巨大但此时被压制。科威特：逊尼派君主国——与沙特同族。联军中的阿拉伯国家（埃及/叙利亚/沙特）——逊尼派主导但也包含多元化。'},
+      constraints:{military:'伊拉克军队：号称全球第四——100万+兵力、5500辆坦克、化学武器（对库尔德人使用过）。联军：多国部队（34国）、压倒性空中力量、精确制导武器（新但未经大战检验）。越南综合征：美军极度恐惧人员伤亡。',institutions:'联合国安理会第678号决议——授权"一切必要手段"的合法性来源。阿拉伯联盟——分裂（埃及/叙利亚加入联军；约旦/也门/巴解组织支持伊拉克）。'},
+      externals:[{name:'阿拉伯联盟',role:'分裂——为联军提供阿拉伯合法性但也限制行动范围',impact:'极高——决定了"只解放科威特不推翻萨达姆"的政治上限'},{name:'石油市场',role:'油价波动=全球经济风险',impact:'高——日本/欧洲高度依赖中东石油'},{name:'以色列',role:'萨达姆试图拖下水',impact:'极高——如果以色列还击，阿拉伯盟友可能退出联军'}],
+      decisionPoint:'1991年1月15日。战争即将开始。萨达姆有最后机会撤退但拒绝。整个地区都在观望。'
+    },
+    actualOutcome: {
+      summary:'联军于1月17日开始空袭（38天），2月24日发动地面进攻（100小时）。伊拉克军队在科威特被团团包围——"沙漠风暴"成功。但联军停止在伊拉克边境，没有进入巴格达推翻萨达姆。萨达姆镇压了战后起义（什叶派和库尔德人）并继续统治12年。',
+      mainPath:{label:'空中歼灭+100小时地面战+停火在伊科边境',why:'压倒性技术优势+精确制导武器完全颠覆了军事预期。"越南综合征"被打破。但联盟目标仅限于解放科威特——阿拉伯盟友不允许进入巴格达（推翻一个阿拉伯政权）。'},
+      keyFactors:['精确制导武器（JDAM/巡航导弹）的革命性效果被严重低估——战前分析普遍预期数万美军伤亡','联盟政治的硬约束：阿拉伯盟友（沙特/埃及/叙利亚）的参与条件是"只解放科威特不推翻萨达姆"','萨达姆的决策者在严重信息失真下行动——他可能真的相信伊拉克军队能抵抗','飞毛腿导弹攻击以色列——如果以色列还击，联军可能破裂——这是最危险的变数但被美国控制住了','战后的"禁飞区"和制裁持续了12年——最终通向2003年伊拉克战争的种子在这里埋下'],
+      learningPoints:'最核心的洞察：技术革命可以推翻军事常识——但政治目标决定军事行动的上限。"击败但不推翻"是联盟政治的被迫选择，不是军事错误。萨达姆的主体性建构（摆荡式）使他无法体面撤退——"投降=死亡"在他的权力结构中是真实的。12年后证明：今天的不完全胜利可能种下明天的更大冲突。'
+    },
+    guidedQuestions: [
+      {step:1,title:'行为体判断',questions:[
+        {id:'gw_q1_1',type:'radio',q:'萨达姆为什么"不能"撤退？',options:['军事误判——他以为能抵抗联军','荣誉/羞辱文化——公开让步=政权合法性崩塌','缺乏准确情报——他不知道联军有多强'],answer:1},
+        {id:'gw_q1_2',type:'radio',q:'美国决策者最大的内部约束是什么？',options:['越南综合征——极度恐惧人员伤亡','阿拉伯盟友的要求——不能推翻阿拉伯政权','国内反战情绪——国会可能不批准'],answer:0}
+      ]},
+      {step:2,title:'底盘判断',questions:[
+        {id:'gw_q2_1',type:'radio',q:'地理层最关键的不对称是什么？',options:['伊拉克和科威特是平坦沙漠——无自然屏障有利于机动战','波斯湾是全球石油命脉——战争影响全球能源市场','沙特基地是联军跳板——没有沙特参与联军无法集结'],answer:0},
+        {id:'gw_q2_2',type:'radio',q:'两伊战争的历史对萨达姆的决策有什么影响？',options:['伊拉克"战胜"了伊朗——给了萨达姆军事自信','战争让伊拉克欠下巨额外债——入侵科威特=赖账+劫掠','两伊战争使萨达姆成为"阿拉伯世界的东大门"英雄'],answer:1},
+        {id:'gw_q2_3',type:'radio',q:'民族群体层的关键裂隙是什么？',options:['伊拉克的逊尼派少数统治什叶派多数——内部不稳','库尔德人的独立诉求——牵制了伊拉克兵力','科威特的大量巴勒斯坦难民——支持萨达姆'],answer:0}
+      ]},
+      {step:3,title:'约束判断',questions:[
+        {id:'gw_q3_1',type:'radio',q:'军事层面最大的被低估因素是什么？',options:['伊拉克的化学武器——从未使用但始终是威慑','精确制导武器的革命性效果——颠覆了军事常识','飞毛腿导弹攻击以色列——差点瓦解联军'],answer:1},
+        {id:'gw_q3_2',type:'radio',q:'阿拉伯联盟的分裂对结果有什么影响？',options:['为联军提供了合法性——但极大限制了行动范围（不进巴格达）','分裂削弱了伊拉克的外交支持','没有影响——联合国决议已经足够'],answer:0}
+      ]},
+      {step:4,title:'路径推演',questions:[
+        {id:'gw_q4_1',type:'radio',q:'联军最可能的行动结果是什么？',options:['空中歼灭+100小时地面战+停火在伊科边境（不推翻萨达姆）','全面入侵伊拉克推翻萨达姆——建立新政权','萨达姆在最后期限前让步——避免战争'],answer:0},
+        {id:'gw_q4_2',type:'radio',q:'12年后回头看：1991年的停火决定正确吗？',options:['正确——联盟目标只是解放科威特，完成目标就该停','错误——留下萨达姆导致了2003年更大规模战争','历史没有"正确"答案——今天的不完全胜利是明天的更大冲突的种子'],answer:2}
+      ]}
+    ]
+  },
+
+  'crimea': {
+    id:'crimea',
+    name:'克里米亚危机',
+    year:'2014年2月-3月',
+    tag:'灰色地带博弈',
+    desc:'乌克兰亲俄总统亚努科维奇被推翻后，俄罗斯迅速派出"小绿人"占领克里米亚并举行公投吞并。西方以制裁回应但未军事干预。8年后俄罗斯发动全面入侵乌克兰——克里米亚是序曲。',
+    timePoint:'2014年2月22日——亚努科维奇逃离基辅。乌克兰临时政府成立。此时克里米亚还在乌克兰控制下。俄罗斯黑海舰队基地在塞瓦斯托波尔。已知信息如下。',
+    learningGoal:'测试用户能否识别：① "灰色地带"行动的军事逻辑（低于北约第5条门槛）；② 经济相互依赖的约束力被高估了；③ 乌克兰内部的身份裂隙（东西分裂）如何被利用；④ 决策者（普京）的个人判断如何压倒国际体系的"理性预期"。',
+    timeLocked: {
+      scene:{name:'克里米亚危机',description:'乌克兰总统亚努科维奇在抗议（Euromaidan）中出逃。俄罗斯失去了在基辅的友好政权——核心战略损失：塞瓦斯托波尔海军基地的租约可能被新政府取消。克里米亚俄语人口占多数。俄罗斯刚成功举办索契冬奥会——国际声望处于高点。',date:'2014年2月'},
+      actors:[
+        {name:'俄罗斯',purposes:['保留塞瓦斯托波尔海军基地（必然目的）','阻止乌克兰倒向西方（必然目的）','恢复帝国尊严（手段性目的）'],timePreference:'high',subjectivityMode:'split',
+         dmNote:'普京：党机器权力基础。索契冬奥会刚闭幕——国际声望的"高光时刻"。摆荡式建构：否定苏联但无法建立新主体，用"俄罗斯世界"填充。亚努科维奇的倒台被视为西方颜色革命的延续——直接威胁。黑海舰队基地=220年历史+唯一的暖水不冻军港——失去=战略灾难。',
+         subjectivityAnalysis:'【摆荡式建构 · "不再是帝国"的存在性焦虑】俄罗斯1991年后的主体性建构是摆荡式的教科书案例。苏联解体=整个旧主体的崩溃——不是改革，是彻底的否定。但否定之后呢？1990年代的"休克疗法"、叶利钦的"走向西方"是一次方向性的摆荡——结果以经济崩溃和国家羞辱告终。普京的崛起是对这次摆荡的再次否定："俄罗斯世界"（Russkiy Mir）——一个用帝国残影和传统主义填充的身份框架。关键问题在于：它否定了苏联，但没有新主体能建立——只能拿帝国的碎片来拼接。\n\n【"俄罗斯世界"的矛盾结构】这个身份有三个互相矛盾的组件：① 俄罗斯是"欧洲文明的一部分"（索契冬奥会的叙事——我们和你们一样"文明"）；② 俄罗斯是"独特文明"（欧亚主义——我们不是西方也不是东方）；③ 俄罗斯是"帝国继承人"（从基辅罗斯到沙俄到苏联——我们曾经伟大）。索契冬奥会刚展示了组件①（"我们被世界认可"），但亚努科维奇的倒台触发了组件③（"西方在摧毁我们的势力范围"）。组件①和③之间的矛盾是结构性的——你不可能同时"属于欧洲"又"对抗欧洲"。\n\n【塞瓦斯托波尔的象征重量】黑海舰队基地不是一个军事基地——是220年的帝国历史。从叶卡捷琳娜大帝到苏联到俄罗斯联邦——塞瓦斯托波尔是"帝国连续性"的物理载体。失去它不等于损失一个港口——等于"帝国的最后一次退场"。摆荡式建构不能接受"退场"这个词——因为退场意味着需要建立一个新的、更小的、更普通的身份。而俄罗斯尚未准备好（也许永远不会准备好）成为"普通国家"。'},
+        {name:'乌克兰',purposes:['恢复领土完整（必然目的）','加入欧盟（手段性目的）','避免分裂（必然目的）'],timePreference:'high',subjectivityMode:'split',
+         dmNote:'临时政府：革命合法性但不稳定——军队在过渡期中混乱。乌克兰的摆荡式建构：西部亲欧vs东部亲俄——但现在"亲俄"的亚努科维奇政权已崩溃，身份认同在剧烈重塑中。东部俄语区的忠诚度被严重质疑。',
+         subjectivityAnalysis:'【摆荡式→向整合式跃迁中的临界状态】2014年的乌克兰正处在一个关键的身份临界点上。自1991年独立以来，乌克兰一直在"亲俄"和"亲欧"之间摆荡——这是摆荡式建构的典型困境：每一次大选都是一次方向性的摆荡（橙色革命→亚努科维奇→Euromaidan——每次否定前任）。这种摆荡反映了一个更深的身份问题："什么是乌克兰人？"\n\n【Euromaidan作为建构熔炉】2013-14年的Euromaidan运动（亚努科维奇拒绝签署欧盟联系国协议引发的抗议）有可能成为乌克兰身份建构的转折点。2014年前：乌克兰身份由"不是谁"来定义（不是俄罗斯人/不是苏联人/不是西方人）；2014年后：抵抗和牺牲正在锻造一个"是"的身份——"我们是那些站出来抗议并被射杀的人的同胞"。这是一个从否定式建构到肯定式建构的跃迁——但跃迁刚刚开始，尚未完成。\n\n【身份裂隙的武器化】乌克兰的摆荡式建构使得俄罗斯可以精准攻击其裂隙：东部俄语区 vs 西部乌语区。克里米亚的俄语人口占多数——俄罗斯可以声称"我们在保护自己人"。但克里米亚鞑靼人（1944年被斯大林流放、1980s回归）提供了一个反例——他们坚决反俄、亲乌克兰。这说明"俄语"≠"亲俄"——语言和身份不是同义词。但俄罗斯的行动正在加速乌克兰身份的统一——战争是身份建构的熔炉（8年后2022年全面入侵证明了这一点）。'},
+        {name:'美国/北约',purposes:['维护主权国家领土完整原则（手段性目的）','避免与俄罗斯直接军事冲突（必然目的）','维持欧洲安全秩序'],timePreference:'medium',subjectivityMode:'integrated',
+         dmNote:'奥巴马政府：第二任期跛脚鸭——国内政治优先。欧洲盟友（特别是德国）对俄罗斯的能源依赖限制了制裁力度。北约第5条不适用于乌克兰（非成员国）。红线在欧洲东部，不在克里米亚。',
+         subjectivityAnalysis:'【整合式建构 · "规则秩序"的局限性】美国的整合式建构在2014年面临一个尴尬的测试。"基于规则的国际秩序"——这是美国整合式身份的核心叙事——要求美国必须回应一个主权国家被另一个国家用武力改变边界的行为。但整合式建构需要容纳矛盾：① 必须维护原则；② 不能与俄罗斯直接冲突（核大国）；③ 欧洲盟友的能源依赖限制了制裁上限；④ 国内政治（奥巴马第二任期跛脚鸭、国会共和党的阻挠）限制了行动弹性。\n\n【"规则秩序"的灰色地带漏洞】整合式建构的设计是为了应对明确的"是/否"问题（第5条：打or不打），而不是为了应对灰色地带。俄罗斯的行动——无标识士兵、代理公投、否认-确认策略——精准地利用了整合式建构的决策慢周期。美国需要：国会同意、盟友共识、联合国讨论——这些都需要时间。俄罗斯只需要：派"小绿人"进去。速度不对称不是偶然的——是灰色地带战略的核心设计。\n\n【"不想再打一场战争"的疲惫】阿富汗和伊拉克战争（2001-2014）的疲惫深刻地塑造了美国的决策。"我们刚打完两场战争，不想再打一场"——这个心态使得美国对任何可能升级为军事介入的行动都极度谨慎。俄罗斯的行动低于战争门槛——这进一步让美国的"不介入"显得合理。但问题是：整合式建构的"不介入"可能被对手解读为"可以行动"——这正是2014年到2022年的悲剧弧线。'}
+      ],
+      foundation:{geography:'克里米亚半岛——通过狭窄的彼列科普地峡与乌克兰大陆相连。塞瓦斯托波尔是俄罗斯黑海舰队唯一的不冻港——从叶卡捷琳娜大帝时代开始。克里米亚距俄罗斯大陆（通过刻赤海峡）仅数公里——2014年尚无大桥。',economyNotes:'俄罗斯GDP约$2万亿（高度依赖能源出口）。乌克兰GDP约$1800亿（经济脆弱）。德国40%天然气来自俄罗斯（北溪管道）——能源依赖=欧洲制裁的天花板。2014年：全球经济刚从金融危机恢复，油价>$100/桶。',history:'1954年赫鲁晓夫将克里米亚划归乌克兰（当时是苏联内部行政调整）。1991年苏联解体——克里米亚留在独立的乌克兰内。1994年布达佩斯备忘录——乌克兰放弃核武器换取安全保证（已成废纸）。2004年橙色革命——亲西方力量首次上台，俄罗斯战略焦虑加剧。2008年北约布加勒斯特峰会——承诺乌克兰和格鲁吉亚"将成为北约成员"但无时间表——俄罗斯视为红线。2014年Euromaidan——亚努科维奇被推翻，俄罗斯失去在基辅的代理人。',culture:'"俄罗斯世界"vs"欧洲选择"——乌克兰身份认同的核心战场。克里米亚：俄语人口占多数、苏联/俄罗斯文化主导——但也是克里米亚鞑靼人的故土。东正教——俄罗斯和乌克兰共享但莫斯科牧首区vs基辅牧首区的竞争。索契冬奥会——俄罗斯向世界展示的"文明国家"形象与即将发生的军事行动构成巨大反差。',ethnicity:'克里米亚：俄裔~60%、乌克兰裔~24%、克里米亚鞑靼人~12%（1944年被斯大林集体流放，1980s后回归）。东部乌克兰（顿巴斯）：俄语人口占多数——可能成为下一个克里米亚（事实上8年后确实如此）。鞑靼人——坚定的亲乌克兰、反俄罗斯——在克里米亚被吞并后面临压制。'},
+      constraints:{military:'俄罗斯常规军力远超乌克兰。黑海舰队已在克里米亚驻扎。"小绿人"（无标识士兵）——低于常规战争门槛。北约不会为乌克兰而战（非成员国）。核威慑提供终极底线——但在此次博弈中更多是背景。',institutions:'布达佩斯备忘录（1994）：乌克兰放弃核武器换取俄美英的安全保证——但无强制机制（已被证明是纸）。北约扩张——在俄罗斯眼中是核心红线。欧安组织——观察员但不具强制力。联合国——俄罗斯有安理会否决权。'},
+      externals:[{name:'欧盟（特别是德国）',role:'能源依赖约束制裁力度',impact:'极高——没有德国的同意就没有有效制裁'},{name:'欧安组织',role:'派遣观察员但无力阻止',impact:'低——无强制执行能力'},{name:'中国',role:'观望——不承认吞并但不加入制裁',impact:'中——俄罗斯最重要的经济替代市场'},{name:'克里米亚鞑靼人',role:'坚决反对俄罗斯吞并',impact:'低——无军事/政治力量'}],
+      decisionPoint:'2014年2月下旬。克里米亚仍在乌克兰控制下。俄罗斯的"小绿人"开始出现但国际社会尚不确定这是否是全面吞并的前奏。乌克兰临时政府成立仅数天——军队和情报系统处于混乱。'
+    },
+    actualOutcome: {
+      summary:'俄罗斯于2月下旬派出无标识军队占领关键设施。3月16日克里米亚举行公投（97%支持入俄——无独立观察）。3月18日普京签署条约吞并克里米亚。乌克兰军队未能有效抵抗（部分单位投降或撤离）。西方实施制裁但力度有限——俄罗斯承受了经济代价但未让步。8年后（2022年）俄罗斯发动全面入侵。',
+      mainPath:{label:'灰色地带行动+公投吞并+西方有限制裁',why:'行动速度超出所有人预期。低于北约第5条门槛——西方没有军事选项。经济制裁有限（欧洲能源依赖约束）。俄罗斯承受了GDP下降和卢布贬值——但国内支持率飙升（"克里米亚效应"）。'},
+      keyFactors:['速度是关键——从"小绿人"出现到吞并完成不到一个月——西方决策周期（需要共识）远慢于俄罗斯行动速度','灰色地带的模糊性：无标识士兵=俄罗斯可以否认（"他们是自发民兵"）直到吞并完成——为西方制造了回应困难','能源依赖=制裁天花板：德国/欧洲的俄罗斯天然气依赖使得全面制裁在政治上不可能','克里米亚俄语人口占多数意味着俄罗斯的行动在国内有"民意基础"（公投结果的可信度不论）','布达佩斯备忘录被证明是一张纸——安全保证没有强制执行机制——这彻底改变了国际安全秩序的信任基础','乌克兰的摆荡式建构在此刻被打破——亲俄的亚努科维奇已逃，剩下的是正在整合的亲欧乌克兰——这反而让俄罗斯认为"现在不行动就再也没机会了"'],
+      learningPoints:'最核心的洞察：灰色地带行动（低于战争门槛但改变领土）是21世纪地缘博弈的核心创新。它利用了两大漏洞：① 国际法的模糊性（无标识士兵=可以否认）；② 西方决策的慢周期（需要选举/国会/盟国共识）。能源相互依赖的约束力被高估了——俄罗斯宁愿承受经济代价。布达佩斯备忘录的教训：没有强制执行的安全保证=废纸。危机是8年后全面战争的序曲——今天的"不完全解决"是明天的更大冲突。'
+    },
+    guidedQuestions: [
+      {step:1,title:'行为体判断',questions:[
+        {id:'cr_q1_1',type:'radio',q:'普京在索契冬奥会后采取行动，文化层的关键洞察是什么？',options:['索契展示"文明国家"形象+吞并行动=巨大反差——两种身份的撕裂','冬奥会给俄罗斯更多国际话语权','与本次危机无关——单纯军事计算'],answer:0},
+        {id:'cr_q1_2',type:'radio',q:'塞瓦斯托波尔基地对俄罗斯意味着什么？',options:['一个军事基地——可以放弃','220年帝国连续性的物理载体——失去=帝国的最后一次退场','黑海舰队的成本负担——失去反而是减负'],answer:1},
+        {id:'cr_q1_3',type:'radio',q:'乌克兰在2014年2月处于什么身份状态？',options:['亲俄——亚努科维奇政权虽然倒了但东部仍亲俄','亲欧——Euromaidan代表了全民共识','摆荡→整合的临界点——亲俄政权已崩溃但新身份尚未完成'],answer:2}
+      ]},
+      {step:2,title:'底盘判断',questions:[
+        {id:'cr_q2_1',type:'radio',q:'地理层的核心不对称是什么？',options:['克里米亚通过狭窄地峡与乌克兰相连——俄罗斯可以快速切断','黑海舰队的不冻港——俄罗斯南部唯一暖水出海口','刻赤海峡距俄罗斯大陆仅数公里——未来可以建大桥'],answer:1},
+        {id:'cr_q2_2',type:'radio',q:'经济层最重要的约束是什么？',options:['德国/欧洲的俄罗斯天然气依赖——制裁上限','油价>$100/桶——俄罗斯有足够融资','乌克兰经济脆弱——无法支撑长期抵抗'],answer:0},
+        {id:'cr_q2_3',type:'radio',q:'历史层提供的教训是什么？',options:['布达佩斯备忘录是废纸——安全保证无强制执行机制','北约东扩被俄罗斯视为红线','苏联解体的创伤——俄罗斯主体性从未重建完成'],answer:2}
+      ]},
+      {step:3,title:'约束判断',questions:[
+        {id:'cr_q3_1',type:'radio',q:'"小绿人"策略最精妙的设计是什么？',options:['伪装民兵——俄罗斯可以否认','低于北约第5条门槛——西方没有军事回应选项','快速行动——不给西方决策时间'],answer:1},
+        {id:'cr_q3_2',type:'radio',q:'西方回应的最大弱点是什么？',options:['北约不适用于乌克兰——没有集体防御义务','德国能源依赖——制裁无法升级','决策太慢——共识机制需要时间'],answer:1}
+      ]},
+      {step:4,title:'路径推演',questions:[
+        {id:'cr_q4_1',type:'radio',q:'俄罗斯最可能的行动路径是什么？',options:['全面入侵乌克兰——推翻基辅政府','灰色地带行动+代理公投吞并克里米亚+有限制裁','外交谈判——以克���米亚换北约不东扩的承诺'],answer:1},
+        {id:'cr_q4_2',type:'radio',q:'8年后回过头看：克里米亚是成功的行动还是战略错误？',options:['成功——俄罗斯获得了克里米亚和战略纵深','错误——触发了西方对乌克兰的军事支持+最终全面战争','短期成功、长期灾难——今天的胜利是明天的更大冲突'],answer:2}
+      ]}
+    ]
+  }
+};
+
+// ============================================================
+// STATE
+// ============================================================
+const steps = ['场景与时间锁定','行为体+决策者','底盘（地理·经济·历史·文化·民族）','约束+外部场域','你的路径推演','对比揭示'];
+let currentBT = null;
+let currentStep = 0;
+let userPaths = [];
+let userNotes = {};
+
+let state = {
+  scene:{name:'',description:''},
+  actorNotes:{},
+  foundationNotes:'',
+  constraintsNotes:'',
+  externalsNotes:'',
+  paths:[],
+  // ★ 新增：排除断言（「什么不可能发生」）。
+  //   与 paths（我预测会发生什么）互补 —— 而且更好测：
+  //   预测需要未来数据；排除是【单向可证伪】的，X 发生了就证伪，不必等未来。
+  exclusions:[],
+  userAnswers:{}  // NEW: guided question answers
+};
+
+// ============================================================
+// 排除断言：纯函数，可自证
+// ============================================================
+// ★ 为什么【必须】要求 criterion（「什么算它发生了」）：
+//   没有判据的排除断言不可证伪 —— 而不可证伪的断言和不可证伪的预测一样，
+//   【不携带信息】。所以这里刻意把它标出来，不静默放过。
+//   写下时补一句判据的代价是零；几个月后从散文里回头抽，代价就是口径不清。
+const EXCLUSION_SCHEMA = 'construct-exclusion-v1';
+
+// ★ 构建指纹。用户三次导出都来自旧版，而我们只能靠字段推断 —— 那次推断花了好几轮。
+//   现在把「这份页面是哪个构建、有哪些功能」直接印在页面上，一眼可核。
+//   改动工具时【必须】同时改这里，否则戳会说谎。
+const BUILD = {
+  id: 'b7-commit-history',           // 构建标识
+  date: '2026-10-02',
+  features: [                        // 有这些 = 你打开的是这份
+    '排除断言栏（含证伪条件填空题）',
+    '判据对不对题检查（词面重叠）',
+    '✔ 提交本次推演（写入历史、锁定）',
+    '未提交不许揭示历史',
+    '📚 历史推演记录（场景页）',
+    '导出排除断言 / 导出全部历史',
+    '自由笔记与决策时间点可保存回填',
+  ],
+};
+function renderBuildStamp() {
+  const el = document.getElementById('build-stamp');
+  if (!el) return;
+  el.innerHTML = '构建 <strong>' + BUILD.id + '</strong> · ' + BUILD.date
+    + '　｜　应有功能：' + BUILD.features.join(' ／ ')
+    + '　｜　<strong style="color:var(--danger)">若你看到的页面【没有】上面这些，'
+    + '说明你打开的是旧版（按 Ctrl+F5 强制刷新）</strong>';
+}
+
+// ★ 判据与被排除路径的【词面重叠度】。
+//   加这个是因为第一个真实记录就撞上了：excluded=「危机局势进一步加剧 进入核战前奏」/
+//   criterion=「互撤导弹」—— 后者不是前者的判据，它恰恰是【反面】（双方各退一步）。
+//   那其实是一个【路径预测】被填进了判据栏。
+//   ⚠️ 这是粗筛不是判决：语义等价可以零重叠。所以零重叠只报「请确认」，不判错。
+//   ★★ 这里踩过一个严重的坑：JS 的 `\W`【不是】Unicode 感知的（Python 的是）。
+//      我最初写 .replace(/[\s\W_]+/g,'')，结果把中文字【全部剥光】——
+//      任何中文判据都算 0 重叠 ⇒【每一条都被误报「不对题」】。
+//      改用 Unicode 属性转义 \p{L}\p{N}（保留各语言文字与数字）。
+function criterionOverlap(excluded, criterion) {
+  const bg = s => {
+    const t = (s || '').replace(/[^\p{L}\p{N}]/gu, '');
+    const o = [];
+    if (t.length < 2) { if (t) o.push(t); return o; }
+    for (let i = 0; i < t.length - 1; i++) o.push(t.slice(i, i + 2));
+    return o;
+  };
+  const a = bg(excluded), b = bg(criterion);
+  if (!a.length || !b.length) return 0;
+  const bs = new Set(b);
+  let inter = 0;
+  a.forEach(x => { if (bs.has(x)) inter++; });
+  return inter / Math.min(a.length, b.length);
+}
+
+function buildExclusionRecord(bt, st, nowISO) {
+  const items = (st.exclusions || []).map((x, i) => {
+    const excluded = (x.excluded || '').trim();
+    const criterion = (x.criterion || '').trim();
+    const win = (x.window || '').trim();
+    const ov = criterionOverlap(excluded, criterion);
+    const mismatch = !!criterion && ov === 0;
+    return {
+      id: (bt.id || 'bt') + '-X' + String(i + 1).padStart(2, '0'),
+      scenario: bt.name,
+      time_point: bt.timePoint,
+      excluded: excluded,
+      criterion: criterion,
+      window: win || null,
+      criterion_overlap: ov,
+      falsifiable: !!criterion && !mismatch,
+      criterion_mismatch: mismatch,
+      verdict_at_write: !criterion ? '不可证伪 ⇒ 不携带信息'
+                       : (mismatch ? '判据可能不对题 ⇒ 需人工确认' : '尚未被证伪（写下时）'),
+      note: !criterion ? '缺判据：请写清「出现什么就说明我排除的这件事发生了」，否则这条断言无法被检验'
+            : (mismatch ? '判据与被排除的路径零词面重叠：你可能把「我认为会怎么走」填进来了。'
+                          + '判据要填【证伪条件】，不是路径预测。' : '')
+    };
+  });
+  const bad = items.filter(x => !x.falsifiable);
+  const mis = items.filter(x => x.criterion_mismatch);
+  const noWin = items.filter(x => x.falsifiable && !x.window);
+  return {
+    schema: EXCLUSION_SCHEMA,
+    exported_at: nowISO,
+    scenario: bt.name,
+    scenario_id: bt.id,
+    time_lock: bt.timePoint,
+    exclusions: items,
+    summary: {
+      total: items.length,
+      falsifiable: items.filter(x => x.falsifiable).length,
+      unfalsifiable: items.filter(x => !x.falsifiable).length,
+      unfalsifiable_ids: bad.map(x => x.id),
+      criterion_mismatch: mis.length,
+      criterion_mismatch_ids: mis.map(x => x.id),
+      missing_window_ids: noWin.map(x => x.id)
+    }
+  };
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  renderBuildStamp();
+  renderScenarioGrid();
+}
+init();
+
+function renderScenarioGrid() {
+  const grid = document.getElementById('scenario-grid');
+  grid.innerHTML = Object.values(BACKTESTS).map(bt => `
+    <div class="scenario-card" onclick="startBacktest('${bt.id}')">
+      <span class="year">📅 ${bt.year}</span>
+      <h3>${bt.name}</h3>
+      <p>${bt.desc}</p>
+      <div class="meta"><span>🏷️ ${bt.tag}</span><span>📚 ${bt.actualOutcome.keyFactors.length} 个关键因素</span></div>
+    </div>
+  `).join('');
+  // ★ 历史记录挂在场景选择页上 —— 用户说「没有历史推演记录」。
+  //   每次「提交本次推演」都会进这里；它同时是「预测坟场」的入口。
+  const hist = document.getElementById('history-holder');
+  if (hist) hist.innerHTML = renderHistoryList();
+}
+
+function startBacktest(id) {
+  currentBT = BACKTESTS[id];
+  currentStep = 0;
+  userPaths = [];
+  userNotes = {};
+  state = JSON.parse(JSON.stringify(currentBT.timeLocked));
+  state.paths = [];
+  state.actorNotes = {};
+  state.userAnswers = {};
+  state.exclusions = [];
+  state.foundationNotes = '';
+  state.constraintsNotes = '';
+  state.externalsNotes = '';
+  state.pathNotes = '';
+  // ★ 提交状态必须重置：没提交就不许揭示历史
+  state.committed = false;
+  state.committedRunId = null;
+  document.getElementById('scenario-select').style.display = 'none';
+  document.getElementById('backtest-flow').style.display = 'block';
+  document.getElementById('reveal-section').classList.remove('active');
+  render();
+}
+
+function resetToScenarios() {
+  document.getElementById('scenario-select').style.display = 'block';
+  document.getElementById('backtest-flow').style.display = 'none';
+  currentBT = null; currentStep = 0;
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  if (!currentBT) return;
+  renderTimeLock();
+  renderStepBar();
+  renderStepContent();
+  updateNavButtons();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderTimeLock() {
+  const banner = document.getElementById('time-lock-banner');
+  if (currentStep >= 5) {
+    banner.innerHTML = `<div class="time-lock" style="border-color:var(--accent);background:#14120f">
+      <div class="lock-icon">🔓</div><div class="lock-body"><h4 style="color:var(--accent)">时间锁定已解除</h4><p>以下是你的推演 vs 历史实际的对比。请注意你的判断和实际之间有哪些偏差。</p></div></div>`;
+    return;
+  }
+  banner.innerHTML = `<div class="time-lock"><div class="lock-icon">🔒</div>
+    <div class="lock-body"><h4>时间锁定：${currentBT.timePoint}</h4><p>你只能看到这个时间点之前已知的信息。<strong>任何事后才知道的信息——哪怕你知道——不能用于你的判断。</strong>事后诸葛亮是廉价的，事前判断才是真功夫。</p></div></div>`;
+}
+
+function renderStepBar() {
+  const bar = document.getElementById('step-bar');
+  bar.innerHTML = steps.map((s,i)=>{
+    const cls = i===currentStep?'active':(currentStep>i?'done':'');
+    return `<div class="step-dot ${cls}" onclick="goStep(${i})">${s}</div>`;
+  }).join('');
+}
+
+function renderStepContent() {
+  const el = document.getElementById('step-content');
+  if (!el) { console.error('step-content not found'); return; }
+  let html;
+  switch(currentStep) {
+    case 0: html = renderStep0(); break;
+    case 1: html = renderStep1(); break;
+    case 2: html = renderStep2(); break;
+    case 3: html = renderStep3(); break;
+    case 4: html = renderStep4(); break;
+    case 5: html = renderStep5(); break;
+    default: html = '<p>未知步骤: '+currentStep+'</p>';
+  }
+  // v1.3 marker
+  if (currentStep === 1 && html) {
+    html = html.replace('</h3>','</h3> <span style="font-size:10px;color:var(--dim);margin-left:8px">[v1.3 · '+state.actors.length+'个行为体]</span>');
+  }
+  el.innerHTML = html;
+}
+
+// --- STEP 0: Scene & Time-locked info ---
+function renderStep0() {
+  const s = state.scene;
+  // ★ 修过一个 bug：原来这里写的是
+  //     <textarea id="s-decision" value="...">...</textarea>
+  //   两个错：① <textarea> 的 value 属性【无效】（HTML 规范里 textarea 的内容在标签之间）；
+  //   ② 回填读的是 currentBT.timeLocked.decisionPoint，而 collectState 写的是
+  //      state.scene.decisionPoint ⇒ 用户改完切走再回来，改动【被复原】。
+  //   现在：优先读 state，其次读锁定的原文。
+  const dp = (state.scene && state.scene.decisionPoint) || currentBT.timeLocked.decisionPoint || '';
+  return `<div class="panel"><h3>📋 场景设定</h3>
+    <div class="hint">以下信息是<strong>当时已知的</strong>。请基于这些信息分析，不要使用你知道的历史结果。</div>
+    <div class="field"><label>场景名称（已锁定）</label><input value="${esc(s.name)}" readonly style="opacity:.7"></div>
+    <div class="field"><label>核心矛盾（已锁定）</label><textarea rows="3" readonly style="opacity:.7">${esc(s.description)}</textarea></div>
+    <div class="field"><label>决策时间点（关键，可修改）</label><textarea id="s-decision" rows="2">${esc(dp)}</textarea></div>
+  </div>
+  <div class="info-box"><strong>📌 学习目标：</strong>${currentBT.learningGoal}</div>`;
+}
+
+
+// ============================================================
+// GUIDED QUESTIONS RENDERER
+// ============================================================
+function renderGuidedQuestions(stepNum) {
+  if (!currentBT || !currentBT.guidedQuestions) return '';
+  var gq = currentBT.guidedQuestions.find(function(g){return g.step===stepNum;});
+  if (!gq || !gq.questions) return '';
+  var h = '<div class="panel" style="margin-top:16px;border-color:var(--accent2)"><h3>🎯 引导问题 — '+esc(gq.title)+'</h3><div class="hint" style="font-size:11px">选择你认为正确的答案。这些问题设计来引导你关注博弈中最重要的维度。</div>';
+  for (var i=0; i<gq.questions.length; i++) {
+    var q = gq.questions[i];
+    var answerKey = 'q_'+stepNum+'_'+i;
+    var currentAnswer = state.userAnswers[answerKey];
+    h += '<div class="field" style="margin-bottom:16px"><label style="color:var(--text);font-size:12px;line-height:1.6">'+(i+1)+'. '+esc(q.q)+'</label>';
+    if (q.type === 'radio' && q.options) {
+      for (var oi=0; oi<q.options.length; oi++) {
+        var checked = (currentAnswer !== undefined && parseInt(currentAnswer) === oi) ? 'checked' : '';
+        var active = (currentAnswer !== undefined && parseInt(currentAnswer) === oi);
+        h += '<label style="display:block;padding:8px 12px;margin:3px 0;border-radius:6px;cursor:pointer;font-size:12px;color:var(--text2);background:var(--panel2);border:1px solid '+(active?'var(--accent)':'var(--border)')+'">';
+        h += '<input type="radio" name="gq_'+answerKey+'" value="'+oi+'" data-gq="'+answerKey+'" '+(checked?'checked':'')+' style="margin-right:8px">'+esc(q.options[oi]);
+        h += '</label>';
+      }
+    } else if (q.type === 'text') {
+      h += '<textarea data-gq="'+answerKey+'" rows="2" placeholder="'+(q.placeholder?esc(q.placeholder):'你的判断...')+'" style="font-size:12px">'+esc(currentAnswer||'')+'</textarea>';
+    }
+    h += '</div>';
+  }
+  h += '</div>';
+  return h;
+}
+
+// --- STEP 1: Actors + Decision-maker ---
+function renderStep1() {
+  try {
+    var h = '<div class="panel"><h3>👥 行为体与决策者 <span style="font-size:10px;color:var(--dim);margin-left:8px">[v1.3 · '+(state.actors?state.actors.length:0)+'个行为体]</span></h3><div class="hint">以下是<strong>当时已知的</strong>行为体信息。每个行为体附有<b>主体建构分析</b>。</div>';
+    if (!state.actors || !state.actors.length) {
+      h += '<div class="info-box" style="border-color:var(--danger)"><strong>⚠ 数据未加载</strong><p>state.actors='+JSON.stringify(state.actors)+'</p></div></div>';
+      return h;
+    }
+    var modes = {split:'摆荡式',integrated:'整合式',transactional:'交易式',frozen:'冻结局',interlocked:'互锁式'};
+    var tps = {very_low:'极低',low:'低',medium:'中等',high:'高',very_high:'极高'};
+    for (var i=0; i<state.actors.length; i++) {
+      var a = state.actors[i];
+      h += '<div class="info-box" style="border-left:3px solid var(--accent)">';
+      h += '<strong style="font-size:14px">'+esc(a.name)+'</strong>';
+      h += '<br><span style="color:var(--text2)">目的：</span>';
+      if (a.purposes && a.purposes.length) {
+        for (var j=0; j<a.purposes.length; j++) {
+          h += '<b>'+esc(a.purposes[j])+'</b>';
+          if (j < a.purposes.length-1) h += ' · ';
+        }
+      }
+      var sm = modes[a.subjectivityMode] || '—';
+      var tp = tps[a.timePreference] || '—';
+      h += '<br><span style="color:var(--text2)">时间偏好：'+tp+' | 主体性建构：'+sm+'</span>';
+      h += '<br><span class="key">决策者：</span>'+esc(a.dmNote||'(无)')+'</div>';
+      if (a.subjectivityAnalysis) {
+        h += '<div class="info-box" style="background:rgba(232,180,76,.03);border-left:3px solid var(--accent);line-height:1.8">';
+        h += '<div style="font-size:11px;color:var(--accent);margin-bottom:6px;font-weight:600">📖 主体建构分析</div>';
+        h += '<div style="font-size:12px;color:var(--text2)">'+esc(a.subjectivityAnalysis).replace(/\n/g,'<br>')+'</div></div>';
+      }
+    }
+    h += '</div>';
+    h += renderGuidedQuestions(1);
+    h += '<div class="panel" style="margin-top:12px"><h3>📝 自由笔记（非必填）</h3><div class="hint" style="font-size:11px">任何想记录的分析、疑问或判断。</div>';
+    for (var i=0; i<state.actors.length; i++) {
+      h += '<div class="field"><label>关于 '+esc(state.actors[i].name)+' 的笔记</label>';
+      h += '<textarea data-actor="'+i+'" rows="2" placeholder="可选...">'+(state.actorNotes&&state.actorNotes[i]?esc(state.actorNotes[i]):'')+'</textarea></div>';
+    }
+    h += '</div>';
+    return h;
+  } catch(e) {
+    return '<div class="panel"><h3>👥 行为体与决策者</h3><div class="info-box" style="border-color:var(--danger)"><strong>⚠ 渲染错误</strong><p>'+esc(e.message)+'</p><p style="font-size:10px;color:var(--dim)">'+esc((e.stack||'').substring(0,400))+'</p><button class="btn btn-sm" onclick="location.reload()">刷新</button></div></div>';
+  }
+}
+
+// --- STEP 2: Foundation (all 5 layers) ---
+function renderStep2() {
+  var f = state.foundation;
+  var html = '<div class="panel"><h3>🏔️ 底盘约束</h3><div class="hint">以下信息<strong>当时已知</strong>。底盘=舞台本身——<b>地理→经济→历史→文化→民族群体</b>。上层约束管下层。</div>'+
+    '<div class="info-box"><span class="key">① 地理层（最硬约束）：</span>'+esc(f.geography||'')+'</div>'+
+    '<div class="info-box"><span class="key">② 经济层：</span>'+esc(f.economyNotes||'')+'</div>'+
+    '<div class="info-box"><span class="key">③ 历史层（叙事约束）：</span>'+esc(f.history||'')+'</div>'+
+    '<div class="info-box"><span class="key">④ 文化层（行为模式）：</span>'+esc(f.culture||'')+'</div>'+
+    '<div class="info-box"><span class="key">⑤ 民族群体层（身份边界）：</span>'+esc(f.ethnicity||'')+'</div></div>';
+  html += renderGuidedQuestions(2);
+  html += '<div class="panel" style="margin-top:12px"><h3>📝 自由笔记（非必填）</h3><div class="field"><label>你的底盘判断</label><textarea id="fn-notes" rows="2" placeholder="可选...">'+esc(state.foundationNotes||'')+'</textarea></div></div>';
+  return html;
+}
+
+// --- STEP 3: Constraints + Externals ---
+function renderStep3() {
+  var html = '<div class="panel"><h3>⚔️ 约束层</h3><div class="hint">以下信息<strong>当时已知</strong>。军事是暴力约束，制度是最软约束。</div>'+
+    '<div class="info-box"><span class="key">⑥ 军事层：</span>'+esc(state.constraints.military||'')+'</div>'+
+    '<div class="info-box"><span class="key">⑦ 制度层：</span>'+esc(state.constraints.institutions||'')+'</div></div>';
+
+  if (state.externals && state.externals.length) {
+    html += '<div class="panel"><h3>🌐 外部场域</h3><div class="hint">不直接参与博弈但能改变约束条件的行为体或因素。</div>';
+    for (var ei=0; ei<state.externals.length; ei++) {
+      var e = state.externals[ei];
+      html += '<div class="info-box"><strong>'+esc(e.name)+'</strong> — '+esc(e.role)+' | 影响：'+esc(e.impact)+'</div>';
+    }
+    html += '</div>';
+  }
+  html += renderGuidedQuestions(3);
+  html += '<div class="panel" style="margin-top:12px"><h3>📝 自由笔记（非必填）</h3>'+
+    '<div class="field"><label>你对约束的判断</label><textarea id="cn-notes" rows="2" placeholder="可选...">'+esc(state.constraintsNotes||'')+'</textarea></div>'+
+    '<div class="field"><label>你对外部场域的判断</label><textarea id="ext-notes" rows="2" placeholder="可选...">'+esc(state.externalsNotes||'')+'</textarea></div></div>';
+  return html;
+}
+
+// --- STEP 4: User path prediction ---
+function renderStep4() {
+  let html = `<div class="panel"><h3>🔀 你的路径推演</h3><div class="hint">基于以上信息，推演你认为可能的发展路径。标注概率和理由。<strong>用当时的信息做判断——不是用你知道的历史结果。</strong></div>`;
+  state.paths.forEach((p,i)=>{
+    html += `<div class="path-card"><div class="path-header">
+      <span class="prob-badge ${p.probability==='high'?'prob-h':p.probability==='medium'?'prob-m':'prob-l'}">${p.label||'路径'+(i+1)}</span>
+      <button class="btn btn-sm" style="color:var(--danger);border-color:var(--danger)" onclick="removePath(${i})">删除</button>
+    </div>
+    <div class="field"><label>路径名称</label><input data-path="${i}" data-field="label" value="${esc(p.label)}"></div>
+    <div class="field"><label>概率</label><select data-path="${i}" data-field="probability">
+      <option value="high" ${p.probability==='high'?'selected':''}>高</option>
+      <option value="medium" ${p.probability==='medium'?'selected':''}>中</option>
+      <option value="low" ${p.probability==='low'?'selected':''}>低</option>
+    </select></div>
+    <div class="field"><label>你的推演判断</label><textarea data-path="${i}" data-field="why" rows="2">${esc(p.why||'')}</textarea></div></div>`;
+  });
+  html += `<button class="btn" onclick="addPath()">+ 添加路径</button></div>`;
+  html += renderExclusions();
+  html += renderGuidedQuestions(4);
+  // ★ 修过一个 bug：这里原来是 data-path="free" data-field="notes"。
+  //   collectState 用 parseInt(el.dataset.path) 取索引，parseInt('free') = NaN
+  //   ⇒ 内容被写进 state.paths[NaN]（一个非索引属性），而
+  //   ① 渲染回填读的是 state.pathNotes（【从未被写过】）⇒ 切走再回来，笔记空白；
+  //   ② state.paths.forEach 会跳过非索引属性 ⇒ 笔记【永远进不了任何导出】。
+  //   现在改用专用属性 data-note，与数字索引彻底分开。
+  html += '<div class="panel" style="margin-top:12px"><h3>📝 自由笔记（非必填）</h3><div class="field"><label>任何额外的分析或疑问</label><textarea data-note="free" rows="3" placeholder="可选...">'+esc(state.pathNotes||'')+'</textarea></div></div>';
+  // ★ 显眼的提交区。用户报「没有提交按钮，现在是揭示历史替代了提交」——
+  //   导航栏那个按钮不够，这里再给一个把话说清楚的入口。
+  const badN = (state.exclusions || []).filter(x => x && (x.excluded || '').trim() && !(x.criterion || '').trim()).length;
+  const misN = (state.exclusions || []).filter(x => x && (x.criterion || '').trim()
+                && criterionOverlap((x.excluded || '').trim(), (x.criterion || '').trim()) === 0).length;
+  html += `<div class="panel" style="margin-top:16px;border-color:${state.committed ? 'var(--accent)' : 'var(--accent2)'}">
+    <h3>${state.committed ? '✅ 已提交' : '📤 提交本次推演'}</h3>
+    <div class="hint">写完你的推演与排除断言后，<strong>先提交，再看答案</strong>。<br>
+    提交会把这份判断写进历史并<strong>锁定</strong>；之后「揭示历史」才解锁 ——
+    否则你的判断会在看到历史结果之后改变，那就不是事前判断了。</div>
+    ${(badN || misN) ? `<div class="hint" style="color:var(--danger)">⚠️ 提交前建议先修：${badN ? '<strong>缺判据 ' + badN + ' 条</strong>　' : ''}${misN ? '<strong>判据可能不对题 ' + misN + ' 条</strong>' : ''}</div>` : ''}
+    <div style="margin-top:10px">
+      <button class="btn btn-primary" onclick="navCommit()">${state.committed ? '✔ 再提交一次（会新增一条历史）' : '✔ 提交本次推演（写入历史）'}</button>
+      <button class="btn" onclick="exportBacktest()" style="margin-left:8px">📄 导出结果（Markdown）</button>
+      <button class="btn" onclick="exportExclusions()" style="margin-left:8px">🚫 导出排除断言（JSON）</button>
+    </div>
+    ${state.committed ? `<div class="hint">本次记录 id：<code>${esc(state.committedRunId||'')}</code>　·　
+      已进历史 —— 返回场景页可看到「📚 历史推演记录」，也能一键导出全部。</div>` : ''}
+  </div>`;
+  return html;
+}
+
+// --- STEP 4b: 排除断言（「什么不可能发生」）---
+// 为什么跟「路径推演」并列放在这一步：
+//   预测（会发生什么）与排除（不可能发生什么）是同一个判断的两面，
+//   但排除【更好测】—— 它单向可证伪，不需要等未来。
+function renderExclusions() {
+  let html = `<div class="panel" style="margin-top:12px">
+    <h3>🚫 我排除的路径（「不可能」断言）</h3>
+    <div class="hint">写出你认为<strong>在逻辑上不可能发生</strong>的路径。
+    每条必须填<strong>判据</strong>：<em>什么算它发生了？</em>
+    —— 没有判据的断言无法被检验，也就<strong>不携带信息</strong>。
+    但不必等未来：<strong>它一旦发生，你的断言就被证伪</strong>；它没发生，只说明尚未被证伪。</div>`;
+  (state.exclusions || []).forEach((x, i) => {
+    const crit = (x.criterion || '').trim();
+    const ov = criterionOverlap((x.excluded || '').trim(), crit);
+    const mismatch = !!crit && ov === 0;
+    const ok = !!crit && !mismatch;
+    html += `<div class="path-card" style="border-left:3px solid ${ok ? 'var(--accent)' : 'var(--danger)'}">
+      <div class="path-header">
+        <span class="prob-badge ${ok ? 'prob-h' : 'prob-l'}">排除 ${i + 1}${!crit ? ' · 缺判据' : (mismatch ? ' · 判据可能不对题' : '')}</span>
+        <button class="btn btn-sm" style="color:var(--danger);border-color:var(--danger)" onclick="removeExclusion(${i})">删除</button>
+      </div>
+      <div class="field"><label>不可能发生的路径</label>
+        <input data-exc="${i}" data-excfield="excluded" value="${esc(x.excluded || '')}"
+               placeholder="例：欧盟实现无人机生产自主化"></div>
+      <div class="field"><label>填空题 —— 如果这件事【发生了】，你会看到什么？<br>
+        <span style="color:var(--dim);font-weight:400">「它发生了」= 出现 ______</span></label>
+        <input data-exc="${i}" data-excfield="criterion" value="${esc(x.criterion || '')}"
+               placeholder="例：北约成员国军队在乌克兰境内与俄军直接交战"></div>
+      <div class="field"><label>窗口（可选，但没窗口就只是「尚未发生」）</label>
+        <input data-exc="${i}" data-excfield="window" value="${esc(x.window || '')}"
+               placeholder="例：5 年 / 至今"></div>
+      ${!crit ? '<div class="hint" style="color:var(--danger)">⚠️ 缺判据 ⇒ 这条断言不可证伪，不携带信息</div>' : ''}
+      ${mismatch ? `<div class="hint" style="color:var(--danger)">⚠️ 判据与被排除的路径【没有一个字重叠】（重叠度 ${ov.toFixed(2)}）。<br>
+        <strong>两条真实记录都栽在这里</strong>：一条填了「互撤导弹」（历史结果／预测），
+        一条填了「条约约束」（机制／理由）—— 都不是证伪条件。<br>
+        把上面那栏读成一句填空题：<strong>「它发生了」= 出现 ______</strong>，答案填在这里。<br>
+        （若两者确实语义等价、只是用词不同，忽略此提示。）</div>` : ''}
+    </div>`;
+  });
+  html += `<button class="btn" onclick="addExclusion()">+ 添加排除断言</button>`;
+  const n = (state.exclusions || []).length;
+  if (n) {
+    let bad = 0, mis = 0;
+    (state.exclusions || []).forEach(x => {
+      const c = (x.criterion || '').trim();
+      if (!c) bad++;
+      else if (criterionOverlap((x.excluded || '').trim(), c) === 0) mis++;
+    });
+    html += `<div class="hint" style="margin-top:8px">已写 ${n} 条；
+      可证伪 ${n - bad - mis} 条；<strong style="color:${bad ? 'var(--danger)' : 'var(--accent)'}">缺判据 ${bad} 条</strong>；
+      <strong style="color:${mis ? 'var(--danger)' : 'var(--accent)'}">判据可能不对题 ${mis} 条</strong></div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function addExclusion() {
+  if (!state.exclusions) state.exclusions = [];
+  state.exclusions.push({ excluded: '', criterion: '', window: '' });
+  render();
+}
+function removeExclusion(i) {
+  state.exclusions.splice(i, 1);
+  render();
+}
+
+// --- STEP 5: Comparison REVEAL ---
+function renderStep5() {
+  const ao = currentBT.actualOutcome;
+  const userPathCount = state.paths.length;
+
+  // Simple scoring
+  let scorePath = 0, scoreConstraint = 0, scoreDM = 0, scoreExternal = 0;
+  let gapAnalysis = [];
+
+  // Path score: did user predict anything close?
+  const forecastedLabels = state.paths.map(p=>(p.label||'').toLowerCase());
+  const historyLabel = (ao.mainPath.label||'').toLowerCase();
+  const histKeyWords = historyLabel.split(/[+/&]/);
+  const anyMatch = forecastedLabels.some(fl => histKeyWords.some(hk => fl.includes(hk)));
+  scorePath = anyMatch ? 5 : (userPathCount > 0 ? 2 : 0);
+
+  // Constraint score: based on user notes
+  const constNotes = (state.constraintsNotes||'').toLowerCase();
+  const dmNotesInConstraints = ao.keyFactors.filter(f=>f.includes('北约')||f.includes('安理会')||f.includes('决议')||f.includes('制裁')||f.includes('条约'));
+  if (dmNotesInConstraints.length && constNotes.length > 10) scoreConstraint = 3;
+
+  // DM score: based on actor notes
+  const hasDMNotes = Object.values(state.actorNotes).some(v=>v&&v.length>10);
+  scoreDM = hasDMNotes ? 3 : 0;
+
+  // External score
+  if (state.externalsNotes && state.externalsNotes.length > 10) scoreExternal = 2;
+
+  // Gap analysis
+  gapAnalysis.push({
+    icon:'🔍',text:`<strong>你推演了${userPathCount}条路径</strong>。历史实际路径：${ao.mainPath.label}。<br>${ao.mainPath.why}`
+  });
+  ao.keyFactors.forEach((kf,i)=>{
+    const kfLower = kf.toLowerCase();
+    const matchesUser = state.paths.some(p=>(p.why||'').toLowerCase().includes(kfLower.substring(0,8))) ||
+      (state.foundationNotes||'').toLowerCase().includes(kfLower.substring(0,8)) ||
+      (state.constraintsNotes||'').toLowerCase().includes(kfLower.substring(0,8)) ||
+      (state.externalsNotes||'').toLowerCase().includes(kfLower.substring(0,8)) ||
+      Object.values(state.actorNotes).some(v=>(v||'').toLowerCase().includes(kfLower.substring(0,8)));
+    gapAnalysis.push({icon:matchesUser?'✅':'❌',text:`${matchesUser?'<strong>你识别到了：</strong>':'<strong>你可能忽视了：</strong>'}${kf}`});
+  });
+
+  const totalScore = scorePath + scoreConstraint + scoreDM + scoreExternal;
+
+  let html = `<div class="panel"><h3>📊 对比揭示</h3>
+    <div class="score-bar">
+      <div class="score-item"><div class="score-label">路径识别</div><div class="score-value">${scorePath}/5</div><div class="score-note">${scorePath>=4?'接近历史路径':'与历史偏差较大'}</div></div>
+      <div class="score-item"><div class="score-label">约束判断</div><div class="score-value">${scoreConstraint}/3</div><div class="score-note">${scoreConstraint>=2?'洞察了关键约束':'约束分析不足'}</div></div>
+      <div class="score-item"><div class="score-label">决策者洞察</div><div class="score-value">${scoreDM}/3</div><div class="score-note">${scoreDM>=2?'注意到决策者维度':'忽略了人的因素'}</div></div>
+      <div class="score-item"><div class="score-label">外部场域</div><div class="score-value">${scoreExternal}/2</div><div class="score-note">${scoreExternal>=1?'识别了外部因素':'忽视了外部影响'}</div></div>
+    </div>
+    <p style="text-align:center;font-size:13px;color:var(--accent);margin:8px 0">综合评分：<strong>${totalScore}/13</strong></p></div>
+
+    <div class="panel" style="border-color:var(--success)"><h3>📜 历史实际结果</h3>
+    <div class="info-box">${esc(ao.summary)}</div></div>
+
+    <div class="compare-grid">
+      <div class="compare-col user"><h4>🧠 你的判断</h4>
+        ${state.paths.length===0?'<p style="color:var(--dim);font-size:12px">你没有推演任何路径</p>':state.paths.map(p=>`<div class="path-item"><span class="prob-badge ${p.probability==='high'?'prob-h':p.probability==='medium'?'prob-m':'prob-l'}">${p.label}</span><br><small style="color:var(--dim)">${esc(p.why||'')}</small></div>`).join('')}
+        ${state.foundationNotes?`<div class="path-item"><strong>底盘判断：</strong><br><small style="color:var(--dim)">${esc(state.foundationNotes)}</small></div>`:''}
+        ${state.constraintsNotes?`<div class="path-item"><strong>约束判断：</strong><br><small style="color:var(--dim)">${esc(state.constraintsNotes)}</small></div>`:''}
+        ${state.externalsNotes?`<div class="path-item"><strong>外部场域判断：</strong><br><small style="color:var(--dim)">${esc(state.externalsNotes)}</small></div>`:''}
+        ${Object.values(state.actorNotes).some(v=>v)?`<div class="path-item"><strong>决策者判断：</strong><br><small style="color:var(--dim)">${Object.values(state.actorNotes).filter(v=>v).join(' | ')}</small></div>`:''}
+      </div>
+      <div class="compare-col history"><h4>📖 历史实际</h4>
+        <div class="path-item"><span class="prob-badge prob-h">${esc(ao.mainPath.label)}</span><br><small style="color:var(--dim)">${esc(ao.mainPath.why)}</small></div>
+        <div class="path-item"><strong>关键因素（你当时不知道的）：</strong><br><small style="color:var(--dim)">${ao.keyFactors.map(kf=>'• '+esc(kf)).join('<br>')}</small></div>
+      </div>
+    </div>
+
+    <div class="panel"><h3>🔎 偏差分析</h3>
+    <div class="gap-list">${gapAnalysis.map(g=>`<div class="gap-item"><span class="gap-icon">${g.icon}</span><span class="gap-text">${g.text}</span></div>`).join('')}</div></div>
+
+    // Guided questions results
+    if (currentBT.guidedQuestions) {
+      html += '<h3>🎯 引导题结果</h3>';
+      var totalCorrect = 0, totalQuestions = 0;
+      currentBT.guidedQuestions.forEach(function(gq) {
+        gq.questions.forEach(function(q,i){
+          totalQuestions++;
+          var key = 'q_'+gq.step+'_'+i;
+          var userAnswer = state.userAnswers[key];
+          var correctAnswer = q.answer;
+          var isCorrect = (userAnswer !== undefined && parseInt(userAnswer) === correctAnswer);
+          if (isCorrect) totalCorrect++;
+          html += '<div class="info-box" style="border-left:3px solid '+(isCorrect?'var(--success)':'var(--danger)')+'">';
+          html += '<strong>'+(isCorrect?'✅':'❌')+' '+esc(q.q)+'</strong>';
+          html += '<br><span style="color:var(--text2);font-size:11px">你的选择：'+(userAnswer!==undefined?esc(q.options[parseInt(userAnswer)]||'未选择'):'未作答')+'</span>';
+          if (!isCorrect) html += '<br><span style="color:var(--success);font-size:11px">正确：'+esc(q.options[correctAnswer])+'</span>';
+          html += '</div>';
+        });
+      });
+      html += '<div class="info-box" style="text-align:center;border-color:var(--accent)"><strong>引导题正确率：'+totalCorrect+'/'+totalQuestions+'（'+(totalQuestions>0?Math.round(totalCorrect/totalQuestions*100):0)+'%）</strong></div>';
+    }
+
+    <div class="panel" style="border-color:var(--accent);background:rgba(232,180,76,.03)"><h3>💡 复盘洞察</h3>
+    <div class="info-box">${esc(ao.learningPoints)}</div></div>`;
+
+  html += `<div style="text-align:center;margin:24px 0">
+    <button class="btn" onclick="resetToScenarios()">← 返回场景选择</button>
+    <button class="btn btn-primary" onclick="resetBacktest()">🔄 重新推演</button>
+    <button class="btn" onclick="exportBacktest()">📄 导出结果</button>
+    <button class="btn" onclick="exportExclusions()">🚫 导出排除断言（JSON）</button>
+    <a class="btn" href="https://github.com/firehuzi/geopolitical-playfield/issues/new" target="_blank" style="text-decoration:none">💬 提交反馈</a>
+  </div>`;
+
+  return html;
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function goStep(i) {
+  // Allow going back freely, forward only one step at a time
+  if (i > currentStep + 1) return;
+  collectState();
+  currentStep = i;
+  if (i === 5) reveal();
+  render();
+}
+
+function prevStep() { if (currentStep > 0) { collectState(); currentStep--; render(); } }
+function nextStep() {
+  // ★ 用户报的核心问题：「揭示历史替代了提交」。
+  //   现在在最后一步【先提交，才能揭示】—— 提交不再是可绕过的。
+  if (currentStep === 4 && !state.committed) {
+    const el = document.getElementById('save-status');
+    if (el) {
+      el.innerHTML = '⛔ <strong>还不能揭示历史</strong> —— 请先点「✔ 提交本次推演」。<br>'
+        + '<span style="color:var(--dim)">提交会把这份判断写进历史并锁定；'
+        + '之后揭示历史时，你的判断已经定下来了，改不了。</span>';
+      el.style.color = 'var(--danger)';
+    }
+    alert('请先点「✔ 提交本次推演」。\n\n提交会把这份判断写进历史并锁定，之后才能揭示历史 —— 否则你的判断会在看到答案后改变。');
+    return;
+  }
+  commitStep();          // 切步时给出「已保存」回执
+  if (currentStep < 5) { currentStep++; if (currentStep===5) reveal(); render(); }
+}
+
+function isStepDone(i) {
+  return i < currentStep;
+}
+
+function updateNavButtons() {
+  document.getElementById('btn-prev').style.display = currentStep===0?'none':'';
+  document.getElementById('btn-next').style.display = currentStep===5?'none':'';
+  const bc = document.getElementById('btn-commit');
+  if (bc) {
+    // 揭示之后没有可提交的输入了
+    bc.style.display = currentStep===5?'none':'';
+    // ★ 最后一步的按钮就是【提交】——用户说「揭示历史替代了提交」，
+    //   现在提交是一个独立的、必须在揭示之前完成的动作。
+    if (currentStep === 4) {
+      bc.textContent = state.committed
+        ? '✔ 已提交（' + (state.committedRunId || '') + '）· 再提交一次'
+        : '✔ 提交本次推演（写入历史）';
+      bc.className = 'btn ' + (state.committed ? '' : 'btn-primary');
+    } else {
+      bc.textContent = '✔ 保存本步';
+      bc.className = 'btn';
+    }
+  }
+  if (currentStep===4) {
+    document.getElementById('btn-next').textContent =
+      state.committed ? '揭示历史 🔓' : '揭示历史 🔒（需先提交）';
+  } else {
+    document.getElementById('btn-next').textContent = currentStep===5 ? '' : '下一步 →';
+  }
+}
+
+function collectState() {
+  if (!state.actorNotes) state.actorNotes = {};
+
+  const sDec = document.getElementById('s-decision');
+  if (sDec) state.scene.decisionPoint = sDec.value;
+
+  document.querySelectorAll('[data-actor]').forEach(el=>{
+    state.actorNotes[el.dataset.actor] = el.value;
+  });
+
+  const fn = document.getElementById('fn-notes');
+  if (fn) state.foundationNotes = fn.value;
+
+  const cn = document.getElementById('cn-notes');
+  if (cn) state.constraintsNotes = cn.value;
+
+  const en = document.getElementById('ext-notes');
+  if (en) state.externalsNotes = en.value;
+
+  // ★ 只收【数字索引】的 data-path。原版对所有 [data-path] 一律 parseInt，
+  //   于是 data-path="free" 被算成 NaN —— 笔记进了一个永远导不出的键。
+  document.querySelectorAll('[data-path]').forEach(el=>{
+    const i = parseInt(el.dataset.path, 10);
+    if (!isFinite(i)) return;                       // 非数字索引 ⇒ 跳过（不再造 NaN 键）
+    if (!state.paths[i]) state.paths[i] = {label:'',probability:'medium',why:''};
+    state.paths[i][el.dataset.field] = el.value;
+  });
+  // 自由笔记：独立收集（原版漏了这一步的【回填】配对）
+  document.querySelectorAll('[data-note]').forEach(el=>{
+    state.pathNotes = el.value;
+  });
+}
+
+// ★ 显式提交：原版全靠切步时静默 collectState()，用户看不到「保存了没有」——
+//   这正是「自主推演没有提交按钮」的来源。现在给一个明确的提交入口 + 状态回执。
+function commitStep() {
+  collectState();
+  const nPaths = (state.paths || []).filter((p, i) => isFinite(i) && p &&
+                 (p.label || p.why)).length;
+  const nExc = (state.exclusions || []).filter(x => x && (x.excluded || x.criterion)).length;
+  const badExc = (state.exclusions || []).filter(x => x && (x.excluded || '').trim()
+                  && !(x.criterion || '').trim()).length;
+  const misExc = (state.exclusions || []).filter(x => x && (x.criterion || '').trim()
+                  && criterionOverlap((x.excluded || '').trim(), (x.criterion || '').trim()) === 0).length;
+  const nGq = Object.keys(state.userAnswers || {}).filter(k => state.userAnswers[k]).length;
+  const parts = [
+    '推演路径 ' + nPaths + ' 条',
+    '排除断言 ' + nExc + ' 条' + (badExc ? '（缺判据 ' + badExc + ' 条 ⚠️）' : '')
+                              + (misExc ? '（判据可能不对题 ' + misExc + ' 条 ⚠️）' : ''),
+    '引导题 ' + nGq + ' 题',
+    '自由笔记 ' + ((state.pathNotes || '').length) + ' 字',
+  ];
+  const el = document.getElementById('save-status');
+  if (el) {
+    el.innerHTML = '✔ <strong>已保存</strong>（第 ' + (currentStep + 1) + ' 步）　' + parts.join('　·　');
+    el.style.color = (badExc || misExc) ? 'var(--danger)' : 'var(--accent)';
+  }
+  return { nPaths, nExc, badExc, misExc, nGq };
+}
+
+function reveal() {
+  document.getElementById('reveal-section').classList.add('active');
+}
+
+// ============================================================
+// ACTIONS
+// ============================================================
+function addPath() {
+  state.paths.push({label:'',probability:'medium',why:''});
+  render();
+}
+function removePath(i) { state.paths.splice(i,1); render(); }
+
+function resetBacktest() {
+  if (!currentBT) return;
+  state = JSON.parse(JSON.stringify(currentBT.timeLocked));
+  state.paths = [];
+  state.actorNotes = {};
+  state.userAnswers = {};
+  state.exclusions = [];
+  state.foundationNotes = '';
+  state.constraintsNotes = '';
+  state.externalsNotes = '';
+  userNotes = {};
+  currentStep = 0;
+  document.getElementById('reveal-section').classList.remove('active');
+  render();
+}
+
+function exportBacktest() {
+  collectState();        // ★ 导出前先收一遍，避免最后一刻的输入漏掉
+  const ao = currentBT.actualOutcome;
+  let md = `# 历史回测结果：${currentBT.name}\n\n`;
+  md += `**时间点：** ${currentBT.timePoint}\n\n`;
+  // ★ 原来漏了这一项：用户在场景步改过的决策时间点（state.scene.decisionPoint）
+  const dpUser = (state.scene && state.scene.decisionPoint) || '';
+  if (dpUser && dpUser !== currentBT.timeLocked.decisionPoint) {
+    md += `**我修订的决策时间点：** ${dpUser}\n\n`;
+  }
+  md += `## 我的推演\n\n`;
+  state.paths.forEach(p=>{md+=`- **${p.label||'未命名'}** [概率：${p.probability||'—'}]：${p.why||''}\n`;});
+  if (state.foundationNotes) md+=`\n### 底盘判断\n\n${state.foundationNotes}\n`;
+  if (state.constraintsNotes) md+=`\n### 约束判断\n\n${state.constraintsNotes}\n`;
+  if (state.externalsNotes) md+=`\n### 外部场域判断\n\n${state.externalsNotes}\n`;
+  // ★ 原来完全漏了自由笔记（它被写进了导不出的 NaN 键里）
+  if (state.pathNotes) md+=`\n### 自由笔记\n\n${state.pathNotes}\n`;
+  Object.entries(state.actorNotes).forEach(([k,v])=>{if(v) md+=`\n### ${esc(state.actors[k]?.name||'行为体'+k)}决策者判断\n\n${v}\n`;});
+
+  // ★ 排除断言一段。判据缺了就地标红 —— 不静默放过。
+  const rec = buildExclusionRecord(currentBT, state, '（未导出 JSON）');
+  if (rec.exclusions.length) {
+    md += `\n## 我排除的路径（「不可能」断言）\n\n`;
+    md += `> 共 ${rec.summary.total} 条，可证伪 ${rec.summary.falsifiable} 条，`;
+    md += `不可证伪 ${rec.summary.unfalsifiable} 条。\n\n`;
+    rec.exclusions.forEach(x=>{
+      md += `- **${x.excluded||'（未填）'}**\n`;
+      if (x.criterion_mismatch) {
+        md += `  - ⚠️ **判据可能不对题**：填的是「${x.criterion}」，与被排除的路径零词面重叠\n`;
+        md += `  - 常见原因：把「我认为会怎么走」（路径预测）填进了判据栏\n`;
+        md += `  - 判据要填的是【证伪条件】：出现什么，就说明你排除的那件事发生了\n`;
+      } else if (x.falsifiable) {
+        md += `  - 证伪条件：${x.criterion}\n`;
+        md += `  - 窗口：${x.window||'未填 —— 那它目前只是「尚未发生」'}\n`;
+        md += `  - 状态：尚未被证伪（写下时）\n`;
+      } else {
+        md += `  - ⚠️ **未填判据 ⇒ 这条断言不可证伪，不携带信息**\n`;
+      }
+    });
+    if (rec.summary.unfalsifiable || rec.summary.criterion_mismatch) {
+      md += `\n> ⚠️ `;
+      if (rec.summary.unfalsifiable)
+        md += `有 ${rec.summary.unfalsifiable} 条断言缺判据（${rec.summary.unfalsifiable_ids.join('、')}）。`;
+      if (rec.summary.criterion_mismatch)
+        md += `有 ${rec.summary.criterion_mismatch} 条判据可能不对题（${rec.summary.criterion_mismatch_ids.join('、')}）。`;
+      md += `\n> 不可证伪的断言与不可证伪的预测一样：**不携带信息**。\n`;
+    }
+  }
+
+  md+=`\n## 历史实际\n\n${ao.summary}\n\n### 关键因素\n\n`;
+  ao.keyFactors.forEach(kf=>{md+=`- ${kf}\n`;});
+  md+=`\n### 复盘洞察\n\n${ao.learningPoints}\n`;
+  download(md,`backtest-${currentBT.id}.md`,'text/markdown');
+}
+
+// ★ 结构化导出：给对账器吃的格式（schema = construct-exclusion-v1）
+function exportExclusions() {
+  const el = document.getElementById('save-status');
+  const say = (msg, bad) => {
+    if (el) { el.innerHTML = msg; el.style.color = bad ? 'var(--danger)' : 'var(--accent)'; }
+  };
+  // ★ 修：原版 !currentBT 时【完全静默】return，用户只会看到「点了没反应」。
+  if (!currentBT) {
+    say('⛔ 还没选场景 ⇒ 没有可导出的东西。请先在上方选一个场景。', true);
+    alert('还没有选场景。请先在页面上选一个场景，走到最后一步再导出。');
+    return;
+  }
+  collectState();        // 导出前先收一遍，避免最后一刻的输入漏掉
+  const rec = buildExclusionRecord(currentBT, state, new Date().toISOString());
+
+  // ★ 修：原版在【一条都没写】时直接 return 不产文件 —— 于是「没文件」有两种含义
+  //   （没点按钮 / 点了但没东西），分不清。现在即使空也照样导出：
+  //   空记录本身是信息（「我没做排除断言」），且让失败模式变得可区分。
+  const problems = [];
+  if (rec.summary.unfalsifiable)
+    problems.push('有 ' + rec.summary.unfalsifiable + ' 条【缺判据】，不可证伪，不携带信息。');
+  if (rec.summary.criterion_mismatch)
+    problems.push('有 ' + rec.summary.criterion_mismatch + ' 条【判据可能不对题】'
+                  + '（与被排除的路径零词面重叠）—— 很可能把「我认为会怎么走」填进了判据栏。');
+  if (rec.summary.total === 0)
+    problems.push('你【一条排除断言都没写】。导出的会是一份空记录 —— 这本身也是信息，'
+                  + '但如果你本来想写，请先写。');
+  if (problems.length) {
+    if (!confirm(problems.join('\n\n') + '\n\n仍然导出吗？')) {
+      say('已取消导出。（没有下载任何文件）', true);
+      return;
+    }
+  }
+  download(JSON.stringify(rec, null, 2),
+           `exclusions-${currentBT.id}.json`, 'application/json');
+  say('📄 <strong>已导出</strong> exclusions-' + currentBT.id + '.json　（排除断言 '
+      + rec.summary.total + ' 条）' + (rec.summary.total === 0 ? '　⚠️ 一条都没写' : ''),
+      rec.summary.total === 0 || rec.summary.unfalsifiable > 0 || rec.summary.criterion_mismatch > 0);
+}
+
+// ══════════════════════════════════════════════════════════════
+// 提交 与 历史记录
+// ══════════════════════════════════════════════════════════════
+// ★ 用户的原话：「还是没有提交按钮，现在是揭示历史替代了提交」＋「没有历史推演记录」。
+//   这两句是同一件事：写推演 →【揭示历史直接看答案】，中间缺一个把判断【定下来】的动作。
+//   「保存本步」只是草稿保存，不是提交。
+//   ⇒ 现在把「提交」做成真动作：写进历史（localStorage），并【解锁】揭示历史。
+//     没提交就揭示不了 —— 提交不再能被绕过。
+const HISTORY_KEY = 'construct_backtests_v1';
+
+function loadHistory() {
+  try {
+    const raw = (typeof localStorage !== 'undefined') ? localStorage.getItem(HISTORY_KEY) : null;
+    const h = raw ? JSON.parse(raw) : [];
+    return Array.isArray(h) ? h : [];
+  } catch (e) { return []; }
+}
+function saveHistory(h) {
+  try {
+    if (typeof localStorage === 'undefined') return false;
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(h));
+    return true;
+  } catch (e) { return false; }
+}
+
+// 一次完整推演的记录（提交时才生成）—— 这是「预测坟场」要装的东西
+function buildRunRecord(bt, st, nowISO) {
+  const rec = buildExclusionRecord(bt, st, nowISO);
+  const paths = (st.paths || []).filter((p, i) => isFinite(i) && p && (p.label || p.why))
+                  .map(p => ({ label: p.label || '', probability: p.probability || '', why: p.why || '' }));
+  const gq = {};
+  Object.keys(st.userAnswers || {}).forEach(k => { if (st.userAnswers[k]) gq[k] = st.userAnswers[k]; });
+  const bad = (rec.summary.unfalsifiable || 0) + (rec.summary.criterion_mismatch || 0);
+  return {
+    schema: 'construct-run-v1',
+    run_id: bt.id + '-' + String(nowISO).replace(/[^0-9]/g, '').slice(0, 14),
+    committed_at: nowISO,
+    scenario: bt.name,
+    scenario_id: bt.id,
+    time_lock: bt.timePoint,
+    time_lock_revised: (st.scene && st.scene.decisionPoint) || null,
+    paths: paths,
+    actor_notes: st.actorNotes || {},
+    foundation_notes: st.foundationNotes || '',
+    constraints_notes: st.constraintsNotes || '',
+    externals_notes: st.externalsNotes || '',
+    free_notes: st.pathNotes || '',
+    guided_answers: gq,
+    exclusions: rec.exclusions,
+    exclusion_summary: rec.summary,
+    readout: {
+      paths: paths.length,
+      exclusions: rec.summary.total,
+      unfalsifiable: rec.summary.unfalsifiable,
+      criterion_mismatch: rec.summary.criterion_mismatch,
+      problem_ratio: rec.summary.total ? bad / rec.summary.total : null
+    }
+  };
+}
+
+function commitBacktest() {
+  const el = document.getElementById('save-status');
+  const say = (m, bad) => { if (el) { el.innerHTML = m; el.style.color = bad ? 'var(--danger)' : 'var(--accent)'; } };
+  if (!currentBT) { say('⛔ 还没选场景。', true); return null; }
+  collectState();
+  const rec = buildRunRecord(currentBT, state, new Date().toISOString());
+  if (rec.exclusions.length === 0) {
+    if (!confirm('你【没有写任何排除断言】—— 这份记录里没有可检验的东西。\n\n仍然提交吗？')) {
+      say('已取消提交。', true);
+      return null;
+    }
+  }
+  const h = loadHistory();
+  h.unshift(rec);
+  const okSaved = saveHistory(h);
+  state.committed = true;
+  state.committedRunId = rec.run_id;
+  const r = rec.readout;
+  const bad = (r.unfalsifiable || 0) + (r.criterion_mismatch || 0);
+  say('✔ <strong>已提交</strong> ' + rec.run_id + '　·　路径 ' + r.paths + ' 条　·　排除断言 '
+      + r.exclusions + ' 条' + (bad ? '（有问题 ' + bad + ' 条 ⚠️）' : '')
+      + '　·　已进历史（第 ' + h.length + ' 次）'
+      + (okSaved ? '' : '　⚠️ 本机存储写入失败（历史只在本次会话有效）'),
+      !okSaved || bad > 0);
+  return rec;
+}
+
+function exportHistory() {
+  const h = loadHistory();
+  if (!h.length) { alert('历史里还没有记录。走完一个场景、点「✔ 提交本次推演」后就有了。'); return; }
+  download(JSON.stringify({ schema: 'construct-history-v1', exported_at: new Date().toISOString(),
+                            count: h.length, runs: h }, null, 2),
+           'construct-history.json', 'application/json');
+}
+
+function deleteHistoryRun(runId) {
+  if (!confirm('删除这条历史记录？\n' + runId)) return;
+  saveHistory(loadHistory().filter(r => r.run_id !== runId));
+  renderScenarioGrid();
+}
+
+function renderHistoryList() {
+  const h = loadHistory();
+  if (!h.length) return '';
+  let html = '<div class="panel" style="margin-top:20px"><h3>📚 历史推演记录（' + h.length + ' 次）</h3>'
+    + '<div class="hint">每次「提交本次推演」都会留在这里。'
+    + '这是「预测坟场」要装的东西 —— 失败的、不可证伪的，都要留着。</div>'
+    + '<div style="margin-top:10px"><button class="btn" onclick="exportHistory()">⬇ 导出全部历史（JSON）</button></div>';
+  h.forEach(r => {
+    const q = r.readout || {};
+    const bad = (q.unfalsifiable || 0) + (q.criterion_mismatch || 0);
+    html += '<div class="path-card" style="margin-top:10px">'
+      + '<div class="path-header"><span class="prob-badge ' + (bad ? 'prob-l' : 'prob-h') + '">'
+      + esc(r.scenario) + '</span>'
+      + '<button class="btn btn-sm" style="color:var(--danger);border-color:var(--danger)" '
+      + 'onclick="deleteHistoryRun(\'' + r.run_id + '\')">删除</button></div>'
+      + '<div class="hint" style="font-size:11px">'
+      + '提交于 ' + esc(String(r.committed_at || '').replace('T', ' ').slice(0, 19)) + '　·　'
+      + '路径 ' + (q.paths || 0) + ' 条　·　排除断言 ' + (q.exclusions || 0) + ' 条　·　'
+      + (q.exclusions
+          ? '有问题 <strong style="color:' + (bad ? 'var(--danger)' : 'var(--accent)') + '">' + bad + '</strong> 条'
+          : '⚠️ 无排除断言')
+      + '</div></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+// 导航上的提交按钮：最后一步是【提交】，其余步是【保存本步】。
+// 抽出来是为了让按钮行为与 updateNavButtons 的标签一致（原来是硬编码 commitStep）。
+function navCommit() {
+  if (currentStep === 4) {
+    const rec = commitBacktest();
+    if (rec) render();      // 重渲染：按钮变「已提交」、揭示按钮解锁
+  } else {
+    commitStep();
+  }
+}
+
+// ★ 自证：这段逻辑必须能【失败】才可信。控制台里调 selfTestExclusion()。
+//   ★ 改过一轮：原来占位符用 'X' / 'Y≥1' / 'Y'，它们互相零重叠 ——
+//     加了「判据对不对题」检查后，那几条自己变成了「不对题」，断言全崩。
+//     改用【真实形状的中文对】，并补上不对题方向。
+function selfTestExclusion() {
+  const bt = {id:'t', name:'T', timePoint:'X'};
+  let n = 0, fail = 0;
+  const ck = (name, cond, detail) => {
+    if (cond) { n++; console.log('  ✅ ' + name); }
+    else { fail++; console.log('  ❌ ' + name + '   ' + (detail || '')); }
+  };
+
+  // 0) 重叠度：中文必须保住（防 JS 的 \W 把中文剥光那个坑）
+  ck('★重叠度：同一串中文得 1', criterionOverlap('中国', '中国') === 1);
+  ck('★重叠度：真实那一对（核战前奏 vs 互撤导弹）得 0',
+     criterionOverlap('危机局势进一步加剧 进入核战前奏', '互撤导弹') === 0);
+  ck('重叠度：对题的一对 > 0',
+     criterionOverlap('欧盟自主建军', '欧盟把防务预算主权上交') > 0);
+
+  // 1) 缺判据 ⇒ 不可证伪（这是整个扩展的目的）
+  let r = buildExclusionRecord(bt, {exclusions:[{excluded:'欧盟自主建军', criterion:'', window:'5年'}]}, 'now');
+  ck('缺判据 ⇒ falsifiable=false', r.exclusions[0].falsifiable === false);
+  ck('缺判据 ⇒ 计入 unfalsifiable', r.summary.unfalsifiable === 1);
+  ck('缺判据 ⇒ note 说明「不携带信息／无法被检验」',
+     /不携带信息|无法被检验/.test(r.exclusions[0].note), r.exclusions[0].note);
+
+  // 2) 判据对题且有窗口 ⇒ 可证伪
+  r = buildExclusionRecord(bt, {exclusions:[
+      {excluded:'欧盟自主建军', criterion:'欧盟把防务预算主权上交', window:'5年'}]}, 'now');
+  ck('判据对题 ⇒ falsifiable=true', r.exclusions[0].falsifiable === true);
+  ck('判据对题 ⇒ unfalsifiable=0', r.summary.unfalsifiable === 0);
+  ck('判据对题 ⇒ criterion_mismatch=0', r.summary.criterion_mismatch === 0);
+
+  // 3) ★判据不对题 ⇒ 单列（真实记录打出来的那一档）
+  r = buildExclusionRecord(bt, {exclusions:[
+      {excluded:'危机局势进一步加剧 进入核战前奏', criterion:'互撤导弹', window:'3年'}]}, 'now');
+  ck('★判据零重叠 ⇒ criterion_mismatch=true', r.exclusions[0].criterion_mismatch === true);
+  ck('★判据零重叠 ⇒ falsifiable=false（不算成可证伪）', r.exclusions[0].falsifiable === false);
+  ck('★判据零重叠 ⇒ summary 单列计数与 id',
+     r.summary.criterion_mismatch === 1 && r.summary.criterion_mismatch_ids[0] === 't-X01');
+  ck('★判据零重叠 ⇒ note 指出可能把路径预测填进判据栏',
+     /路径预测|证伪条件/.test(r.exclusions[0].note), r.exclusions[0].note);
+
+  // 4) 判据只有空白字符 ⇒ 也算缺（必须 trim）
+  r = buildExclusionRecord(bt, {exclusions:[{excluded:'欧盟自主建军', criterion:'   ', window:''}]}, 'now');
+  ck('★判据只有空格 ⇒ 也算缺（trim）', r.exclusions[0].falsifiable === false);
+
+  // 5) 有判据但无窗口 ⇒ 仍可证伪，但要单列提醒
+  r = buildExclusionRecord(bt, {exclusions:[
+      {excluded:'欧盟自主建军', criterion:'欧盟把防务预算主权上交', window:''}]}, 'now');
+  ck('有判据无窗口 ⇒ 仍可证伪', r.exclusions[0].falsifiable === true);
+  ck('有判据无窗口 ⇒ 计入 missing_window_ids', r.summary.missing_window_ids.length === 1);
+
+  // 6) 边界
+  r = buildExclusionRecord(bt, {exclusions:[]}, 'now');
+  ck('空列表 ⇒ total=0 且不报错', r.summary.total === 0);
+  r = buildExclusionRecord(bt, {}, 'now');
+  ck('exclusions 未定义 ⇒ 不崩', r.summary.total === 0);
+
+  // 7) id 稳定有序
+  r = buildExclusionRecord(bt, {exclusions:[
+      {excluded:'欧盟自主建军', criterion:'欧盟把防务预算主权上交'},
+      {excluded:'伊朗承认以色列', criterion:'伊朗与以色列建交'}]}, 'now');
+  ck('id 稳定有序', r.exclusions[0].id === 't-X01' && r.exclusions[1].id === 't-X02',
+     r.exclusions.map(x=>x.id).join(','));
+
+  console.log(`自证：通过 ${n}，失败 ${fail}`);
+  return fail === 0;
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function esc(s) { if (!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function download(content,filename,mime) { const b=new Blob([content],{type:mime}); const u=URL.createObjectURL(b); const a=document.createElement('a'); a.href=u; a.download=filename; a.click(); URL.revokeObjectURL(u); }
+
+// DOM event delegation
+document.addEventListener('input', function(e) {
+  const t = e.target;
+  if (t.dataset.actor !== undefined) state.actorNotes[t.dataset.actor] = t.value;
+  if (t.dataset.path !== undefined) {
+    // ★ 与 collectState 同修：非数字索引直接跳过，不再造 NaN 键
+    const i = parseInt(t.dataset.path, 10);
+    if (isFinite(i)) {
+      if (!state.paths[i]) state.paths[i] = {label:'',probability:'medium',why:''};
+      state.paths[i][t.dataset.field] = t.value;
+    }
+  }
+  // ★ 自由笔记：边打边存（原版这里也把它算成 NaN 索引）
+  if (t.dataset.note !== undefined) state.pathNotes = t.value;
+  // Guided questions (text type)
+  if (t.dataset.gq !== undefined) state.userAnswers[t.dataset.gq] = t.value;
+  // ★ 排除断言：三栏都要收（判据那一栏是关键，缺它这条断言就不可证伪）
+  if (t.dataset.exc !== undefined) {
+    const i = parseInt(t.dataset.exc);
+    if (!state.exclusions) state.exclusions = [];
+    if (!state.exclusions[i]) state.exclusions[i] = { excluded: '', criterion: '', window: '' };
+    state.exclusions[i][t.dataset.excfield] = t.value;
+  }
+});
+document.addEventListener('change', function(e) {
+  const t = e.target;
+  if (t.dataset.path !== undefined && t.dataset.field === 'probability') {
+    const i = parseInt(t.dataset.path);
+    if (!state.paths[i]) state.paths[i] = {label:'',probability:'medium',why:''};
+    state.paths[i].probability = t.value;
+  }
+  // Guided questions (radio type)
+  if (t.dataset.gq !== undefined && t.type === 'radio') {
+    state.userAnswers[t.dataset.gq] = t.value;
+  }
+});
+</script>
+</body>
+</html>

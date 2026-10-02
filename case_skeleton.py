@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """case_skeleton.py —— 案例骨架生成器（用户选的 a 段：纯机器的那一半）
 
 ★★ 做什么
@@ -101,7 +101,7 @@ def units(dyads: dict) -> list:
     return out
 
 
-def select(dyads: dict, n_high: int, n_quiet: int) -> tuple:
+def select(dyads: dict, n_high: int, n_quiet: int, states_only: bool = False) -> tuple:
     """选两臂。
 
     ★ 第一版我犯了个错：对照臂从【所有】双边对里挑安静年，于是高冲突臂讲 Israel-Hamas、
@@ -112,6 +112,8 @@ def select(dyads: dict, n_high: int, n_quiet: int) -> tuple:
       最低也是一年 1-3 起事件。所以这里的「对照臂」严格说是【低冲突臂】，
       不是零效应臂。要做真零，需要另一个数据源（COW MID 的和平年／GDELT 全部事件）。
     """
+    if states_only:                                  # ★ 用户定的范围：先只做国家主体
+        dyads = {k: v for k, v in dyads.items() if is_state_state(k)}
     us = units(dyads)
     by_dyad = {}
     for d, y, e, dd in us:
@@ -155,6 +157,20 @@ def select(dyads: dict, n_high: int, n_quiet: int) -> tuple:
 
 
 # ══ 骨架 ════════════════════════════════════════════════════════════════════════
+def is_state_state(dyad: str) -> bool:
+    """国家对国家（用户 2026-10-02 定的范围：**先只做国家主体**）。
+
+    UCDP 的 side_a 若为国家，写的是 `Government of <国名>`；非国家行为体则不是
+    （`Hamas` / `IS` / `TTP` / `ETIM` / `Kachin Independence Organization`…）。
+    ⇒ 两边都以 `Government of` 开头的，才算是国家对国家。
+
+    ★ 这个判定是【保守】的：`Government of X` 里 X 也可能是非国家实体
+      （如历史上的傀儡政权），但那种情况极少，宁可少收不可误收。
+    """
+    a, _, b = dyad.partition(" || ")
+    return a.startswith("Government of") and b.startswith("Government of")
+
+
 def case_id_for(dyad: str, year: str) -> str:
     """案例 id。★ 必须唯一 —— 第一版是 `re.sub(...)[:40] + '@' + year`，
     结果 `Bosnia-Herzegovina || Serbian Republic of Bosnia-Herzegovina`(high)
@@ -238,10 +254,10 @@ def skeleton(dyad: str, year: str, events: int, deaths: int, arm: str, idx: dict
     return s
 
 
-def build(n: int) -> tuple:
+def build(n: int, states_only: bool = True) -> tuple:
     dyads = load_dyads()
     idx = archive_index()
-    h, q = select(dyads, (n + 1) // 2, n // 2)
+    h, q = select(dyads, (n + 1) // 2, n // 2, states_only=states_only)
     os.makedirs(OUT_DIR, exist_ok=True)
     made, seen = [], {}
     for arm, sel in (("high", h), ("quiet", q)):
@@ -336,6 +352,12 @@ def selftest() -> int:
             print("  ❌ %s   %s" % (name, detail))
 
     print("# case_skeleton 自证")
+    # ★ 用户定的范围：先只做国家主体
+    ck("★国家对国家判定：Government of X || Government of Y ⇒ True",
+       is_state_state("Government of Iraq || Government of Kuwait") is True)
+    ck("★国家对国家判定：含非国家行为体 ⇒ False",
+       is_state_state("Government of Israel || Hamas") is False
+       and is_state_state("Government of China || ETIM") is False)
     ck("★clean_name 去掉 Government of",
        clean_name("Government of Iraq") == "Iraq", clean_name("Government of Iraq"))
     ck("★clean_name 去掉括号里的别名",
@@ -345,6 +367,16 @@ def selftest() -> int:
 
     dyads = load_dyads()
     ck("★能读到双边对（>50 个）", len(dyads) > 50, str(len(dyads)))
+    # ★ 这个数字是要紧的：只做国家主体后，池子从 126 对缩到 12 对
+    _ss = {k: v for k, v in dyads.items() if is_state_state(k)}
+    ck("★★states_only 过滤后池子里【没有任何非国家对】",
+       all(is_state_state(k) for k in _ss))
+    ck("★★国家对国家的对数【远小于】全部对数 —— 这是取样能力的天花板",
+       len(_ss) < len(dyads) / 5, "国家 %d / 全部 %d" % (len(_ss), len(dyads)))
+    _us = units(_ss)
+    _h = [u for u in _us if u[3] >= WAR_DEATHS]
+    ck("★★国家对国家里【达战争门槛的单元数是个位数】—— 撑不起「一批」",
+       len(_h) < 10, str(len(_h)))
     us = units(dyads)
     ck("★能摊平成对-年单元（>500）", len(us) > 500, str(len(us)))
     ck("★单元结构正确（4 元组，年-计数-死亡）",

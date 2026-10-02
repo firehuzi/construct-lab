@@ -1,51 +1,53 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_Israel_Hamas_cd74a3@1997",
-  "arm": "quiet",
+  "case_id": "Government_of_Afghanistan_Government_f7433e@2001",
+  "arm": "high",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of Israel || Hamas",
-    "year": "1997",
-    "events": 1,
-    "deaths": 1
+    "dyad_raw": "Government of Afghanistan || Government of United Kingdom, Government of United States of America",
+    "year": "2001",
+    "events": 100,
+    "deaths": 1397
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of Israel || Hamas",
-      "year": "1997",
-      "events": 1,
-      "deaths": 1
+      "dyad": "Government of Afghanistan || Government of United Kingdom, Government of United States of America",
+      "year": "2001",
+      "events": 100,
+      "deaths": 1397
     },
-    "event_date": "1997",
+    "event_date": "2001",
     "time_lock": null,
     "actors": [
-      "Israel",
-      "Hamas"
+      "Afghanistan",
+      "United Kingdom, Government of United States of America"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of Israel || Hamas",
-      "year": "1997",
-      "events": 1,
-      "deaths": 1,
+      "dyad": "Government of Afghanistan || Government of United Kingdom, Government of United States of America",
+      "year": "2001",
+      "events": 100,
+      "deaths": 1397,
       "war_threshold": 1000,
-      "meets_war_threshold": false
+      "meets_war_threshold": true
     },
     "archive": {
-      "Israel": {
-        "ref": "ConStruct_Archive\\Tier1\\Israel.md",
-        "status": "有档案"
+      "Afghanistan": {
+        "ref": null,
+        "status": "★ 无档案"
       },
-      "Hamas": {
+      "United Kingdom, Government of United States of America": {
         "ref": null,
         "status": "★ 无档案"
       }
     },
-    "coalition_sides": [],
-    "side_is_coalition": false
+    "coalition_sides": [
+      "United Kingdom, Government of United States of America"
+    ],
+    "side_is_coalition": true
   },
   "path_space": {
     "paths": [],
@@ -96,6 +98,7 @@
     "event.text",
     "event.time_lock",
     "path_space.paths",
-    "path_space.exclusions"
+    "path_space.exclusions",
+    "data_layer.actors —— 这一边的 side 是【联盟】，要先拆成单个主体"
   ]
 }

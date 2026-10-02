@@ -1,46 +1,46 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_Bosnia_Herzegovina_Ser_d0722c@1992",
+  "case_id": "Government_of_India_Government_of_Pa_9872e2@2023",
   "arm": "quiet",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of Bosnia-Herzegovina || Serbian irregulars",
-    "year": "1992",
-    "events": 2,
-    "deaths": 25
+    "dyad_raw": "Government of India || Government of Pakistan",
+    "year": "2023",
+    "events": 1,
+    "deaths": 1
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of Bosnia-Herzegovina || Serbian irregulars",
-      "year": "1992",
-      "events": 2,
-      "deaths": 25
+      "dyad": "Government of India || Government of Pakistan",
+      "year": "2023",
+      "events": 1,
+      "deaths": 1
     },
-    "event_date": "1992",
+    "event_date": "2023",
     "time_lock": null,
     "actors": [
-      "Bosnia-Herzegovina",
-      "Serbian irregulars"
+      "India",
+      "Pakistan"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of Bosnia-Herzegovina || Serbian irregulars",
-      "year": "1992",
-      "events": 2,
-      "deaths": 25,
+      "dyad": "Government of India || Government of Pakistan",
+      "year": "2023",
+      "events": 1,
+      "deaths": 1,
       "war_threshold": 1000,
       "meets_war_threshold": false
     },
     "archive": {
-      "Bosnia-Herzegovina": {
-        "ref": null,
-        "status": "★ 无档案"
+      "India": {
+        "ref": "ConStruct_Archive\\Tier2\\India.md",
+        "status": "有档案"
       },
-      "Serbian irregulars": {
-        "ref": "ConStruct_Archive\\Tier2\\Serbia.md",
+      "Pakistan": {
+        "ref": "ConStruct_Archive\\Tier3\\Pakistan.md",
         "status": "有档案"
       }
     },

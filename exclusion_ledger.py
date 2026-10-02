@@ -69,7 +69,7 @@ E = [
     dict(id="X-07", actor="印度/巴基斯坦", claim="巴基斯坦的核武器使印度无法发动全面战争",
          why="核威慑冻结",
          src="ConStruct_Archive/Scenarios/Scenario_005_India_Pakistan.md",
-         window="至今", check="ucdp:IN-PK:2020"),
+         window="至今", check="ucdpwar:IN-PK:2008"),
     dict(id="X-08", actor="中国", claim="中国无法在北极理事会中拥有正式决策权",
          why="中国不是北极国家",
          src="ConStruct_Archive/Scenarios/Scenario_006_Arctic.md",
@@ -105,7 +105,9 @@ E = [
     dict(id="X-16", actor="乌克兰", claim="乌克兰在地面无法取得决定性突破",
          why="双方消耗战结构",
          src="ConStruct_Archive/Scenarios/Scenario_004_Russia_Ukraine.md",
-         window="2年", check="ucdp:UA-RU:2023"),
+         window="2年", check=None,
+         note_why="★ 定阈值【解决不了】这一条：它排除的是「领土突破」，不是「是否构成战争」。"
+                  "口径不对题 ⇒ 它需要的是领土控制数据，不是阈值。"),
     dict(id="X-17", actor="欧盟", claim="任何打破锁死的尝试都=修改 Identity 核心=EU 死亡 ⇒ 锁死无法从内部打破",
          why="共识即身份",
          src="WB/2026-06-09-17-25-25/ConStruct_MultiPath_001_EU_Future.md",
@@ -130,12 +132,58 @@ STATE_NEED_THRESHOLD = "🔧 断言需先定阈值（卡在方法，不是数据
 
 UCDP = os.path.join(HERE, "data", "ucdp_actors.json")
 
+# ══ 预登记的阈值定义（冻结；改它必须同时改这里的注释与日期）══════════════════════
+# ★ 为什么不自己发明一个数字：**UCDP 自身就把「战争（war）」定义为年度战斗相关死亡 ≥ 1000**。
+#   锚在数据源自己的标准上，口径就不在我手里 —— 我也就不能事后调它。
+#   定义日期：2026-10-02（首次写下即冻结；此前 18 条断言里 2 条因「无阈值」判不了）
+WAR_DEATH_THRESHOLD = 1000
+WAR_THRESHOLD_SOURCE = "UCDP：年度战斗相关死亡 ≥ 1000 即构成「战争」"
+WAR_THRESHOLD_DEFINED = "2026-10-02"
+
 
 def _pairs() -> dict:
     if not os.path.exists(UCDP):
         return {}
     with open(UCDP, encoding="utf-8") as fh:
         return (json.load(fh) or {}).get("pairs", {}) or {}
+
+
+def _pair_deaths() -> dict:
+    if not os.path.exists(UCDP):
+        return {}
+    with open(UCDP, encoding="utf-8") as fh:
+        return (json.load(fh) or {}).get("pair_deaths", {}) or {}
+
+
+def check_ucdp_war(a: str, b: str, since: int) -> dict:
+    """用【预登记的 UCDP 战争阈值】核对「无法发动全面战争」这类断言。
+
+    判法（全部先于结果定死）：
+      · 窗口内任一年死亡 ≥ 1000  ⇒ 全面战争发生过 ⇒ 【证伪】
+      · 窗口内每年都 < 1000      ⇒ 尚未被证伪（并报出峰值年，便于复核）
+      · 没有该双边对             ⇒ 数据不够
+    """
+    d = _pair_deaths().get("-".join(sorted([a, b])))
+    if not d:
+        return {"ok": None, "kind": "nodata",
+                "ev": "UCDP 里没有 %s-%s 的年度死亡数据 ⇒ 数据不够" % (a, b)}
+    yrs = {y: v for y, v in d.items() if y.isdigit() and int(y) >= since}
+    if not yrs:
+        return {"ok": None, "kind": "nowindow",
+                "ev": "UCDP 覆盖 %s–%s，但 %d 年起无数据 ⇒ 窗口不在数据里"
+                      % (min(d), max(d), since)}
+    top = max(yrs, key=lambda y: yrs[y])
+    hit = [y for y, v in yrs.items() if v >= WAR_DEATH_THRESHOLD]
+    if hit:
+        return {"ok": True, "kind": "war",
+                "ev": "阈值 %d（%s）—— 窗口内 %s 达门槛（最高 %s 年 %d 死）⇒ 【全面战争发生过，断言被证伪】"
+                      % (WAR_DEATH_THRESHOLD, WAR_THRESHOLD_SOURCE.split("：")[0],
+                         "、".join(sorted(hit)), top, yrs[top])}
+    return {"ok": False, "kind": "below",
+            "ev": "阈值 %d（%s）—— 窗口内 %d 年【全部】低于门槛，峰值 %s 年 %d 死 "
+                  "⇒ 尚未被证伪（撑过 %s–%s 全窗口）"
+                  % (WAR_DEATH_THRESHOLD, WAR_THRESHOLD_SOURCE.split("：")[0],
+                     len(yrs), top, yrs[top], min(yrs), max(yrs))}
 
 
 def check_ucdp_bilateral(a: str, b: str, since: int, threshold=None) -> dict:
@@ -215,6 +263,15 @@ def evaluate(e: dict) -> dict:
     name = e.get("check")
     if not name:
         return {"state": STATE_NEED_EVIDENCE, "evidence": "该断言需政治/外交/贸易记录；本仓没有那一层"}
+    if name.startswith("ucdpwar:"):
+        # 用【预登记的 UCDP 战争阈值】判 —— 这才让「全面战争」这句话可证伪
+        _, pair, since = name.split(":")
+        a, b = pair.split("-")
+        r = check_ucdp_war(a, b, int(since))
+        if r["ok"] is None:
+            return {"state": STATE_NO_DATA, "evidence": r["ev"]}
+        return {"state": STATE_FALSIFIED if r["ok"] else STATE_UNFALSIFIED,
+                "evidence": r["ev"]}
     if name.startswith("ucdp:"):
         # UCDP 覆盖到 2025 ⇒ 窗口能落在数据里。格式 ucdp:IND-PAK:2020[:阈值]
         parts = name.split(":")
@@ -266,6 +323,8 @@ def main() -> int:
     for r in cur["rows"]:
         print("  %-6s %-10s %-14s %s" % (r["id"], r["actor"], r["state"], r["claim"][:52]))
         print("  %-6s %-10s %-14s ⓘ %s" % ("", "", "", r["evidence"]))
+        if r.get("note_why"):
+            print("  %-6s %-10s %-14s ★ %s" % ("", "", "", r["note_why"]))
     print("  " + "-" * 92)
     print("  " + "　".join("%s ×%d" % (k, v) for k, v in sorted(cur["tally"].items())))
 
@@ -320,9 +379,21 @@ def selftest() -> int:
           r6["state"] == STATE_UNFALSIFIED, r6["state"] + " / " + r6["evidence"])
     r7 = evaluate({"check": "ucdp:IN-PK:2020:1"})
     check("★UCDP：给了阈值且已达 ⇒ 被证伪", r7["state"] == STATE_FALSIFIED, r7["state"])
-    r8 = evaluate({"check": "ucdp:CN-XX:2020:1"})
-    check("★UCDP：没有这个双边对 ⇒ 数据不够（不猜）",
-          r8["state"] == STATE_NO_DATA, r8["state"] + " / " + r8["evidence"])
+    # ★ 预登记的战争阈值：三个方向都钉住
+    rw = evaluate({"check": "ucdpwar:IN-PK:2008"})
+    check("★UCDP 战争阈值：印巴从未达门槛 ⇒ 尚未被证伪",
+          rw["state"] == STATE_UNFALSIFIED, rw["state"] + " / " + rw["evidence"])
+    rw2 = evaluate({"check": "ucdpwar:UA-RU:2022"})
+    check("★UCDP 战争阈值：俄乌 2022 达门槛 ⇒ 证伪方向也能亮",
+          rw2["state"] == STATE_FALSIFIED, rw2["state"] + " / " + rw2["evidence"])
+    check("★阈值是预登记的常量，且有出处与冻结日期",
+          WAR_DEATH_THRESHOLD == 1000 and WAR_THRESHOLD_SOURCE and WAR_THRESHOLD_DEFINED,
+          "%s / %s / %s" % (WAR_DEATH_THRESHOLD, WAR_THRESHOLD_SOURCE, WAR_THRESHOLD_DEFINED))
+    check("★X-16 不再挂在阈值上（口径不对题 ⇒ 不该用战争阈值判领土突破）",
+          next(e for e in E if e["id"] == "X-16")["check"] is None)
+    r9 = evaluate({"check": "ucdpwar:CN-XX:2008"})
+    check("★UCDP 战争阈值：没有该双边对 ⇒ 数据不够（不猜）",
+          r9["state"] == STATE_NO_DATA, r9["state"])
     # ★ 窗口覆盖：COW 骨架止于 2014，而核对窗口自 2020 起 ⇒ 必须判「不可判」
     r3 = check_bilateral("IND", "PAK", "WAR", since=2020)
     check("★数据覆盖不到核对窗口 ⇒ 不可判（数据是真的，但不对题）",

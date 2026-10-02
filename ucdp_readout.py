@@ -111,6 +111,9 @@ def build() -> int:
     #   为什么要它：排除性断言常是【双边】的（「印度无法对巴基斯坦发动全面战争」），
     #   而 per-actor 计数判不了这种断言。UCDP 覆盖到 2025，能判 2020+ 的窗口。
     pairs = defaultdict(lambda: defaultdict(int))
+    # ★ 双边【死亡数】：定「全面战争」阈值要用。UCDP 自身的战争定义是
+    #   年度战斗相关死亡 ≥ 1000 —— 所以这个数是判排除断言的关键量。
+    pair_deaths = defaultdict(lambda: defaultdict(int))
     with zipfile.ZipFile(ZIP) as z, z.open(MEMBER) as fh:
         rdr = csv.DictReader(io.TextIOWrapper(fh, encoding="utf-8", errors="replace"))
         for row in rdr:
@@ -139,12 +142,15 @@ def build() -> int:
                     b["deaths_abroad"] += best
             if len(codes) >= 2:
                 for x, yy in combinations(sorted(codes), 2):
-                    pairs["%s-%s" % (x, yy)][y] += 1
+                    k = "%s-%s" % (x, yy)
+                    pairs[k][y] += 1
+                    pair_deaths[k][y] += best
 
     data = {"source": "UCDP GED v26.1", "rows_scanned": n,
             "own_gw": own,
             "gw_names": {k: v.most_common(1)[0][0] for k, v in gw_name.items()},
             "pairs": {k: dict(sorted(v.items())) for k, v in sorted(pairs.items())},
+            "pair_deaths": {k: dict(sorted(v.items())) for k, v in sorted(pair_deaths.items())},
             "actors": {c: dict(sorted(ys.items())) for c, ys in sorted(per.items())}}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as fh:

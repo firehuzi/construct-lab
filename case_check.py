@@ -707,7 +707,17 @@ def check_case(case: dict, dyads: dict) -> dict:
             if r.get("verdict") != "manual" and r.get("basis") != "human_with_evidence"]
     ev = [r for _k, _i, _c, r in rows if r.get("basis") == "human_with_evidence"]
     manual = [r for _k, _i, _c, r in rows if r.get("verdict") == "manual"]
+    # ★★ ① 有路径、但没有一条可判阶段 —— 这是【独立的一种状态】，
+    #   而不是「待人工 0 条」。不分开的话，整份没做的案例看起来像做完了。
+    _paths = case.get("paths") or []
+    _unjudgeable = [p.get("id") or p.get("label")
+                    for p in _paths
+                    if not [st for st in (p.get("stages") or []) if st.get("discriminating")]]
+    # ★★ ② 顶层 needs_human 也要被读 —— 它写着「还差什么」，而工具原先一个字都不看。
+    _nh = case.get("needs_human") or []
     return {"rows": rows, "pending": pending, "n_judgeable": len(rows),
+            "unjudgeable_paths": _unjudgeable, "n_paths": len(_paths),
+            "needs_human": _nh,
             "prob_space": check_probability_space(case),
             "n_auto": len(auto), "n_evidence": len(ev), "n_manual": len(manual),
             "paths": path_results}
@@ -831,7 +841,29 @@ def main() -> int:
         else:
             print("     （空）")
         tot = r["n_judgeable"]
+        # ★★ 「有路径但不可判」必须单独说 —— 否则 0 会被读成「没有待办」
+        if r.get("unjudgeable_paths"):
+            print()
+            print("  ⛔ **%d 条路径【一条可判阶段都没有】**（共 %d 条）："
+                  % (len(r["unjudgeable_paths"]), r.get("n_paths", 0)))
+            for _x in r["unjudgeable_paths"][:6]:
+                print("     · %s" % _x)
+            print("     ⇒ 它们不是「判了没中」，是**根本还没有可核的判据**。")
+            print("       要判它们得补：observable（什么算它发生了）＋ window（窗口）＋ discriminating 标记。")
+        if r.get("needs_human"):
+            print()
+            print("  顶层声明了 **%d 条 needs_human**（工具现在会读它了）："
+                  % len(r["needs_human"]))
+            for _x in r["needs_human"][:4]:
+                print("     ⏳ %s" % str(_x)[:86])
+            if len(r["needs_human"]) > 4:
+                print("     …其余 %d 条见文件" % (len(r["needs_human"]) - 4))
+
         print("\n  ── 读数")
+        if tot == 0:
+            print("     ⛔ **可判判断总数：0** —— 而这不是「都做完了」，是**这份案例还不可判**。")
+            print("        （这句话必须写死：本轮实测过，把已有的成品路径搬进来就会得到 0，")
+            print("          而它显示的『待人工 0』看起来像没有待办。）")
         print("     可判判断总数（排除 ＋ 区分性阶段）：%d" % tot)
         print("     ① 机器自动判（数据层直接判）：%d" % r["n_auto"])
         print("     ② 人判＋依据可核（过了三道机器闸）：%d" % r["n_evidence"])
@@ -920,7 +952,24 @@ def selftest() -> int:
        check_evidence_list([{"slug": next(r["slug"] for r in _sw.values()
                                           if r.get("reliability") is None),
                              "observed": False, "outlet": "W"}], _sw)[2].get("confidence") is None)
-    ck("★★word_in：短码必须整词匹配（'CN' 不命中 ''NSCN''-IM 里的片段）",
+    # ★★ 「有路径但不可判」必须与「待人工 0」分得开 ——
+    #   本轮实测：把 content/scenarios 的成品路径搬进来（有 4 条路径、区间概率、
+    #   但原文没有 observable/window）⇒ n_judgeable=0 且 n_manual=0，
+    #   而那【看起来像没有待办】。见 _fix0.py 的注释。
+    _sc = {"paths": [{"id": "P1", "probability": {"low": 0.5, "high": 0.6}, "stages": []}],
+           "exclusions": [], "needs_human": ["a", "b"]}
+    _rr = check_case(_sc, dyads)
+    ck("★★有路径但无 discriminating 阶段 ⇒ 单独报 unjudgeable_paths（不是「待人工 0」）",
+       _rr.get("unjudgeable_paths") == ["P1"] and _rr["n_judgeable"] == 0,
+       str(_rr.get("unjudgeable_paths")))
+    ck("★★顶层 needs_human 会被读出来（原先一个字都不看）",
+       _rr.get("needs_human") == ["a", "b"], str(_rr.get("needs_human")))
+    _ok = {"paths": [{"id": "P1", "probability": {"low": 0.5, "high": 0.6}, "stages": [
+        {"stage": "s", "discriminating": True,
+         "observable": {"object": "甲", "indicator": "乙"}}]}], "exclusions": []}
+    ck("★有可判阶段 ⇒ unjudgeable_paths 为空（不误报）",
+       check_case(_ok, dyads).get("unjudgeable_paths") == [])
+    ck("★word_in：短码必须整词匹配（'CN' 不命中 ''NSCN''-IM 里的片段）",
        word_in("CN", "NSCN-IM") is False and word_in("CN", "NS CN IM") is True,
        "%s / %s" % (word_in("CN", "NSCN-IM"), word_in("CN", "NS CN IM")))
     ck("★★别名解析后 'China' 能命中（长名允许子串）",

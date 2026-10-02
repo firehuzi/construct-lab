@@ -1,0 +1,249 @@
+{
+  "schema": "construct-run-v1",
+  "run_id": "IN-PK@2023",
+  "committed_at": "2026-10-02T00:00:00+08:00",
+  "arm": "quiet",
+  "selection": {
+    "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
+    "dyad_raw": "Government of India || Government of Pakistan",
+    "year": "2023",
+    "events": 1,
+    "deaths": 1
+  },
+  "shape_note": "paths / exclusions 写在本文件的【顶层】（指南 §一 1.1 的推荐写法）。骨架里的 path_space 保留为归档容器（只装 _fill 原样与元数据），以便与 case_skeleton.py 的产物对账；★ 若日后有人把路径【只】写进 path_space.paths，case_check.py 的 normalize_shape() 会把它归一读到，不会变成静默的空报告。",
+  "event": {
+    "text": null,
+    "text_note": "★ 留空：我没有拿到这一起事件的原文，也没有拿到任何原始报道。【不许编】。UCDP GED 只有 1 行记录（1 起 / 1 死 / adm_1 = Jammu and Kashmir state），它给不出事件叙述。",
+    "source": {
+      "dataset": "UCDP GED v26.1",
+      "dyad": "Government of India || Government of Pakistan",
+      "year": "2023",
+      "events": 1,
+      "deaths": 1,
+      "geo_adm1": {"Jammu and Kashmir state": 1}
+    },
+    "event_date": "2023",
+    "event_date_note": "★ 只有年精度，没有月/日。UCDP 只到年 ⇒ 我无法把事件定位到某一天。",
+    "time_lock": "2023-01-01T00:00:00+05:30",
+    "time_lock_note": "★★ 这个时间锁定是【被数据精度逼出来的，不是我选出来的】。我在 2023-01-01 能知道的是：该双边对在 2020 年有 78 起 /162 死、2021 年 6 起 /8 死，而 2022 年【全年无记录】——即一次肉眼可见的降级。到 2023 年，我并不知道这一年会只有 1 起事件。⇒ 窗口起点选 2023-01-01 是「年度锁定」，不是「事件锁定」。",
+    "actors": ["India", "Pakistan"]
+  },
+  "diagnoses": [],
+  "diagnoses_note": "★ 留空：骨架的 data_layer 里没有 diagnoses 的内容，我也不能补（伊拉克/科威特那两份的 diagnoses 是从 47 份档案来的，本案例我拿不到档案正文）。指南 §一 1.1 说 diagnoses「不读（但那是 S2 的产物，要保留）」—— 这里没有可保留的东西。",
+  "paths": [
+    {
+      "id": "IN-PK@2023-P01",
+      "label": "降级延续：边境摩擦维持低位，双方不重启军事对抗，也不达成任何新的政治安排",
+      "direction": "affirm",
+      "probability": "high",
+      "rules_out": [
+        "该双边对年度事件数回到 2022 年前的高位（≥25 起／年）",
+        "年度战斗死亡回到 100 以上（1999 年 934 死是历史最高，全面战争门槛 1000 从未触及）"
+      ],
+      "stages": [
+        {
+          "stage": "冲突仍停在低烈度区间（没有回到成规模接触）",
+          "discriminating": true,
+          "observable": {
+            "object": "印巴两国政府军沿实控线（LoC）的接触事件",
+            "indicator": "该双边对在窗口内【没有】一年达到 100 死（1999 年 934 死是 37 年最高值，2020 年 162 死是近期高位；100 是这两者之间的一个可辩门槛）",
+            "threshold": 100,
+            "source": "UCDP:not(deaths(IN, PK, 2023, 100))"
+          },
+          "window": {"from": "2023-01-01", "to": "2023-12-31"},
+          "note": "★★ 这一阶段【改过两次，照实记】：(1) 初稿是「事件数 < 25」+ 第二阶段「一起事件都没有」，被工具判「✖️ 链断在开头 / 0 命中」—— 而真实读数是【只有 1 起 /1 死】，低烈度区间是**守住了**的。(2) 改成单阶段后，我写的是 deaths(IN,PK,2023,100)（=「死亡达到 100」），而断言的方向是「【没有】达到 100」—— **判据方向与断言方向相反，工具照旧只印 ✖️ 该阶段落空，不提示方向反了**。现在改用 not()，读数才与断言同向。★ 这两次都是我自己复读输出才发现的，工具两次都没报错。"
+        }
+      ],
+      "why": "2021 年的低位（6 起 / 8 死）之后，2022 年该对全年无记录，而 2023 年只有 1 起 / 1 死。讨论『降级延续』时，真正要判的不是有没有零星交火，而是有没有重新出现成规模的接触 —— 所以本条路径只说一件事，不再拆成两段。"
+    },
+    {
+      "id": "IN-PK@2023-P02",
+      "label": "摩擦回升：实控线沿线低烈度交火重新变成常态，但双方都克制在有限冲突之内",
+      "direction": "affirm",
+      "probability": "medium",
+      "rules_out": [
+        "乌里/巴拉科特式的越境军事行动（2016、2019 各一次）再次发生",
+        "任何一方夺取对方实控线一侧的领土"
+      ],
+      "stages": [
+        {
+          "stage": "低烈度交火重新常态化",
+          "discriminating": true,
+          "observable": {
+            "object": "印巴两国政府军",
+            "indicator": "窗口内该双边对【即使只发生一起】记录在案的交战事件（UCDP：至少 1 死）",
+            "threshold": "年度死亡 ≥ 1",
+            "source": "UCDP:deaths(IN, PK, 2023, 1)"
+          },
+          "window": {"from": "2023-01-01", "to": "2023-12-31"},
+          "note": "★ 这一条与 P01 第 1 条互为取反（P01 用 not()，这条用直判）。实测两者会同时为 true 或同时为 false —— 见 §三 报告的「互补路径对」。"
+        },
+        {
+          "stage": "交火没有升级成成规模接触",
+          "discriminating": true,
+          "observable": {
+            "object": "印巴两国政府军",
+            "indicator": "全年事件数【没有】回到 2019-2020 年水平（2019 年 73 起 / 164 死，2020 年 78 起 / 162 死）",
+            "threshold": 100,
+            "source": "UCDP:not(deaths(IN, PK, 2023, 100))"
+          },
+          "window": {"from": "2023-01-01", "to": "2023-12-31"},
+          "note": "与 P01① 是同一个 source 的同一方向。★ 这正是规则 8 说的「共通终点」问题在【路径内部】的翻版：两条不同路径的相邻阶段用了同一个判据，而它不是区分点。"
+        }
+      ],
+      "why": "2016 与 2019 两次越境打击之后，双方每次都停在有限冲突；2021 年出现低位，但低位不等于制度化。这条路径问的是：摩擦会不会先回到常态、而不是直接跳到危机。"
+    },
+    {
+      "id": "IN-PK@2023-P03",
+      "label": "☆ 我没预期的那条：降级不是克制的结果，而是双方都无余力 —— 印度进入选举周期并主办 G20，巴基斯坦陷经济与内部安全危机，于是「无事」被当成成就",
+      "direction": "affirm",
+      "probability": "medium",
+      "rules_out": [
+        "任何一方在实控线主动制造事件以服务国内动员",
+        "任何第三方（美/中/海湾）调停出一份新的双边安排"
+      ],
+      "stages": [
+        {
+          "stage": "国内议程压过对外议程：窗口内没有重启政治对话",
+          "discriminating": true,
+          "observable": {
+            "object": "印度政府、巴基斯坦政府",
+            "indicator": "窗口内【没有】任何一次政府首脑级双边访问、【没有】重启全面对话、【没有】签署新的双边协定；同时两国各自进入选举/经济议程并把它摆在双边关系之前",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2023-01-01", "to": "2023-12-31"},
+          "note": "★ 我没有任何数据源能判这一条（UCDP 测的是打仗，不是谈判）。它落在 pending_manual 队列里。按规则 8 它确实是区分点（别的路径在这一格会不一样：P02 那格是「重新交火」）—— 所以标 true，并接受它把整条路径压成 undecided。★ 初稿这里还有第二阶段『现状制度化』（discriminating=false），我把它删了：规则 8 说「共通的前提与共通的终点一律标 false」，而标了 false 的阶段工具根本不读 ⇒ 它只是文件里的装饰。写它不如删它。"
+        }
+      ],
+      "why": "先说清楚：这不是我推出来的，这是我【事后才知道自己漏了】的那一条。2023 年这个双边对之所以安静，更可能的原因不在双边关系本身 —— 而在两边各自的国内处境。这是规则 3 要求的那条『我没预期的那条』。★ 而它与规则 1（时间锁定）直接冲突：我在 2023-01-01 并没有把国内处境当成主因。冲突照实记，不调。"
+    },
+    {
+      "id": "IN-PK@2023-P04",
+      "label": "政治层冻结：零星交火照旧，但双边政治渠道全年不动，双方各自把资源投向别处",
+      "direction": "affirm",
+      "probability": "medium",
+      "rules_out": [
+        "双边政治关系在 2023-2025 内解冻（首脑访问／全面对话重启／新协定）",
+        "任何一方把边境平静当成对外宣示的成果并换取对方让步"
+      ],
+      "stages": [
+        {
+          "stage": "双边政治渠道全年不动",
+          "discriminating": true,
+          "observable": {
+            "object": "印度外交部、巴基斯坦外交部",
+            "indicator": "窗口内【没有】一次政府首脑级双边访问、【没有】重启全面对话框架、【没有】签署新的双边协定、【没有】第三方调停产出的联合文本",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2023-01-01", "to": "2023-12-31"},
+          "note": "★ 与 P03① 几乎是同一句话（一个说「无余力」，一个说「冻结」）。两条都无可判 source ⇒ 都进队列。这暴露一个结构问题：**报告读不出「这两条其实是一条」** —— 而工具这次【真的】把这对报出来了（≈ 可能同义 72%），见报告 §二。"
+        }
+      ],
+      "why": "对照臂要问的往往不是『打了没有』，而是『静下来之后有没有换来什么』。政治层的冻结是可以被 2023-01-01 的观察者写出来的：2019 年之后双方就没有恢复过任何政治层安排。★ 但我判断不了它 —— evidence 里没有一条印巴来源（见 needs_human）。"
+    },
+    {
+      "id": "IN-PK@2023-P05",
+      "label": "对抗改了形式：交火停了，但军备、前沿基建与核态势继续，安静被双方各自用来说明自己是对的",
+      "direction": "affirm",
+      "probability": "low",
+      "rules_out": [
+        "任何一方在窗口内发动越境打击或进攻性行动",
+        "年度死亡回到 100 以上"
+      ],
+      "stages": [
+        {
+          "stage": "窗口内该双边对【没有】一起记录在案的越境军事行动",
+          "discriminating": true,
+          "observable": {
+            "object": "印巴两国政府军",
+            "indicator": "窗口内该双边对【哪怕一起】记录在案的交战事件都没有（UCDP 记录门槛 = 至少 1 死）",
+            "threshold": 0,
+            "source": "UCDP:not(dyad_present(IN, PK, 2023-2023))"
+          },
+          "window": {"from": "2023-01-01", "to": "2023-12-31"},
+          "note": "★★ 这一格的 source 与 window 本来【不一致】，是我复读输出才发现的：window 写 2023 一年，而 source 写着 2023-2025（我改 window 时忘了改括号里的年份）。**工具不检查 observable.source 里的年份与 stage.window 是否一致**，所以它照 2023-2025 判，读数是「落空」；若我只看 ✅/✖️ 而没看 ↳ 那行里的「窗口 2023-2025」，我会以为它判的是 2023。现已对齐到 2023-2023。★ 另外：初稿 indicator 写的是「没有【成规模】接触」，与 not(dyad_present) 的语义（一起都没有）不等价，也已改成一致。"
+        },
+        {
+          "stage": "军备与前沿基建继续投入",
+          "discriminating": true,
+          "observable": {
+            "object": "两国国防预算、前沿基础设施、核与导弹项目",
+            "indicator": "窗口内双方继续新增前沿部署与采购，且没有任何军控或降级磋商启动",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2023-01-01", "to": "2024-12-31"},
+          "note": "★ 无 source、无 evidence ⇒ 只能人工。我【没有】写「实控线基建年度新增里程」之类看起来可核的数字 —— 那是编的。"
+        }
+      ],
+      "why": "规则 3 要求路径空间里至少有一条不是「打或不打」的。这一条把安静读成【对抗换赛道】而不是【对抗结束】—— 而它在 2023-01-01 是可写的。★ 它的第 1 条 source 我改过两次（年份对不上 window、措辞与判据不等价），见该 stage 的 note。"
+    }
+  ],
+  "exclusions": [
+    {
+      "id": "IN-PK@2023-X01",
+      "direction": "exclude",
+      "content": "两国在窗口内打一场全面战争（定义：年度战斗死亡 ≥ 1000，即 UCDP 的战争门槛）",
+      "observable": {
+        "object": "印巴两国政府军",
+        "indicator": "该双边对任一自然年度的战斗死亡合计达到 1000",
+        "threshold": 1000,
+        "source": "UCDP:deaths(IN, PK, 2023, 1000)"
+      },
+      "window": {"from": "2023-01-01", "to": "2025-12-31"},
+      "why": "该双边对 1989-2025 的年度死亡最高是 1999 年 934（卡吉尔），【从未触及 1000】。所以这条排除断言的边界不是猜的，是这条 37 年记录的形状给的。★ 但注意：排除断言只有「被证伪／尚未被证伪」两态，跑出来的 ⏸️ 不等于「全面战争不可能」—— 它只说这一次窗口里没达到门槛。"
+    }
+  ],
+  "path_space": {
+    "_status": "paths / exclusions 已写在顶层。本容器只留归档：_fill 原样保留，便于与 case_skeleton.py 的产物对账。",
+    "_fill_carried_over": true,
+    "space_gaps": null,
+    "space_gaps_note": "★ 填 null 并说明：space_gaps 要填就必须知道 2023-2025 实际发生了什么，而那与规则 1（时间锁定）直接冲突 —— 指南 §九 9.3 第 5 条自己承认这是结构冲突、无解。我不假装解决它。"
+  },
+  "data_layer": {
+    "ucdp": {
+      "dyad": "Government of India || Government of Pakistan",
+      "year": "2023",
+      "events": 1,
+      "deaths": 1,
+      "war_threshold": 1000,
+      "meets_war_threshold": false,
+      "dyad_years_present": [1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2008, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2023, 2025],
+      "dyad_years_absent_in_range": [2004, 2005, 2006, 2007, 2009, 2022, 2024],
+      "peak_year": {"year": 1999, "events": 100, "deaths": 934},
+      "preceding_year": {"year": 2022, "events": 0, "deaths": 0},
+      "following_year": {"year": 2024, "events": 0, "deaths": 0}
+    },
+    "geo": {
+      "key_used_by_tool": "IN-PK",
+      "2023": {"Jammu and Kashmir state": 1},
+      "note": "★ 行政区名是数据方给的写法。实控线两侧在同一份数据里分别是 'Jammu and Kashmir state'（印方写法）与 'Azad Jammu & Kashmir'（巴方写法），且【2023 年只有前者】。指南 §九 9.3 第 6 条说争议地名没有技术解 —— 这里实测到了它的一个具体后果：写 Kashmir 能命中，写 Azad Kashmir 在 2023 年得到的是「无」。"
+    },
+    "archive": {
+      "India": {"ref": "ConStruct_Archive\\Tier2\\India.md", "status": "有档案"},
+      "Pakistan": {"ref": "ConStruct_Archive\\Tier3\\Pakistan.md", "status": "有档案"}
+    },
+    "coalition_sides": [],
+    "side_is_coalition": false,
+    "geo_layer_note": "★ 骨架的 data_layer 里【没有】geo 项，我按 ucdp_actors.json 补上了。指南 §六 规则 14 说『能用地理判据就不用有没有事件』，但它没说产物里该不该把 geo 层写出来给下一环用 —— 这是指南的一处空白。"
+  },
+  "needs_human": [
+    "event.text —— 没有原文，留空未编（规则 2）",
+    "event.time_lock 的原始出处 —— 现有的是『年度锁定』，不是事件锁定；UCDP 只有年精度，事件日不详",
+    "path_space.space_gaps —— 填它与时间锁定冲突，填 null",
+    "★ 2023 年那 1 起 / 1 死到底是什么事 —— 我拿不到任何原始报道。它是本案例唯一的一手事实，而我不知道它是什么事。若要判 P01①/P02①，必须先回答这个。",
+    "★ 档案正文不可读：data_layer 指向 ConStruct_Archive\\Tier2\\India.md 与 Tier3\\Pakistan.md，我这一跑没有读它们（也不在允许读的清单里）。若那两份档案里有 2023 年的印巴条目，P03/P04 可能从『无从判』变成『有依据』。",
+    "★ 我自己写坏、后来改掉的两条（留在这里而不是删痕）：(a) P01 初稿把『低烈度摩擦』与『零高强度接触』写成两阶段，被前缀规则读成因果链 ⇒ 报「链断在开头 / 0 命中」，而真实读数（1 起 /1 死）说明低烈度区间是守住了的；(b) P05① 初稿的 indicator（无【成规模】接触）与 source（not(dyad_present) = 一起都没有）不等价。两条都已改成 indicator 与 source 对齐 —— 但工具【两条都没报错】，是我自己复读输出才发现的。",
+    "★ 非 UCDP 事件源不可得：2023 年的低烈度交火里，只有 UCDP 记录门槛（≥1 死）之上的那一部分进了数据。P01/P02/P03 的核心断言都建立在『多少起』上，而 UCDP 给不出『多少起』。",
+    "★ P03 与 P04 的第 1 阶段几乎同义（一个说无余力、一个说冻结），工具分不出它们是两条路径。要不要合并，需要人判。",
+    "★ 证据缺口：data/sources/index.json 里 8 条全部是 1991 年海湾战争相关，没有一条印巴来源 ⇒ 本案例【没有任何一条判断能过『人判＋依据可核』】。给本案例补档案是一个具体、独立的研究任务。"
+  ],
+  "migration_notes": [
+    "骨架 schema 是 'construct-case-skeleton-v1'，产物按指南 §一 1.1 改成 'construct-run-v1'。★ 骨架原 schema 值未被工具当作标记校验 —— 对账时不要拿它当版本号。",
+    "骨架把 paths/exclusions 放在 path_space 下，且 needs_human 里写的也是 'path_space.paths'。本产物按指南 §一 1.1 的推荐放到【顶层】，path_space 保留为空容器。",
+    "骨架 path_space._fill 中的『两条硬规矩』已并入各 stage 的 note，未作为字段保留（骨架没有给它字段名）。",
+    "data_layer 增补 geo 项与 dyad 年份分布，来源是 data/ucdp_actors.json。"
+  ]
+}

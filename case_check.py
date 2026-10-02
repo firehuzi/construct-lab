@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """case_check.py —— B4.3：对一个填好的案例跑三条检查，并量出 pending_manual 队列
 
 ★★ 这个工具的产出里，**最重要的一行是 pending_manual 的长度。**
@@ -413,12 +413,33 @@ def apply_causal_prefix(path: dict, verdicts: list) -> dict:
 
 # ══ 主检查 ══════════════════════════════════════════════════════════════════════
 def load_sources() -> dict:
-    """读依据档案索引。key = 快照文件名。"""
+    """读依据档案索引。
+
+    ★★ 同时按【文件名】和【slug】建索引 —— 两种写法都能查到。
+
+    修之前只按文件名（`archived_snapshot.split("/")[-1]`，**带 .html**）建 key，
+    而 index.json 的 `slug` 字段**不带扩展名**。
+    ⇒ 指南 §一 1.3 的示例教的是不带扩展名的那个 ⇒ **照指南写的人 8/8 全过不了第①道闸**，
+      而报错说「不在索引里」—— **而索引里就有。**
+    ★ 这是「错的读数与对的读数长得一样」的又一例；也是「示例恰好覆盖的实现会掩盖缺陷」
+      的又一例（我自己那份写对了，因为我是读代码写的）。
+    """
     p = os.path.join(HERE, "data", "sources", "index.json")
     if not os.path.exists(p):
         return {}
+    out = {}
+    for r in (fh_get(p) or {}).get("sources", []):
+        fn = (r.get("archived_snapshot") or "").split("/")[-1]
+        if fn:
+            out[fn] = r
+        if r.get("slug"):
+            out[r["slug"]] = r
+    return out
+
+
+def fh_get(p):
     with io.open(p, encoding="utf-8") as fh:
-        return {r["archived_snapshot"].split("/")[-1]: r for r in json.load(fh).get("sources", [])}
+        return json.load(fh)
 
 
 def check_evidence(ev: dict, sources: dict) -> tuple:
@@ -434,7 +455,9 @@ def check_evidence(ev: dict, sources: dict) -> tuple:
     slug = ev.get("slug")
     rec = sources.get(slug)
     if not rec:
-        return None, "① 依据 %s 不在索引里 ⇒ 来源不明" % (slug or "（未给）")
+        return None, ("① 依据「%s」查不到。"
+                      "索引里两种写法都试过了：快照文件名（带扩展名，如 xxx.html）"
+                      "与 slug 字段（不带扩展名）—— 都没命中 ⇒ 来源不明。" % (slug or "（未给）"))
     if not rec.get("verified_open"):
         return None, "② verified_open=false ⇒ 这条依据不存在"
     if rec.get("witness_type") != "contemporary":
@@ -682,6 +705,26 @@ def selftest() -> int:
     # ★★ 词边界匹配 —— 裸子串让 'CN' 命中 N**SCN**、'IN' 命中 **IN**dia
     # ★ 注意：'CN' 在 'China' 里【本来就不存在】—— 让它成立的是【别名表】，
     #   不是词边界。词边界管的是「短码不许命中别的词内部的片段」。
+    # ★★ 依据核验的第①道闸：索引里每一个 slug 都必须能被解析出来。
+    #   修之前 8/8 都解析不出来，而【没有任何自证碰过这条路径】。
+    _srcs = load_sources()
+    if _srcs:
+        _miss = [r["slug"] for r in _srcs.values()
+                 if r.get("slug") and r["slug"] not in _srcs]
+        ck("★★索引里每一个 slug 都能被 load_sources() 解析出来（第①道闸的前提）",
+           not _miss, str(_miss[:3]))
+        # ★ 去重后再数 —— _srcs 里每个来源占【两个】key（文件名与 slug），
+        #   第一版我拿 16 跟 8 比，断言必挂。**这又是一次「两个数语义不同却并排比」。**
+        _uniq = list({id(r): r for r in _srcs.values()}.values())
+        _fn_ok = [r for r in _uniq
+                  if (r.get("archived_snapshot") or "").split("/")[-1] in _srcs]
+        ck("★★按【文件名】写也能查到（两种命名空间都支持）",
+           len(_fn_ok) == len(_uniq), "%d / %d" % (len(_fn_ok), len(_uniq)))
+        _one = list({id(r): r for r in _srcs.values()}.values())[0]
+        _ok, _why = check_evidence(
+            {"slug": _one["slug"], "observed": True}, _srcs)
+        ck("★★用 slug（不带扩展名）写 evidence 必须能过闸①",
+           "① 依据" not in _why, _why or "过了")
     ck("★★word_in：短码必须整词匹配（'CN' 不命中 ''NSCN''-IM 里的片段）",
        word_in("CN", "NSCN-IM") is False and word_in("CN", "NS CN IM") is True,
        "%s / %s" % (word_in("CN", "NSCN-IM"), word_in("CN", "NS CN IM")))

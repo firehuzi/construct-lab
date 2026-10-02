@@ -368,6 +368,25 @@ def selftest() -> int:
        rec2["verified_open"] is False and rec2["error"], str(rec2["error"])[:60])
     ck("★取不到时 archived_snapshot 为 None（不写空文件冒充存档）",
        rec2["archived_snapshot"] is None)
+
+    # ★★ 自证必须不留痕
+    #   第一版自证调 archive() 真往 data/sources 写了个 example.com 文件，
+    #   而 --audit 随即把它报成孤儿。**自证污染了数据目录。**
+    #   ⇒ 用完必须自己清掉，并且断言清干净了。
+    cleaned = []
+    for r in (rec, rec2):
+        f = r.get("archived_snapshot")
+        if f:
+            p = os.path.join(HERE, f)
+            if os.path.exists(p):
+                os.remove(p)
+                cleaned.append(f)
+    ck("★★自证用完清掉自己写的文件（不留孤儿）",
+       all(not os.path.exists(os.path.join(HERE, f)) for f in cleaned),
+       str(cleaned))
+    ck("★★自证【不往索引里写】", "example.com" not in
+       " ".join(r.get("url", "") for r in load_index()),
+       str([r.get("url") for r in load_index()][:3]))
     print("  自证：通过 %d，失败 %d" % (n_pass, n_fail))
     return 0 if n_fail == 0 else 1
 

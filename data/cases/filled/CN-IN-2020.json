@@ -1,0 +1,381 @@
+{
+  "schema": "construct-run-v1",
+  "run_id": "CN-IN@2020",
+  "committed_at": "2026-10-02T19:52:39+08:00",
+  "arm": "quiet",
+
+  "selection": {
+    "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
+    "dyad_raw": "Government of China || Government of India",
+    "year": "2020",
+    "events": 2,
+    "deaths": 25
+  },
+
+  "event": {
+    "text": null,
+    "text_note": "★ 按指南规则 2：event.text 必须是【原文】，不是复述。我没有事件发生当时的原文（官方声明／通讯社报道），**所以留空而不是编一段**。补原文是研究工作量，不是数据管道能代做的。",
+    "source": {
+      "dataset": "UCDP GED v26.1",
+      "dyad": "Government of China || Government of India",
+      "year": "2020",
+      "events": 2,
+      "deaths": 25
+    },
+    "event_date": "2020",
+    "event_date_note": "★ **精度只有【年】，没有月日。** 骨架给的 event_date 就是 \"2020\"，而本仓库的 UCDP 数据表（data/ucdp_actors.json）只按【年】聚合（dyad 表与 geo 表都是 year → 值／year → 州名）。也就是说：**我拿不到「这件事发生在哪一天」** —— 这是数据管道的精度上限，不是我偷懒。日期级别的锁定要另找原始出处，已记入 needs_human。",
+    "time_lock": null,
+    "time_lock_note": "★ 指南规则 1 说「历史事件必填」，但**这一格我留空而不是写一段**。理由：写一条时间锁定就是断言「当时已知 X」——那是有原始出处的历史事实，不是判断。我手上**没有任何带日期的存档**（data/sources/ 里 8 条全部是 1991 年海湾战争的），所以我既不能锁定到某一天，也不能给锁定句配出处。按本项目「拿不到就留空并标明」的规矩 ⇒ 留空 + time_lock_status = year_only。",
+    "time_lock_status": "year_only",
+    "time_lock_window_forced": {
+      "from": "2020-01-01",
+      "to": "2020-12-31",
+      "why": "★ 因为时间锁定只能锁到【年】，所有路径阶段的 window 起点被迫都是 2020-01-01。**这造成一个指南没覆盖的后果：每个窗口都【已经包含】被推演的那件事本身**，于是「阶段 1 是共通前提」在这份案例里不是判断出来的，而是窗口精度逼出来的 —— P01 与 P05 的阶段 1 就是这件事。"
+    },
+    "actors": ["China", "India"]
+  },
+
+  "diagnoses": [
+    {
+      "actor": "China",
+      "archive_ref": "ConStruct_Archive\\Tier1\\China.md",
+      "archive_status": "有档案",
+      "fields": {},
+      "provenance": {},
+      "unknown_fields": ["全部 —— 档案【存在】，但我按本次任务的阅读纪律【没有读它】，所以对每个字段的取值都是未知。★ 这不是「无档案」。"],
+      "note": "archive_ref 与 archive_status 逐字沿用骨架 data_layer.archive 的给出值，未经我核实。"
+    },
+    {
+      "actor": "India",
+      "archive_ref": "ConStruct_Archive\\Tier2\\India.md",
+      "archive_status": "有档案",
+      "fields": {},
+      "provenance": {},
+      "unknown_fields": ["全部 —— 同上，档案存在但我未读。"],
+      "note": "archive_ref 与 archive_status 逐字沿用骨架 data_layer.archive 的给出值，未经我核实。"
+    }
+  ],
+
+  "data_layer": {
+    "ucdp": {
+      "dyad": "Government of China || Government of India",
+      "year": "2020",
+      "events": 2,
+      "deaths": 25,
+      "war_threshold": 1000,
+      "meets_war_threshold": false
+    },
+    "geo": {
+      "source_key": "data/ucdp_actors.json → geo[\"CN-IN\"][\"2020\"]",
+      "adm_1": {"Jammu and Kashmir state": 2},
+      "note": "★ 该双边对在 geo 表里【只有 2020 一年】。行政区名是 UCDP 记的印度州名，事件发生地是否真在该州，本仓库数据判不了。"
+    },
+    "coalition_sides": [],
+    "side_is_coalition": false,
+    "note": "★ 本块逐字保留骨架的 data_layer（骨架有、两份已填案例都没有这个键）。保留而不删，是为了不丢输入信息 —— 但我**没有独立核实**过 archive 两行。"
+  },
+
+  "paths": [
+    {
+      "id": "CN-IN@2020-P01",
+      "label": "双方脱离接触、恢复原状",
+      "direction": "affirm",
+      "probability": "medium",
+      "rules_out": [
+        "接触线现状被单方面改变并固化",
+        "边境争端升级为更大规模军事冲突",
+        "边境争端外溢为全面外交与经济对抗"
+      ],
+      "stages": [
+        {
+          "stage": "启动军长级/外交磋商",
+          "discriminating": false,
+          "observable": {
+            "object": "中印两国外交与军事渠道",
+            "indicator": "通过既有的边界磋商机制恢复正式会谈并公布会谈",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2020-12-31"},
+          "note": "标 false 的理由：**任何一条路径都会经过公众看到双方在谈**（这正是事件发生后的默认动作），它区分不开结局 ⇒ 按指南规则 8，共通前提一律 false。"
+        },
+        {
+          "stage": "相互后撤",
+          "discriminating": true,
+          "observable": {
+            "object": "中印两军",
+            "indicator": "双方从发生接触的地点同时后撤并脱离接触",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2021-12-31"},
+          "note": "★ 这是 P01 的唯一真区分点，写在【行为】上（谁做了什么），不写在【遭遇】上（谁被打了）。"
+        },
+        {
+          "stage": "边界恢复常态",
+          "discriminating": true,
+          "observable": {
+            "object": "中印边境实控线",
+            "indicator": "在实控线附近恢复例行巡逻、不再发生接触事件",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2022-12-31"},
+          "note": "★ **我拒绝给这一格填 source。** 我本来想用 UCDP 的「2021 年之后该对无事件记录」当判据 —— 试了才知道会被映射到【另一个双边对】上（见 data_quality_findings），那会给出一个来源是假的「确认」。宁可进待人工队列。"
+        }
+      ]
+    },
+    {
+      "id": "CN-IN@2020-P02",
+      "label": "对峙原位固化、不脱离接触也不扩大",
+      "direction": "affirm",
+      "probability": "medium",
+      "rules_out": [
+        "双方恢复事件发生前的巡逻与管理现状",
+        "谈判达成脱离接触安排",
+        "争端外溢到争议边界以外"
+      ],
+      "stages": [
+        {
+          "stage": "磋商无果",
+          "discriminating": true,
+          "observable": {
+            "object": "中方",
+            "indicator": "公开拒绝接受恢复事件发生前状况的提议",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2021-06-30"}
+        },
+        {
+          "stage": "前沿部署保持",
+          "discriminating": true,
+          "observable": {
+            "object": "中方前沿部队",
+            "indicator": "在接触地点维持既有驻守、既不增建也不回撤",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2021-12-31"}
+        }
+      ]
+    },
+    {
+      "id": "CN-IN@2020-P03",
+      "label": "摩擦沿实控线其他地段扩散",
+      "direction": "affirm",
+      "probability": "low",
+      "rules_out": [
+        "争端停留在单一地点",
+        "边境议题与两国其他议题保持脱钩"
+      ],
+      "stages": [
+        {
+          "stage": "第二地段起冲突",
+          "discriminating": true,
+          "observable": {
+            "object": "中印两军",
+            "indicator": "在发生接触的地点以外的地段再次发生对峙或斗殴",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2022-12-31"}
+        },
+        {
+          "stage": "边境谈判全面化",
+          "discriminating": true,
+          "observable": {
+            "object": "中印边界谈判机制",
+            "indicator": "议题从单一地点扩展为整条实控线的划界谈判",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2022-12-31"}
+        }
+      ]
+    },
+    {
+      "id": "CN-IN@2020-P04",
+      "label": "边境摩擦升级为对华经贸与外交的系统性转向",
+      "direction": "affirm",
+      "probability": "medium",
+      "rules_out": [
+        "边境议题被限制在军事渠道内处理",
+        "两国经贸与外交关系维持事件发生前的轨道"
+      ],
+      "stages": [
+        {
+          "stage": "印度对华政策定性转向",
+          "discriminating": true,
+          "observable": {
+            "object": "印度政府",
+            "indicator": "在官方文件中把对华关系重新定性并调整交往安排",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2022-12-31"}
+        },
+        {
+          "stage": "对华经贸限制落地",
+          "discriminating": true,
+          "observable": {
+            "object": "印度政府",
+            "indicator": "对来自中国的投资、应用或设备发布限制性行政措施",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2022-12-31"}
+        }
+      ]
+    },
+    {
+      "id": "CN-IN@2020-P05",
+      "label": "一方单方面改变接触线现状并固化",
+      "direction": "affirm",
+      "probability": "low",
+      "rules_out": [
+        "接触线现状回到事件发生前",
+        "双方以脱离接触方式结束对峙"
+      ],
+      "stages": [
+        {
+          "stage": "单方面主张既成事实",
+          "discriminating": true,
+          "observable": {
+            "object": "中方",
+            "indicator": "公开宣布对发生接触的地点拥有主权并宣布现状已改变",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2021-12-31"}
+        },
+        {
+          "stage": "实地固化",
+          "discriminating": true,
+          "observable": {
+            "object": "中方前沿部队",
+            "indicator": "在发生接触的地点修建永久性设施或常驻营地",
+            "threshold": null,
+            "source": null
+          },
+          "window": {"from": "2020-01-01", "to": "2022-12-31"}
+        }
+      ]
+    }
+  ],
+
+  "exclusions": [
+    {
+      "id": "CN-IN@2020-X01",
+      "direction": "exclude",
+      "content": "中印在 2020 年进入全面战争（年度战斗死亡 ≥ 1000）",
+      "observable": {
+        "object": null,
+        "indicator": null,
+        "threshold": null,
+        "source": "UCDP:deaths(CN, IN, 2020, 1000)"
+      },
+      "window": {"from": "2020-01-01", "to": "2020-12-31"},
+      "why": "选这条是为了让「对照臂」有可证伪的方向：quiet 臂如果连这条都排不掉，它就不成其为对照。",
+      "source_caveat": "★★ 这条 source 写出来的读数**不可信** —— 工具会把它映射到 `Government of India || NSCN-IM` 上（见 data_quality_findings.Q1）。读数恰好是「尚未被证伪」，与正确数据同向，**但同向不等于同因**。列在待人工复核里。"
+    },
+    {
+      "id": "CN-IN@2020-X02",
+      "direction": "exclude",
+      "content": "争议地段发生核武器使用或越过核门槛的升级",
+      "observable": {"object": null, "indicator": null, "threshold": null, "source": null},
+      "window": {"from": "2020-01-01", "to": "2025-12-31"},
+      "why": "两个有核国家的地方性接触事件，最要紧的排除就是核门槛。"
+    },
+    {
+      "id": "CN-IN@2020-X03",
+      "direction": "exclude",
+      "content": "美国或俄罗斯直接介入中印边境争端（派兵或正式军事承诺）",
+      "observable": {"object": null, "indicator": null, "threshold": null, "source": null},
+      "window": {"from": "2020-01-01", "to": "2022-12-31"},
+      "why": "把双边争端升级成大国代理冲突，是边界上信息量最大的一条。"
+    },
+    {
+      "id": "CN-IN@2020-X04",
+      "direction": "exclude",
+      "content": "巴基斯坦在同期对印度开辟第二战线（印度两线作战）",
+      "observable": {"object": null, "indicator": null, "threshold": null, "source": null},
+      "window": {"from": "2020-01-01", "to": "2020-12-31"},
+      "why": "印度若被拖入两线，则本案例的「静默臂」性质就变了。"
+    }
+  ],
+
+  "path_space": {
+    "_status": "★ 骨架里的 path_space.paths / path_space.exclusions 是【空模板 + _fill 提示】。本案例的实际内容**放在顶层的 paths / exclusions**（与 IQ-KW-1991.json、RU-UA-2022.json 一致，也是 case_check.py 读取的位置）。此处不重复内容，只留说明。详见 migration_notes.M1。",
+    "_fill_carried_over": {
+      "每条路径": ["label", "stages[stage/discriminating/observable(object,indicator,threshold,source)/window]", "rules_out", "probability"],
+      "两条硬规矩": [
+        "区分点写在【行为】上，不是【遭遇】上",
+        "区分点必须让不同路径在该阶段的 observable 不同"
+      ]
+    },
+    "space_gaps": {
+      "status": "★ 按指南规则 6：不写 exhaustive_claimed，改用可核形式；但 space_gaps 是【回看历史】才算得出的。",
+      "gaps": null,
+      "why_null": "★ 我按纪律【没有去核 2020 年实际发生了什么】，所以我无法把「实际发生的路径」与「写下的路径」对照 ⇒ space_gaps 这一格我填不出来，留空。**留空不是因为忘了，是因为填它需要我读案例结局，那就破坏了时间锁定。**"
+    }
+  },
+
+  "data_quality_findings": [
+    {
+      "id": "Q1",
+      "severity": "★★★ 会让读数变成假数据的错误",
+      "what": "case_check.py 的 DYAD_ALIASES 里没有 CN / IN。写 `dyad_present(CN, IN, ...)` 时，resolve() 原样返回 ['CN']/['IN']，而 find_dyads 用【子串】匹配 side 名 ⇒ 'IN' 命中 'Government of India'，'CN' 谁都不命中，但两边都含 'IN'（India 与 … NSCN-IM）⇒ 唯一命中的双边对是 **`Government of India || NSCN-IM`**（印度那加兰邦的分离武装，与本案毫无关系）。",
+      "evidence": "find_dyads(dyads,'CN','IN') → ['Government of India || NSCN-IM']；deaths(CN, IN, 2020, 20) → 报「2020 年该对死亡合计 7」；而真实 CN-IN 对是 2 起 / 25 死。",
+      "consequence": "**对中印案例的任何 dyad_present / dyad_absent / deaths 判据，工具都会用另一个双边对的数据来判。** 不报错、不警告，读数看起来完全正常。这一条同时说明：『找不到双边对 ⇒ insufficient_data』那道保险，**挡不住子串误命中**，而子串误命中比找不到更危险。",
+      "same_class": "find_dyads(IN,'PK') 返回【空】⇒ IN-PK（数据里有 1989–2025 的完整记录）被判成「数据不够」。同一个根因：别名表只覆盖 IQ/KW/US/GB/AUS/RU/UA/IR/IL，表外的一律靠子串碰运气。"
+    },
+    {
+      "id": "Q2",
+      "severity": "★★ 静默产出「全零读数」",
+      "what": "把路径空间放在骨架声明的 `path_space.paths` 里，`case_check.py` **一条都读不到**（check_case 读的是 case['paths']），并且不报任何错 —— 输出是一张空表加「可判判断总数 0」。",
+      "evidence": "同一份内容：放 `path_space.paths` ⇒ n_judgeable=0；放顶层 ⇒ n_judgeable=2。",
+      "consequence": "★ 指南 §三 的示例代码、骨架的 `path_space`、骨架 `needs_human` 里写的 `path_space.paths` —— **三处都指向一个工具不读的位置**。而且自证（`--selftest`）只对 data/cases/filled/IQ-KW-1991.json 跑，**不会发现一个照骨架写的新案例读数为零**。"
+    },
+    {
+      "id": "Q3",
+      "severity": "★★ 判据的「地名」是被观察方命名的",
+      "what": "geo 表里本案例的行政区名是 `Jammu and Kashmir state`。写 `geo_present(CN, IN, Ladakh, 2020, 1)` 得 observed=False（0 起）—— **不是「那里没打」，是那个地名在数据里不存在**。写 `geo_present(CN, IN, Galwan, 2020, 1)` 同样是 False。",
+      "evidence": "geo_present(CN,IN,'Jammu',2020,1) → True（Jammu and Kashmir state:2）；geo_present(CN,IN,'Ladakh',2020,1) → False（「无」）。",
+      "consequence": "★ 指南 §五 规则 14 说「能用地理判据就不用『有没有事件』」——**但地理判据的可靠性依赖于地名口径与 GED 一致**，而 GED 的 adm_1 用的是数据编制方的行政命名。对争议地区，**这意味着地名本身就是一方的立场**。指南没有提示这一点，也没提示「地名没命中」与「确实没发生」在读数上长得一样（都是 observed=False）。"
+    },
+    {
+      "id": "Q4",
+      "severity": "★ 提示性缺陷（不是错误）",
+      "what": "`not()` 取反后，detail 字符串仍是取反前的原句。`not(dyad_present(IQ,KW,1992-1995))` → observed=True，而 detail 写着「窗口 1992-1995 内**无**事件记录」。",
+      "consequence": "数字没错，但打印出来的那一行与判定相反。读报告的人只看 ↳ 那一行就会被误导。建议 detail 里带上「取反前 observed=X」或换措辞。"
+    },
+    {
+      "id": "Q5",
+      "severity": "★ 结构性",
+      "what": "骨架的 `data_layer` 与 `needs_human`（骨架写 `path_space.paths`）在两份已填案例里都不存在 —— IQ-KW-1991 与 RU-UA-2022 都改用了顶层 `paths`/`exclusions` 与 `diagnoses`，且都没有 `data_layer`。",
+      "consequence": "骨架与已填案例是两套形状，**而没有任何工具对账这两套形状**（case_schema_check.py 对的是另一份 ConStruct Case JSON Schema V1.0，与 construct-case-skeleton-v1 不是一回事）。照骨架填空的人会拿到 Q2 的空读数，而且不知道自己去错了地方。"
+    }
+  ],
+
+  "needs_human": [
+    "event.text —— 拿不到事件发生当时的原文，留空未编（指南规则 2）",
+    "event.time_lock —— **本案例完全没填**（骨架给的是 null，数据只到【年】精度，且我没有带日期的存档可引）。想让时间锁定成立，必须先补一条具日期的原始出处（官方声明／当日报道）。★ 注意：这一格一旦补上，所有路径阶段的 window 起点都要跟着改（现在被迫全是 2020-01-01）。",
+    "event.event_date 的【月日】—— 数据管道只给到年",
+    "★ 事件本身的两个基本事实（发生于何地、各方伤亡数）在任何机器可读来源里都没有：UCDP 只给「2 起 / 25 死 / Jammu and Kashmir state / 2020」。**路径空间是围绕这件事写的，而这件事的日期与地点我都没有可引的出处。**",
+    "paths[].stages[].observable —— 全部 11 个真区分点都没有 source（也没有 evidence）。**待人工占比 100% 是这一跑的主要读数**，成因是具体且可补的：需要当时的官方声明与同期报道，而 data/sources/ 里一条中印相关的存档都没有。",
+    "exclusions X02/X03/X04 的 observable —— 全为 null，无依据",
+    "exclusions X01 的读数需人工复核 —— 其 source 会被工具映射到错误的双边对（见 data_quality_findings.Q1）",
+    "★ 所有用 CN / IN 写的 source 表达式都需要人工复核或改写 —— 工具的别名表不含这两个码",
+    "space_gaps —— 填它需要回看 2020 年实际发生了什么，与时间锁定冲突。本案例留空。",
+    "diagnoses[].fields —— 两份档案都存在（Tier1/China.md、Tier2/India.md），但我按阅读纪律未读，故全部字段未知"
+  ],
+
+  "migration_notes": {
+    "M1": "★ 结构分歧：骨架声明 `path_space.paths` / `path_space.exclusions`，而 case_check.py 读顶层 `case['paths']` / `case['exclusions']`（与两份已填案例一致）。**我把内容放在顶层**，因为那是工具真正读的位置；同时保留一个 `path_space` 块只放说明，避免「骨架里有的键在产物里消失」。照骨架原样填会得到全零读数且不报错（data_quality_findings.Q2）。",
+    "M2": "`event.time_lock` 由骨架的 null 保持为 null（不是「待填」，是「本材料下填不了」），另加 `time_lock_status: year_only` 与 `time_lock_window_forced` 说明它如何把全部窗口起点压到 2020-01-01。",
+    "M3": "windows 全部按年精度写（YYYY-01-01 / YYYY-12-31），因为可用的时间锚只有年。★ 这使每个窗口都包含被推演的事件本身。",
+    "M4": "`arm` 沿用骨架的 `quiet`。selection.rule 是骨架给的原文，我未改写。",
+    "M5": "★ 我按任务纪律【没有读】docs/ConStruct_B4_规格_V1.md、重构设计、L2L8 判据与反例、两份路径空间试写、主体类型分析框架，也没有读 git log/show。本案例里出现的所有内容，来源只有：这份骨架、写法指南、case_check.py 的代码与自证输出、data/ucdp_actors.json、data/sources/index.json。**因此本案例可能重复了那些文档里已经写明的教训** —— 这不是疏忽，是本次测试的设计。"
+  }
+}

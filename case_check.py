@@ -42,6 +42,21 @@ DYAD_ALIASES = {                      # observable 里写的简写 → UCDP 原�
     "IQ": "Iraq", "KW": "Kuwait", "US": "United States of America",
     "GB": "United Kingdom", "AUS": "Australia", "RU": "Russia", "UA": "Ukraine",
     "IR": "Iran", "IL": "Israel",
+    # ★★ 补这一批，是因为一个独立操作者实测撞上了（它按指南老老实实填，
+    #   工具给了它一个【看起来完全正常】的错读数）：
+    #     find_dyads(dyads,'CN','IN') → ['Government of India || NSCN-IM']
+    #       'CN' 子串命中 **NS**CN**-IM**，'IN' 子串命中 **IN**dia
+    #     deaths(CN, IN, 2020, 20) → 报「死亡合计 7」，真值是 2 起 / 25 死
+    #     于是「中印 2020 全面战争」那条排除断言，依据的是**印度那加兰邦分离武装**的数字。
+    #   同一根因：find_dyads(IN,'PK') 返回空 ⇒ IN-PK（1989–2025 完整记录）被判「数据不够」。
+    #   ★ 而指南 §五 的示例全用 RU/UA/IQ/KW —— **恰好都在别名表里，把这个问题完全掩盖了。**
+    #     教训：**示例恰好覆盖的实现，会掩盖不在示例里的缺陷。**
+    "CN": "China", "IN": "India", "PK": "Pakistan", "KP": "North Korea",
+    "KR": "South Korea", "JP": "Japan", "DE": "Germany", "FR": "France",
+    "TR": "Turkey", "SA": "Saudi Arabia", "EG": "Egypt", "RS": "Serbia",
+    "VN": "Vietnam", "PH": "Philippines", "SG": "Singapore", "MX": "Mexico",
+    "ES": "Spain", "BR": "Brazil", "AF": "Afghanistan", "SY": "Syria",
+    "YE": "Yemen", "PA": "Panama", "BA": "Bosnia-Herzegovina",
 }
 COALITION_HINT = "AUS/GB/US"
 
@@ -67,10 +82,28 @@ def resolve(spec: str) -> list:
     return [DYAD_ALIASES.get(p, p) for p in parts]
 
 
+def word_in(word: str, text: str) -> bool:
+    """★ 词边界匹配，不是裸子串。
+
+    ★★ 为什么必须改：裸子串让 'CN' 命中 **NS**CN**-IM'、'IN' 命中 '**IN**dia'。
+      一个独立操作者按指南写 `CN, IN`，工具把中印案例映射到了
+      「印度那加兰邦分离武装」，并据此报出一个【看起来完全正常】的死亡数。
+      ⇒ 这是本类 bug 里最坏的一种：**错的读数与对的读数长得一样。**
+    ★ 规则：短码（≤4 字符、全大写字母）必须【整词】匹配；
+      长名（如 'United States of America'）允许作为子串出现。
+    """
+    w, t = word.lower().strip(), text.lower()
+    if not w:
+        return False
+    if len(word) <= 4 and word.isalpha() and word.isupper():
+        return re.search(r"(?<![a-z])" + re.escape(w) + r"(?![a-z])", t) is not None
+    return w in t
+
+
 def dyad_side_has(raw: str, want: list, match_all: bool = False) -> bool:
     a, _, b = raw.partition(" || ")
     def side_ok(s):
-        hits = [w for w in want if w.lower() in s.lower()]
+        hits = [w for w in want if word_in(w, s)]
         return len(hits) == len(want) if match_all else bool(hits)
     return side_ok(a) or side_ok(b)
 
@@ -81,12 +114,12 @@ def find_dyads(dyads: dict, spec_a: str, spec_b: str) -> list:
     out = []
     for k in dyads:
         a, _, b = k.partition(" || ")
-        if (dyad_side_has(k, A)) and any(w.lower() in (a + b).lower() for w in B):
+        if (dyad_side_has(k, A)) and any(word_in(w, a + b) for w in B):
             # 更严：A 的词与 B 的词必须落在【不同】的边上
-            a_has = any(w.lower() in a.lower() for w in A)
-            b_has = any(w.lower() in b.lower() for w in B)
-            a_has2 = any(w.lower() in a.lower() for w in B)
-            b_has2 = any(w.lower() in b.lower() for w in A)
+            a_has = any(word_in(w, a) for w in A)
+            b_has = any(word_in(w, b) for w in B)
+            a_has2 = any(word_in(w, a) for w in B)
+            b_has2 = any(word_in(w, b) for w in A)
             if (a_has and b_has) or (a_has2 and b_has2):
                 out.append(k)
     return out
@@ -307,7 +340,12 @@ def check_any(dyads: dict, geo: dict, spec: str):
         r = dict(r)
         if r.get("observed") is not None:
             r["observed"] = not r["observed"]
-        r["detail"] = "取反（not）：" + (r.get("detail") or r.get("why") or "")
+        # ★★ 修：原先只是前缀「取反（not）：」，而原句写的是取反【前】的语义，
+        #   于是 observed=True 的那行 detail 读起来是「无事件记录」—— 数字对、打印行相反。
+        #   独立操作者指出：只看 ↳ 那行会被误导。
+        _raw = r.get("detail") or r.get("why") or ""
+        r["detail"] = ("取反后：%s　｜　（取反前的原句：%s）"
+                       % ("观察到了" if r["observed"] else "没观察到", _raw))
     return r
 
 
@@ -340,10 +378,17 @@ def apply_causal_prefix(path: dict, verdicts: list) -> dict:
       若伊拉克真宣布撤军了、联军也收手了，而实际原因仍是战败 —— 前缀规则会判确认。
       ⇒ 所以它是**部分修**，不是完整修。**不许把它说成「因果链已验证」。**
     """
+    # ★★ 修一个陷阱：`manual` 原先落进 `else: break` ⇒ 被当成「落空」。
+    #   独立操作者实测：5 条路径全打印「✖️ 链断在开头」——而那 5 条其实【一条都没判】。
+    #   **「没判」与「判了没中」在路径级读数上原本不可分。**
     chain = 0
+    undecided = 0
     for _st, v in verdicts:
         if v == "confirmed":
             chain += 1
+        elif v == "manual" or v == "insufficient_data":
+            undecided += 1
+            break                      # 链在这里【悬置】，不是断了
         else:
             break
     isolated = [st.get("stage") for (st, v) in verdicts[chain:] if v == "confirmed"]
@@ -352,11 +397,14 @@ def apply_causal_prefix(path: dict, verdicts: list) -> dict:
         pv = "open"
     elif chain == n:
         pv = "confirmed"
+    elif undecided and chain == 0:
+        pv = "undecided"               # ★ 与前缀断在开头【区分开】
     elif chain == 0:
         pv = "missed"
     else:
         pv = "partial"
     return {"path_verdict": pv, "chain_hits": chain, "chained_total": n,
+            "undecided": undecided,
             "isolated_confirmations": isolated,
             "note": ("★ 孤立确认说明某个行为发生了，但不是这条路径说的原因造成的。"
                      if isolated else ""),
@@ -397,7 +445,39 @@ def check_evidence(ev: dict, sources: dict) -> tuple:
     return bool(ev["observed"]), ""
 
 
+def normalize_shape(case: dict) -> tuple:
+    """★★ 产物接口：把 `path_space.paths` 归一到顶层 `paths`，并且【找不到就报错】。
+
+    ★★ 为什么必须有这个 —— 一个独立操作者实测撞上的最致命缺陷：
+      指南 §三 的示例、骨架的 `path_space`、骨架 `needs_human` 里写的 `path_space.paths`，
+      **三处一致地把人导向 `path_space`**，而本函数原先只读顶层 `case["paths"]`。
+      实测：同一份内容放 `path_space.paths` ⇒ `n_judgeable=0`；
+            放顶层 ⇒ `n_judgeable=2`。
+      **工具不报错、不警告，安静地输出一张空表加「可判判断总数 0」。**
+      而 selftest 只对已有案例跑，**抓不到一个照骨架写的新案例读数为零。**
+
+    ⇒ 两种形状都接受；但**若两个位置都找不到内容，报错退出，而不是安静地跑出零。**
+      **错的读数与对的读数长得一样，是本项目最怕的输出。**
+    """
+    ps = case.get("path_space") or {}
+    if not case.get("paths") and ps.get("paths"):
+        case = dict(case)
+        case["paths"] = ps["paths"]
+        case["_shape_note"] = "paths 取自 path_space.paths（已自动归一）"
+    if not case.get("exclusions") and ps.get("exclusions"):
+        case = dict(case)
+        case["exclusions"] = ps["exclusions"]
+    return case, (case.get("paths") or [], case.get("exclusions") or [])
+
+
 def check_case(case: dict, dyads: dict) -> dict:
+    case, (top_paths, top_exc) = normalize_shape(case)
+    if not top_paths and not top_exc:
+        raise SystemExit(
+            "⛔ 这个案例里【找不到任何路径或排除断言】。\\n"
+            "   查过两处：顶层 paths/exclusions、path_space.paths/exclusions —— 都是空的。\\n"
+            "   ⇒ 拒绝输出「可判判断总数 0」这种看起来正常的空报告。\\n"
+            "   （这正是「错的读数与对的读数长得一样」那个病。）")
     rows, pending = [], []
     sources = load_sources()
     geo = load_geo()
@@ -536,8 +616,12 @@ def main() -> int:
         print()
         print("  ── ★★ G6 因果链（前缀规则）：阶段 n 的确认只在 1..n-1 也确认时才算这条路径的")
         for pr in r["paths"]:
+            # ★ undecided 必须与 missed 分开印 ——
+            #   独立操作者实测的坑：5 条路径全印「✖️ 链断在开头」，而那 5 条【一条都没判】。
             mark = {"confirmed": "✅ 链式确认", "partial": "◐ 部分",
-                    "missed": "✖️ 链断在开头", "open": "— 无可判阶段"}[pr["path_verdict"]]
+                    "missed": "✖️ 链断在开头",
+                    "undecided": "⏳ 前缀未判（不是判了没中）",
+                    "open": "— 无可判阶段"}[pr["path_verdict"]]
             print("     %-34s %s（前缀连续命中 %d/%d）"
                   % (pr["path_label"][:34], mark, pr["chain_hits"], pr["chained_total"]))
             if pr["isolated_confirmations"]:
@@ -595,6 +679,53 @@ def selftest() -> int:
     ck("★ucdp_ 前缀也被归一", normalize_src("ucdp_dyad_present(a,b,1-2)") == "dyad_present(a,b,1-2)",
        normalize_src("ucdp_dyad_present(a,b,1-2)"))
     ck("★无前缀不动", normalize_src("deaths(a,b,1991,1000)") == "deaths(a,b,1991,1000)")
+    # ★★ 词边界匹配 —— 裸子串让 'CN' 命中 N**SCN**、'IN' 命中 **IN**dia
+    # ★ 注意：'CN' 在 'China' 里【本来就不存在】—— 让它成立的是【别名表】，
+    #   不是词边界。词边界管的是「短码不许命中别的词内部的片段」。
+    ck("★★word_in：短码必须整词匹配（'CN' 不命中 ''NSCN''-IM 里的片段）",
+       word_in("CN", "NSCN-IM") is False and word_in("CN", "NS CN IM") is True,
+       "%s / %s" % (word_in("CN", "NSCN-IM"), word_in("CN", "NS CN IM")))
+    ck("★★别名解析后 'China' 能命中（长名允许子串）",
+       word_in(resolve("CN")[0], "Government of China") is True,
+       str(resolve("CN")))
+    ck("★★word_in：长名允许作子串（'United States of America'）",
+       word_in("United States of America", "Government of United States of America") is True)
+    # ★★ 别名表必须认得 CN/IN/PK —— 否则会静默判到错误的双边对
+    ck("★★find_dyads(CN,IN) 必须返回中印对（不许是 India||NSCN-IM）",
+       find_dyads(dyads, "CN", "IN") == ["Government of China || Government of India"],
+       str(find_dyads(dyads, "CN", "IN")))
+    ck("★★find_dyads(IN,PK) 必须非空（数据里有 1989–2025 完整记录）",
+       find_dyads(dyads, "IN", "PK"), str(find_dyads(dyads, "IN", "PK")))
+    _rd = check_ucdp_deaths(dyads, "UCDP:deaths(CN, IN, 2020, 20)")
+    ck("★★deaths(CN,IN,2020) 的真值是 25（错报过 7 —— 那是印度 NSCN-IM 的数）",
+       "25" in (_rd or {}).get("detail", ""), str(_rd))
+    # ★★ 产物接口：path_space.paths 必须被读到
+    _pp = {"path_space": {"paths": [{"id": "T", "label": "L", "stages": [
+        {"stage": "s", "discriminating": True,
+         "observable": {"object": "甲", "indicator": "乙"}}]}], "exclusions": []}}
+    _cc, (_p, _e) = normalize_shape(_pp)
+    ck("★★path_space.paths 会被归一读到（否则照骨架填的人会得到空报告）", len(_p) == 1, str(len(_p)))
+    ck("★归一后带上说明", "_shape_note" in _cc, str(_cc.get("_shape_note")))
+    try:
+        check_case({"path_space": {"paths": [], "exclusions": []}}, dyads)
+        ck("★★两处都空 ⇒ 必须报错退出，不许安静输出「可判判断总数 0」", False, "没有报错")
+    except SystemExit:
+        ck("★★两处都空 ⇒ 必须报错退出，不许安静输出「可判判断总数 0」", True)
+    # ★★ G6：「没判」不许被当成「落空」
+    #   ★ 就地定义 _st —— 这是【第三次】把自证插在变量定义之前了（前两次是 dyads、idx）。
+    #     同一个毛病：插到文件里却没看上下文。所以这次不依赖别处的定义。
+    _st = lambda n, v: ({"stage": n}, v)                      # noqa: E731
+    _c = apply_causal_prefix({}, [_st("a", "manual"), _st("b", "confirmed")])
+    ck("★★G6：前缀是 manual ⇒ 判 undecided，不是 missed（「没判」≠「判了没中」）",
+       _c["path_verdict"] == "undecided", str(_c["path_verdict"]))
+    _c2 = apply_causal_prefix({}, [_st("a", "missed"), _st("b", "confirmed")])
+    ck("★★G6：前缀是 missed ⇒ 仍然是 missed（两者必须分得开）",
+       _c2["path_verdict"] == "missed", str(_c2["path_verdict"]))
+    # ★★ not() 的 detail 要写出取反后的语义
+    _g2 = load_geo()          # 就地取，不依赖别处的 _g
+    _nr = check_any(dyads, _g2, "UCDP:not(dyad_present(IQ, KW, 1992-1995))")
+    ck("★★not() 的 detail 说明取反后的语义（原句是取反前的，只看 ↳ 会被误导）",
+       "取反后：观察到了" in (_nr or {}).get("detail", ""), str(_nr)[:90])
     ck("★resolve 把简写展开", resolve("AUS/GB/US") == ["Australia", "United Kingdom",
                                                       "United States of America"],
        str(resolve("AUS/GB/US")))
@@ -625,7 +756,7 @@ def selftest() -> int:
     # ★★ 地理判据：区分「有限冲突」与「全面入侵」
     _g = load_geo()
     ck("★★geo 数据存在（RU-UA 有按州的记录）", bool(_g.get("RU-UA")), str(list(_g)[:3]))
-    _r = check_geo_present(dyads, _g, "UCDP:geo_present(RU, UA, Kyiv, 2022, 1)")
+    _r = check_geo_present(dyads, _g2, "UCDP:geo_present(RU, UA, Kyiv, 2022, 1)")
     ck("★★geo_present：2022 基辅出现在战斗记录里 ⇒ observed=True",
        _r and _r["observed"] is True, str(_r))
     _r = check_geo_present(dyads, _g, "UCDP:geo_present(RU, UA, Kyiv, 2014, 1)")

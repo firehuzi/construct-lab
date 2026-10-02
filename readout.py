@@ -66,6 +66,7 @@ READOUT_WINDOW = {
     "R5_ucdp_abroad": ("UCDP GED v26.1", 2025),
     "R6_ucdp_trend": ("UCDP GED v26.1", 2025),
     "R7_ucdp_home": ("UCDP GED v26.1", 2025),
+    "R8_ucdp_ratio": ("UCDP GED v26.1", 2025),
 }
 
 
@@ -157,6 +158,20 @@ def spearman(xs: list[float], ys: list[float]) -> float:
     return pearson(ranks(xs), ranks(ys))
 
 
+def partial_spearman(xs, ys, zs):
+    """秩偏相关：控制 zs 之后 xs 与 ys 的相关。
+    ★ 这是回答「R5 的对外投射信号是否特异」的正确工具 ——
+      两个【水平量】（对外、本国）本来就分不开，比值又会分母为 0；
+      偏相关直接问：「扣掉本国之后，对外还剩多少关联？」
+      公式：r_xy·z = (r_xy − r_xz·r_yz) / √((1−r_xz²)(1−r_yz²))
+    """
+    rxy, rxz, ryz = spearman(xs, ys), spearman(xs, zs), spearman(ys, zs)
+    den = ((1 - rxz ** 2) * (1 - ryz ** 2)) ** 0.5
+    if den == 0:
+        return None
+    return (rxy - rxz * ryz) / den
+
+
 def permutation_p(xs, ys, R=2000, seed=20261002) -> tuple[float, float]:
     """置换零分布：打乱 ys，看 |ρ| 能到多大。返回 (实测ρ, 双侧p)。"""
     rho = spearman(xs, ys)
@@ -198,12 +213,35 @@ def ucdp_readouts() -> dict:
     for code, ys in d["actors"].items():
         def s(a, b, k="abroad"):
             return sum(ys.get(str(y), {}).get(k, 0) for y in range(a, b + 1))
+        ab, hm = s(2023, 2025), s(2023, 2025, "home")
         out[code] = {
-            "R5_ucdp_abroad": s(2023, 2025),
+            "R5_ucdp_abroad": ab,
             "R6_ucdp_trend": s(2023, 2025) - s(2020, 2022),
-            "R7_ucdp_home": s(2023, 2025, "home"),
+            "R7_ucdp_home": hm,
+            # R8 比值：把「量」约掉，只剩「对外占比」—— 用来分离
+            #   「对外投射」与「一般冲突参与」。
+            #   ⚠️ 陷阱：hm == 0 时比值被机械钉在 1.0（见 main() 的混淆检查）。
+            "R8_ucdp_ratio": (ab / (ab + hm)) if (ab + hm) else None,
         }
     return out
+
+
+def ratio_confound(cs: list, A: dict) -> list:
+    """★ 混淆检查：比值读出口会不会被【与主张无关的变量】机械决定？
+
+    R8 = abroad / (abroad + home)。若某主体 home == 0，分母就只剩 abroad，
+    比值【必然】= 1.0 —— 与它是否「对外扩张」毫无关系。
+    而 home == 0 恰恰等价于「本土没有武装冲突」（美国/英国/法国…都是）。
+    ⇒ 该比值实际测的是「**你本土有没有在打仗**」，不是「你在不在对外投射」。
+
+    返回：被【机械钉住】的主体列表（home==0 且比值恰为 1.0）。
+    """
+    forced = []
+    for c in cs:
+        u = A["readouts"][c]
+        if u.get("R7_ucdp_home") == 0 and u.get("R8_ucdp_ratio") == 1.0:
+            forced.append(c)
+    return forced
 
 
 # 读出口登记表：(显示名, 键, 是否新加)
@@ -215,6 +253,7 @@ READOUT_SPEC = [
     ("R5 UCDP 对外投射（2023-25）", "R5_ucdp_abroad"),
     ("R6 UCDP 对外投射趋势（23-25 减 20-22）", "R6_ucdp_trend"),
     ("R7 UCDP 本国境内（2023-25）〔对照〕", "R7_ucdp_home"),
+    ("R8 UCDP 对外占比（对外 ÷ 合计）", "R8_ucdp_ratio"),
 ]
 
 
@@ -249,7 +288,7 @@ def main() -> int:
     print("\n  ── 各读出口 × 「方向扩张性」（★ n 逐个算：UCDP 覆盖稀疏，不许混用）")
     verdicts = {}
     for name, key in READOUT_SPEC:
-        cs = [c for c in both if key in A["readouts"][c]]
+        cs = [c for c in both if A["readouts"][c].get(key) is not None]
         if len(cs) < 6:
             print("\n     %s　n=%d ⇒ 样本太少，跳过" % (name, len(cs)))
             continue
@@ -332,6 +371,46 @@ def main() -> int:
     ok_keys = [k for k, c in cal.items() if c["ok"]]
     bad_keys = [k for k, c in cal.items() if not c["ok"]]
 
+    # ── ⑨ 混淆检查：读出口会不会被【与主张无关的变量】机械决定？ ──────────────
+    print("\n" + "=" * 92)
+    print("  ⑨ 混淆检查：读出口会不会被【与主张无关的变量】机械决定？")
+    print("=" * 92)
+    key_of0 = {nm: k for nm, k in READOUT_SPEC}
+    conf = {}
+    cs8 = [c for c in both if A["readouts"][c].get("R8_ucdp_ratio") is not None]
+    forced = ratio_confound(cs8, A)
+    conf["R8_ucdp_ratio"] = forced
+    print("\n     R8 对外占比 = abroad ÷ (abroad + home)")
+    print("       分母为 0 时比值被机械钉在 1.0。实测被钉住的主体：")
+    print("       %s（%d/%d）"
+          % ("、".join(forced) if forced else "（无）", len(forced), len(cs8)))
+    if forced:
+        print("       ⇒ ⛔ 这些主体 home==0 ⇒ 分母只剩 abroad ⇒ 比值【恒为 1.0】，")
+        print("          与「是否对外扩张」毫无关系。而 home==0 等价于【本土没有武装冲突】。")
+    # ★ 但「2/13 被钉住」这个理由【不够硬】—— 必须量化比值到底由谁驱动：
+    #   若 ρ(R8, 本国) 明显强于 ρ(R8, 对外)，则比值主要在测「本国有没有冲突」。
+    if len(cs8) >= 6:
+        x8 = [A["readouts"][c]["R8_ucdp_ratio"] for c in cs8]
+        r_ab = spearman(x8, [A["readouts"][c]["R5_ucdp_abroad"] for c in cs8])
+        r_hm = spearman(x8, [A["readouts"][c]["R7_ucdp_home"] for c in cs8])
+        print("       ρ(R8, 对外投射) = %+.3f　｜　ρ(R8, 本国境内) = %+.3f" % (r_ab, r_hm))
+        print("       被机械钉住 %d/%d 个主体" % (len(forced), len(cs8)))
+        established = abs(r_hm) > abs(r_ab)
+        conf["R8_ucdp_ratio"] = forced if established else []
+        if established:
+            print("       ⇒ ⛔ |ρ(R8,本国)| > |ρ(R8,对外)| ⇒ 比值主要由【本国境内冲突】驱动，")
+            print("          **不是**由对外投射驱动 ⇒ 判：构造上不可用，p 值不作数。")
+        else:
+            print("       ⇒ ✅ 证据【不支持】「比值被本国驱动」这个担心：")
+            print("          |ρ(R8,对外)|=%.3f > |ρ(R8,本国)|=%.3f"
+                  % (abs(r_ab), abs(r_hm)))
+            print("          但仍有 %d 个主体（%s）被分母为 0 机械钉在 1.0"
+                  % (len(forced), "、".join(forced)))
+            print("          ⇒ 只把它们标出来、单独看不作证据；不因此废弃整个读出口。")
+    else:
+        print("       ⇒ n 太小，无法量化驱动来源。" if forced else "       ⇒ 未发现机械钉住。")
+        conf["R8_ucdp_ratio"] = forced
+
     print("\n" + "=" * 92)
     print("  结论")
     print("=" * 92)
@@ -344,7 +423,43 @@ def main() -> int:
     m = len(verdicts)
     if m:
         print("\n  比较了 %d 个读出口 ⇒ Bonferroni 阈值 = 0.05/%d = %.4f" % (m, m, 0.05 / m))
-    usable = {k: v for k, v in verdicts.items() if v["caliber_ok"]}
+    usable = {k: v for k, v in verdicts.items()
+              if v["caliber_ok"] and not conf.get(key_of0.get(k))}
+    dropped = [k for k, v in verdicts.items()
+               if v["caliber_ok"] and conf.get(key_of0.get(k))]
+    if dropped:
+        print("\n  ⛔ 因【混淆】剔除（p 值不作数）：%s" % "、".join(dropped))
+
+    # ── 特异性检验：扣掉「本国境内」之后，对外投射还剩多少关联？ ──────────────
+    #   §11.4 ② 的保留是「R5 与 R7 同向 ⇒ R5 可能只是一般冲突参与」。
+    #   两个水平量本来就分不开；秩偏相关直接回答这个问题。
+    spec_cs = [c for c in both
+               if A["readouts"][c].get("R5_ucdp_abroad") is not None
+               and A["readouts"][c].get("R7_ucdp_home") is not None]
+    if len(spec_cs) >= 6:
+        ax = [A["axis_vals"][c] for c in spec_cs]
+        ab = [A["readouts"][c]["R5_ucdp_abroad"] for c in spec_cs]
+        hm = [A["readouts"][c]["R7_ucdp_home"] for c in spec_cs]
+        r_ab, r_hm, r_ah = spearman(ax, ab), spearman(ax, hm), spearman(ab, hm)
+        p_ab, p_hm = partial_spearman(ax, ab, hm), partial_spearman(ax, hm, ab)
+        print("\n  ── 特异性检验：R5 的信号是「对外投射」还是「一般冲突参与」？")
+        print("       n = %d" % len(spec_cs))
+        print("       ρ(方向, 对外) = %+.3f　　ρ(方向, 本国) = %+.3f　　ρ(对外, 本国) = %+.3f"
+              % (r_ab, r_hm, r_ah))
+        print("       ★ 偏相关 ρ(方向, 对外 ｜ 扣掉本国) = %s"
+              % ("—" if p_ab is None else "%+.3f" % p_ab))
+        print("         偏相关 ρ(方向, 本国 ｜ 扣掉对外) = %s"
+              % ("—" if p_hm is None else "%+.3f" % p_hm))
+        if p_ab is not None and p_hm is not None:
+            if abs(p_ab) > abs(p_hm) + 0.1:
+                print("       ⇒ 扣掉本国后，【对外】仍有明显关联（%+.3f 对 %+.3f）" % (p_ab, p_hm))
+                print("         ⇒ 证据更支持「对外投射」这一侧，而不是「一般冲突参与」。")
+            elif abs(p_hm) > abs(p_ab) + 0.1:
+                print("       ⇒ 扣掉对外后，【本国】反而更强 ⇒ 更像「一般冲突参与」。")
+            else:
+                print("       ⇒ 两侧偏相关接近（%+.3f vs %+.3f）⇒ 【分不开】：" % (p_ab, p_hm))
+                print("         ⛔ 不许说 R5 测的是「对外投射」——它和「一般冲突参与」无法区分。")
+
     if not usable:
         print("\n  ⛔ **没有一个【口径合格】的读出口 ⇒ 这一版仍然测不了。**")
         return 2
@@ -366,7 +481,7 @@ def main() -> int:
     print("\n  ── 留一法（drop-one）稳健性：这个 ρ 靠几个主体撑着？")
     for name, v in usable.items():
         key = key_of.get(name)
-        cs = [c for c in both if key in A["readouts"][c]]
+        cs = [c for c in both if A["readouts"][c].get(key) is not None]
         if len(cs) < 5:
             continue
         base = v["rho"]
@@ -465,6 +580,24 @@ def selftest() -> int:
     check("★口径：全部来源合起来最新不超过 2020",
           max(v["max"] for v in cov.values()) <= 2020,
           str(max(v["max"] for v in cov.values())))
+    # ── 秩偏相关：两个方向都要钉住 ──
+    x6 = [1, 2, 3, 4, 5, 6]
+    y6 = [2, 1, 4, 3, 6, 5]
+    const = [5] * 6
+    check("偏相关：控制【常数】时应等于原始相关（可精确验证）",
+          abs(partial_spearman(x6, y6, const) - spearman(x6, y6)) < 1e-9,
+          "%s vs %s" % (partial_spearman(x6, y6, const), spearman(x6, y6)))
+    check("偏相关：三者完全共线（分母为 0）⇒ 返回 None",
+          partial_spearman(x6, x6, x6) is None)
+    # ── 混淆检查：pinned 判定要能被证伪 ──
+    fake = {"readouts": {"A": {"R7_ucdp_home": 0, "R8_ucdp_ratio": 1.0},
+                         "B": {"R7_ucdp_home": 5, "R8_ucdp_ratio": 0.5},
+                         "C": {"R7_ucdp_home": 0, "R8_ucdp_ratio": 0.0}}}
+    check("混淆：home==0 且比值==1.0 ⇒ 判为被钉住（只有 A）",
+          ratio_confound(["A", "B", "C"], fake) == ["A"],
+          str(ratio_confound(["A", "B", "C"], fake)))
+    check("混淆：home==0 但比值不是 1.0 ⇒ 不算被钉住（C 不应入选）",
+          "C" not in ratio_confound(["A", "B", "C"], fake))
     print("\n  自证：通过 %d，失败 %d" % (n_pass, n_fail))
     print("=" * 92)
     return 0 if n_fail == 0 else 1

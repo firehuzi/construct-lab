@@ -1,0 +1,35 @@
+{
+  "schema": "construct-judgment-v1",
+  "run_id": "cuban-missile@2026-10-02T06:41:58.398Z",
+  "judgments": [
+    {
+      "schema": "construct-judgment-v1",
+      "id": "cuban-missile-X01",
+      "run_id": "cuban-missile@2026-10-02T06:41:58.398Z",
+      "scenario": "古巴导弹危机",
+      "time_lock": "1962年10月22日——肯尼迪发表电视讲话，宣布对古巴实施海上封锁。此时已知信息如下。",
+      "direction": "exclude",
+      "content": "危机局势进一步加剧 进入核战前奏",
+      "observable": {
+        "object": null,
+        "indicator": "互撤导弹",
+        "threshold": null,
+        "source": null
+      },
+      "window": {
+        "from": "1962-10-22",
+        "to": "1965-10-22",
+        "raw": "3年",
+        "unresolved": []
+      },
+      "why": "",
+      "migrated_from": {
+        "schema": "construct-exclusion-v1",
+        "note": "机械可迁的部分已迁；拿不到的置 None 并记进 needs_human，不猜。"
+      },
+      "needs_human": [
+        "observable.object"
+      ]
+    }
+  ]
+}

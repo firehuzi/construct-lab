@@ -1,0 +1,40 @@
+{
+  "schema": "construct-judgment-v1",
+  "run_id": "crimea@2026-10-02T07:43:40.638Z",
+  "judgments": [
+    {
+      "schema": "construct-judgment-v1",
+      "id": "crimea-X01",
+      "run_id": "crimea@2026-10-02T07:43:40.638Z",
+      "scenario": "克里米亚危机",
+      "time_lock": "2014年2月22日——亚努科维奇逃离基辅。乌克兰临时政府成立。此时克里米亚还在乌克兰控制下。俄罗斯黑海舰队基地在塞瓦斯托波尔。已知信息如下。",
+      "direction": "exclude",
+      "content": "北约出兵协助乌克兰",
+      "observable": {
+        "object": null,
+        "indicator": "北约成员国军队出现在乌克兰境内",
+        "threshold": null,
+        "source": null,
+        "object_suggestion": {
+          "value": "北约",
+          "confidence": "high",
+          "basis": "在「北约出兵协助乌克兰」的第 1 字匹配到档案里的主体名"
+        }
+      },
+      "window": {
+        "from": "2014-02-22",
+        "to": "2017-02-22",
+        "raw": "3年",
+        "unresolved": []
+      },
+      "why": "",
+      "migrated_from": {
+        "schema": "construct-exclusion-v1",
+        "note": "机械可迁的部分已迁；拿不到的置 None 并记进 needs_human，不猜。"
+      },
+      "needs_human": [
+        "observable.object"
+      ]
+    }
+  ]
+}

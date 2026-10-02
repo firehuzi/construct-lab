@@ -1,0 +1,38 @@
+{
+  "schema": "construct-judgment-v1",
+  "run_id": "gulf-war@2026-10-02T08:14:25.879Z",
+  "judgments": [
+    {
+      "schema": "construct-judgment-v1",
+      "id": "gulf-war-X01",
+      "run_id": "gulf-war@2026-10-02T08:14:25.879Z",
+      "scenario": "海湾战争",
+      "time_lock": "1991年1月15日——联合国安理会第678号决议的最后期限已过。美军和联军已完成部署（沙漠盾牌→沙漠风暴）。伊拉克拒绝从科威特撤军。此时已知信息如下。",
+      "direction": "exclude",
+      "content": "盟军入侵伊拉克",
+      "observable": {
+        "object": null,
+        "indicator": "联合国决议和阿拉伯盟友共同约束",
+        "threshold": null,
+        "source": null
+      },
+      "window": {
+        "from": "1991-01-15",
+        "to": null,
+        "raw": null,
+        "unresolved": [
+          "window.to"
+        ]
+      },
+      "why": "",
+      "migrated_from": {
+        "schema": "construct-exclusion-v1",
+        "note": "机械可迁的部分已迁；拿不到的置 None 并记进 needs_human，不猜。"
+      },
+      "needs_human": [
+        "observable.object",
+        "window.to"
+      ]
+    }
+  ]
+}

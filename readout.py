@@ -203,25 +203,52 @@ def analyse() -> dict:
 UCDP_PATH = os.path.join(HERE, "data", "ucdp_actors.json")
 
 
+ACTORS_DIR = os.path.join(ROOT, "actors")
+
+
+def state_codes() -> list:
+    """八维里属于【国家/政治实体】的码 = Tier1 与 Tier2 的目录名。
+    Tier3 是企业/组织 —— UCDP 记的是【政府】，不适用。
+    （EU 在 Tier1 但它是超国家组织，本函数把它算进来，报告里会单独标出。）
+
+    ★ 为什么需要它：原来的样本是「在 UCDP 里出现过的主体」——
+      那等于**按「有冲突活动」筛了一遍**，是选择偏倚。
+      正确的样本是【全部国家主体】，未出现在 UCDP 的取 0（它们确实没有该口径下的记录）。
+    """
+    out = []
+    for tier in ("Tier1", "Tier2"):
+        base = os.path.join(ACTORS_DIR, tier)
+        if os.path.isdir(base):
+            out += [e for e in os.listdir(base) if os.path.isdir(os.path.join(base, e))]
+    return sorted(out)
+
+
 def ucdp_readouts() -> dict:
-    """从 UCDP GED v26.1 聚合结果算读出口（覆盖到 2025 ⇒ 与 2026 的轴值口径对齐）。"""
+    """从 UCDP GED v26.1 聚合结果算读出口（覆盖到 2025 ⇒ 与 2026 的轴值口径对齐）。
+
+    ★ 样本 = 【全部国家主体】（`state_codes()`），缺席 UCDP 的取 0。
+      不这样做就是选择偏倚：只留「打过仗的」主体，恰好是最可能相关的那批。
+    """
     if not os.path.exists(UCDP_PATH):
         return {}
     with open(UCDP_PATH, encoding="utf-8") as fh:
         d = json.load(fh)
     out = {}
-    for code, ys in d["actors"].items():
+    for code in sorted(set(state_codes()) | set(d["actors"])):
+        ys = d["actors"].get(code) or {}      # ★ 缺席 ⇒ 全 0
+
         def s(a, b, k="abroad"):
             return sum(ys.get(str(y), {}).get(k, 0) for y in range(a, b + 1))
+
         ab, hm = s(2023, 2025), s(2023, 2025, "home")
         out[code] = {
             "R5_ucdp_abroad": ab,
             "R6_ucdp_trend": s(2023, 2025) - s(2020, 2022),
             "R7_ucdp_home": hm,
-            # R8 比值：把「量」约掉，只剩「对外占比」—— 用来分离
-            #   「对外投射」与「一般冲突参与」。
+            # R8 比值：把「量」约掉，只剩「对外占比」。
             #   ⚠️ 陷阱：hm == 0 时比值被机械钉在 1.0（见 main() 的混淆检查）。
             "R8_ucdp_ratio": (ab / (ab + hm)) if (ab + hm) else None,
+            "_in_ucdp": code in d["actors"],
         }
     return out
 
@@ -272,6 +299,22 @@ def main() -> int:
     print("\n  八维里有方向扩张性值的主体：%d" % A["n_axis"])
     print("  COW 骨架覆盖：%d　UCDP 覆盖：%d" % (A["n_timeline"], len(ucdp)))
     print("  ★ 可用于检验的 n（至少有一个读出口）= %d" % len(both))
+
+    # ── 选择偏倚检查：样本是「全部国家主体」还是「在外部源里出现过的」？ ────────
+    st = [c for c in state_codes() if c in A["axis_vals"]]
+    inu = [c for c in st if (ucdp.get(c) or {}).get("_in_ucdp")]
+    outu = [c for c in st if c not in inu]
+    print("\n  【选择偏倚检查】")
+    print("     有方向值的国家主体 = %d；其中出现在 UCDP 的 = %d；缺席（取 0）= %d"
+          % (len(st), len(inu), len(outu)))
+    if outu:
+        print("     缺席者：%s" % "、".join("%s=%s" % (c, A["axis_vals"][c]) for c in outu))
+        hi = [c for c in outu if A["axis_vals"][c] >= 4]
+        if hi:
+            print("     ⚠️ 其中方向=4（最高档）却对外投射=0 的：%s" % "、".join(hi))
+            print("        ⇒ 这些是【潜在反例】。若只取「在 UCDP 出现过的」样本，它们会被静默筛掉 ——")
+            print("          那正是选择偏倚：只留「打过仗的」，恰好是最可能相关的那批。")
+    print("     （EU 是超国家组织，UCDP 记的是政府 —— 它在缺席名单里，读数需谨慎。）")
 
     if len(both) < 5:
         print("\n  ⛔ n < 5，做不了检验。")
@@ -331,7 +374,9 @@ def main() -> int:
     for dim in axd["scales"]:
         vals = {a["code"]: a["dims"][dim]["value"] for a in axd["actors"]
                 if a["dims"][dim]["value"] is not None}
-        cs = sorted(set(vals) & set(A["readouts"]))
+        cs = [c for c in both
+              if vals.get(c) is not None
+              and A["readouts"][c].get("R2_recent_dispute") is not None]
         if len(cs) < 8:
             print("     %-12s n=%2d ⇒ 样本太少，跳过" % (dim, len(cs)))
             continue
@@ -598,6 +643,19 @@ def selftest() -> int:
           str(ratio_confound(["A", "B", "C"], fake)))
     check("混淆：home==0 但比值不是 1.0 ⇒ 不算被钉住（C 不应入选）",
           "C" not in ratio_confound(["A", "B", "C"], fake))
+    # ── 选择偏倚修正：样本必须是【全部国家主体】，缺席外部源的取 0 ──
+    st = state_codes()
+    check("state_codes：含国家主体（DE/JP/FR）", all(c in st for c in ("DE", "JP", "FR")), str(len(st)))
+    check("state_codes：不含 Tier3 的企业/组织（NVDA/IMF）",
+          "NVDA" not in st and "IMF" not in st)
+    ur = ucdp_readouts()
+    check("★选择偏倚修正：缺席 UCDP 的主体也被纳入且取 0（DE）",
+          "DE" in ur and ur["DE"]["R5_ucdp_abroad"] == 0 and ur["DE"]["_in_ucdp"] is False,
+          str(ur.get("DE")))
+    check("★出现过的仍标 True（RU）", ur.get("RU", {}).get("_in_ucdp") is True)
+    check("★样本规模：国家主体读数 ≥ 20 个（此前只有 13）",
+          len([c for c in ur if c in st]) >= 20,
+          str(len([c for c in ur if c in st])))
     print("\n  自证：通过 %d，失败 %d" % (n_pass, n_fail))
     print("=" * 92)
     return 0 if n_fail == 0 else 1

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """case_check.py —— B4.3：对一个填好的案例跑三条检查，并量出 pending_manual 队列
 
 ★★ 这个工具的产出里，**最重要的一行是 pending_manual 的长度。**
@@ -311,6 +311,58 @@ def check_any(dyads: dict, geo: dict, spec: str):
     return r
 
 
+def apply_causal_prefix(path: dict, verdicts: list) -> dict:
+    """★★ G6：因果链 —— 阶段 n 的确认，只在阶段 1..n−1 也确认时才算这条路径的。
+
+    ★★ 这个缺口是怎么发现的
+      海湾案例里 P03 的假设是「伊拉克撤军 ⇒ 联军收手」。
+      检查器【逐阶段独立判】，于是报出：
+        ① 宣布撤军 → 落空
+        ② 联军收手 → 确认        ← 「联军收手」确实发生了
+      ⇒ 看起来是「部分成立」。**而实际上 P03 整体是错的** ——
+        联军收手的原因【不是伊拉克撤军，是伊拉克战败】。
+      **而这一条比「判据核不了」更危险**：判据核不了你知道（它在待人工队列里），
+      因果链缺环你不知道，而结论看起来是成立的。
+
+    ⇒ 规则（能机器判的部分）：
+      按顺序走 discriminating 阶段，**前缀连续命中才算链式确认**。
+      前缀断掉之后仍然被确认的阶段，是【孤立确认】——
+      它说明某个行为发生了，但**不是这条路径说的原因造成的**。
+
+    ★ 四个已有案例全部通过：
+      · 海湾 P03（0/3 ⇒ 落空，并报出孤立确认「联军收手」）√
+      · 海湾 P01（1/1 ⇒ 确认）√
+      · 俄乌 P01（2/2 ⇒ 确认）√
+      · 俄乌 P02（0/2 ⇒ 落空）√
+
+    ★★ 但它只修一半，限度必须写在记录里：
+      它抓的是【前缀没中】，**抓不了【前缀中了但原因不同】**。
+      若伊拉克真宣布撤军了、联军也收手了，而实际原因仍是战败 —— 前缀规则会判确认。
+      ⇒ 所以它是**部分修**，不是完整修。**不许把它说成「因果链已验证」。**
+    """
+    chain = 0
+    for _st, v in verdicts:
+        if v == "confirmed":
+            chain += 1
+        else:
+            break
+    isolated = [st.get("stage") for (st, v) in verdicts[chain:] if v == "confirmed"]
+    n = len(verdicts)
+    if n == 0:
+        pv = "open"
+    elif chain == n:
+        pv = "confirmed"
+    elif chain == 0:
+        pv = "missed"
+    else:
+        pv = "partial"
+    return {"path_verdict": pv, "chain_hits": chain, "chained_total": n,
+            "isolated_confirmations": isolated,
+            "note": ("★ 孤立确认说明某个行为发生了，但不是这条路径说的原因造成的。"
+                     if isolated else ""),
+            "limit": "★ 前缀规则只抓「前缀没中」，抓不了「前缀中了但原因不同」—— 部分修，不是完整修。"}
+
+
 # ══ 主检查 ══════════════════════════════════════════════════════════════════════
 def load_sources() -> dict:
     """读依据档案索引。key = 快照文件名。"""
@@ -406,19 +458,28 @@ def check_case(case: dict, dyads: dict) -> dict:
         rows.append(("排除", x["id"], x.get("content"), r))
 
     # ② 路径推演：只数 discriminating 的
+    path_results = []
     for p in case.get("paths", []):
         disc = [s for s in p.get("stages", []) if s.get("discriminating")]
+        verdicts = []
         for i, st in enumerate(disc, 1):
             jid = "%s/%s#%d" % (p["id"], st["stage"], i)
             r = judge(jid, "path_stage", st.get("observable"), st.get("window"), st.get("evidence"))
             rows.append(("路径", jid, st["stage"], r))
+            verdicts.append((st, r.get("verdict")))
+        # ★★ G6：因果链前缀规则
+        cr = apply_causal_prefix(p, verdicts)
+        cr["path_id"] = p["id"]
+        cr["path_label"] = p.get("label")
+        path_results.append(cr)
 
     auto = [r for _k, _i, _c, r in rows
             if r.get("verdict") != "manual" and r.get("basis") != "human_with_evidence"]
     ev = [r for _k, _i, _c, r in rows if r.get("basis") == "human_with_evidence"]
     manual = [r for _k, _i, _c, r in rows if r.get("verdict") == "manual"]
     return {"rows": rows, "pending": pending, "n_judgeable": len(rows),
-            "n_auto": len(auto), "n_evidence": len(ev), "n_manual": len(manual)}
+            "n_auto": len(auto), "n_evidence": len(ev), "n_manual": len(manual),
+            "paths": path_results}
 
 
 def main() -> int:
@@ -472,7 +533,21 @@ def main() -> int:
         print("     %s" % dg["limit"])
         print("     检查了 %d 个标 true 的阶段。" % dg["checked"])
 
-        print("\n  ── ★ pending_manual 队列")
+        print()
+        print("  ── ★★ G6 因果链（前缀规则）：阶段 n 的确认只在 1..n-1 也确认时才算这条路径的")
+        for pr in r["paths"]:
+            mark = {"confirmed": "✅ 链式确认", "partial": "◐ 部分",
+                    "missed": "✖️ 链断在开头", "open": "— 无可判阶段"}[pr["path_verdict"]]
+            print("     %-34s %s（前缀连续命中 %d/%d）"
+                  % (pr["path_label"][:34], mark, pr["chain_hits"], pr["chained_total"]))
+            if pr["isolated_confirmations"]:
+                print("        ⚠️ 孤立确认：%s" % "、".join(pr["isolated_confirmations"]))
+                print("           ⇒ 这些阶段确认了，但【不是这条路径说的原因造成的】")
+        if any(pr["isolated_confirmations"] for pr in r["paths"]):
+            print("     %s" % r["paths"][0]["limit"])
+
+        print()
+        print("  ── ★ pending_manual 队列")
         if r["pending"]:
             for p in r["pending"]:
                 print("     ⏳ %s" % p["observable_indicator"])
@@ -574,6 +649,19 @@ def selftest() -> int:
     ck("★★not() 遇上「数据不够」⇒ 仍然是「数据不够」，不许被取反成 True",
        _r and _r["observed"] is None, str(_r))
     ck("★not() 的 detail 里标出取反了", "取反" in (_r.get("detail") or ""), str(_r.get("detail")))
+    # ★★ G6 前缀规则：四个已有案例
+    def _st(n, v): return ({"stage": n}, v)
+    _c = apply_causal_prefix({}, [_st("a","confirmed"), _st("b","confirmed")])
+    ck("★★G6：前缀全中 ⇒ confirmed", _c["path_verdict"] == "confirmed", str(_c["path_verdict"]))
+    _c = apply_causal_prefix({}, [_st("a","missed"), _st("b","confirmed")])
+    ck("★★G6：前缀断在开头 ⇒ missed，并报出孤立确认",
+       _c["path_verdict"] == "missed" and _c["isolated_confirmations"] == ["b"], str(_c))
+    _c = apply_causal_prefix({}, [_st("a","confirmed"), _st("b","missed"), _st("c","confirmed")])
+    ck("★★G6：中途断 ⇒ partial，孤立确认是 c",
+       _c["path_verdict"] == "partial" and _c["isolated_confirmations"] == ["c"], str(_c))
+    ck("★★G6：限度写在返回值里（抓不了「前缀中了但原因不同」）",
+       "部分修" in _c["limit"], _c["limit"][:40])
+    ck("★G6：无可判阶段 ⇒ open", apply_causal_prefix({}, [])["path_verdict"] == "open")
     ck("★不认识的 source 写法 ⇒ 返回 None（会进队列）",
        check_ucdp_present(dyads, "fact:某个历史事实") is None)
 

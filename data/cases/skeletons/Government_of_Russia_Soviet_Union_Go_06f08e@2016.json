@@ -1,47 +1,47 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_Israel_Hamas@2023",
-  "arm": "high",
+  "case_id": "Government_of_Russia_Soviet_Union_Go_06f08e@2016",
+  "arm": "quiet",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of Israel || Hamas",
-    "year": "2023",
-    "events": 1234,
-    "deaths": 26355
+    "dyad_raw": "Government of Russia (Soviet Union) || Government of Ukraine",
+    "year": "2016",
+    "events": 1,
+    "deaths": 2
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of Israel || Hamas",
-      "year": "2023",
-      "events": 1234,
-      "deaths": 26355
+      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
+      "year": "2016",
+      "events": 1,
+      "deaths": 2
     },
-    "event_date": "2023",
+    "event_date": "2016",
     "time_lock": null,
     "actors": [
-      "Israel",
-      "Hamas"
+      "Russia",
+      "Ukraine"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of Israel || Hamas",
-      "year": "2023",
-      "events": 1234,
-      "deaths": 26355,
+      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
+      "year": "2016",
+      "events": 1,
+      "deaths": 2,
       "war_threshold": 1000,
-      "meets_war_threshold": true
+      "meets_war_threshold": false
     },
     "archive": {
-      "Israel": {
-        "ref": "ConStruct_Archive\\Tier1\\Israel.md",
+      "Russia": {
+        "ref": "ConStruct_Archive\\Tier1\\Russia.md",
         "status": "有档案"
       },
-      "Hamas": {
-        "ref": null,
-        "status": "★ 无档案"
+      "Ukraine": {
+        "ref": "ConStruct_Archive\\Tier1\\Ukraine.md",
+        "status": "有档案"
       }
     },
     "coalition_sides": [],

@@ -1,47 +1,47 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_Bosnia_Herzegovina_Serbian@1992",
-  "arm": "quiet",
+  "case_id": "Government_of_Iraq_IS_3fbcd1@2014",
+  "arm": "high",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of Bosnia-Herzegovina || Serbian irregulars",
-    "year": "1992",
-    "events": 2,
-    "deaths": 25
+    "dyad_raw": "Government of Iraq || IS",
+    "year": "2014",
+    "events": 738,
+    "deaths": 13797
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of Bosnia-Herzegovina || Serbian irregulars",
-      "year": "1992",
-      "events": 2,
-      "deaths": 25
+      "dyad": "Government of Iraq || IS",
+      "year": "2014",
+      "events": 738,
+      "deaths": 13797
     },
-    "event_date": "1992",
+    "event_date": "2014",
     "time_lock": null,
     "actors": [
-      "Bosnia-Herzegovina",
-      "Serbian irregulars"
+      "Iraq",
+      "IS"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of Bosnia-Herzegovina || Serbian irregulars",
-      "year": "1992",
-      "events": 2,
-      "deaths": 25,
+      "dyad": "Government of Iraq || IS",
+      "year": "2014",
+      "events": 738,
+      "deaths": 13797,
       "war_threshold": 1000,
-      "meets_war_threshold": false
+      "meets_war_threshold": true
     },
     "archive": {
-      "Bosnia-Herzegovina": {
+      "Iraq": {
         "ref": null,
         "status": "★ 无档案"
       },
-      "Serbian irregulars": {
-        "ref": "ConStruct_Archive\\Tier2\\Serbia.md",
-        "status": "有档案"
+      "IS": {
+        "ref": null,
+        "status": "★ 无档案"
       }
     },
     "coalition_sides": [],

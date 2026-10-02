@@ -1,46 +1,46 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_Russia_Soviet_Union_Govern@2016",
+  "case_id": "Government_of_Bosnia_Herzegovina_Ser_d0722c@1992",
   "arm": "quiet",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of Russia (Soviet Union) || Government of Ukraine",
-    "year": "2016",
-    "events": 1,
-    "deaths": 2
+    "dyad_raw": "Government of Bosnia-Herzegovina || Serbian irregulars",
+    "year": "1992",
+    "events": 2,
+    "deaths": 25
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
-      "year": "2016",
-      "events": 1,
-      "deaths": 2
+      "dyad": "Government of Bosnia-Herzegovina || Serbian irregulars",
+      "year": "1992",
+      "events": 2,
+      "deaths": 25
     },
-    "event_date": "2016",
+    "event_date": "1992",
     "time_lock": null,
     "actors": [
-      "Russia",
-      "Ukraine"
+      "Bosnia-Herzegovina",
+      "Serbian irregulars"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
-      "year": "2016",
-      "events": 1,
-      "deaths": 2,
+      "dyad": "Government of Bosnia-Herzegovina || Serbian irregulars",
+      "year": "1992",
+      "events": 2,
+      "deaths": 25,
       "war_threshold": 1000,
       "meets_war_threshold": false
     },
     "archive": {
-      "Russia": {
-        "ref": "ConStruct_Archive\\Tier1\\Russia.md",
-        "status": "有档案"
+      "Bosnia-Herzegovina": {
+        "ref": null,
+        "status": "★ 无档案"
       },
-      "Ukraine": {
-        "ref": "ConStruct_Archive\\Tier1\\Ukraine.md",
+      "Serbian irregulars": {
+        "ref": "ConStruct_Archive\\Tier2\\Serbia.md",
         "status": "有档案"
       }
     },

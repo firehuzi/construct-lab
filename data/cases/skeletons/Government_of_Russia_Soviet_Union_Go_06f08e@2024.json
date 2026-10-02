@@ -1,47 +1,47 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_Iraq_Government_of_Kuwait@1991",
+  "case_id": "Government_of_Russia_Soviet_Union_Go_06f08e@2024",
   "arm": "high",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of Iraq || Government of Kuwait",
-    "year": "1991",
-    "events": 69,
-    "deaths": 21790
+    "dyad_raw": "Government of Russia (Soviet Union) || Government of Ukraine",
+    "year": "2024",
+    "events": 11792,
+    "deaths": 102120
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of Iraq || Government of Kuwait",
-      "year": "1991",
-      "events": 69,
-      "deaths": 21790
+      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
+      "year": "2024",
+      "events": 11792,
+      "deaths": 102120
     },
-    "event_date": "1991",
+    "event_date": "2024",
     "time_lock": null,
     "actors": [
-      "Iraq",
-      "Kuwait"
+      "Russia",
+      "Ukraine"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of Iraq || Government of Kuwait",
-      "year": "1991",
-      "events": 69,
-      "deaths": 21790,
+      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
+      "year": "2024",
+      "events": 11792,
+      "deaths": 102120,
       "war_threshold": 1000,
       "meets_war_threshold": true
     },
     "archive": {
-      "Iraq": {
-        "ref": null,
-        "status": "★ 无档案"
+      "Russia": {
+        "ref": "ConStruct_Archive\\Tier1\\Russia.md",
+        "status": "有档案"
       },
-      "Kuwait": {
-        "ref": null,
-        "status": "★ 无档案"
+      "Ukraine": {
+        "ref": "ConStruct_Archive\\Tier1\\Ukraine.md",
+        "status": "有档案"
       }
     },
     "coalition_sides": [],

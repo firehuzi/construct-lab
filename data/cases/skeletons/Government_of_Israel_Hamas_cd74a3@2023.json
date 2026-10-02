@@ -1,45 +1,45 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_Iraq_IS@2014",
+  "case_id": "Government_of_Israel_Hamas_cd74a3@2023",
   "arm": "high",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of Iraq || IS",
-    "year": "2014",
-    "events": 738,
-    "deaths": 13797
+    "dyad_raw": "Government of Israel || Hamas",
+    "year": "2023",
+    "events": 1234,
+    "deaths": 26355
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of Iraq || IS",
-      "year": "2014",
-      "events": 738,
-      "deaths": 13797
+      "dyad": "Government of Israel || Hamas",
+      "year": "2023",
+      "events": 1234,
+      "deaths": 26355
     },
-    "event_date": "2014",
+    "event_date": "2023",
     "time_lock": null,
     "actors": [
-      "Iraq",
-      "IS"
+      "Israel",
+      "Hamas"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of Iraq || IS",
-      "year": "2014",
-      "events": 738,
-      "deaths": 13797,
+      "dyad": "Government of Israel || Hamas",
+      "year": "2023",
+      "events": 1234,
+      "deaths": 26355,
       "war_threshold": 1000,
       "meets_war_threshold": true
     },
     "archive": {
-      "Iraq": {
-        "ref": null,
-        "status": "★ 无档案"
+      "Israel": {
+        "ref": "ConStruct_Archive\\Tier1\\Israel.md",
+        "status": "有档案"
       },
-      "IS": {
+      "Hamas": {
         "ref": null,
         "status": "★ 无档案"
       }

@@ -1,53 +1,51 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_Australia_Government_of_Un@2003",
-  "arm": "high",
+  "case_id": "Government_of_Israel_Hamas_cd74a3@1997",
+  "arm": "quiet",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of Australia, Government of United Kingdom, Government of United States of America || Government of Iraq",
-    "year": "2003",
-    "events": 95,
-    "deaths": 7927
+    "dyad_raw": "Government of Israel || Hamas",
+    "year": "1997",
+    "events": 1,
+    "deaths": 1
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of Australia, Government of United Kingdom, Government of United States of America || Government of Iraq",
-      "year": "2003",
-      "events": 95,
-      "deaths": 7927
+      "dyad": "Government of Israel || Hamas",
+      "year": "1997",
+      "events": 1,
+      "deaths": 1
     },
-    "event_date": "2003",
+    "event_date": "1997",
     "time_lock": null,
     "actors": [
-      "Australia, Government of United Kingdom, Government of United States of America",
-      "Iraq"
+      "Israel",
+      "Hamas"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of Australia, Government of United Kingdom, Government of United States of America || Government of Iraq",
-      "year": "2003",
-      "events": 95,
-      "deaths": 7927,
+      "dyad": "Government of Israel || Hamas",
+      "year": "1997",
+      "events": 1,
+      "deaths": 1,
       "war_threshold": 1000,
-      "meets_war_threshold": true
+      "meets_war_threshold": false
     },
     "archive": {
-      "Australia, Government of United Kingdom, Government of United States of America": {
-        "ref": "ConStruct_Archive\\Tier2\\Australia.md",
+      "Israel": {
+        "ref": "ConStruct_Archive\\Tier1\\Israel.md",
         "status": "有档案"
       },
-      "Iraq": {
+      "Hamas": {
         "ref": null,
         "status": "★ 无档案"
       }
     },
-    "coalition_sides": [
-      "Australia, Government of United Kingdom, Government of United States of America"
-    ],
-    "side_is_coalition": true
+    "coalition_sides": [],
+    "side_is_coalition": false
   },
   "path_space": {
     "paths": [],
@@ -98,7 +96,6 @@
     "event.text",
     "event.time_lock",
     "path_space.paths",
-    "path_space.exclusions",
-    "data_layer.actors —— 这一边的 side 是【联盟】，要先拆成单个主体"
+    "path_space.exclusions"
   ]
 }

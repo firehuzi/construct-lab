@@ -1,46 +1,46 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_Afghanistan_Government_of_@2008",
+  "case_id": "Government_of_China_Government_of_In_83cb52@2020",
   "arm": "quiet",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of Afghanistan || Government of Pakistan",
-    "year": "2008",
-    "events": 1,
-    "deaths": 1
+    "dyad_raw": "Government of China || Government of India",
+    "year": "2020",
+    "events": 2,
+    "deaths": 25
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of Afghanistan || Government of Pakistan",
-      "year": "2008",
-      "events": 1,
-      "deaths": 1
+      "dyad": "Government of China || Government of India",
+      "year": "2020",
+      "events": 2,
+      "deaths": 25
     },
-    "event_date": "2008",
+    "event_date": "2020",
     "time_lock": null,
     "actors": [
-      "Afghanistan",
-      "Pakistan"
+      "China",
+      "India"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of Afghanistan || Government of Pakistan",
-      "year": "2008",
-      "events": 1,
-      "deaths": 1,
+      "dyad": "Government of China || Government of India",
+      "year": "2020",
+      "events": 2,
+      "deaths": 25,
       "war_threshold": 1000,
       "meets_war_threshold": false
     },
     "archive": {
-      "Afghanistan": {
-        "ref": null,
-        "status": "★ 无档案"
+      "China": {
+        "ref": "ConStruct_Archive\\Tier1\\China.md",
+        "status": "有档案"
       },
-      "Pakistan": {
-        "ref": "ConStruct_Archive\\Tier3\\Pakistan.md",
+      "India": {
+        "ref": "ConStruct_Archive\\Tier2\\India.md",
         "status": "有档案"
       }
     },

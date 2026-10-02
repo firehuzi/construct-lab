@@ -1,47 +1,47 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_Russia_Soviet_Union_Govern@2024",
-  "arm": "high",
+  "case_id": "Government_of_China_ETIM_7bcb76@1999",
+  "arm": "quiet",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of Russia (Soviet Union) || Government of Ukraine",
-    "year": "2024",
-    "events": 11792,
-    "deaths": 102120
+    "dyad_raw": "Government of China || ETIM",
+    "year": "1999",
+    "events": 3,
+    "deaths": 0
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
-      "year": "2024",
-      "events": 11792,
-      "deaths": 102120
+      "dyad": "Government of China || ETIM",
+      "year": "1999",
+      "events": 3,
+      "deaths": 0
     },
-    "event_date": "2024",
+    "event_date": "1999",
     "time_lock": null,
     "actors": [
-      "Russia",
-      "Ukraine"
+      "China",
+      "ETIM"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
-      "year": "2024",
-      "events": 11792,
-      "deaths": 102120,
+      "dyad": "Government of China || ETIM",
+      "year": "1999",
+      "events": 3,
+      "deaths": 0,
       "war_threshold": 1000,
-      "meets_war_threshold": true
+      "meets_war_threshold": false
     },
     "archive": {
-      "Russia": {
-        "ref": "ConStruct_Archive\\Tier1\\Russia.md",
+      "China": {
+        "ref": "ConStruct_Archive\\Tier1\\China.md",
         "status": "有档案"
       },
-      "Ukraine": {
-        "ref": "ConStruct_Archive\\Tier1\\Ukraine.md",
-        "status": "有档案"
+      "ETIM": {
+        "ref": null,
+        "status": "★ 无档案"
       }
     },
     "coalition_sides": [],

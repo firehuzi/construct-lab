@@ -1,47 +1,47 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_China_Government_of_India@2020",
-  "arm": "quiet",
+  "case_id": "Government_of_Iraq_Government_of_Kuw_b314da@1991",
+  "arm": "high",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of China || Government of India",
-    "year": "2020",
-    "events": 2,
-    "deaths": 25
+    "dyad_raw": "Government of Iraq || Government of Kuwait",
+    "year": "1991",
+    "events": 69,
+    "deaths": 21790
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of China || Government of India",
-      "year": "2020",
-      "events": 2,
-      "deaths": 25
+      "dyad": "Government of Iraq || Government of Kuwait",
+      "year": "1991",
+      "events": 69,
+      "deaths": 21790
     },
-    "event_date": "2020",
+    "event_date": "1991",
     "time_lock": null,
     "actors": [
-      "China",
-      "India"
+      "Iraq",
+      "Kuwait"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of China || Government of India",
-      "year": "2020",
-      "events": 2,
-      "deaths": 25,
+      "dyad": "Government of Iraq || Government of Kuwait",
+      "year": "1991",
+      "events": 69,
+      "deaths": 21790,
       "war_threshold": 1000,
-      "meets_war_threshold": false
+      "meets_war_threshold": true
     },
     "archive": {
-      "China": {
-        "ref": "ConStruct_Archive\\Tier1\\China.md",
-        "status": "有档案"
+      "Iraq": {
+        "ref": null,
+        "status": "★ 无档案"
       },
-      "India": {
-        "ref": "ConStruct_Archive\\Tier2\\India.md",
-        "status": "有档案"
+      "Kuwait": {
+        "ref": null,
+        "status": "★ 无档案"
       }
     },
     "coalition_sides": [],

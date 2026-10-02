@@ -1,47 +1,47 @@
 {
   "schema": "construct-case-skeleton-v1",
-  "case_id": "Government_of_China_ETIM@1999",
+  "case_id": "Government_of_Afghanistan_Government_bc5d51@2008",
   "arm": "quiet",
   "selection": {
     "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
-    "dyad_raw": "Government of China || ETIM",
-    "year": "1999",
-    "events": 3,
-    "deaths": 0
+    "dyad_raw": "Government of Afghanistan || Government of Pakistan",
+    "year": "2008",
+    "events": 1,
+    "deaths": 1
   },
   "event": {
     "text": null,
     "source": {
       "dataset": "UCDP GED v26.1",
-      "dyad": "Government of China || ETIM",
-      "year": "1999",
-      "events": 3,
-      "deaths": 0
+      "dyad": "Government of Afghanistan || Government of Pakistan",
+      "year": "2008",
+      "events": 1,
+      "deaths": 1
     },
-    "event_date": "1999",
+    "event_date": "2008",
     "time_lock": null,
     "actors": [
-      "China",
-      "ETIM"
+      "Afghanistan",
+      "Pakistan"
     ]
   },
   "data_layer": {
     "ucdp": {
-      "dyad": "Government of China || ETIM",
-      "year": "1999",
-      "events": 3,
-      "deaths": 0,
+      "dyad": "Government of Afghanistan || Government of Pakistan",
+      "year": "2008",
+      "events": 1,
+      "deaths": 1,
       "war_threshold": 1000,
       "meets_war_threshold": false
     },
     "archive": {
-      "China": {
-        "ref": "ConStruct_Archive\\Tier1\\China.md",
-        "status": "有档案"
-      },
-      "ETIM": {
+      "Afghanistan": {
         "ref": null,
         "status": "★ 无档案"
+      },
+      "Pakistan": {
+        "ref": "ConStruct_Archive\\Tier3\\Pakistan.md",
+        "status": "有档案"
       }
     },
     "coalition_sides": [],

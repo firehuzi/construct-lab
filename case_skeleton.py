@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """case_skeleton.py —— 案例骨架生成器（用户选的 a 段：纯机器的那一半）
 
 ★★ 做什么
@@ -26,6 +26,7 @@
 """
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 import os
@@ -154,6 +155,18 @@ def select(dyads: dict, n_high: int, n_quiet: int) -> tuple:
 
 
 # ══ 骨架 ════════════════════════════════════════════════════════════════════════
+def case_id_for(dyad: str, year: str) -> str:
+    """案例 id。★ 必须唯一 —— 第一版是 `re.sub(...)[:40] + '@' + year`，
+    结果 `Bosnia-Herzegovina || Serbian Republic of Bosnia-Herzegovina`(high)
+    与 `Bosnia-Herzegovina || Serbian irregulars`(quiet) 都截断到
+    `Government_of_Bosnia_Herzegovina_Serbian@1992` ⇒ **后写的静默盖掉先写的**，
+    12 个骨架只落了 11 个文件。
+    ⇒ 加一个内容散列后缀；并且 build() 里撞名【报错】而不是覆盖。
+    """
+    h = hashlib.sha1(dyad.encode("utf-8")).hexdigest()[:6]
+    return "%s_%s@%s" % (re.sub(r"[^\w]+", "_", dyad)[:36], h, year)
+
+
 def skeleton(dyad: str, year: str, events: int, deaths: int, arm: str, idx: dict) -> dict:
     a_raw, _, b_raw = dyad.partition(" || ")
     a, b = clean_name(a_raw), clean_name(b_raw)
@@ -164,7 +177,7 @@ def skeleton(dyad: str, year: str, events: int, deaths: int, arm: str, idx: dict
 
     s = {
         "schema": "construct-case-skeleton-v1",
-        "case_id": "%s@%s" % (re.sub(r"[^\w]+", "_", dyad)[:40], year),
+        "case_id": case_id_for(dyad, year),
         "arm": arm,                               # high = 高冲突臂 / quiet = 对照臂（零效应臂）
         "selection": {                            # ★ 透明：这个案例为什么被选中
             "rule": "年度战斗死亡 ≥ %d ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂" % WAR_DEATHS,
@@ -230,11 +243,18 @@ def build(n: int) -> tuple:
     idx = archive_index()
     h, q = select(dyads, (n + 1) // 2, n // 2)
     os.makedirs(OUT_DIR, exist_ok=True)
-    made = []
+    made, seen = [], {}
     for arm, sel in (("high", h), ("quiet", q)):
         for dyad, year, ev, dd in sel:
             s = skeleton(dyad, year, ev, dd, arm, idx)
-            with io.open(os.path.join(OUT_DIR, s["case_id"] + ".json"), "w",
+            cid = s["case_id"]
+            # ★ 撞名【报错】而不是静默覆盖 ——
+            #   第一版就是 12 个骨架只落了 11 个文件，少的那一个被盖掉且没人知道。
+            if cid in seen:
+                raise RuntimeError("case_id 撞名：%s\n  已用于 %s\n  现在用于 %s"
+                                   % (cid, seen[cid], dyad))
+            seen[cid] = dyad
+            with io.open(os.path.join(OUT_DIR, cid + ".json"), "w",
                          encoding="utf-8", newline="\n") as fh:
                 json.dump(s, fh, ensure_ascii=False, indent=2)
             made.append(s)
@@ -361,6 +381,13 @@ def selftest() -> int:
     ck("★档案命中：找不到返回 None（不猜）", archive_hit("某个不存在的主体xyz", idx) is None)
 
     s = skeleton("Government of Iraq || Government of Kuwait", "1991", 100, 21790, "high", idx)
+    # ★★ case_id 必须唯一 —— 第一版 [:40] 截断让两条 Bosnia 记录撞名并被静默覆盖（12→11 个文件）
+    ck("★★case_id 带散列后缀，Bosnia 那两条不再撞名",
+       case_id_for("Government of Bosnia-Herzegovina || Serbian Republic of Bosnia-Herzegovina", "1992")
+       != case_id_for("Government of Bosnia-Herzegovina || Serbian irregulars", "1992"),
+       case_id_for("Government of Bosnia-Herzegovina || Serbian irregulars", "1992"))
+    ck("★case_id 对同输入稳定（可复跑）",
+       case_id_for("A || B", "1991") == case_id_for("A || B", "1991"))
     ck("★骨架 schema 正确", s["schema"] == "construct-case-skeleton-v1")
     ck("★★event.text 是 None 而【不是空串】（数据层没有报道原文 —— F1 必须人补）",
        s["event"]["text"] is None, repr(s["event"]["text"]))

@@ -1,0 +1,29 @@
+{
+  "schema": "construct-exclusion-v1",
+  "exported_at": "2026-10-02T08:14:25.879Z",
+  "scenario": "海湾战争",
+  "scenario_id": "gulf-war",
+  "time_lock": "1991年1月15日——联合国安理会第678号决议的最后期限已过。美军和联军已完成部署（沙漠盾牌→沙漠风暴）。伊拉克拒绝从科威特撤军。此时已知信息如下。",
+  "exclusions": [
+    {
+      "id": "gulf-war-X01",
+      "scenario": "海湾战争",
+      "time_point": "1991年1月15日——联合国安理会第678号决议的最后期限已过。美军和联军已完成部署（沙漠盾牌→沙漠风暴）。伊拉克拒绝从科威特撤军。此时已知信息如下。",
+      "excluded": "盟军入侵伊拉克",
+      "criterion": "联合国决议和阿拉伯盟友共同约束",
+      "window": null,
+      "falsifiable": true,
+      "verdict_at_write": "尚未被证伪（写下时）",
+      "note": ""
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "falsifiable": 1,
+    "unfalsifiable": 0,
+    "unfalsifiable_ids": [],
+    "missing_window_ids": [
+      "gulf-war-X01"
+    ]
+  }
+}

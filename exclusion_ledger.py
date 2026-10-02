@@ -335,18 +335,30 @@ def criterion_overlap(excluded: str, criterion: str) -> float:
     return len(a & b) / float(min(len(a), len(b)))
 
 
-def ingest_state(exc: str, crit: str, window: str) -> str:
-    """把一条摄入记录判到四档之一。抽成纯函数是为了【四个方向都能单独自证】。"""
+def ingest_flags(exc: str, crit: str, window: str) -> list:
+    """一条记录身上的【全部】问题，不是只报第一个。
+
+    ★ 为什么改成多问题：海湾那条同时【判据不对题】且【没填窗口】，
+      而原来的 ingest_state 是优先级链，只报第一个 —— 第二个问题被遮住了。
+      一条断言可以同时有多个毛病，账必须全报。
+    """
     exc = (exc or "").strip()
     crit = (crit or "").strip()
     win = (window or "").strip()
+    flags = []
     if not crit:
-        return IN_UNFALSIFIABLE
-    if criterion_overlap(exc, crit) == 0.0:
-        return IN_MISMATCH
+        flags.append(IN_UNFALSIFIABLE)
+    elif criterion_overlap(exc, crit) == 0.0:
+        flags.append(IN_MISMATCH)
     if not win:
-        return IN_NO_WINDOW
-    return IN_FALSIFIABLE
+        flags.append(IN_NO_WINDOW)
+    return flags
+
+
+def ingest_state(exc: str, crit: str, window: str) -> str:
+    """主状态（第一个问题）—— 保留给单状态断言用。全部问题见 ingest_flags。"""
+    fl = ingest_flags(exc, crit, window)
+    return fl[0] if fl else IN_FALSIFIABLE
 
 
 def ingested_rows() -> list:
@@ -372,6 +384,7 @@ def ingested_rows() -> list:
                 win = (x.get("window") or "").strip()
                 exc = (x.get("excluded") or "").strip()
                 ov = criterion_overlap(exc, crit)
+                flags = ingest_flags(exc, crit, win)
                 st = ingest_state(exc, crit, win)
                 out.append({
                     "id": x.get("id") or "?",
@@ -381,6 +394,7 @@ def ingested_rows() -> list:
                     "criterion": crit,
                     "window": win,
                     "overlap": ov,
+                    "flags": flags,
                     "state": st,
                     "from": os.path.relpath(p, ROOT),
                 })
@@ -398,30 +412,31 @@ def print_ingest() -> int:
                                           os.path.relpath(INGEST_DIRS[1], ROOT)))
         print("\n  （这一步是整件事的闭环：断言由工具在写下时就结构化，不再事后从散文里抽。）")
         return 0
-    print("\n  %-22s %-12s %-30s %s" % ("id", "状态", "排除的路径", "判据"))
-    print("  " + "-" * 92)
+    print("\n  %-22s %-30s %s" % ("id", "排除的路径", "问题（全部，不是只报第一个）"))
+    print("  " + "-" * 94)
     for r in rows:
-        print("  %-22s %-12s %-30s %s" % (r["id"], r["state"].split()[0],
-                                          r["excluded"][:30], r["criterion"][:26] or "（缺）"))
-        if r["state"] == IN_MISMATCH:
-            print("  %-22s %-12s ↳ 重叠度 %.2f ⇒ 判据与被排除的路径【没有一个字重叠】"
-                  % ("", "", r["overlap"]))
-            print("  %-22s %-12s   常见原因：把「我认为会怎么走」（路径预测）填进了判据栏。"
-                  % ("", ""))
-            print("  %-22s %-12s   判据要填的是【证伪条件】：出现什么，就说明我排除的那件事发生了。"
-                  % ("", ""))
+        fl = r.get("flags") or []
+        tag = "✅ 无（可证伪 · 尚未被证伪）" if not fl else " ＋ ".join(x.split("（")[0] for x in fl)
+        print("  %-22s %-30s %s" % (r["id"], r["excluded"][:30], tag))
+        print("  %-22s %-30s 　判据：%s" % ("", "（%s）" % r["scenario"], r["criterion"][:44] or "（缺）"))
+        print("  %-22s %-30s 　窗口：%s" % ("", "", r["window"] or "未填 ← 无窗口 ⇒ 只是「尚未发生」"))
+        if IN_MISMATCH in fl:
+            print("  %-22s %-30s 　★ 判据与被排除的路径零词面重叠（%.2f）—— "
+                  "多半把「我认为会怎么走」或「理由」填进了判据栏" % ("", "", r["overlap"]))
     tally = {}
     for r in rows:
-        tally[r["state"]] = tally.get(r["state"], 0) + 1
-    print("  " + "-" * 92)
-    for k, v in sorted(tally.items()):
-        print("    %-50s %d" % (k, v))
-    bad = tally.get(IN_UNFALSIFIABLE, 0) + tally.get(IN_MISMATCH, 0)
-    print("\n  ★ 关键指标：**不可证伪或判据不对题的比例** = %d/%d = %.0f%%"
+        for f in (r.get("flags") or []):
+            tally[f] = tally.get(f, 0) + 1
+        if not (r.get("flags") or []):
+            tally["✅ 完全合格"] = tally.get("✅ 完全合格", 0) + 1
+    print("  " + "-" * 94)
+    for k, v in sorted(tally.items(), key=lambda kv: -kv[1]):
+        print("    %-52s %d" % (k, v))
+    bad = len([r for r in rows if (r.get("flags") or [])])
+    print("\n  ★ 关键指标：**有问题（缺判据／判据不对题／无窗口）的比例** = %d/%d = %.0f%%"
           % (bad, len(rows), 100.0 * bad / len(rows)))
-    print("     （缺判据 %d 条 ／ 判据不对题 %d 条）"
-          % (tally.get(IN_UNFALSIFIABLE, 0), tally.get(IN_MISMATCH, 0)))
-    print("     工具的拦截发生在【写下的那一刻】—— 这正是它比事后抽取强的地方。")
+    print("     完全合格 %d 条。工具的拦截发生在【写下的那一刻】——"
+          " 这正是它比事后抽取强的地方。" % (len(rows) - bad))
     print("=" * 96)
     return 0
 
@@ -543,6 +558,12 @@ def selftest() -> int:
           ingest_state("欧盟自主建军", "欧盟把防务预算主权上交", "") == IN_NO_WINDOW)
     check("★ingest_state：判据对题且有窗口 ⇒ 才算可证伪",
           ingest_state("欧盟自主建军", "欧盟把防务预算主权上交", "5年") == IN_FALSIFIABLE)
+    # ★★ 多问题：海湾那条同时「判据不对题」且「无窗口」—— 必须【两个都报】
+    gulf = ingest_flags("盟军入侵伊拉克", "联合国决议和阿拉伯盟友共同约束", "")
+    check("★★多问题：海湾那条同时报出【判据不对题】与【无窗口】",
+          IN_MISMATCH in gulf and IN_NO_WINDOW in gulf, str(gulf))
+    check("★无问题的记录 ⇒ flags 为空（不是靠猜）",
+          ingest_flags("欧盟自主建军", "欧盟把防务预算主权上交", "5年") == [])
     if rows:
         check("★摄入：每条都带状态，且状态只有四档",
               all(r["state"] in (IN_FALSIFIABLE, IN_NO_WINDOW, IN_UNFALSIFIABLE, IN_MISMATCH)

@@ -112,7 +112,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 </head>
 <body>
 <div id="app">
-  <div class="header"><h1>📜 地缘推演台 — 历史回溯版 V2</h1><p class="sub">地缘政治飞行模拟器——<br>用当时的已知信息做判断，然后看历史怎么走的。<br><strong>事后诸葛亮是廉价的，事前判断才是真功夫。</strong></p></div>
+  <div class="header"><h1>📜 地缘推演台 — 历史回溯版 V2</h1><p class="sub">地缘政治飞行模拟器——<br>用当时的已知信息做判断，然后看历史怎么走的。<br><strong>事后诸葛亮是廉价的，事前判断才是真功夫。</strong></p>
+    <!-- ★ 版本戳：用户三次导出都来自旧版而我们只能靠推断。
+         现在把「这份页面到底是哪个构建」印在脸上，不再靠猜。 -->
+    <div class="hint" id="build-stamp" style="margin-top:10px;font-size:11px"></div>
+  </div>
 
   <!-- SCENARIO SELECTION -->
   <div id="scenario-select">
@@ -338,6 +342,31 @@ let state = {
 //   写下时补一句判据的代价是零；几个月后从散文里回头抽，代价就是口径不清。
 const EXCLUSION_SCHEMA = 'construct-exclusion-v1';
 
+// ★ 构建指纹。用户三次导出都来自旧版，而我们只能靠字段推断 —— 那次推断花了好几轮。
+//   现在把「这份页面是哪个构建、有哪些功能」直接印在页面上，一眼可核。
+//   改动工具时【必须】同时改这里，否则戳会说谎。
+const BUILD = {
+  id: 'b7-commit-history',           // 构建标识
+  date: '2026-10-02',
+  features: [                        // 有这些 = 你打开的是这份
+    '排除断言栏（含证伪条件填空题）',
+    '判据对不对题检查（词面重叠）',
+    '✔ 提交本次推演（写入历史、锁定）',
+    '未提交不许揭示历史',
+    '📚 历史推演记录（场景页）',
+    '导出排除断言 / 导出全部历史',
+    '自由笔记与决策时间点可保存回填',
+  ],
+};
+function renderBuildStamp() {
+  const el = document.getElementById('build-stamp');
+  if (!el) return;
+  el.innerHTML = '构建 <strong>' + BUILD.id + '</strong> · ' + BUILD.date
+    + '　｜　应有功能：' + BUILD.features.join(' ／ ')
+    + '　｜　<strong style="color:var(--danger)">若你看到的页面【没有】上面这些，'
+    + '说明你打开的是旧版（按 Ctrl+F5 强制刷新）</strong>';
+}
+
 // ★ 判据与被排除路径的【词面重叠度】。
 //   加这个是因为第一个真实记录就撞上了：excluded=「危机局势进一步加剧 进入核战前奏」/
 //   criterion=「互撤导弹」—— 后者不是前者的判据，它恰恰是【反面】（双方各退一步）。
@@ -413,6 +442,7 @@ function buildExclusionRecord(bt, st, nowISO) {
 // INIT
 // ============================================================
 function init() {
+  renderBuildStamp();
   renderScenarioGrid();
 }
 init();

@@ -361,6 +361,41 @@ ck("★页面里有提交按钮且绑定 navCommit（最后一步它会变成「
 ck("★页面里有 #save-status 元素", /id="save-status"/.test(src));
 ck("★页面里有 #history-holder（历史记录挂载点）", /id="history-holder"/.test(src));
 
+// ★ 版本戳：用户三次导出都来自旧版，我们只能靠字段推断，花了好几轮。
+//   现在把构建指纹印在页面上，一眼可核。
+ck("★页面里有 #build-stamp 元素", /id="build-stamp"/.test(src));
+ck("★init 会渲染版本戳", /function init\(\)\s*\{[\s\S]{0,80}renderBuildStamp\(\)/.test(src));
+ck("★版本戳渲染出了构建 id 与功能清单",
+   /构建/.test(nodes["build-stamp"].innerHTML || "") &&
+   /commit-history/.test(nodes["build-stamp"].innerHTML || ""),
+   (nodes["build-stamp"].innerHTML || "").slice(0, 120));
+ck("★版本戳包含「旧版就按 Ctrl+F5」的指令",
+   /Ctrl\+F5/.test(nodes["build-stamp"].innerHTML || ""));
+// ★ 版本戳必须【不撒谎】：BUILD.features 里列的每项，代码里都要有对应实现。
+//   （第一次我写成检查 '#history-holder' 字面串 —— 那是 CSS 选择器，
+//     HTML 里不存在，所以这条断言自己错了。改成逐项对实现符号。）
+const featureImpl = [
+  ["排除断言栏", "renderExclusions"],
+  ["证伪条件填空题", "填空题"],
+  ["判据对不对题检查", "criterionOverlap"],
+  ["提交本次推演", "commitBacktest"],
+  ["未提交不许揭示历史", "state.committed"],
+  ["历史推演记录", "renderHistoryList"],
+  ["导出排除断言", "exportExclusions"],
+  ["导出全部历史", "exportHistory"],
+  ["自由笔记", "data-note"],
+];
+const lying = featureImpl.filter(([label, sym]) => {
+  const claimed = (nodes["build-stamp"].innerHTML || "").indexOf(label) >= 0;
+  const implemented = src.indexOf(sym) >= 0;
+  return claimed && !implemented;
+});
+ck("★版本戳的每一项功能都有对应实现（不撒谎）",
+   lying.length === 0, JSON.stringify(lying));
+ck("★版本戳确实列了功能清单（不是空壳）",
+   featureImpl.filter(([l]) => (nodes["build-stamp"].innerHTML || "").indexOf(l) >= 0).length >= 4,
+   (nodes["build-stamp"].innerHTML || "").slice(0, 200));
+
 // ══════════════════════════════════════════════════════════════
 // 用户报的第三件事：提交动作缺失（揭示历史替代了提交）＋ 没有历史推演记录
 // ══════════════════════════════════════════════════════════════

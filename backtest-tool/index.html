@@ -126,9 +126,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     <div class="step-content" id="step-content"></div>
     <div class="nav">
       <button class="btn" id="btn-prev" onclick="prevStep()">← 上一步</button>
+      <button class="btn" id="btn-commit" onclick="commitStep()">✔ 保存本步</button>
       <span id="nav-spacer"></span>
       <button class="btn btn-primary" id="btn-next" onclick="nextStep()">下一步 →</button>
     </div>
+    <div id="save-status" class="hint" style="text-align:center;min-height:18px"></div>
     <div class="reveal-section" id="reveal-section"></div>
   </div>
 </div>
@@ -467,11 +469,18 @@ function renderStepContent() {
 // --- STEP 0: Scene & Time-locked info ---
 function renderStep0() {
   const s = state.scene;
+  // ★ 修过一个 bug：原来这里写的是
+  //     <textarea id="s-decision" value="...">...</textarea>
+  //   两个错：① <textarea> 的 value 属性【无效】（HTML 规范里 textarea 的内容在标签之间）；
+  //   ② 回填读的是 currentBT.timeLocked.decisionPoint，而 collectState 写的是
+  //      state.scene.decisionPoint ⇒ 用户改完切走再回来，改动【被复原】。
+  //   现在：优先读 state，其次读锁定的原文。
+  const dp = (state.scene && state.scene.decisionPoint) || currentBT.timeLocked.decisionPoint || '';
   return `<div class="panel"><h3>📋 场景设定</h3>
     <div class="hint">以下信息是<strong>当时已知的</strong>。请基于这些信息分析，不要使用你知道的历史结果。</div>
     <div class="field"><label>场景名称（已锁定）</label><input value="${esc(s.name)}" readonly style="opacity:.7"></div>
     <div class="field"><label>核心矛盾（已锁定）</label><textarea rows="3" readonly style="opacity:.7">${esc(s.description)}</textarea></div>
-    <div class="field"><label>决策时间点（关键）</label><textarea id="s-decision" rows="2" value="${esc(currentBT.timeLocked.decisionPoint||'')}">${esc(currentBT.timeLocked.decisionPoint||'')}</textarea></div>
+    <div class="field"><label>决策时间点（关键，可修改）</label><textarea id="s-decision" rows="2">${esc(dp)}</textarea></div>
   </div>
   <div class="info-box"><strong>📌 学习目标：</strong>${currentBT.learningGoal}</div>`;
 }
@@ -606,7 +615,13 @@ function renderStep4() {
   html += `<button class="btn" onclick="addPath()">+ 添加路径</button></div>`;
   html += renderExclusions();
   html += renderGuidedQuestions(4);
-  html += '<div class="panel" style="margin-top:12px"><h3>📝 自由笔记（非必填）</h3><div class="field"><label>任何额外的分析或疑问</label><textarea data-path="free" data-field="notes" rows="2" placeholder="可选...">'+(state.pathNotes||'')+'</textarea></div></div>';
+  // ★ 修过一个 bug：这里原来是 data-path="free" data-field="notes"。
+  //   collectState 用 parseInt(el.dataset.path) 取索引，parseInt('free') = NaN
+  //   ⇒ 内容被写进 state.paths[NaN]（一个非索引属性），而
+  //   ① 渲染回填读的是 state.pathNotes（【从未被写过】）⇒ 切走再回来，笔记空白；
+  //   ② state.paths.forEach 会跳过非索引属性 ⇒ 笔记【永远进不了任何导出】。
+  //   现在改用专用属性 data-note，与数字索引彻底分开。
+  html += '<div class="panel" style="margin-top:12px"><h3>📝 自由笔记（非必填）</h3><div class="field"><label>任何额外的分析或疑问</label><textarea data-note="free" rows="3" placeholder="可选...">'+esc(state.pathNotes||'')+'</textarea></div></div>';
   return html;
 }
 
@@ -784,7 +799,7 @@ function goStep(i) {
 
 function prevStep() { if (currentStep > 0) { collectState(); currentStep--; render(); } }
 function nextStep() {
-  collectState();
+  commitStep();          // ★ 改成显式提交：切步时给出「已保存」回执，不再是静默保存
   if (currentStep < 5) { currentStep++; if (currentStep===5) reveal(); render(); }
 }
 
@@ -795,6 +810,9 @@ function isStepDone(i) {
 function updateNavButtons() {
   document.getElementById('btn-prev').style.display = currentStep===0?'none':'';
   document.getElementById('btn-next').style.display = currentStep===5?'none':'';
+  // 揭示之后没有可保存的输入了，提交按钮就没意义
+  const bc = document.getElementById('btn-commit');
+  if (bc) bc.style.display = currentStep===5?'none':'';
   if (currentStep===4) document.getElementById('btn-next').textContent = '揭示历史 🔓';
   else document.getElementById('btn-next').textContent = '下一步 →';
 }
@@ -818,11 +836,42 @@ function collectState() {
   const en = document.getElementById('ext-notes');
   if (en) state.externalsNotes = en.value;
 
+  // ★ 只收【数字索引】的 data-path。原版对所有 [data-path] 一律 parseInt，
+  //   于是 data-path="free" 被算成 NaN —— 笔记进了一个永远导不出的键。
   document.querySelectorAll('[data-path]').forEach(el=>{
-    const i = parseInt(el.dataset.path);
+    const i = parseInt(el.dataset.path, 10);
+    if (!isFinite(i)) return;                       // 非数字索引 ⇒ 跳过（不再造 NaN 键）
     if (!state.paths[i]) state.paths[i] = {label:'',probability:'medium',why:''};
     state.paths[i][el.dataset.field] = el.value;
   });
+  // 自由笔记：独立收集（原版漏了这一步的【回填】配对）
+  document.querySelectorAll('[data-note]').forEach(el=>{
+    state.pathNotes = el.value;
+  });
+}
+
+// ★ 显式提交：原版全靠切步时静默 collectState()，用户看不到「保存了没有」——
+//   这正是「自主推演没有提交按钮」的来源。现在给一个明确的提交入口 + 状态回执。
+function commitStep() {
+  collectState();
+  const nPaths = (state.paths || []).filter((p, i) => isFinite(i) && p &&
+                 (p.label || p.why)).length;
+  const nExc = (state.exclusions || []).filter(x => x && (x.excluded || x.criterion)).length;
+  const badExc = (state.exclusions || []).filter(x => x && (x.excluded || '').trim()
+                  && !(x.criterion || '').trim()).length;
+  const nGq = Object.keys(state.userAnswers || {}).filter(k => state.userAnswers[k]).length;
+  const parts = [
+    '推演路径 ' + nPaths + ' 条',
+    '排除断言 ' + nExc + ' 条' + (badExc ? '（其中 ' + badExc + ' 条缺判据 ⚠️）' : ''),
+    '引导题 ' + nGq + ' 题',
+    '自由笔记 ' + ((state.pathNotes || '').length) + ' 字',
+  ];
+  const el = document.getElementById('save-status');
+  if (el) {
+    el.innerHTML = '✔ <strong>已保存</strong>（第 ' + (currentStep + 1) + ' 步）　' + parts.join('　·　');
+    el.style.color = badExc ? 'var(--danger)' : 'var(--accent)';
+  }
+  return { nPaths, nExc, badExc, nGq };
 }
 
 function reveal() {
@@ -855,14 +904,22 @@ function resetBacktest() {
 }
 
 function exportBacktest() {
+  collectState();        // ★ 导出前先收一遍，避免最后一刻的输入漏掉
   const ao = currentBT.actualOutcome;
   let md = `# 历史回测结果：${currentBT.name}\n\n`;
   md += `**时间点：** ${currentBT.timePoint}\n\n`;
+  // ★ 原来漏了这一项：用户在场景步改过的决策时间点（state.scene.decisionPoint）
+  const dpUser = (state.scene && state.scene.decisionPoint) || '';
+  if (dpUser && dpUser !== currentBT.timeLocked.decisionPoint) {
+    md += `**我修订的决策时间点：** ${dpUser}\n\n`;
+  }
   md += `## 我的推演\n\n`;
   state.paths.forEach(p=>{md+=`- **${p.label||'未命名'}** [概率：${p.probability||'—'}]：${p.why||''}\n`;});
   if (state.foundationNotes) md+=`\n### 底盘判断\n\n${state.foundationNotes}\n`;
   if (state.constraintsNotes) md+=`\n### 约束判断\n\n${state.constraintsNotes}\n`;
   if (state.externalsNotes) md+=`\n### 外部场域判断\n\n${state.externalsNotes}\n`;
+  // ★ 原来完全漏了自由笔记（它被写进了导不出的 NaN 键里）
+  if (state.pathNotes) md+=`\n### 自由笔记\n\n${state.pathNotes}\n`;
   Object.entries(state.actorNotes).forEach(([k,v])=>{if(v) md+=`\n### ${esc(state.actors[k]?.name||'行为体'+k)}决策者判断\n\n${v}\n`;});
 
   // ★ 排除断言一段。判据缺了就地标红 —— 不静默放过。
@@ -896,6 +953,7 @@ function exportBacktest() {
 // ★ 结构化导出：给对账器吃的格式（schema = construct-exclusion-v1）
 function exportExclusions() {
   if (!currentBT) return;
+  collectState();        // ★ 同上：导出前先收一遍
   const rec = buildExclusionRecord(currentBT, state, new Date().toISOString());
   if (!rec.exclusions.length) {
     alert('还没有写排除断言。\n\n在「你的路径推演」那一步往下，有「🚫 我排除的路径」一栏。');
@@ -966,10 +1024,15 @@ document.addEventListener('input', function(e) {
   const t = e.target;
   if (t.dataset.actor !== undefined) state.actorNotes[t.dataset.actor] = t.value;
   if (t.dataset.path !== undefined) {
-    const i = parseInt(t.dataset.path);
-    if (!state.paths[i]) state.paths[i] = {label:'',probability:'medium',why:''};
-    state.paths[i][t.dataset.field] = t.value;
+    // ★ 与 collectState 同修：非数字索引直接跳过，不再造 NaN 键
+    const i = parseInt(t.dataset.path, 10);
+    if (isFinite(i)) {
+      if (!state.paths[i]) state.paths[i] = {label:'',probability:'medium',why:''};
+      state.paths[i][t.dataset.field] = t.value;
+    }
   }
+  // ★ 自由笔记：边打边存（原版这里也把它算成 NaN 索引）
+  if (t.dataset.note !== undefined) state.pathNotes = t.value;
   // Guided questions (text type)
   if (t.dataset.gq !== undefined) state.userAnswers[t.dataset.gq] = t.value;
   // ★ 排除断言：三栏都要收（判据那一栏是关键，缺它这条断言就不可证伪）

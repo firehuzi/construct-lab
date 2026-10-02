@@ -32,9 +32,12 @@ function el(id) {
   };
 }
 const nodes = {};
+// ★ 字段注册表：原来的桩让 querySelectorAll 恒返回 []，于是【收集逻辑根本没被测到】——
+//   这正是那三个「收集/回填不配对」的 bug 能活下来的原因。现在可以注册假字段。
+const registry = { "[data-actor]": [], "[data-path]": [], "[data-note]": [] };
 const document = {
   getElementById(id) { return (nodes[id] = nodes[id] || el(id)); },
-  querySelectorAll() { return []; },
+  querySelectorAll(sel) { return registry[sel] || []; },
   addEventListener() {},
   createElement() { return el("a"); },
   getElementsByTagName() { return []; },
@@ -100,9 +103,9 @@ function grab(name) {
   }
   return null;
 }
-const wanted = ["startBacktest", "render", "renderStep4", "renderExclusions",
+const wanted = ["startBacktest", "render", "renderStep0", "renderStep4", "renderExclusions",
                 "addExclusion", "removeExclusion", "buildExclusionRecord",
-                "exportExclusions", "exportBacktest", "collectState", "goStep"];
+                "exportExclusions", "exportBacktest", "collectState", "commitStep", "goStep"];
 const missing = wanted.filter(w => !grab(w));
 ck("所有需要的函数都能抓到", missing.length === 0, missing.join(","));
 
@@ -175,6 +178,76 @@ ck("★Markdown 含「我排除的路径」段", md.includes("我排除的路径
 ck("★Markdown 就地标出缺判据的那条", md.includes("未填判据 ⇒ 这条断言不可证伪，不携带信息"));
 ck("★Markdown 提示不可证伪的条数与 id",
    md.includes("不可证伪 1 条") || /有 1 条断言缺判据/.test(md), "");
+
+// ══════════════════════════════════════════════════════════════
+// 用户报的 bug：「自主推演没有提交按钮或者功能缺失」
+// 查出的是【一整类】收集/回填不配对，三个实例。这里逐个钉死。
+// ══════════════════════════════════════════════════════════════
+console.log("\n  ── 用户报的 bug：收集/回填不配对（三个实例）");
+
+// ① 机制复现：旧写法用 parseInt 取索引，而自由笔记的 data-path 是 "free"
+ck('★复现旧 bug 的机制：parseInt("free") 是 NaN（旧代码据此造出 paths[NaN] 键）',
+   Number.isNaN(parseInt("free", 10)));
+ck("★NaN 会作废 forEach 遍历（非索引属性被跳过）⇒ 笔记永远进不了导出",
+   (() => { const a = []; a[NaN] = { notes: "x" }; let seen = 0;
+            a.forEach(() => seen++); return seen === 0; })());
+
+// ② 自由笔记：注册一个 data-note 字段，收集后必须落在 state.pathNotes
+api.startBacktest("cuban-missile");
+registry["[data-note]"] = [{ dataset: { note: "free" }, value: "我认为封锁是唯一体面的出路" }];
+api.collectState();
+ck("★自由笔记被收进 state.pathNotes（不是 paths[NaN]）",
+   api.getState().pathNotes === "我认为封锁是唯一体面的出路",
+   JSON.stringify(api.getState().pathNotes));
+ck("★state.paths 里【没有】NaN 键",
+   !Object.getOwnPropertyNames(api.getState().paths).includes("NaN"),
+   Object.getOwnPropertyNames(api.getState().paths).join(","));
+ck("★自由笔记能【回填】（renderStep4 的 textarea 里有它）",
+   api.renderStep4().includes("我认为封锁是唯一体面的出路"));
+
+// ③ 自由笔记必须出现在两个导出里
+downloaded.length = 0; api.exportBacktest();
+const md2 = lastBlob ? lastBlob.parts.join("") : "";
+ck("★自由笔记出现在 Markdown 导出里", md2.includes("认为自己封锁是唯一体面的出路") || md2.includes("我认为封锁是唯一体面的出路"),
+   md2.includes("自由笔记") ? "有段落" : "缺段落");
+
+// ④ 决策时间点：旧代码收集写 state.scene.decisionPoint，回填却读 currentBT.timeLocked.decisionPoint
+nodes["s-decision"] = el("s-decision");
+nodes["s-decision"].value = "1962年10月24日（我修订过）";
+api.collectState();
+ck("★决策时间点被收进 state.scene.decisionPoint",
+   api.getState().scene.decisionPoint === "1962年10月24日（我修订过）",
+   JSON.stringify(api.getState().scene.decisionPoint));
+ck("★决策时间点能【回填】（renderStep0 里有我修订的值）",
+   api.renderStep0().includes("1962年10月24日（我修订过）"));
+ck("★修正过的决策时间点出现在 Markdown 导出里",
+   /我修订的决策时间点/.test(md2) || /我修订的决策时间点/.test((downloaded.length = 0, api.exportBacktest(), lastBlob.parts.join(""))));
+
+// ⑤ 非法 HTML：<textarea> 不该有 value 属性
+// ★ 这里踩过一次：我原先直接对 bigScript 做正则，结果【我自己的注释】里
+//   写着 `<textarea id="s-decision" value="...">` 来解释这个 bug，被当成了代码。
+//   所以先剥掉整行注释再看 —— 测试要检查代码，不是检查注释。
+const codeOnly = bigScript.split("\n").filter(l => !/^\s*\/\//.test(l)).join("\n");
+const badTextarea = (codeOnly.match(/<textarea[^>]*\bvalue=/g) || []);
+ck("★代码里没有 <textarea ... value= ...>（非法 HTML：textarea 的内容应在标签之间）",
+   badTextarea.length === 0, badTextarea.join(" | "));
+ck("（注：仅剥整行注释；行尾注释未剥 —— 本检查的已知局限）", true);
+
+// ⑥ 提交入口：必须有显式的提交函数 + 状态回执
+ck("★存在 commitStep（显式提交）", typeof api.commitStep === "function");
+const r = api.commitStep();
+ck("★commitStep 返回可核的计数", r && typeof r.nPaths === "number" && typeof r.badExc === "number",
+   JSON.stringify(r));
+ck("★提交后写入状态回执 #save-status",
+   /已保存/.test((nodes["save-status"] || {}).innerHTML || ""),
+   (nodes["save-status"] || {}).innerHTML);
+ck("★回执里包含排除断言的条数与「缺判据」告警",
+   /排除断言/.test((nodes["save-status"] || {}).innerHTML || ""));
+
+// ⑦ 界面里真有那个按钮
+ck("★页面里有「✔ 保存本步」按钮且绑定 commitStep",
+   /id="btn-commit"[^>]*onclick="commitStep\(\)"/.test(src) && src.includes("✔ 保存本步"));
+ck("★页面里有 #save-status 元素", /id="save-status"/.test(src));
 
 console.log(`\n  通过 ${nPass}，失败 ${nFail}`);
 console.log("  ⚠️ 覆盖范围：脚本加载/状态机/渲染/导出内容。**不含** CSS 与实际浏览器事件。");

@@ -255,6 +255,16 @@ def main() -> int:
             return 1
         print("     ✅ 同一性成立：同一格 ＋ 同一输入 ⇒ 同一指纹。")
 
+    if os.path.exists(path) and "--force" not in sys.argv:
+        # ★★ 入口不许静默覆盖 —— 我刚因为这个造出了第二份同名文件。
+        #   而「两份同名的文件，没人知道哪份是新的」是本项目反复出现的病（实测过两次）。
+        raise SystemExit(
+            "⛔ %s 已存在。\\n"
+            "   ⇒ 拒绝覆盖：里面可能已经有人填好的判断，而覆盖是静默的。\\n"
+            "   （本轮就发生过：s1.py 建出一份空壳，与已有的同名案例并存，\\n"
+            "     而 --all 读到两份、没人知道哪份是新的。）\\n"
+            "   确实要重建 ⇒ 加 --force，或先把旧的改名。" % os.path.relpath(path, HERE))
+
     if "--check" in sys.argv:
         print()
         print("  ── 预检（确认工具读得到这份产物）")

@@ -651,6 +651,22 @@ def main() -> int:
     dyads = load_dyads()
     files = []
     if "--all" in sys.argv:
+        _ids = {}
+        for f2 in sorted(os.listdir(FILLED)):
+            if not f2.endswith(".json"):
+                continue
+            try:
+                _j = json.load(io.open(os.path.join(FILLED, f2), encoding="utf-8"))
+                _ids.setdefault(_j.get("run_id"), []).append(f2)
+            except Exception:                                  # noqa: BLE001
+                pass
+        _dup = {k: v for k, v in _ids.items() if len(v) > 1}
+        if _dup:
+            print("⛔ **同一个 run_id 有多个文件** —— 没人知道哪份是新的：")
+            for k2, v2 in _dup.items():
+                print("   %s ⇒ %s" % (k2, " ／ ".join(v2)))
+            print("   ⇒ 这正是「两份同名的文件」那个病。**先解决它，再看读数。**")
+            return 1
         files = sorted(os.path.join(FILLED, f) for f in os.listdir(FILLED) if f.endswith(".json"))
     else:
         files = [a for a in sys.argv[1:] if a.endswith(".json")]
@@ -661,7 +677,16 @@ def main() -> int:
     for fp in files:
         with io.open(fp, encoding="utf-8") as fh:
             case = json.load(fh)
-        r = check_case(case, dyads)
+        try:
+            r = check_case(case, dyads)
+        except SystemExit:
+            # ★ 空壳不该让 --all 崩掉 —— 它是【正常状态】（刚由 s1.py 建出来、还没填）。
+            #   但也不能安静跳过：要报出来，否则「跑了 6 个案例」会被读成「6 个都跑了」。
+            print("=" * 96)
+            print("# %s" % os.path.basename(fp))
+            print("  ⏳ 空壳（还没有 paths/exclusions）—— 已跳过，未计入读数。")
+            print("     ⇒ 它需要人填。**跳过 ≠ 通过。**")
+            continue
         print("=" * 96)
         print("# %s" % os.path.basename(fp))
         print("=" * 96)

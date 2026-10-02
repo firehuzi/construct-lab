@@ -1,0 +1,5 @@
+# 行尾统一：仓库内存 LF，检出也写 LF。
+# 本工作区 system 级 core.autocrlf=true；若只靠 add 时归一化，
+# 某些脚本（如 gen_lexicon.py 重写 lexicon_index.md）重写文件后会让
+# `git status` 出现假脏，掩盖真正的改动。声明后工作区状态始终可信。
+* text=auto eol=lf

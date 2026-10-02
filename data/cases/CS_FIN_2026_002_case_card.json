@@ -1,0 +1,190 @@
+{
+  "case_id": "CS_FIN_2026_002",
+  "title": "韩国 AI 半导体泡沫崩盘",
+  "title_en": "Korea AI Semiconductor Bubble Collapse",
+  "version": "1.0",
+  "analyst": "胡子",
+  "date_range": "2026-06-19 / 2026-07-29",
+  "status": "draft",
+  "domain": ["finance", "technology", "geopolitics"],
+  "systems": ["financial_system", "AI_industry", "retail_investor_ecosystem", "global_capital_flows"],
+
+  "event_timeline": {
+    "2026-06-19": "KOSPI 历史最高点 9385 点",
+    "2026-06_mid": "Meta 算力闲置消息在韩国社交网络传播 → AI 叙事出现第一道裂缝",
+    "2026-07-07": "三星电子 Q2 业绩：营收 171 万亿韩元(+129% YoY)，营业利润 89.4 万亿(+1810% → 18x)。股价当日 -6.92%，KOSPI -4.91% 触发熔断。悖论：利润爆炸，股价崩溃。",
+    "2026-07-10": "SK 海力士纳斯达克 ADR 上市。融资 265 亿美元(破阿里 2014 年 250 亿纪录)。首日 +12.8%，市值 $1.22T。Baillie Gifford/Coature/Situational Awareness 认购 $70B。",
+    "2026-07-13": "KOSPI -8.95%，跌破 7000 点，触发熔断。SK 海力士 -15.37%(历史最大单日跌幅)。三星 -10.7%。外资净卖出 1.87 万亿韩元，机构净卖出 2.7 万亿韩元。散户逆势净买入 4.5 万亿韩元。",
+    "2026-07-16": "KOSPI -7%，二次熔断。三星 -8.77%，SK 海力士 -11.53%。韩国金融委员会禁止个股杠杆 ETF 新品上市 + 禁止营销 + 上调保证金至 3000 万韩元。央行加息:2.50% → 2.75%",
+    "2026-07-20": "KOSPI -5%，触及 6478 点。摩根士丹利下调悲观目标位至 6000 点。",
+    "2026-07-24": "保证金贷款余额降至 32.67 万亿韩元(三个月最低，较 6/24 峰值 -15%)",
+    "2026-07-28": "KOSPI -10.84% 报 6023 点(盘中一度 -11%)，年内第 8 次熔断。三星 -13%，SK 海力士 -14%。日经 -3.95%。监管释放'终极严管信号'。",
+    "2026-07-29": "韩国财长具润哲国会公开道歉。金融委员长李亿远表示考虑限制个股杠杆产品为仅限专业投资者。"
+  },
+
+  "key_numbers": {
+    "kospi_peak": 9385,
+    "kospi_trough": 6023,
+    "drawdown_pct": 35,
+    "drawdown_from_peak_date": "2026-06-19 / 2026-07-28",
+    "market_cap_evaporated_krw": 1936e12,
+    "market_cap_evaporated_cny": 9.3e12,
+    "total_meltdowns_2026": 8,
+    "temp_suspensions_july": 37,
+    "total_leverage_forced_liquidation_krw": 3442e8,
+    "margin_call_accounts": 120e4,
+    "fully_liquidated_accounts": "320k-460k",
+    "young_investors_pct": 62,
+    "retail_leverage_total_loss_krw": 2.15e12,
+    "retail_leverage_total_loss_cny": 110e8,
+    "margin_loan_balance_peak_change_pct": -15,
+    "labor_force_ratio_margin_call": "1:30",
+    "sk_hynix_drawdown_pct": 48,
+    "samsung_drawdown_pct": 41,
+    "samsung_q2_revenue_krw": 171e12,
+    "samsung_q2_profit_krw": 89.4e12,
+    "samsung_q2_profit_growth_pct": 1810,
+    "sk_hynix_adr_ipo_usd": 265e8,
+    "sk_hynix_adr_day1_change_pct": 12.8,
+    "kodx_lev_etf_drawdown_pct": -66.6,
+    "hyperliquid_trigger_order_usd": 867,
+    "hyperliquid_liquidation_usd": 80e6,
+    "major_lev_etf_pnl_swing_krw": 8e12
+  },
+
+  "paradoxes": [
+    {
+      "id": "P1",
+      "label": "三星利润暴涨 股价暴跌",
+      "facts": "Q2 营业利润 89.4 万亿韩元(YoY +1810%)，破全球半导体单季纪录",
+      "outcome": "7/7 股价 -6.92%，KOSPI -4.91% 熔断",
+      "mechanism": "18 个月已涨 158% → 完美已定价 → 利润仅超预期 6% 不足以支撑 → 资金正从芯片商转向设备商 → '扩产 = 谁利润被稀释？你自己'"
+    },
+    {
+      "id": "P2",
+      "label": "SK 海力士美国 IPO 破纪录 韩国三天后崩盘",
+      "facts": "7/10 纳斯达克 ADR 融资 265 亿美元(破阿里纪录)，首日 +12.8%，市值 $1.22T",
+      "outcome": "7/13 韩国交易所 -15.37%(历史最大单日跌幅)，KOSPI -8.95% 熔断",
+      "mechanism": "机构卖韩国买 ADR(跨市场套利) + ADR 资金看 AI 长期故事 vs 韩国资金看 HBM 出货量 + 买方机构有对冲 vs 卖方杠杆散户被强平"
+    }
+  ],
+
+  "actors": {
+    "retail_investors": {
+      "count": 1450e4,
+      "trade_share": "60%+",
+      "avg_leverage": "3x",
+      "identity_driver": "错过互联网 → 错过新能源 → 不能再错过 AI → 韩国 AI 时代参与者",
+      "margin_call_accounts": "1.2M",
+      "fully_liquidated": "320k-460k",
+      "young_pct": 62,
+      "typical_cases": [
+        "39 岁上班族:8000 万韩元婚房款→浮亏 25%→婚期推迟",
+        "24 岁大学生:融资放大本金至 3 亿韩元→全部回吐",
+        "20 多岁男子:听信 YouTube 荐股→持刀刺伤博主(釜山)"
+      ]
+    },
+    "global_funds": {
+      "logic": "寻找拥挤交易→寻找谁必须卖(不是谁想卖)",
+      "actions": ["7/13 外资净卖出 1.87 万亿韩元", "7/13 机构净卖出 2.7 万亿韩元"],
+      "adr_arbitrage": "卖出韩国 SK 海力士→买入美国 SK 海力士 ADR"
+    },
+    "brokerage_system": {
+      "role": "风险传导机器人",
+      "mechanism": "保证金不足→自动卖出→价格↓→更多保证金不足→循环",
+      "leveraged_etf_death_spiral": "标的跌 1%→净值跌 2%→需砍仓恢复杠杆→砍仓压低价格→次日继续",
+      "example": "7/13 SK 海力士 -15.37% → 杠杆 ETF 被迫抛售约 $50B 海力士股票(占当日总成交额 ~18%)"
+    },
+    "ai_industry_narrative": {
+      "role": "非人格化主体——自我证明机器",
+      "cycle": "叙事说'韩国是 AI 时代赢家'→买入→股价上涨→证明叙事正确→更多买入",
+      "anchor": "'韩国是不是 AI 时代赢家？'——高度具体、可被单一财报击穿"
+    },
+    "korean_government": {
+      "role": "灭火与点火同时进行",
+      "actions": [
+        "7/16 禁杠杆 ETF 新品+禁营销+保证金 3000 万韩元",
+        "7/20 新规提前至 7/31 落地",
+        "7/28 '终极严管信号'",
+        "同期央行加息 2.50%→2.75%",
+        "7/29 财长公开道歉"
+      ],
+      "contradiction": "禁杠杆(堵风险) + 加息(抽流动性) = 对崩塌中的市场火上浇油"
+    },
+    "us_institutional": {
+      "role": "SK 海力士 ADR 买方——机构视角",
+      "subscribers": "Baillie Gifford / Coatue Management / Situational Awareness Partners",
+      "logic": "长期 AI 故事 + 流动性套利",
+      "contrast": "韩国散户在卖(杠杆爆仓) vs 美国机构在买(配置决策)——同一家公司，两个世界"
+    }
+  },
+
+  "narrative_system": {
+    "macro_narrative": "AI 革命 + 韩国半导体全球核心 + 三星/SK 海力士不可替代",
+    "anchor": "'韩国是不是 AI 新时代的赢家？'",
+    "narrative_dependency": "极度高——整个市场只依赖一个故事",
+    "translation_chain": "企业问题(海力士 Q3 盈利低于预期 5%) → 产业问题(AI 芯片需求增速放缓) → 国家竞争问题(韩国 AI 优势被侵蚀？) → 未来身份问题(韩国在 AI 时代的位置是什么？)",
+    "alternative_futures_at_peak": "16 种→压缩至 1 种('AI 永远上涨，韩国必须赢')"
+  },
+
+  "vulnerability_points": {
+    "narrative_concentration": "极高——只有一个故事支撑整个市场",
+    "actor_alignment": "极高——机构/散户/媒体/政府全部同向押注",
+    "leverage_amplification": "极高——120 万杠杆账户方向完全一致→无反向缓冲→触碰即坍塌",
+    "structural_switches": [
+      "券商自动化保证金平仓",
+      "杠杆 ETF 每日再平衡'死亡螺旋'",
+      "央行加息+监管收紧→双重抽流动"
+    ]
+  },
+
+  "cognitive_collapse_path": {
+    "initial_futures": 16,
+    "layers": [
+      {"remaining": 12, "trigger": "叙事强化→去除悲观可能"},
+      {"remaining": 8, "trigger": "价格上涨→证明叙事正确→去除温和情形"},
+      {"remaining": 4, "trigger": "杠杆集中→'现在上车'压力→仅剩极度乐观"},
+      {"remaining": 1, "trigger": "'AI 永远上涨，韩国必须赢，现在不上车就永远错过'"}
+    ]
+  },
+
+  "cef_analysis": {
+    "compression": "AI 产业周期 + 半导体库存 + 全球利率 + 企业盈利 + 供应链地缘风险 + 中国竞争 → 压缩成'AI 牛市来了，韩国必须赢'",
+    "expression": "股价上涨→'上涨'被误读为基本面信号而非叙事浓度信号",
+    "feedback": "上涨→'我是不是错过了？'→更多杠杆→更多散户→更高集中度→更脆弱→'我不能卖'→自我强化循环闭合"
+  },
+
+  "structural_diagnosis": {
+    "core_sentence": "外部冲击只是输入变量——真正完成猎杀的是系统自身。系统从多路径状态进入单一路径依赖状态的那一刻，崩盘已经发生了。",
+    "non_personal_violence_source": "券商自动化保证金机制 + 杠杆 ETF 每日再平衡——没有人在决策，规则在替所有人决策",
+    "external_trigger_role": "触发器，不是原因。原因提前数月已存在——叙事集中、主体同向、杠杆结构去除了所有缓冲空间",
+    "deepest_damage": "不在金融系统里——在 62% 是 20-30 岁的 36 万归零年轻投资者对'未来'和'努力工作就有回报'的信任"
+  },
+
+  "data_sources": [
+    {"source": "韩国金融投资协会", "data": "保证金贷款余额 / 强制平仓规模"},
+    {"source": "韩国金融监督院", "data": "杠杆账户追加保证金 / 强平账户数"},
+    {"source": "韩国证券交易所 / KOSPI", "data": "指数点位 / 熔断记录 / 临时停牌"},
+    {"source": "三星电子 IR", "data": "Q2 2026 业绩预告"},
+    {"source": "SK 海力士 IR / Nasdaq", "data": "ADR IPO 数据"},
+    {"source": "韩国警察厅", "data": "7 月投资失败自杀咨询 +47% / 持刀刺伤博主案"},
+    {"source": "彭博", "data": "杠杆 ETF 抛售量估算"},
+    {"source": "HyperInsight", "data": "Hyperliquid SKHX 链上清算数据"},
+    {"source": "证券时报 / 华尔街见闻 / 格隆汇 / 新浪财经 / 澎湃新闻", "data": "事件时间线 + 市场解读 + 监管跟踪"}
+  ],
+
+  "next_events_to_track": [
+    "三星电子 7/30 完整财报(分部门数据)",
+    "SK 海力士 Q2 业绩",
+    "监管新规 7/31 落地后的市场反应",
+    "杠杆去毒化进程:保证金贷款余额是否继续下降",
+    "全球 AI 叙事走向:头部科技公司 Q2 资本开支指引",
+    "韩国消费/就业/生育数据——年轻投资者信心中期影响"
+  ],
+
+  "disclaimers": [
+    "'女股民跳楼'经查为自媒体拼接谣言(KOSPI 暴跌当日韩国主流媒体/警方均无相关通报)",
+    "29 岁程序员跳楼报道(来自自媒体，待警方证实，不建议单独引用)",
+    "自杀咨询 +47% 为韩国警察厅统计数据(可核实)"
+  ]
+}

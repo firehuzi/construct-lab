@@ -1,6 +1,6 @@
 {
   "schema": "construct-exclusion-v1",
-  "exported_at": "2026-10-02T07:07:37.798Z",
+  "exported_at": "2026-10-02T07:43:40.638Z",
   "scenario": "克里米亚危机",
   "scenario_id": "crimea",
   "time_lock": "2014年2月22日——亚努科维奇逃离基辅。乌克兰临时政府成立。此时克里米亚还在乌克兰控制下。俄罗斯黑海舰队基地在塞瓦斯托波尔。已知信息如下。",
@@ -9,8 +9,8 @@
       "id": "crimea-X01",
       "scenario": "克里米亚危机",
       "time_point": "2014年2月22日——亚努科维奇逃离基辅。乌克兰临时政府成立。此时克里米亚还在乌克兰控制下。俄罗斯黑海舰队基地在塞瓦斯托波尔。已知信息如下。",
-      "excluded": "北约参战",
-      "criterion": "条约约束",
+      "excluded": "北约出兵协助乌克兰",
+      "criterion": "北约成员国军队出现在乌克兰境内",
       "window": "3年",
       "falsifiable": true,
       "verdict_at_write": "尚未被证伪（写下时）",

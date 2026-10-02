@@ -53,6 +53,14 @@ const URL_ = {
 };
 const alert = m => alerts.push(m);
 const confirm = () => true;
+// ★ localStorage 桩：历史记录功能靠它。脚本里用的是 typeof 守卫，
+//   不传也能跑（会退化成「历史只在会话内」），但要【测】历史就必须传。
+const lsStore = {};
+const localStorage = {
+  getItem(k) { return Object.prototype.hasOwnProperty.call(lsStore, k) ? lsStore[k] : null; },
+  setItem(k, v) { lsStore[k] = String(v); },
+  removeItem(k) { delete lsStore[k]; },
+};
 
 const sandbox = { document, Blob: FakeBlob, URL: URL_, alert, confirm,
                   console, setTimeout, JSON, Math, Object, Array, String, Number,
@@ -75,8 +83,8 @@ const ck = (name, cond, detail) => {
 console.log("# backtest-tool · 行为测试（DOM 桩，非真浏览器）");
 let loadOk = true, loadErr = "";
 try {
-  new Function("document", "Blob", "URL", "alert", "confirm", "window",
-               bigScript)(document, FakeBlob, URL_, alert, confirm, sandbox);
+  new Function("document", "Blob", "URL", "alert", "confirm", "window", "localStorage",
+               bigScript)(document, FakeBlob, URL_, alert, confirm, sandbox, localStorage);
 } catch (e) { loadOk = false; loadErr = e.message; }
 ck("★脚本加载并执行 init() 不抛异常", loadOk, loadErr);
 
@@ -105,14 +113,16 @@ function grab(name) {
 }
 const wanted = ["startBacktest", "render", "renderStep0", "renderStep4", "renderExclusions",
                 "addExclusion", "removeExclusion", "buildExclusionRecord", "criterionOverlap",
-                "exportExclusions", "exportBacktest", "collectState", "commitStep", "goStep"];
+                "exportExclusions", "exportBacktest", "collectState", "commitStep", "goStep",
+                "commitBacktest", "navCommit", "loadHistory", "saveHistory", "buildRunRecord", "nextStep", "prevStep",
+                "exportHistory", "renderHistoryList", "deleteHistoryRun", "renderScenarioGrid"];
 const missing = wanted.filter(w => !grab(w));
 ck("所有需要的函数都能抓到", missing.length === 0, missing.join(","));
 
-const api = new Function("document", "Blob", "URL", "alert", "confirm", "window",
+const api = new Function("document", "Blob", "URL", "alert", "confirm", "window", "localStorage",
   bigScript + "\nreturn {" + wanted.map(w => w + ":typeof " + w + "==='function'?" + w + ":null").join(",") +
   ", getState:function(){return state;}, setState:function(s){state=s;}, getBT:function(){return currentBT;}};"
-)(document, FakeBlob, URL_, alert, confirm, sandbox);
+)(document, FakeBlob, URL_, alert, confirm, sandbox, localStorage);
 
 ck("startBacktest 可调用", typeof api.startBacktest === "function");
 api.startBacktest("cuban-missile");
@@ -245,9 +255,10 @@ ck("★提交后写入状态回执 #save-status",
 ck("★回执里包含排除断言的条数与「缺判据」告警",
    /排除断言/.test((nodes["save-status"] || {}).innerHTML || ""));
 
-// ⑦ 界面里真有那个按钮
-ck("★页面里有「✔ 保存本步」按钮且绑定 commitStep",
-   /id="btn-commit"[^>]*onclick="commitStep\(\)"/.test(src) && src.includes("✔ 保存本步"));
+// ⑦ 界面里真有那个按钮（★ 按钮的 onclick 已从 commitStep 改成 navCommit ——
+//    因为最后一步它是【提交】而不是【保存草稿】。断言跟着改，别留旧的。）
+ck("★页面里有提交按钮且绑定 navCommit",
+   /id="btn-commit"[^>]*onclick="navCommit\(\)"/.test(src));
 ck("★页面里有 #save-status 元素", /id="save-status"/.test(src));
 
 // ⑧ ★判据 vs 被排除的路径：第一个【真实记录】打出来的缺口
@@ -334,15 +345,112 @@ const savedBT = api.getBT();
 nodes["save-status"].innerHTML = "";
 downloaded.length = 0;
 // 把 currentBT 置空（模拟还没选场景）
-const nullApi = new Function("document", "Blob", "URL", "alert", "confirm", "window",
+const nullApi = new Function("document", "Blob", "URL", "alert", "confirm", "window", "localStorage",
   bigScript + "\nreturn {exportExclusions:exportExclusions, setBT:function(v){currentBT=v;}};"
-)(document, FakeBlob, URL_, alert, confirm, sandbox);
+)(document, FakeBlob, URL_, alert, confirm, sandbox, localStorage);
 nullApi.setBT(null);
 nullApi.exportExclusions();
 ck("★★未选场景时导出【不静默】：给出可见回执",
    /还没选场景|没有可导出/.test((nodes["save-status"] || {}).innerHTML || ""),
    (nodes["save-status"] || {}).innerHTML);
 ck("★未选场景时不产生下载", downloaded.length === 0, "下载次数=" + downloaded.length);
+
+// ⑦ 界面里真有那个按钮
+ck("★页面里有提交按钮且绑定 navCommit（最后一步它会变成「提交本次推演」）",
+   /id="btn-commit"[^>]*onclick="navCommit\(\)"/.test(src));
+ck("★页面里有 #save-status 元素", /id="save-status"/.test(src));
+ck("★页面里有 #history-holder（历史记录挂载点）", /id="history-holder"/.test(src));
+
+// ══════════════════════════════════════════════════════════════
+// 用户报的第三件事：提交动作缺失（揭示历史替代了提交）＋ 没有历史推演记录
+// ══════════════════════════════════════════════════════════════
+console.log("\n  ── 提交与历史记录");
+
+api.startBacktest("crimea");
+api.getState().exclusions = [{ excluded: "北约出兵协助乌克兰",
+                               criterion: "北约成员国军队出现在乌克兰境内", window: "3年" }];
+api.getState().paths = [{ label: "克里米亚被俄罗斯逐步吞并", probability: "high", why: "结构上必然" }];
+api.getState().actorNotes = { 0: "俄罗斯会认为这是展示实力的机遇" };
+// ★ collectState 会从 DOM 回读 [data-note]，所以桩里的元素值也要同步 ——
+//   否则提交时用旧值覆盖 state.pathNotes。（这【不是】代码 bug，
+//   正是「边打边存」的正确行为；测试必须模拟「用户真的在框里打了字」。）
+registry["[data-note]"] = [{ dataset: { note: "free" }, value: "俄乌战争还未结束，现在判断俄罗斯的成败还太早" }];
+api.getState().pathNotes = "俄乌战争还未结束，现在判断俄罗斯的成败还太早";
+
+// 没提交时，最后一步【不许】揭示
+// goStep 有防跳步守卫（一次只能进一格）—— 用 nextStep 逐格走到第 4 步
+api.nextStep(); api.nextStep(); api.nextStep(); api.nextStep();
+ck("★连走四步到达第 4 步（下一步的按钮应变成揭示）", /揭示历史/.test(nodes["btn-next"].textContent || ""),
+   nodes["btn-next"].textContent);
+ck("★到第 4 步时 state.committed=false（还没提交）", api.getState().committed === false);
+api.render();
+ck("★未提交时揭示按钮标 🔒 且写明「需先提交」",
+   /揭示历史.*🔒.*需先提交/.test(nodes["btn-next"].textContent || ""),
+   nodes["btn-next"].textContent);
+api.nextStep();                       // 未提交 ⇒ 应被挡下
+ck("★★未提交时 nextStep 被挡下（不会揭示历史）",
+   (nodes["save-status"].innerHTML || "").includes("还不能揭示历史"),
+   nodes["save-status"].innerHTML);
+ck("★挡下时给出明确指令", (nodes["save-status"].innerHTML || "").includes("提交本次推演"));
+
+// 提交
+const run = api.commitBacktest();
+ck("★提交成功并返回记录", !!run && run.schema === "construct-run-v1", JSON.stringify(run && run.schema));
+ck("★记录带 run_id", !!(run && run.run_id && run.run_id.indexOf("crimea-") === 0), run && run.run_id);
+ck("★记录含推演路径（不是空壳）",
+   run && run.paths.length === 1 && run.paths[0].label.indexOf("吞并") >= 0,
+   JSON.stringify(run && run.paths));
+ck("★记录含自由笔记（原版会丢）",
+   run && run.free_notes.indexOf("俄乌战争还未结束") >= 0, run && run.free_notes);
+ck("★记录含排除断言", run && run.exclusions.length === 1, String(run && run.exclusions.length));
+ck("★记录带 readout 读数（历史列表要用）",
+   run && run.readout && run.readout.exclusions === 1 && run.readout.unfalsifiable === 0,
+   JSON.stringify(run && run.readout));
+ck("★提交后 state.committed=true", api.getState().committed === true);
+ck("★提交写入了历史（localStorage）", Object.keys(lsStore).length > 0, JSON.stringify(Object.keys(lsStore)));
+ck("★提交回执写明「已进历史（第 N 次）」",
+   /已进历史/.test(nodes["save-status"].innerHTML || ""), nodes["save-status"].innerHTML);
+
+// 提交后可以揭示
+api.render();
+ck("★提交后揭示按钮解锁（🔓）", /揭示历史.*🔓/.test(nodes["btn-next"].textContent || ""),
+   nodes["btn-next"].textContent);
+api.nextStep();
+ck("★提交后 nextStep 放行",
+   !/还不能揭示/.test(nodes["save-status"].innerHTML || ""),
+   "save-status=" + (nodes["save-status"].innerHTML || ""));
+
+// 历史列表
+const histHtml = api.renderHistoryList();
+ck("★历史列表渲染出这条记录", histHtml.indexOf("克里米亚危机") >= 0, histHtml.slice(0, 80));
+ck("★历史列表标出排除断言条数", /排除断言\s*1\s*条/.test(histHtml.replace(/<[^>]+>/g, "")));
+ck("★历史列表有导出全部按钮", histHtml.indexOf("导出全部历史") >= 0);
+ck("★历史列表有删除按钮", histHtml.indexOf("deleteHistoryRun") >= 0);
+
+// 历史挂到场景页
+api.renderScenarioGrid();
+ck("★场景页的 #history-holder 被填充（用户报「没有历史记录」）",
+   /📚 历史推演记录/.test(nodes["history-holder"].innerHTML || ""),
+   (nodes["history-holder"].innerHTML || "").slice(0, 80));
+
+// 导出全部历史
+downloaded.length = 0;
+api.exportHistory();
+ck("★导出全部历史产生下载", downloaded.length === 1, "次数=" + downloaded.length);
+ck("★历史文件名正确", downloaded[0] && downloaded[0].name === "construct-history.json",
+   downloaded[0] && downloaded[0].name);
+const histRec = JSON.parse(lastBlob ? lastBlob.parts.join("") : "{}");
+ck("★导出内容 schema/条数正确",
+   histRec.schema === "construct-history-v1" && histRec.count === 1,
+   JSON.stringify({ s: histRec.schema, c: histRec.count }));
+
+// 第二次提交 ⇒ 追加，不覆盖
+api.startBacktest("crimea");
+api.getState().exclusions = [{ excluded: "北约出兵协助乌克兰",
+                               criterion: "北约成员国军队出现在乌克兰境内", window: "3年" }];
+api.commitBacktest();
+ck("★再次提交是【追加】不是覆盖（预测坟场要累积）", api.loadHistory().length === 2,
+   String(api.loadHistory().length));
 
 console.log(`\n  通过 ${nPass}，失败 ${nFail}`);
 console.log("  ⚠️ 覆盖范围：脚本加载/状态机/渲染/导出内容。**不含** CSS 与实际浏览器事件。");

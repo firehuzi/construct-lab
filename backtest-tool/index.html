@@ -117,6 +117,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   <!-- SCENARIO SELECTION -->
   <div id="scenario-select">
     <div class="scenario-grid" id="scenario-grid"></div>
+    <!-- 历史推演记录挂在这里（用户报「没有历史推演记录」） -->
+    <div id="history-holder"></div>
   </div>
 
   <!-- BACKTEST FLOW (hidden initially) -->
@@ -126,7 +128,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     <div class="step-content" id="step-content"></div>
     <div class="nav">
       <button class="btn" id="btn-prev" onclick="prevStep()">← 上一步</button>
-      <button class="btn" id="btn-commit" onclick="commitStep()">✔ 保存本步</button>
+      <!-- ★ 提交按钮。第 4 步它会变成「提交本次推演（写入历史）」，
+           而且【必须】先提交才能揭示历史 —— 不再被「揭示历史」替代。 -->
+      <button class="btn" id="btn-commit" onclick="navCommit()">✔ 保存本步</button>
       <span id="nav-spacer"></span>
       <button class="btn btn-primary" id="btn-next" onclick="nextStep()">下一步 →</button>
     </div>
@@ -423,6 +427,10 @@ function renderScenarioGrid() {
       <div class="meta"><span>🏷️ ${bt.tag}</span><span>📚 ${bt.actualOutcome.keyFactors.length} 个关键因素</span></div>
     </div>
   `).join('');
+  // ★ 历史记录挂在场景选择页上 —— 用户说「没有历史推演记录」。
+  //   每次「提交本次推演」都会进这里；它同时是「预测坟场」的入口。
+  const hist = document.getElementById('history-holder');
+  if (hist) hist.innerHTML = renderHistoryList();
 }
 
 function startBacktest(id) {
@@ -438,6 +446,10 @@ function startBacktest(id) {
   state.foundationNotes = '';
   state.constraintsNotes = '';
   state.externalsNotes = '';
+  state.pathNotes = '';
+  // ★ 提交状态必须重置：没提交就不许揭示历史
+  state.committed = false;
+  state.committedRunId = null;
   document.getElementById('scenario-select').style.display = 'none';
   document.getElementById('backtest-flow').style.display = 'block';
   document.getElementById('reveal-section').classList.remove('active');
@@ -657,6 +669,25 @@ function renderStep4() {
   //   ② state.paths.forEach 会跳过非索引属性 ⇒ 笔记【永远进不了任何导出】。
   //   现在改用专用属性 data-note，与数字索引彻底分开。
   html += '<div class="panel" style="margin-top:12px"><h3>📝 自由笔记（非必填）</h3><div class="field"><label>任何额外的分析或疑问</label><textarea data-note="free" rows="3" placeholder="可选...">'+esc(state.pathNotes||'')+'</textarea></div></div>';
+  // ★ 显眼的提交区。用户报「没有提交按钮，现在是揭示历史替代了提交」——
+  //   导航栏那个按钮不够，这里再给一个把话说清楚的入口。
+  const badN = (state.exclusions || []).filter(x => x && (x.excluded || '').trim() && !(x.criterion || '').trim()).length;
+  const misN = (state.exclusions || []).filter(x => x && (x.criterion || '').trim()
+                && criterionOverlap((x.excluded || '').trim(), (x.criterion || '').trim()) === 0).length;
+  html += `<div class="panel" style="margin-top:16px;border-color:${state.committed ? 'var(--accent)' : 'var(--accent2)'}">
+    <h3>${state.committed ? '✅ 已提交' : '📤 提交本次推演'}</h3>
+    <div class="hint">写完你的推演与排除断言后，<strong>先提交，再看答案</strong>。<br>
+    提交会把这份判断写进历史并<strong>锁定</strong>；之后「揭示历史」才解锁 ——
+    否则你的判断会在看到历史结果之后改变，那就不是事前判断了。</div>
+    ${(badN || misN) ? `<div class="hint" style="color:var(--danger)">⚠️ 提交前建议先修：${badN ? '<strong>缺判据 ' + badN + ' 条</strong>　' : ''}${misN ? '<strong>判据可能不对题 ' + misN + ' 条</strong>' : ''}</div>` : ''}
+    <div style="margin-top:10px">
+      <button class="btn btn-primary" onclick="navCommit()">${state.committed ? '✔ 再提交一次（会新增一条历史）' : '✔ 提交本次推演（写入历史）'}</button>
+      <button class="btn" onclick="exportBacktest()" style="margin-left:8px">📄 导出结果（Markdown）</button>
+      <button class="btn" onclick="exportExclusions()" style="margin-left:8px">🚫 导出排除断言（JSON）</button>
+    </div>
+    ${state.committed ? `<div class="hint">本次记录 id：<code>${esc(state.committedRunId||'')}</code>　·　
+      已进历史 —— 返回场景页可看到「📚 历史推演记录」，也能一键导出全部。</div>` : ''}
+  </div>`;
   return html;
 }
 
@@ -849,7 +880,20 @@ function goStep(i) {
 
 function prevStep() { if (currentStep > 0) { collectState(); currentStep--; render(); } }
 function nextStep() {
-  commitStep();          // ★ 改成显式提交：切步时给出「已保存」回执，不再是静默保存
+  // ★ 用户报的核心问题：「揭示历史替代了提交」。
+  //   现在在最后一步【先提交，才能揭示】—— 提交不再是可绕过的。
+  if (currentStep === 4 && !state.committed) {
+    const el = document.getElementById('save-status');
+    if (el) {
+      el.innerHTML = '⛔ <strong>还不能揭示历史</strong> —— 请先点「✔ 提交本次推演」。<br>'
+        + '<span style="color:var(--dim)">提交会把这份判断写进历史并锁定；'
+        + '之后揭示历史时，你的判断已经定下来了，改不了。</span>';
+      el.style.color = 'var(--danger)';
+    }
+    alert('请先点「✔ 提交本次推演」。\n\n提交会把这份判断写进历史并锁定，之后才能揭示历史 —— 否则你的判断会在看到答案后改变。');
+    return;
+  }
+  commitStep();          // 切步时给出「已保存」回执
   if (currentStep < 5) { currentStep++; if (currentStep===5) reveal(); render(); }
 }
 
@@ -860,11 +904,28 @@ function isStepDone(i) {
 function updateNavButtons() {
   document.getElementById('btn-prev').style.display = currentStep===0?'none':'';
   document.getElementById('btn-next').style.display = currentStep===5?'none':'';
-  // 揭示之后没有可保存的输入了，提交按钮就没意义
   const bc = document.getElementById('btn-commit');
-  if (bc) bc.style.display = currentStep===5?'none':'';
-  if (currentStep===4) document.getElementById('btn-next').textContent = '揭示历史 🔓';
-  else document.getElementById('btn-next').textContent = '下一步 →';
+  if (bc) {
+    // 揭示之后没有可提交的输入了
+    bc.style.display = currentStep===5?'none':'';
+    // ★ 最后一步的按钮就是【提交】——用户说「揭示历史替代了提交」，
+    //   现在提交是一个独立的、必须在揭示之前完成的动作。
+    if (currentStep === 4) {
+      bc.textContent = state.committed
+        ? '✔ 已提交（' + (state.committedRunId || '') + '）· 再提交一次'
+        : '✔ 提交本次推演（写入历史）';
+      bc.className = 'btn ' + (state.committed ? '' : 'btn-primary');
+    } else {
+      bc.textContent = '✔ 保存本步';
+      bc.className = 'btn';
+    }
+  }
+  if (currentStep===4) {
+    document.getElementById('btn-next').textContent =
+      state.committed ? '揭示历史 🔓' : '揭示历史 🔒（需先提交）';
+  } else {
+    document.getElementById('btn-next').textContent = currentStep===5 ? '' : '下一步 →';
+  }
 }
 
 function collectState() {
@@ -1049,6 +1110,145 @@ function exportExclusions() {
   say('📄 <strong>已导出</strong> exclusions-' + currentBT.id + '.json　（排除断言 '
       + rec.summary.total + ' 条）' + (rec.summary.total === 0 ? '　⚠️ 一条都没写' : ''),
       rec.summary.total === 0 || rec.summary.unfalsifiable > 0 || rec.summary.criterion_mismatch > 0);
+}
+
+// ══════════════════════════════════════════════════════════════
+// 提交 与 历史记录
+// ══════════════════════════════════════════════════════════════
+// ★ 用户的原话：「还是没有提交按钮，现在是揭示历史替代了提交」＋「没有历史推演记录」。
+//   这两句是同一件事：写推演 →【揭示历史直接看答案】，中间缺一个把判断【定下来】的动作。
+//   「保存本步」只是草稿保存，不是提交。
+//   ⇒ 现在把「提交」做成真动作：写进历史（localStorage），并【解锁】揭示历史。
+//     没提交就揭示不了 —— 提交不再能被绕过。
+const HISTORY_KEY = 'construct_backtests_v1';
+
+function loadHistory() {
+  try {
+    const raw = (typeof localStorage !== 'undefined') ? localStorage.getItem(HISTORY_KEY) : null;
+    const h = raw ? JSON.parse(raw) : [];
+    return Array.isArray(h) ? h : [];
+  } catch (e) { return []; }
+}
+function saveHistory(h) {
+  try {
+    if (typeof localStorage === 'undefined') return false;
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(h));
+    return true;
+  } catch (e) { return false; }
+}
+
+// 一次完整推演的记录（提交时才生成）—— 这是「预测坟场」要装的东西
+function buildRunRecord(bt, st, nowISO) {
+  const rec = buildExclusionRecord(bt, st, nowISO);
+  const paths = (st.paths || []).filter((p, i) => isFinite(i) && p && (p.label || p.why))
+                  .map(p => ({ label: p.label || '', probability: p.probability || '', why: p.why || '' }));
+  const gq = {};
+  Object.keys(st.userAnswers || {}).forEach(k => { if (st.userAnswers[k]) gq[k] = st.userAnswers[k]; });
+  const bad = (rec.summary.unfalsifiable || 0) + (rec.summary.criterion_mismatch || 0);
+  return {
+    schema: 'construct-run-v1',
+    run_id: bt.id + '-' + String(nowISO).replace(/[^0-9]/g, '').slice(0, 14),
+    committed_at: nowISO,
+    scenario: bt.name,
+    scenario_id: bt.id,
+    time_lock: bt.timePoint,
+    time_lock_revised: (st.scene && st.scene.decisionPoint) || null,
+    paths: paths,
+    actor_notes: st.actorNotes || {},
+    foundation_notes: st.foundationNotes || '',
+    constraints_notes: st.constraintsNotes || '',
+    externals_notes: st.externalsNotes || '',
+    free_notes: st.pathNotes || '',
+    guided_answers: gq,
+    exclusions: rec.exclusions,
+    exclusion_summary: rec.summary,
+    readout: {
+      paths: paths.length,
+      exclusions: rec.summary.total,
+      unfalsifiable: rec.summary.unfalsifiable,
+      criterion_mismatch: rec.summary.criterion_mismatch,
+      problem_ratio: rec.summary.total ? bad / rec.summary.total : null
+    }
+  };
+}
+
+function commitBacktest() {
+  const el = document.getElementById('save-status');
+  const say = (m, bad) => { if (el) { el.innerHTML = m; el.style.color = bad ? 'var(--danger)' : 'var(--accent)'; } };
+  if (!currentBT) { say('⛔ 还没选场景。', true); return null; }
+  collectState();
+  const rec = buildRunRecord(currentBT, state, new Date().toISOString());
+  if (rec.exclusions.length === 0) {
+    if (!confirm('你【没有写任何排除断言】—— 这份记录里没有可检验的东西。\n\n仍然提交吗？')) {
+      say('已取消提交。', true);
+      return null;
+    }
+  }
+  const h = loadHistory();
+  h.unshift(rec);
+  const okSaved = saveHistory(h);
+  state.committed = true;
+  state.committedRunId = rec.run_id;
+  const r = rec.readout;
+  const bad = (r.unfalsifiable || 0) + (r.criterion_mismatch || 0);
+  say('✔ <strong>已提交</strong> ' + rec.run_id + '　·　路径 ' + r.paths + ' 条　·　排除断言 '
+      + r.exclusions + ' 条' + (bad ? '（有问题 ' + bad + ' 条 ⚠️）' : '')
+      + '　·　已进历史（第 ' + h.length + ' 次）'
+      + (okSaved ? '' : '　⚠️ 本机存储写入失败（历史只在本次会话有效）'),
+      !okSaved || bad > 0);
+  return rec;
+}
+
+function exportHistory() {
+  const h = loadHistory();
+  if (!h.length) { alert('历史里还没有记录。走完一个场景、点「✔ 提交本次推演」后就有了。'); return; }
+  download(JSON.stringify({ schema: 'construct-history-v1', exported_at: new Date().toISOString(),
+                            count: h.length, runs: h }, null, 2),
+           'construct-history.json', 'application/json');
+}
+
+function deleteHistoryRun(runId) {
+  if (!confirm('删除这条历史记录？\n' + runId)) return;
+  saveHistory(loadHistory().filter(r => r.run_id !== runId));
+  renderScenarioGrid();
+}
+
+function renderHistoryList() {
+  const h = loadHistory();
+  if (!h.length) return '';
+  let html = '<div class="panel" style="margin-top:20px"><h3>📚 历史推演记录（' + h.length + ' 次）</h3>'
+    + '<div class="hint">每次「提交本次推演」都会留在这里。'
+    + '这是「预测坟场」要装的东西 —— 失败的、不可证伪的，都要留着。</div>'
+    + '<div style="margin-top:10px"><button class="btn" onclick="exportHistory()">⬇ 导出全部历史（JSON）</button></div>';
+  h.forEach(r => {
+    const q = r.readout || {};
+    const bad = (q.unfalsifiable || 0) + (q.criterion_mismatch || 0);
+    html += '<div class="path-card" style="margin-top:10px">'
+      + '<div class="path-header"><span class="prob-badge ' + (bad ? 'prob-l' : 'prob-h') + '">'
+      + esc(r.scenario) + '</span>'
+      + '<button class="btn btn-sm" style="color:var(--danger);border-color:var(--danger)" '
+      + 'onclick="deleteHistoryRun(\'' + r.run_id + '\')">删除</button></div>'
+      + '<div class="hint" style="font-size:11px">'
+      + '提交于 ' + esc(String(r.committed_at || '').replace('T', ' ').slice(0, 19)) + '　·　'
+      + '路径 ' + (q.paths || 0) + ' 条　·　排除断言 ' + (q.exclusions || 0) + ' 条　·　'
+      + (q.exclusions
+          ? '有问题 <strong style="color:' + (bad ? 'var(--danger)' : 'var(--accent)') + '">' + bad + '</strong> 条'
+          : '⚠️ 无排除断言')
+      + '</div></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+// 导航上的提交按钮：最后一步是【提交】，其余步是【保存本步】。
+// 抽出来是为了让按钮行为与 updateNavButtons 的标签一致（原来是硬编码 commitStep）。
+function navCommit() {
+  if (currentStep === 4) {
+    const rec = commitBacktest();
+    if (rec) render();      // 重渲染：按钮变「已提交」、揭示按钮解锁
+  } else {
+    commitStep();
+  }
 }
 
 // ★ 自证：这段逻辑必须能【失败】才可信。控制台里调 selfTestExclusion()。

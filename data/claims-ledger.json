@@ -1,0 +1,261 @@
+{
+  "claims": [
+    {
+      "id": "V2-1",
+      "doc": "# ConStruct · 发展路线图 v2.0.txt",
+      "quote": "框架在50%以上事件上解释失效，则需修正框架设计",
+      "kind": "doc_text",
+      "fingerprint": "fd7f69ab",
+      "status": "⚠️",
+      "evidence": "docs/（除本文档外）命中 0 处　⇒ 【未见任何结果记录】",
+      "note": "找【结果的形态】（如「解释率 = X%」）。搜不到 ⇒ 这道判据从未被执行过。"
+    },
+    {
+      "id": "V2-2",
+      "doc": "# ConStruct · 发展路线图 v2.0.txt",
+      "quote": "信号识别准确率低于60%，则需修正信号规则库",
+      "kind": "doc_text",
+      "fingerprint": "dd054a7e",
+      "status": "⚠️",
+      "evidence": "docs/（除本文档外）命中 0 处　⇒ 【未见任何结果记录】",
+      "note": "v2.0 的 Phase 1 判据。需要 Signal Detector 已启动才有意义。"
+    },
+    {
+      "id": "V2-3",
+      "doc": "# ConStruct · 发展路线图 v2.0.txt",
+      "quote": "预测命中率超过65%",
+      "kind": "doc_text",
+      "fingerprint": "a1121e40",
+      "status": "⚠️",
+      "evidence": "docs/（除本文档外）命中 0 处　⇒ 【未见任何结果记录】",
+      "note": "v2.0 的 Phase 2 判据。需要 Action Predictor 已启动才有意义。"
+    },
+    {
+      "id": "V3-1",
+      "doc": "ConStruct_发展规划_v3.0.md",
+      "quote": "Signal Detector ❌ 未启动",
+      "kind": "find",
+      "fingerprint": "f3f37e58",
+      "status": "⛔",
+      "evidence": "零命中",
+      "note": "限定在 construct-engine 下找（不限定会串到别的项目：实测命中了 CyberPPT 的图标）。"
+    },
+    {
+      "id": "V3-2",
+      "doc": "ConStruct_发展规划_v3.0.md",
+      "quote": "Action Predictor ❌ 未启动",
+      "kind": "find",
+      "fingerprint": "43dd9729",
+      "status": "⛔",
+      "evidence": "零命中",
+      "note": "限定在 construct-engine 下找有没有名为 predict* 的实现文件。"
+    },
+    {
+      "id": "V3-3",
+      "doc": "ConStruct_发展规划_v3.0.md",
+      "quote": "预测案例库 ❌ 未启动",
+      "kind": "count",
+      "fingerprint": "6a6651ff",
+      "status": "⛔",
+      "evidence": "0 / 阈值 1",
+      "note": "找有没有预测案例的落盘数据。"
+    },
+    {
+      "id": "INV-1",
+      "doc": "ConStruct 项目 · 完成内容与版本迭代（2026.06.26）.md",
+      "quote": "D:\\地缘推演台\\",
+      "kind": "path",
+      "fingerprint": "adc8b5f9",
+      "status": "⛔",
+      "evidence": "该路径不存在",
+      "note": "项目已搬到 D:\\Projects\\地缘推演台\\"
+    },
+    {
+      "id": "INV-2",
+      "doc": "ConStruct 项目 · 完成内容与版本迭代（2026.06.26）.md",
+      "quote": "construct_bridge.py",
+      "kind": "find",
+      "fingerprint": "df7dc630",
+      "status": "⚠️",
+      "evidence": "tools\\construct_bridge.py",
+      "note": null
+    },
+    {
+      "id": "INV-3",
+      "doc": "ConStruct 项目 · 完成内容与版本迭代（2026.06.26）.md",
+      "quote": "框架v2.0.html",
+      "kind": "find",
+      "fingerprint": "e5d1b9b5",
+      "status": "⚠️",
+      "evidence": "content\\published\\地缘政治分析框架v2.0.html",
+      "note": null
+    },
+    {
+      "id": "INV-4",
+      "doc": "ConStruct 项目 · 完成内容与版本迭代（2026.06.26）.md",
+      "quote": "框架v3.0.html（+SUL）",
+      "kind": "find",
+      "fingerprint": "bbb34545",
+      "status": "⛔",
+      "evidence": "零命中",
+      "note": null
+    },
+    {
+      "id": "INV-5",
+      "doc": "ConStruct 项目 · 完成内容与版本迭代（2026.06.26）.md",
+      "quote": "ConStruct_Archive/",
+      "kind": "find",
+      "fingerprint": "bbebf3ab",
+      "status": "✅",
+      "evidence": "ConStruct_Archive",
+      "note": null
+    },
+    {
+      "id": "INV-6",
+      "doc": "ConStruct 项目 · 完成内容与版本迭代（2026.06.26）.md",
+      "quote": "References/",
+      "kind": "find",
+      "fingerprint": "de422240",
+      "status": "⚠️",
+      "evidence": "ConStruct_Archive\\References",
+      "note": null
+    },
+    {
+      "id": "INV-7",
+      "doc": "ConStruct 项目 · 完成内容与版本迭代（2026.06.26）.md",
+      "quote": "*公众号排版.html 8篇",
+      "kind": "count",
+      "fingerprint": "7b7af919",
+      "status": "✅",
+      "evidence": "14 / 阈值 8",
+      "note": null
+    },
+    {
+      "id": "V5-1",
+      "doc": "ConStruct_Engine_v5.0_迁移路线图.md",
+      "quote": "产出: docker-compose.yml 文件",
+      "kind": "find",
+      "fingerprint": "80b0ceb9",
+      "status": "⚠️",
+      "evidence": "construct-stack\\docker-compose.yml",
+      "note": null
+    },
+    {
+      "id": "V5-2",
+      "doc": "ConStruct_Engine_v5.0_迁移路线图.md",
+      "quote": "0.6 PostgreSQL + TimescaleDB 启动 / create_hypertable",
+      "kind": "find",
+      "fingerprint": "c543fd42",
+      "status": "⚠️",
+      "evidence": "construct-stack\\scripts\\init-pg.sql",
+      "note": null
+    },
+    {
+      "id": "V5-3",
+      "doc": "ConStruct_Engine_v5.0_迁移路线图.md",
+      "quote": "0.11 Neo4j 导入 46 主体 → MATCH (a:Actor) count 46",
+      "kind": "find",
+      "fingerprint": "83825a9f",
+      "status": "⚠️",
+      "evidence": "construct-stack\\scripts\\init-neo4j.cypher",
+      "note": null
+    },
+    {
+      "id": "V5-4",
+      "doc": "ConStruct_Engine_v5.0_迁移路线图.md",
+      "quote": "0.10 写 healthcheck.sh — 挨个轮询 /health",
+      "kind": "find",
+      "fingerprint": "d3fc0122",
+      "status": "⛔",
+      "evidence": "零命中",
+      "note": null
+    },
+    {
+      "id": "V5-5",
+      "doc": "ConStruct_Engine_v5.0_迁移路线图.md",
+      "quote": "Phase 1: GDELT 管道 python pipeline.py --gdelt-only",
+      "kind": "find",
+      "fingerprint": "3990d2dd",
+      "status": "⚠️",
+      "evidence": "construct-stack\\scripts\\collect_gdelt.py",
+      "note": null
+    },
+    {
+      "id": "D-1",
+      "doc": "ConStruct_Phase0_验证指南.md",
+      "quote": "phase0.bat verify（六步）",
+      "kind": "find",
+      "fingerprint": "8fb21af3",
+      "status": "⚠️",
+      "evidence": "construct-stack\\phase0.bat",
+      "note": null
+    },
+    {
+      "id": "D-2",
+      "doc": "ConStruct_Phase0_验证指南.md",
+      "quote": "每条事件带 source_ref + confidence + verification_status=pending",
+      "kind": "find",
+      "fingerprint": "f3771b7f",
+      "status": "⚠️",
+      "evidence": "construct-stack\\scripts\\verify_events.py",
+      "note": "该文件确实在 construct-stack/scripts/ 里。"
+    },
+    {
+      "id": "D-3",
+      "doc": "ConStruct_Phase0_验证指南.md",
+      "quote": "数据流（GDELT 采集）→ 真相源（PG+TSDB）→ 图谱（Neo4j）核心链条跑通",
+      "kind": "semantic",
+      "fingerprint": "bfb2c211",
+      "status": "ℹ️",
+      "evidence": "机器核不了",
+      "note": "「跑通」是谁在什么时候验的？有没有留下一次性可复跑的凭据（脚本输出/日志/指纹）？"
+    },
+    {
+      "id": "N-1",
+      "doc": "ConStruct Lab：复杂系统结构化认知基础设施项目.txt",
+      "quote": "ConStruct 100 — 100个高质量案例",
+      "kind": "count",
+      "fingerprint": "3f1cd3f8",
+      "status": "⚠️",
+      "evidence": "1 / 阈值 100",
+      "note": "★ 实测只有 1 份（CS_FIN_2026_002_case_card.json）⇒ 距 100 还差 99。"
+    },
+    {
+      "id": "N-2",
+      "doc": "ConStruct Lab：复杂系统结构化认知基础设施项目.txt",
+      "quote": "让任何案例都可以被机器读取（Case JSON Schema V1.0）",
+      "kind": "find",
+      "fingerprint": "ec1079c7",
+      "status": "⚠️",
+      "evidence": "construct-engine\\case_schema_check.py",
+      "note": "对账器已建；实测真案例卡 10 个 schema 字段里缺 9 个。"
+    },
+    {
+      "id": "N-3",
+      "doc": "ConStruct Lab：复杂系统结构化认知基础设施项目.txt",
+      "quote": "核心资产：ConStruct Annotation Framework（实体/状态/关系/动态 四层）",
+      "kind": "semantic",
+      "fingerprint": "9ea54765",
+      "status": "ℹ️",
+      "evidence": "机器核不了",
+      "note": "四层标注体系目前只是文档里的四段话，还是已经有可机读的定义（schema/枚举/校验器）？"
+    },
+    {
+      "id": "X-1",
+      "doc": "ConStruct Lab：复杂系统结构化认知基础设施项目.txt",
+      "quote": "（反查）新定位文档里还提不提八维/构型/结构诊断",
+      "kind": "doc_text",
+      "fingerprint": "5660c322",
+      "status": "✅",
+      "evidence": "docs/（除本文档外）命中 0 处　⇒ 结论成立",
+      "note": "反查型：命中 0 次【就是】要确认的结论（实测 0 次）。"
+    }
+  ],
+  "tally": {
+    "⚠️": 14,
+    "⛔": 6,
+    "✅": 3,
+    "ℹ️": 2
+  },
+  "ledger_print": "800e4745b569"
+}

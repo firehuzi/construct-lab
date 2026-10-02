@@ -342,6 +342,149 @@ def collect() -> list[dict]:
 
 
 # ── 审计：这个维度到底会不会【区分】？ ─────────────────────────────────────
+# ══════════════════════════════════════════════════════════════════════════════
+# 账本（Mechanism Ledger）—— 照 TaoPaw 的纪律移植
+#
+# TaoPaw 原话（机制算子对账.md §9.1）：
+#   「l2_relations_ab.txt 自初始提交起没再生成过……『猫格与个体.md』还在拿它当
+#     『实测』引用 —— 而且当时看不出来，因为日志里没写『我是在哪一版引擎上跑的』。」
+# TaoPaw 原话（本地模拟实验平台-方案.md §4.3）：
+#   「指纹不匹配 ⇒ 老 batch 标『过期』，⛔ 不许当证据用」
+#
+# 移植过来是三把戳 + 一道闸门：
+#   ① 编码器指纹  eightdim.py@<行数>行·<FNV1a32>   （= TaoPaw 的引擎指纹）
+#   ② 语料指纹    archives@<份数>份·<FNV1a32>       （= 输入侧：47 份档案的内容）
+#   ③ 量表指纹    scales·<FNV1a32>                  （= 规则侧：量表与映射）
+#   任一不匹配 ⇒ 产物【过期】，不许当证据用。
+#
+# ConStruct 此前【完全没有】这套：全仓 指纹 0 处 / 台账 0 处 / 过期标记 0 处。
+# 后果实测过一次：我第一版编码器按行取值，把覆盖率假性压到 9%，
+# 而 eightdim.json 里【没有任何东西】能说明它是哪一版、基于哪批档案算的。
+# ══════════════════════════════════════════════════════════════════════════════
+
+def fnv1a32(data: bytes) -> str:
+    h = 0x811C9DC5
+    for b in data:
+        h ^= b
+        h = (h * 0x01000193) & 0xFFFFFFFF
+    return "%08x" % h
+
+
+def encoder_print() -> str:
+    """① 编码器自身的戳：文件@行数·FNV1a32（TaoPaw 的 `behavior_engine.dart@<行>·<hash>` 同格式）"""
+    with open(__file__, "rb") as fh:
+        raw = fh.read()
+    return "eightdim.py@%d行·%s" % (raw.count(b"\n") + 1, fnv1a32(raw))
+
+
+def corpus_print() -> str:
+    """② 语料指纹：喂进去的每一份档案的【路径:大小:内容hash】排序后总哈希。
+    这一把戳是「档案改了 ⇒ 编码过期」能否被机器查出来的关键。"""
+    parts = []
+    srcs = actor_sources()
+    for code, paths in sorted(srcs):
+        for p in sorted(paths):
+            with open(p, "rb") as fh:
+                raw = fh.read()
+            rel = os.path.relpath(p, ROOT).replace("\\", "/")
+            parts.append("%s:%d:%s" % (rel, len(raw), fnv1a32(raw)))
+    return "archives@%d份·%s" % (len(srcs), fnv1a32("\n".join(parts).encode("utf-8")))
+
+
+def scales_print() -> str:
+    """③ 量表指纹：量表本身也是会改的 —— 改了它，老编码同样失效。"""
+    payload = json.dumps([SCALES, FIELD_SOURCES, ROW_ALIASES, COUNTRY_ALIASES, DUPLICATE_OF],
+                         ensure_ascii=False, sort_keys=True)
+    return "scales·%s" % fnv1a32(payload.encode("utf-8"))
+
+
+def git_head() -> str:
+    """直接读 .git，不走 subprocess（沙箱里管道捕获可能 EPERM）。"""
+    for cand in (os.path.join(HERE, ".git"), os.path.join(ROOT, ".git")):
+        try:
+            with open(os.path.join(cand, "HEAD")) as fh:
+                ref = fh.read().strip()
+            if ref.startswith("ref: "):
+                with open(os.path.join(cand, ref[5:].strip())) as fh:
+                    return fh.read().strip()[:7]
+            return ref[:7]
+        except Exception:
+            continue
+    return "?"
+
+
+def fingerprints() -> dict:
+    return {"encoder": encoder_print(), "corpus": corpus_print(),
+            "scales": scales_print(), "git": git_head()}
+
+
+def ledger(actors: list[dict]) -> dict:
+    """独立格数 vs 伪重复 —— TaoPaw §4.6 的纪律：
+       「『跑得多』不等于『知道得多』……平台必须把『独立样本』做成机器算的数。」
+    套到八维：47 主体 × 8 维 = 376 个数字看着很多，独立信息量是多少？
+    """
+    nominal = len(actors) * len(SCALES)
+    filled = sum(1 for a in actors for v in a["dims"].values() if v["value"] is not None)
+    kinds = Counter()
+    owners = Counter()
+    for a in actors:
+        for v in a["dims"].values():
+            if v["value"] is None:
+                continue
+            src = v["source"] or "?"
+            kinds[src.split("(")[0]] += 1
+            if "矩阵(" in src:
+                owners[src.split("(")[1].split(" ")[0]] += 1
+    n_mat = sum(owners.values())
+    return {
+        "nominal_cells": nominal,
+        "filled_cells": filled,
+        "fill_rate": round(filled / nominal, 4) if nominal else 0.0,
+        "source_kinds": dict(kinds),
+        "independent_matrix_owners": len(owners),
+        "cells_from_matrices": n_mat,
+        "pseudo_replication_matrix": round(n_mat / len(owners), 2) if owners else 0.0,
+        "note": ("一个非空格 ≠ 一次独立观测：同一份矩阵一次给出多国多行。"
+                 "与 TaoPaw 那句同构 ——「同一条命的第 1000 天，不是第 1000 个样本」。"),
+    }
+
+
+def gate() -> int:
+    """新鲜度闸门：不重新编码，只比对【已落盘产物】的戳与当前状态。
+    TaoPaw §4.3：「指纹不匹配 ⇒ 老 batch 标『过期』，⛔ 不许当证据用」"""
+    print("─" * 92)
+    print("# 八维编码 · 新鲜度闸门")
+    print("─" * 92)
+    if not os.path.exists(OUT):
+        print("  ❌ 未找到产物 %s —— 先跑 python eightdim.py" % os.path.relpath(OUT, ROOT))
+        return 1
+    with open(OUT, encoding="utf-8") as fh:
+        stored = json.load(fh)
+    old = stored.get("fingerprint") or {}
+    new = fingerprints()
+    bad = 0
+    # ★ 只用【描述内容的】三把戳判定：编码器 / 语料 / 量表。
+    #   git commit 只作 provenance【不参与判定】——
+    #   否则产物一提交，HEAD 立刻变，产物会把自己判成过期（自指死锁）。
+    for key, label in (("encoder", "编码器"), ("corpus", "语料  "), ("scales", "量表  ")):
+        o, n = old.get(key), new.get(key)
+        ok = (o == n)
+        if not ok:
+            bad += 1
+        print("  %s %s  存=%s" % ("✅" if ok else "❌", label, o or "(无)"))
+        if not ok:
+            print("             现=%s" % n)
+    print("  ⓘ git    %s（provenance，不参与判定：产物一旦提交，HEAD 必然变）"
+          % (old.get("git") or "(无)"))
+    print("─" * 92)
+    if bad:
+        print("  ⛔ 产物【过期】：%d 把戳不匹配 ⇒ 不许当证据用。" % bad)
+        print("     修法：重新跑 python eightdim.py，并【重新核对】由此得出的结论。")
+        return 1
+    print("  ✅ 新鲜：三把内容戳全部匹配。")
+    return 0
+
+
 def entropy(vals: list) -> float:
     import math
     vals = [v for v in vals if v is not None]
@@ -355,9 +498,22 @@ def entropy(vals: list) -> float:
 def audit(actors: list[dict]) -> int:
     dims = list(SCALES.keys())
     bad = 0
+    led = ledger(actors)
     print("=" * 92)
     print("# 八维结构诊断 · 区分性审计（%d 个主体）" % len(actors))
     print("=" * 92)
+    # ── 账本：独立格数 vs 伪重复（TaoPaw §4.6 的纪律做成机器算的数）──
+    print("\n【账本 · 独立格数 vs 伪重复】")
+    print("  名义格数 = %d（%d 主体 × 8 维）　实际非空 = %d（%.0f%%）"
+          % (led["nominal_cells"], len(actors), led["filled_cells"], led["fill_rate"] * 100))
+    print("  独立来源种类 = %d 种：%s"
+          % (len(led["source_kinds"]),
+             "　".join("%s %d" % (k, v) for k, v in
+                       sorted(led["source_kinds"].items(), key=lambda kv: -kv[1]))))
+    print("  其中矩阵来源 = %d 格 ÷ %d 份矩阵 ⇒ 伪重复倍数 %.1f"
+          % (led["cells_from_matrices"], led["independent_matrix_owners"],
+             led["pseudo_replication_matrix"]))
+    print("  ⚠️ %s" % led["note"])
     print("\n  %-12s %8s %8s %10s  %s" % ("维度", "有值", "覆盖率", "取值种类", "判定"))
     print("  " + "-" * 82)
     for d in dims:
@@ -399,11 +555,20 @@ def audit(actors: list[dict]) -> int:
 
 
 def main() -> int:
+    if "--gate" in sys.argv:
+        return gate()
+
+    fp = fingerprints()
+    # ── TaoPaw 的 stampHeader()：戳打在第一行 —— 重定向抓走的输出也能拿到 ──
+    print(fp["encoder"])
+    print("%s ｜ %s ｜ git %s" % (fp["corpus"], fp["scales"], fp["git"]))
+
     actors = collect()
     if "--audit" not in sys.argv:
         os.makedirs(os.path.dirname(OUT), exist_ok=True)
         with open(OUT, "w", encoding="utf-8") as fh:
-            json.dump({"scales": SCALES, "duplicate_of": DUPLICATE_OF, "actors": actors},
+            json.dump({"fingerprint": fp, "scales": SCALES, "duplicate_of": DUPLICATE_OF,
+                       "ledger": ledger(actors), "actors": actors},
                       fh, ensure_ascii=False, indent=2)
         print("已写出 %s（%d 主体）" % (os.path.relpath(OUT, ROOT), len(actors)))
     return 0 if audit(actors) == 0 else 1

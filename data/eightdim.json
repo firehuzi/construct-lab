@@ -1,4 +1,10 @@
 {
+  "fingerprint": {
+    "encoder": "eightdim.py@579行·981c7654",
+    "corpus": "archives@47份·d260988a",
+    "scales": "scales·5e2cd0ec",
+    "git": "664ee40"
+  },
   "scales": {
     "身份连续性": {
       "keys": {
@@ -108,6 +114,20 @@
   },
   "duplicate_of": {
     "秩序价值": "存在方式"
+  },
+  "ledger": {
+    "nominal_cells": 376,
+    "filled_cells": 120,
+    "fill_rate": 0.3191,
+    "source_kinds": {
+      "矩阵": 40,
+      "档案字段": 51,
+      "他者系统": 29
+    },
+    "independent_matrix_owners": 9,
+    "cells_from_matrices": 40,
+    "pseudo_replication_matrix": 4.44,
+    "note": "一个非空格 ≠ 一次独立观测：同一份矩阵一次给出多国多行。与 TaoPaw 那句同构 ——「同一条命的第 1000 天，不是第 1000 个样本」。"
   },
   "actors": [
     {

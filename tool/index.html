@@ -1285,5 +1285,182 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 </script>
 
+<script>
+// ══════════════════════════════════════════════════════════════
+// 板块① 持久化：11 层填到一半关掉页面就没了（原来 localStorage 0 处）
+// ══════════════════════════════════════════════════════════════
+// ★ 恢复映射【不另维护一张表】—— 直接解析 DOM 自己的内联 handler：
+//     onchange="updateState('L1_name','actor.name')"   ⇒ 元素 → state 路径
+//     onchange="updateSUL('intent',this.value)"        ⇒ 滑块 → SUL 键
+//     onclick ="selectRadio(this,'L1','continuity.type')" ⇒ 选项 → state 路径
+//     onclick ="toggleCheck(this,'others')"            ⇒ 勾选 → state 分类
+//   工具改了 HTML，映射自动跟着变 —— 不会漂移。
+// ★ 为什么恢复必须走 selectRating 而不能只改 state：
+//   createRatingButtons 把 1-3 硬编码为 active（默认值 3），不读 state。
+//   所以只有调 selectRating 才会同时改 UI 与 state。
+// ══════════════════════════════════════════════════════════════
+(function () {
+  var KEY = 'construct_diag_v1';
+  var LS = (function () { try { return window.localStorage; } catch (e) { return null; } })();
+
+  function getPath(o, p) {
+    return String(p).split('.').reduce(function (a, k) {
+      return (a == null) ? undefined : a[k];
+    }, o);
+  }
+  function setPath(o, p, v) {
+    var ks = String(p).split('.'), i;
+    for (i = 0; i < ks.length - 1; i++) { if (o[ks[i]] == null) o[ks[i]] = {}; o = o[ks[i]]; }
+    o[ks[ks.length - 1]] = v;
+  }
+  function deepMerge(dst, src) {
+    Object.keys(src || {}).forEach(function (k) {
+      var v = src[k];
+      if (v && typeof v === 'object' && !Array.isArray(v)) {
+        if (dst[k] == null || typeof dst[k] !== 'object') dst[k] = {};
+        deepMerge(dst[k], v);
+      } else if (v !== undefined) { dst[k] = v; }
+    });
+  }
+
+  // ── 保存 ──────────────────────────────────────────────────
+  var timer = null;
+  function snapshot() {
+    var nameEl = document.getElementById('analysisName');
+    return { v: 1, savedAt: new Date().toISOString(),
+             name: nameEl ? nameEl.value : '',
+             touched: (typeof __touched !== 'undefined') ? __touched : false,
+             state: JSON.parse(JSON.stringify(state)) };
+  }
+  function save() {
+    if (!LS) return false;
+    try { LS.setItem(KEY, JSON.stringify(snapshot())); markSaved(); return true; }
+    catch (e) { return false; }
+  }
+  function scheduleSave() {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(save, 400);
+  }
+  function markSaved() {
+    var el = document.getElementById('diag-persist-note');
+    if (!el) return;
+    var d = new Date();
+    el.textContent = '💾 已保存到本机（' + d.toTimeString().slice(0, 8) + '）';
+    el.style.color = '#2a7';
+  }
+
+  // ── 元素 → state 路径：通用提取器 ──────────────────────────
+  // ★ 这里修过一轮：原来「一个 handler 一个正则」，实测漏掉两类 ——
+  //   ① SUL 滑块用的是 oninput 而不是 onchange ⇒ 5 个键一个都解析不到
+  //   ② 构型用的是 <select onchange="updateConfig(this.value)">，不是 selectRadio
+  //   ③ 还有 onchange="state.config.label=this.value" 这种直接赋值
+  //   漏掉的后果是【静默不恢复】（不报错，只是白填），所以改成通用提取器 + 覆盖全部模式。
+  function handlerSrc(el) {
+    return (el.getAttribute('onchange') || '') + ' '
+         + (el.getAttribute('oninput') || '') + ' '
+         + (el.getAttribute('onclick') || '');
+  }
+  function extract(el) {
+    var s = handlerSrc(el), m;
+    if ((m = /updateState\('([^']+)'\s*,\s*'([^']+)'\)/.exec(s))) return { path: m[2], via: 'state' };
+    if ((m = /selectRadio\(this\s*,\s*'[^']*'\s*,\s*'([^']+)'\)/.exec(s))) return { path: m[1], via: 'radio' };
+    if ((m = /updateSUL\('([^']+)'/.exec(s))) return { path: 'SUL.' + m[1], via: 'value' };
+    if (/updateConfig\(/.test(s)) return { path: 'config.lockMode', via: 'value' };
+    if ((m = /state\.([A-Za-z0-9_.]+)\s*=\s*this\.value/.exec(s))) return { path: m[1], via: 'value' };
+    if ((m = /toggleCheck\(this\s*,\s*'([^']+)'/.exec(s))) return { path: m[1], via: 'check' };
+    return null;
+  }
+  function fire(el) {
+    try { el.dispatchEvent(new Event('change', { bubbles: true })); } catch (e) { }
+    try { el.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) { }
+  }
+
+  // ── 恢复 ──────────────────────────────────────────────────
+  function restore() {
+    var raw = LS && LS.getItem(KEY);
+    if (!raw) return false;
+    var saved;
+    try { saved = JSON.parse(raw); } catch (e) { return false; }
+    if (!saved || !saved.state) return false;
+
+    deepMerge(state, saved.state);              // state 是 const ⇒ 只能合并，不能赋值
+    try { if (typeof __touched !== 'undefined') __touched = !!saved.touched; } catch (e) { }
+
+    // ① 评分组：走 selectRating（它同时改 UI 与 state）
+    //    ★ 必须走 click —— createRatingButtons 把 1-3 硬编码为 active，不读 state
+    document.querySelectorAll('.rating-group[data-path]').forEach(function (g) {
+      var v = parseInt(getPath(state, g.dataset.path), 10);
+      if (!(v >= 1 && v <= 5)) return;
+      var btn = g.querySelector('.rating-btn[data-value="' + v + '"]');
+      if (btn) btn.click();
+    });
+    // ② 其余控件：统一走提取器
+    var stats = { radio: 0, check: 0, value: 0, skip: 0 };
+    document.querySelectorAll('[onchange],[oninput],[onclick]').forEach(function (el) {
+      if (el.classList && el.classList.contains('rating-btn')) return;
+      var info = extract(el);
+      if (!info) { stats.skip++; return; }
+      var want = getPath(state, info.path);
+      if (info.via === 'radio') {
+        if (want != null && want !== '' && String(el.dataset.value) === String(want)) { el.click(); stats.radio++; }
+        return;
+      }
+      if (info.via === 'check') {
+        var cat = state[info.path];
+        var w = !!(cat && el.dataset.key && cat[el.dataset.key]);
+        if (w !== el.classList.contains('active')) { el.click(); stats.check++; }
+        return;
+      }
+      // 文本 / 下拉 / 滑块
+      if (want == null || want === '') return;
+      if (String(el.value) === String(want)) return;
+      el.value = want; fire(el); stats.value++;
+    });
+    try { window.__restoreStats = stats; } catch (e) { }
+
+    // ③ 分析名称
+    var nm = document.getElementById('analysisName');
+    if (nm && saved.name) { nm.value = saved.name; }
+
+    try { updateProgress(); diagnose(); } catch (e) { }
+    return true;
+  }
+
+  // ── 接线 ──────────────────────────────────────────────────
+  var restored = restore();
+
+  // 任何改动都排一次保存（捕获阶段，覆盖动态生成的控件）
+  ['input', 'change', 'click'].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      if (e.target && e.target.id === 'diag-clear-btn') return;
+      scheduleSave();
+    }, true);
+  });
+  window.addEventListener('beforeunload', function () { if (timer) clearTimeout(timer); save(); });
+
+  // 状态条 + 清空
+  function mountBar() {
+    var host = document.querySelector('#mod-diag .app-container') || document.body;
+    if (!host || document.getElementById('diag-persist-bar')) return;
+    var bar = document.createElement('div');
+    bar.id = 'diag-persist-bar';
+    bar.style.cssText = 'max-width:900px;margin:0 auto 10px;display:flex;gap:10px;'
+      + 'align-items:center;flex-wrap:wrap;font-size:0.7rem';
+    bar.innerHTML = '<span id="diag-persist-note" class="node-desc">'
+      + (restored ? '↩️ 已恢复上次填写的进度（本机保存）' : '💾 进度会自动保存在本机')
+      + '</span>'
+      + '<button class="btn" id="diag-clear-btn" style="font-size:0.68rem;padding:2px 8px">清空并重新开始</button>';
+    host.insertBefore(bar, host.firstChild);
+    document.getElementById('diag-clear-btn').onclick = function () {
+      if (!confirm('清空本机保存的进度，并重新开始？此操作不可撤销。')) return;
+      if (LS) LS.removeItem(KEY);
+      location.reload();
+    };
+  }
+  mountBar();
+  if (restored) markSaved();
+})();
+</script>
+
 </body>
 </html>

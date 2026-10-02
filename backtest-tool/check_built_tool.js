@@ -16,7 +16,8 @@ console.log("# 构建产物检查：tool/index.html（" + src.length + " 字节�
 
 // 语法
 const scripts = [...src.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1]);
-ck("内联 <script> 块 = 3（内联数据 + 基座诊断 + 运行层）", scripts.length === 3, String(scripts.length));
+ck("内联 <script> 块 = 4（内联数据 + 基座诊断 + 运行层 + 持久化）",
+   scripts.length === 4, String(scripts.length));
 scripts.forEach((s, i) => {
   try { new Function(s); console.log(`     ✅ 第 ${i + 1} 块语法正确（${s.split("\n").length} 行）`); }
   catch (e) { ok = false; console.log(`     ❌ 第 ${i + 1} 块语法错误：${e.message}`); }

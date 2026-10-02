@@ -1,6 +1,7 @@
 {
   "_说明": "事前准入门槛卡。填好它，--feasibility 才可能让一根轴通过。空着 = 不过 —— 不许含糊过关。",
   "_七道门槛出处": "TaoPaw 机制算子对账.md §9.6 §2",
+  "_本轮进度": "只填了「方向扩张性」一根（2026-10-02，见 readout.py）。其余七根仍为空 —— 即「一根都不过」的真实状态。",
   "dimensions": {
     "身份连续性": {
       "claim": "该维度对主体的行为后果有解释力",
@@ -10,6 +11,8 @@
       "min_delta": null,
       "n_available": null,
       "readout": null,
+      "readout_source": null,
+      "readout_result": null,
       "zero_selfcheck": null
     },
     "存在方式": {
@@ -20,6 +23,8 @@
       "min_delta": null,
       "n_available": null,
       "readout": null,
+      "readout_source": null,
+      "readout_result": null,
       "zero_selfcheck": null
     },
     "方法灵活性": {
@@ -30,6 +35,8 @@
       "min_delta": null,
       "n_available": null,
       "readout": null,
+      "readout_source": null,
+      "readout_result": null,
       "zero_selfcheck": null
     },
     "维持机制": {
@@ -40,17 +47,21 @@
       "min_delta": null,
       "n_available": null,
       "readout": null,
+      "readout_source": null,
+      "readout_result": null,
       "zero_selfcheck": null
     },
     "方向扩张性": {
-      "claim": "该维度对主体的行为后果有解释力",
-      "null_arm": null,
-      "zero_point": null,
-      "noise_sd": null,
-      "min_delta": null,
-      "n_available": null,
-      "readout": null,
-      "zero_selfcheck": null
+      "claim": "该维度的 ↑扩张／→维持／↓收缩，应当能从【独立测出来的对外活动量】上看出来",
+      "null_arm": "置换零：把方向标签打乱 R=2000 ⇒ 该机制被数学上关掉（零分布中心构造性地在 0）",
+      "zero_point": "R2 的实测零点 = 方向2 与方向3 的均值（17.40 / 13.80），不是 0",
+      "noise_sd": 16.66,
+      "min_delta": 12.31,
+      "n_available": 22,
+      "readout": "COW 冲突骨架 R2：近期对外争端（MID/WAR 且 year_end ≥ 2000），来自 actor_timelines/",
+      "readout_source": "actor_timelines",
+      "readout_result": "ρ=+0.243，置换 p=0.276，n=22，n_需≈14 ⇒【幂是够的，效应不在那里】。另三个读出口也无一显著（R1 领土净变化 ρ=-0.190 p=0.412／R3 领土变更总数 ρ=+0.348 p=0.118／R4 近期领土净变化 p=0.409），Bonferroni(4) 后仍无一显著。负对照：八根轴对同一读出口跑一遍，n 够的四根全部不显著。",
+      "zero_selfcheck": "置换零分布中心构造性地在 0；点估计 ρ=+0.243 落在零分布 95% 区间内"
     },
     "秩序价值": {
       "claim": "该维度对主体的行为后果有解释力",
@@ -60,6 +71,8 @@
       "min_delta": null,
       "n_available": null,
       "readout": null,
+      "readout_source": null,
+      "readout_result": null,
       "zero_selfcheck": null
     },
     "他者复杂度": {
@@ -70,6 +83,8 @@
       "min_delta": null,
       "n_available": null,
       "readout": null,
+      "readout_source": null,
+      "readout_result": null,
       "zero_selfcheck": null
     },
     "恐惧深度": {
@@ -80,6 +95,8 @@
       "min_delta": null,
       "n_available": null,
       "readout": null,
+      "readout_source": null,
+      "readout_result": null,
       "zero_selfcheck": null
     }
   }

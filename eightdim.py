@@ -23,6 +23,7 @@
 """
 from __future__ import annotations
 
+import inspect
 import json
 import math
 import os
@@ -373,10 +374,18 @@ def fnv1a32(data: bytes) -> str:
 
 
 def encoder_print() -> str:
-    """① 编码器自身的戳：文件@行数·FNV1a32（TaoPaw 的 `behavior_engine.dart@<行>·<hash>` 同格式）"""
-    with open(__file__, "rb") as fh:
-        raw = fh.read()
-    return "eightdim.py@%d行·%s" % (raw.count(b"\n") + 1, fnv1a32(raw))
+    """① 编码器指纹 —— **只覆盖影响产物的那些函数**。
+
+    ⚠️ 这里刻意【不是整文件哈希】。`eightdim.py` 里还有审计／闸门／自证／事前门槛
+    等大量工具代码；改一句注释、加一个工具函数，产物其实一字未变，却会被判过期 ——
+    那是**误报**。我在两次「改了工具代码、产物假性过期」之后把范围收窄到这里。
+    （量表常量不在这里，由 scales_print() 单独管。）
+    """
+    funcs = (strip_md, canonical_md, table_rows, field_rows, hezhe_count,
+             norm_country, norm_row, harvest, match_scale, encode_actor, actor_sources)
+    parts = ["%s:%s" % (f.__name__, fnv1a32(inspect.getsource(f).encode("utf-8")))
+             for f in funcs]
+    return "encoder[%d函数]·%s" % (len(funcs), fnv1a32("\n".join(parts).encode("utf-8")))
 
 
 def corpus_print() -> str:
@@ -736,6 +745,19 @@ def selftest() -> int:
     check("同内容 ⇒ 同哈希", fnv1a32(b"abc") == fnv1a32(b"abc"))
     check("改一字节 ⇒ 哈希必变", fnv1a32(b"abc") != fnv1a32(b"abd"))
     check("空串也稳定", fnv1a32(b"") == fnv1a32(b""))
+    # ★ 指纹的【覆盖范围】两个方向都要证：改工具代码不该动它、改量表必须动它
+    fp0 = encoder_print()
+    saved_k = globals()["POW_K"]
+    globals()["POW_K"] = 123.0
+    same = encoder_print() == fp0
+    globals()["POW_K"] = saved_k
+    check("★改【工具代码】(POW_K) ⇒ 编码器指纹【不变】（不误报过期）", same)
+    s0 = scales_print()
+    SCALES["恐惧深度"]["keys"]["__ZZ"] = 9
+    s1 = scales_print()
+    del SCALES["恐惧深度"]["keys"]["__ZZ"]
+    check("★改【量表】⇒ 量表指纹【必变】", s0 != s1)
+    check("还原后量表指纹复原", scales_print() == s0)
 
     print("\n【F｜真产物上复算一遍（不是只测合成品）】")
     real = collect()
@@ -765,13 +787,19 @@ def selftest() -> int:
                  "readout": "外部量 Y", "zero_selfcheck": "点估计落在区间内"}
     r_full = gate_dimension_feasibility("方向扩张性", real, full_card)
     m_full = {n: m for n, m, _r in r_full["rows"]}
-    check("★把卡【填满】⇒ ①②③⑤⑥ 全 ✅（这几道确实受填报驱动）",
-          all(m_full[k] == "✅" for k in ("① 零效应臂", "② 零点是谁", "③ 噪声底／幂",
-                                          "⑤ 机制级读出口", "⑥ 零点模型可证伪")),
-          str(m_full))
-    check("★卡填满也【过不了 ⑦】⇒ 证明 ⑦ 是机器判的、不是声明出来的",
+    check("★卡填满【但读出口没写来源】⇒ ⑦ 仍 ⛔（不许只凭一句声明过关）",
           m_full["⑦ 可识别性"] == "⛔" and r_full["blockers"] == 1,
           "blockers=%s" % r_full["blockers"])
+    full_card2 = dict(full_card, readout_source="actor_timelines")
+    r2 = gate_dimension_feasibility("方向扩张性", real, full_card2)
+    m2 = {n: m for n, m, _r in r2["rows"]}
+    check("★卡填满且读出口来源【存在且不重叠】⇒ ⑦ ✅ 且 blockers = 0 ⇒ 该轴可跑",
+          m2["⑦ 可识别性"] == "✅" and r2["blockers"] == 0,
+          "⑦=%s blockers=%s" % (m2["⑦ 可识别性"], r2["blockers"]))
+    bad_src = dict(full_card, readout_source="八维矩阵")
+    check("★读出口来源指向不存在的路径 ⇒ ⑦ ⛔",
+          {n: m for n, m, _r in gate_dimension_feasibility(
+              "方向扩张性", real, bad_src)["rows"]}["⑦ 可识别性"] == "⛔")
 
     print("\n" + "=" * 92)
     print("  自证：通过 %d，失败 %d" % (n_pass, n_fail))
@@ -833,7 +861,9 @@ def card_template() -> dict:
                 "noise_sd": None,          # ③ 噪声底 sd
                 "min_delta": None,         # ③ 最小可关心 Δ
                 "n_available": None,       # ③ n_有
-                "readout": None,           # ⑤ 机制级读出口（外部量）
+                "readout": None,           # ⑤ 机制级读出口（外部量，一句话说清）
+                "readout_source": None,    # ⑦ 读出口的来源路径（要能被机器核：存在且与轴值证据不重叠）
+                "readout_result": None,    # ⑤ 做了之后【结果是什么】—— 与「能不能做」是两件事
                 "zero_selfcheck": None}    # ⑥ 点估计是否落在它自己的区间里
             for d in SCALES
         },
@@ -887,14 +917,35 @@ def gate_dimension_feasibility(dim: str, actors: list[dict], card: dict | None) 
     rows.append(("⑥ 零点模型可证伪", "✅" if zc else "⛔",
                  str(zc) if zc else "未做：点估计是否落在它自己的区间里，没查"))
 
-    # ⑦ 可识别性 —— 机器判：值是否 ≡ 其证据（单元格）的确定性函数
-    comparable = [v for v in filled if v.get("text")]
-    same = bool(comparable) and all(v["value"] == match_scale(dim, v["text"])[0]
-                                    for v in comparable)
-    rows.append(("⑦ 可识别性",
-                 "⛔" if same else ("⛔" if not comparable else "⚠️"),
-                 "值 ≡ 证据(单元格)的确定性函数 ⇒ 统计量与零点【共用同一个估计量】⇒ 零分辨率"
-                 if same else "无值可判" if not comparable else "需人工核"))
+    # ⑦ 可识别性 —— 机器判：有没有一个【来源与轴值证据不重叠】的外部读出口？
+    #   TaoPaw 门槛 ⑦ 问的是「统计量与零点是不是共用同一个估计量」。
+    #   轴值本身永远 ≡ 其证据（单元格）的确定性函数；要脱开这一条，
+    #   唯一的路是配一个【另一个来源】的外部量。故此处机器核：
+    #     ① 卡里声明了读出口与它的来源路径 ② 该路径存在
+    #     ③ 该来源与轴值的证据来源【不重叠】
+    ro = card.get("readout")
+    ro_src = card.get("readout_source")
+    axis_kinds = {(a["dims"][dim]["source"] or "").split("(")[0]
+                  for a in actors if a["dims"][dim]["value"] is not None}
+    src_path = None
+    if ro_src:
+        src_path = str(ro_src) if os.path.isabs(str(ro_src)) else os.path.join(HERE, str(ro_src))
+    overlap = any(k and k in str(ro_src or "") for k in axis_kinds)
+    independent = bool(ro and ro_src and src_path and os.path.exists(src_path) and not overlap)
+    if independent:
+        reason = ("已配独立来源的外部读出口（%s）⇒ 轴值证据来源=%s，两者不重叠 ⇒ "
+                  "统计量与零点是两个不同估计量 ⇒ 该检验有分辨率" %
+                  (ro_src, "／".join(sorted(axis_kinds)) or "无"))
+    elif not ro:
+        reason = ("未配外部读出口：值 ≡ 证据(单元格)的确定性函数 ⇒ "
+                  "统计量与零点【共用同一个估计量】⇒ 零分辨率")
+    elif not ro_src:
+        reason = "声明了读出口但【没写来源】⇒ 无法核独立性（不许只凭一句声明过关）"
+    elif not os.path.exists(src_path):
+        reason = "读出口来源路径不存在：%s" % src_path
+    else:
+        reason = "读出口来源与轴值证据重叠（%s vs %s）⇒ 仍是同一个估计量" % (ro_src, sorted(axis_kinds))
+    rows.append(("⑦ 可识别性", "✅" if independent else "⛔", reason))
 
     blockers = sum(1 for _n, mark, _r in rows if mark == "⛔")
     return {"dim": dim, "rows": rows, "blockers": blockers,
@@ -945,13 +996,20 @@ def feasibility(actors: list[dict]) -> int:
         print("\n  ── %s　%s" % (d, r["verdict"]))
         for name, mark, reason in r["rows"]:
             print("     %s %-16s %s" % (mark, name, reason))
+        rr = (cards.get(d) or {}).get("readout_result")
+        if rr:
+            print("     ⚑ 读出口【实测结果】：%s" % rr)
+            print("       （⚑ 是【做了的结果】；上面的 ✅ 只表示【这个检验做得成】）")
     print("\n" + "=" * 92)
-    print("  可跑：%d / %d 根轴" % (ok_cnt, len(SCALES)))
+    print("  可跑：%d / %d 根轴（= 事前门槛过了，**不等于**效应被证实）" % (ok_cnt, len(SCALES)))
     if ok_cnt == 0:
         print("  ⇒ 结论：**按你自己的门槛，这八根轴【现在一根都不能跑】。**")
         print("     这不是「这一版测不了」，而是【缺可检验性本身】——")
         print("     最硬的一条是 ⑦：值 ≡ 证据的确定性函数，统计量与零点共用同一个估计量。")
         print("     ⇒ 补法不是加刻度，是【另找一个外部量】做读出口。")
+    else:
+        print("  ⚠️ 过了门槛的轴，请去 readout.py 看【实测结果】——")
+        print("     「做得成」与「有效应」是两件事，不许把前者读成后者。")
     print("=" * 92)
     return 0 if ok_cnt else 1
 

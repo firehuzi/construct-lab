@@ -5875,6 +5875,546 @@
       ]
     }
   },
+  "geo": {
+    "AUS-GB": {
+      "2003": {
+        "Al Anbār province": 2,
+        "Al Başrah province": 8,
+        "Al Muthanná province": 2,
+        "An Najaf province": 6,
+        "At-Ta'mim province": 1,
+        "Baghdād province": 21,
+        "Bābil province": 1,
+        "Dhī Qār province": 6,
+        "Diyālá province": 1,
+        "Karbalā’ province": 3,
+        "Nīnawá province": 2,
+        "Şalāḩ ad Dīn province": 2
+      }
+    },
+    "AUS-IQ": {
+      "2003": {
+        "Al Anbār province": 2,
+        "Al Başrah province": 8,
+        "Al Muthanná province": 2,
+        "An Najaf province": 6,
+        "At-Ta'mim province": 1,
+        "Baghdād province": 21,
+        "Bābil province": 1,
+        "Dhī Qār province": 6,
+        "Diyālá province": 1,
+        "Karbalā’ province": 3,
+        "Nīnawá province": 2,
+        "Şalāḩ ad Dīn province": 2
+      }
+    },
+    "AUS-US": {
+      "2003": {
+        "Al Anbār province": 2,
+        "Al Başrah province": 8,
+        "Al Muthanná province": 2,
+        "An Najaf province": 6,
+        "At-Ta'mim province": 1,
+        "Baghdād province": 21,
+        "Bābil province": 1,
+        "Dhī Qār province": 6,
+        "Diyālá province": 1,
+        "Karbalā’ province": 3,
+        "Nīnawá province": 2,
+        "Şalāḩ ad Dīn province": 2
+      }
+    },
+    "CN-IN": {
+      "2020": {
+        "Jammu and Kashmir state": 2
+      }
+    },
+    "GB-IQ": {
+      "2003": {
+        "Al Anbār province": 2,
+        "Al Başrah province": 8,
+        "Al Muthanná province": 2,
+        "An Najaf province": 6,
+        "At-Ta'mim province": 1,
+        "Baghdād province": 21,
+        "Bābil province": 1,
+        "Dhī Qār province": 6,
+        "Diyālá province": 1,
+        "Karbalā’ province": 3,
+        "Nīnawá province": 2,
+        "Şalāḩ ad Dīn province": 2
+      }
+    },
+    "GB-US": {
+      "2001": {
+        "Badghis province": 2,
+        "Balkh province": 9,
+        "Farah province": 1,
+        "Ghazni province": 1,
+        "Hilmand province": 1,
+        "Hirat province": 13,
+        "Kabul province": 22,
+        "Kandahar province": 23,
+        "Kapisa province": 3,
+        "Kunduz province": 1,
+        "Laghman province": 1,
+        "Logar province": 1,
+        "Nangarhar province": 10,
+        "Paktya province": 5,
+        "Samangan province": 1,
+        "Uruzgan province": 4
+      },
+      "2003": {
+        "Al Anbār province": 2,
+        "Al Başrah province": 8,
+        "Al Muthanná province": 2,
+        "An Najaf province": 6,
+        "At-Ta'mim province": 1,
+        "Baghdād province": 21,
+        "Bābil province": 1,
+        "Dhī Qār province": 6,
+        "Diyālá province": 1,
+        "Karbalā’ province": 3,
+        "Nīnawá province": 2,
+        "Şalāḩ ad Dīn province": 2
+      },
+      "2024": {
+        "Amānat al ‘Āşimah governorate": 6,
+        "Bayda governorate": 2,
+        "Bābil province": 1,
+        "Hudaydah governorate": 11,
+        "Raymah governorate": 1,
+        "Taiz governorate": 3,
+        "Şa‘dah governorate": 2,
+        "Ḩajjah governorate": 2
+      },
+      "2025": {
+        "Amānat al ‘Āşimah governorate": 16,
+        "Bayda governorate": 1,
+        "Dhamār governorate": 1,
+        "Hudaydah governorate": 7,
+        "Ibb governorate": 2,
+        "Marib governorate": 1,
+        "Taiz governorate": 1,
+        "al-Jawf governorate": 1,
+        "Şan‘ā’ governorate": 4,
+        "Şa‘dah governorate": 8,
+        "Ḩajjah governorate": 2
+      }
+    },
+    "IL-IR": {
+      "2017": {
+        "Hamah governorate": 1,
+        "Quneitra governorate": 1
+      },
+      "2018": {
+        "Aleppo governorate": 1,
+        "Hamah governorate": 2,
+        "Homs governorate": 3,
+        "Rif Dimashq governorate": 1,
+        "Tartus governorate": 1
+      },
+      "2019": {
+        "Aleppo governorate": 1,
+        "Damascus governorate": 1,
+        "Deir ez Zor governorate": 6,
+        "Hamah governorate": 1,
+        "Homs governorate": 1,
+        "Quneitra governorate": 2,
+        "Rif Dimashq governorate": 4
+      },
+      "2020": {
+        "Amānat al ‘Āşimah governorate": 1,
+        "As Suwayda governorate": 1,
+        "Baghdād province": 1,
+        "Damascus governorate": 2,
+        "Daraa governorate": 2,
+        "Deir ez Zor governorate": 18,
+        "Hamah governorate": 2,
+        "Homs governorate": 3,
+        "Quneitra governorate": 1,
+        "Rif Dimashq governorate": 8,
+        "Tehran province": 2
+      },
+      "2021": {
+        "Aleppo governorate": 1,
+        "As Suwayda governorate": 1,
+        "Damascus governorate": 1,
+        "Deir ez Zor governorate": 7,
+        "Hamah governorate": 2,
+        "Homs governorate": 5,
+        "Latakia governorate": 1,
+        "Rif Dimashq governorate": 5,
+        "Tartus governorate": 1
+      },
+      "2022": {
+        "Aleppo governorate": 1,
+        "Amānat al ‘Āşimah governorate": 1,
+        "Baghdād province": 1,
+        "Damascus governorate": 3,
+        "Deir ez Zor governorate": 1,
+        "Hamah governorate": 3,
+        "Homs governorate": 1,
+        "Quneitra governorate": 1,
+        "Rif Dimashq governorate": 7,
+        "Tartus governorate": 2
+      },
+      "2023": {
+        "Al Hasakah governorate": 2,
+        "Aleppo governorate": 2,
+        "Damascus governorate": 2,
+        "Deir ez Zor governorate": 10,
+        "Hamah governorate": 1,
+        "Homs governorate": 3,
+        "Quneitra governorate": 3,
+        "Rif Dimashq governorate": 16
+      },
+      "2024": {
+        "Aleppo governorate": 5,
+        "Arbīl province": 1,
+        "Damascus governorate": 9,
+        "Daraa governorate": 2,
+        "Deir ez Zor governorate": 28,
+        "Hamah governorate": 4,
+        "Homs governorate": 15,
+        "Idlib governorate": 1,
+        "Latakia governorate": 1,
+        "Mafraq province": 1,
+        "Northern district": 1,
+        "Quneitra governorate": 6,
+        "Rif Dimashq governorate": 16,
+        "Tartus governorate": 2,
+        "Tehran province": 1,
+        "West Bank": 1
+      },
+      "2025": {
+        "Alborz province": 1,
+        "Central district": 3,
+        "East Azarbaijan province": 3,
+        "Esfahan province": 1,
+        "Haifa district": 1,
+        "Hamadan province": 2,
+        "Kermanshah province": 4,
+        "Kordestan province": 3,
+        "Lorestan province": 3,
+        "Markazi province": 1,
+        "Northern district": 1,
+        "Qom province": 1,
+        "South Lebanon province": 1,
+        "Southern district": 1,
+        "Tehran province": 9,
+        "Tel Aviv district": 3,
+        "West Azarbaijan province": 2,
+        "Zanjan province": 1
+      }
+    },
+    "IN-PK": {
+      "1990": {
+        "Azad Jammu & Kashmir": 2,
+        "Jammu and Kashmir state": 2
+      },
+      "1991": {
+        "Azad Jammu & Kashmir": 6,
+        "Jammu and Kashmir state": 9
+      },
+      "1992": {
+        "Jammu and Kashmir state": 4
+      },
+      "1993": {
+        "Azad Jammu & Kashmir": 1,
+        "Jammu and Kashmir state": 4
+      },
+      "1994": {
+        "Azad Jammu & Kashmir": 4,
+        "Jammu and Kashmir state": 2
+      },
+      "1995": {
+        "Azad Jammu & Kashmir": 9,
+        "Punjab province": 1
+      },
+      "1996": {
+        "Azad Jammu & Kashmir": 2,
+        "Jammu and Kashmir state": 3
+      },
+      "1997": {
+        "Azad Jammu & Kashmir": 11,
+        "Gilgit-Baltistan": 1,
+        "Jammu and Kashmir state": 9,
+        "Punjab province": 2
+      },
+      "1998": {
+        "Azad Jammu & Kashmir": 14,
+        "Jammu and Kashmir state": 33,
+        "Punjab province": 1
+      },
+      "1999": {
+        "Azad Jammu & Kashmir": 9,
+        "Jammu and Kashmir state": 90,
+        "Punjab province": 1
+      },
+      "2000": {
+        "Azad Jammu & Kashmir": 24,
+        "Jammu and Kashmir state": 57,
+        "Rajasthan state": 1
+      },
+      "2001": {
+        "Azad Jammu & Kashmir": 4,
+        "Jammu and Kashmir state": 18
+      },
+      "2002": {
+        "Azad Jammu & Kashmir": 47,
+        "Gilgit-Baltistan": 1,
+        "Jammu and Kashmir state": 43,
+        "Punjab province": 7,
+        "Rajasthan state": 1
+      },
+      "2003": {
+        "Azad Jammu & Kashmir": 60,
+        "Gilgit-Baltistan": 6,
+        "Jammu and Kashmir state": 50,
+        "Punjab province": 2
+      },
+      "2008": {
+        "Jammu and Kashmir state": 3
+      },
+      "2010": {
+        "Azad Jammu & Kashmir": 2,
+        "Jammu and Kashmir state": 7,
+        "Punjab province": 1
+      },
+      "2011": {
+        "Azad Jammu & Kashmir": 1,
+        "Jammu and Kashmir state": 1
+      },
+      "2012": {
+        "Jammu and Kashmir state": 5
+      },
+      "2013": {
+        "Azad Jammu & Kashmir": 9,
+        "Gilgit-Baltistan": 1,
+        "Jammu and Kashmir state": 11,
+        "Punjab province": 3
+      },
+      "2014": {
+        "Azad Jammu & Kashmir": 7,
+        "Jammu and Kashmir state": 23,
+        "Punjab province": 7
+      },
+      "2015": {
+        "Azad Jammu & Kashmir": 8,
+        "Jammu and Kashmir state": 24,
+        "Punjab province": 8
+      },
+      "2016": {
+        "Azad Jammu & Kashmir": 11,
+        "Jammu and Kashmir state": 26,
+        "Punjab province": 4
+      },
+      "2017": {
+        "Azad Jammu & Kashmir": 39,
+        "Jammu and Kashmir state": 38,
+        "Punjab province": 4,
+        "Punjab state": 2
+      },
+      "2018": {
+        "Azad Jammu & Kashmir": 14,
+        "Jammu and Kashmir state": 59,
+        "Punjab province": 5,
+        "Rajasthan state": 1
+      },
+      "2019": {
+        "Azad Jammu & Kashmir": 25,
+        "Jammu and Kashmir state": 46
+      },
+      "2020": {
+        "Azad Jammu & Kashmir": 29,
+        "Jammu and Kashmir state": 44,
+        "Punjab province": 1
+      },
+      "2021": {
+        "Azad Jammu & Kashmir": 1,
+        "Jammu and Kashmir state": 5
+      },
+      "2023": {
+        "Jammu and Kashmir state": 1
+      },
+      "2025": {
+        "Jammu and Kashmir state": 22,
+        "Punjab state": 1
+      }
+    },
+    "IQ-US": {
+      "2003": {
+        "Al Anbār province": 2,
+        "Al Başrah province": 8,
+        "Al Muthanná province": 2,
+        "An Najaf province": 6,
+        "At-Ta'mim province": 1,
+        "Baghdād province": 21,
+        "Bābil province": 1,
+        "Dhī Qār province": 6,
+        "Diyālá province": 1,
+        "Karbalā’ province": 3,
+        "Nīnawá province": 2,
+        "Şalāḩ ad Dīn province": 2
+      }
+    },
+    "RU-UA": {
+      "2014": {
+        "Autonomous Republic of Crimea": 2
+      },
+      "2016": {
+        "Autonomous Republic of Crimea": 1
+      },
+      "2022": {
+        "Autonomous Republic of Crimea": 3,
+        "Belgorod oblast": 25,
+        "Bryansk oblast": 2,
+        "Cherkasy oblast": 13,
+        "Chernihiv oblast": 173,
+        "Dnipropetrovsk oblast": 159,
+        "Donetsk oblast": 3710,
+        "Ivano-Frankivsk oblast": 2,
+        "Kharkiv oblast": 670,
+        "Kherson oblast": 450,
+        "Khmelnytskyi oblast": 4,
+        "Kirovohrad oblast": 5,
+        "Krasnodar krai": 1,
+        "Kursk oblast": 1,
+        "Kyiv Special Republican city": 42,
+        "Kyiv oblast": 132,
+        "Lubelskie voivodeship": 1,
+        "Luhansk oblast": 736,
+        "Lviv oblast": 2,
+        "Mykolayiv oblast": 200,
+        "Odessa oblast": 22,
+        "Poltava oblast": 7,
+        "Rivne oblast": 3,
+        "Ryazan oblast": 1,
+        "Saratov oblast": 1,
+        "Sumy oblast": 77,
+        "Vinnytsya oblast": 6,
+        "Volyn oblast": 3,
+        "Zaporizhzhya oblast": 224,
+        "Zhytomyr oblast": 32
+      },
+      "2023": {
+        "Autonomous Republic of Crimea": 13,
+        "Belgorod oblast": 29,
+        "Bryansk oblast": 10,
+        "Cherkasy oblast": 2,
+        "Chernihiv oblast": 39,
+        "Dnipropetrovsk oblast": 65,
+        "Donetsk oblast": 4991,
+        "Ivano-Frankivsk oblast": 3,
+        "Kharkiv oblast": 895,
+        "Kherson oblast": 1430,
+        "Khmelnytskyi oblast": 2,
+        "Kirovohrad oblast": 1,
+        "Kursk oblast": 8,
+        "Kyiv Special Republican city": 8,
+        "Kyiv oblast": 14,
+        "Luhansk oblast": 932,
+        "Lviv oblast": 6,
+        "Mykolayiv oblast": 29,
+        "Nizhny Novgorod oblast": 1,
+        "Novgorod oblast": 1,
+        "Odessa oblast": 25,
+        "Poltava oblast": 9,
+        "Rivne oblast": 6,
+        "Sevastopol City State Administration": 3,
+        "Sumy oblast": 82,
+        "Ternopil oblast": 3,
+        "Volyn oblast": 4,
+        "Zakarpattia oblast": 2,
+        "Zaporizhzhya oblast": 1261,
+        "Zhytomyr oblast": 2
+      },
+      "2024": {
+        "Autonomous Republic of Crimea": 12,
+        "Belgorod oblast": 155,
+        "Bryansk oblast": 4,
+        "Chechnya republic": 1,
+        "Cherkasy oblast": 3,
+        "Chernihiv oblast": 29,
+        "Dnipropetrovsk oblast": 110,
+        "Donetsk oblast": 5777,
+        "Ivano-Frankivsk oblast": 1,
+        "Kharkiv oblast": 1724,
+        "Kherson oblast": 864,
+        "Khmelnytskyi oblast": 4,
+        "Kirovohrad oblast": 7,
+        "Krasnodar krai": 5,
+        "Kursk oblast": 514,
+        "Kyiv Special Republican city": 5,
+        "Kyiv oblast": 14,
+        "Leningrad oblast": 1,
+        "Luhansk oblast": 827,
+        "Lviv oblast": 12,
+        "Moscow gorod": 1,
+        "Moscow oblast": 1,
+        "Mykolayiv oblast": 40,
+        "North Ossetia republic": 1,
+        "Odessa oblast": 39,
+        "Oryol oblast": 1,
+        "Poltava oblast": 12,
+        "Rivne oblast": 6,
+        "Rostov oblast": 3,
+        "Saratov oblast": 2,
+        "Sevastopol City State Administration": 7,
+        "Stavropol krai": 1,
+        "Sumy oblast": 214,
+        "Ternopil oblast": 4,
+        "Vinnytsya oblast": 1,
+        "Volgograd oblast": 1,
+        "Volyn oblast": 6,
+        "Zaporizhzhya oblast": 918,
+        "Zhytomyr oblast": 3
+      },
+      "2025": {
+        "Autonomous Republic of Crimea": 9,
+        "Belgorod oblast": 147,
+        "Bryansk oblast": 23,
+        "Cherkasy oblast": 1,
+        "Chernihiv oblast": 43,
+        "Chernivtsi oblast": 1,
+        "Dnipropetrovsk oblast": 418,
+        "Donetsk oblast": 3286,
+        "Ivano-Frankivsk oblast": 2,
+        "Khabarovsk krai": 1,
+        "Kharkiv oblast": 934,
+        "Kherson oblast": 688,
+        "Khmelnytskyi oblast": 5,
+        "Kirovohrad oblast": 2,
+        "Krasnodar krai": 5,
+        "Kursk oblast": 323,
+        "Kyiv Special Republican city": 27,
+        "Kyiv oblast": 19,
+        "Luhansk oblast": 294,
+        "Lviv oblast": 2,
+        "Moscow oblast": 2,
+        "Mykolayiv oblast": 12,
+        "Nizhny Novgorod oblast": 1,
+        "Odessa oblast": 30,
+        "Oryol oblast": 1,
+        "Poltava oblast": 3,
+        "Primorskiy krai": 2,
+        "Rostov oblast": 8,
+        "Samara oblast": 2,
+        "Sevastopol City State Administration": 1,
+        "Stavropol krai": 2,
+        "Sumy oblast": 461,
+        "Ternopil oblast": 1,
+        "Tula oblast": 1,
+        "Vinnytsya oblast": 2,
+        "Volgograd oblast": 1,
+        "Volyn oblast": 1,
+        "Voronezh oblast": 1,
+        "Zaporizhzhya oblast": 787,
+        "Zhytomyr oblast": 6
+      }
+    }
+  },
   "actors": {
     "AUS": {
       "2003": {

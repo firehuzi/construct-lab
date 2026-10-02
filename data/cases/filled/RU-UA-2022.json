@@ -1,0 +1,187 @@
+{
+  "schema": "construct-run-v1",
+  "run_id": "RU-UA@2022",
+  "committed_at": "2026-10-02T00:00:00+08:00",
+  "arm": "high",
+  "comparison_note": "★ 与 IQ-KW@1991 是【相反的一对】：海湾有完整的政府档案（govinfo PPP，30 年后仍可取），俄乌在 GDELT 覆盖期内但没有同等档案。做两个才能判断 27% 这个数有没有参照。",
+  "selection": {
+    "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂（UCDP GED v26.1）",
+    "dyad_raw": "Government of Russia (Soviet Union) || Government of Ukraine",
+    "year": "2022",
+    "events": 7272,
+    "deaths": 99473
+  },
+  "event": {
+    "text": null,
+    "text_note": "★ F1 要求原文。我没有 2022-02-23 当时的一手报道原文存进库，**所以留空而不是编**。补原文是研究工作量。",
+    "source": {
+      "dataset": "UCDP GED v26.1",
+      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
+      "year": "2022",
+      "events": 7272,
+      "deaths": 99473
+    },
+    "event_date": "2022-02-24",
+    "time_lock": "2022年2月23日——俄罗斯已承认顿涅茨克与卢甘斯克两共和国（2月21日），普京发表长篇演说否定乌克兰国家地位。约19万俄军在乌边境集结。乌方宣布进入紧急状态。此时已知信息如下。",
+    "time_lock_note": "★ 这一段是【我写的摘要】，不是原始出处。按 F1 的严格标准它还需要配上当时的原始材料 —— 已记进 needs_human。",
+    "actors": ["Russia", "Ukraine"]
+  },
+  "data_layer_note": "★★ 这个案例有一个【判据上的关键差别】：UCDP 把 2014–2021 的顿巴斯战争编成 Ukraine||DPR/LPR，**不是俄乌直接对**。实测俄乌对：2014 年 2 起、2016 年 1 起、2022 年 7272 起。⇒ 「俄乌直接交战」这个判据是有区分性的。而更强的是地理判据：2014 年只铺开到 1 个州，2022 年铺开到 30 个州、基辅州 132 起、基辅市 42 起。",
+  "diagnoses": [
+    {
+      "actor": "Russia",
+      "archive_ref": null,
+      "archive_status": "★ 无档案（47 份档案里没有俄罗斯）",
+      "fields": {},
+      "provenance": {},
+      "unknown_fields": ["全部 —— 需要先建档"]
+    },
+    {
+      "actor": "Ukraine",
+      "archive_ref": null,
+      "archive_status": "★ 无档案",
+      "fields": {},
+      "provenance": {},
+      "unknown_fields": ["全部 —— 需要先建档"]
+    }
+  ],
+  "paths": [
+    {
+      "id": "RU-UA@2022-P01",
+      "label": "全面入侵、多轴推进并进攻基辅",
+      "direction": "affirm",
+      "probability": "high",
+      "stages": [
+        {
+          "stage": "承认两共和国",
+          "discriminating": false,
+          "observable": {"object": "俄罗斯", "indicator": "正式承认顿涅茨克与卢甘斯克独立", "threshold": null, "source": null},
+          "window": {"from": "2022-02-23", "to": "2022-03-31"}
+        },
+        {
+          "stage": "越过边境多轴进攻",
+          "discriminating": true,
+          "observable": {
+            "object": "俄乌之间的直接战斗",
+            "indicator": "从多个方向越过边境，战线铺开到顿巴斯以外",
+            "threshold": "事件铺开到 ≥10 个行政区",
+            "source": "UCDP:geo_breadth(RU, UA, 2022, 10)"
+          },
+          "window": {"from": "2022-02-23", "to": "2022-06-30"}
+        },
+        {
+          "stage": "进攻基辅",
+          "discriminating": true,
+          "observable": {
+            "object": "基辅州与基辅市",
+            "indicator": "出现直接战斗",
+            "threshold": "≥1 起事件",
+            "source": "UCDP:geo_present(RU, UA, Kyiv, 2022, 1)"
+          },
+          "window": {"from": "2022-02-23", "to": "2022-06-30"}
+        }
+      ],
+      "rules_out": ["有限入侵", "外交解决", "俄军不越过边境"]
+    },
+    {
+      "id": "RU-UA@2022-P02",
+      "label": "有限入侵、只推进顿巴斯",
+      "direction": "affirm",
+      "probability": "medium",
+      "stages": [
+        {
+          "stage": "承认两共和国",
+          "discriminating": false,
+          "observable": {"object": "俄罗斯", "indicator": "正式承认顿涅茨克与卢甘斯克独立", "threshold": null, "source": null},
+          "window": {"from": "2022-02-23", "to": "2022-03-31"}
+        },
+        {
+          "stage": "战斗限于东部",
+          "discriminating": true,
+          "observable": {
+            "object": "俄乌之间的直接战斗",
+            "indicator": "战线【没有】铺开到顿巴斯以外",
+            "threshold": "铺开的行政区 <5 个",
+            "source": "UCDP:not(geo_breadth(RU, UA, 2022, 5))"
+          },
+          "window": {"from": "2022-02-23", "to": "2022-06-30"}
+        },
+        {
+          "stage": "不打基辅",
+          "discriminating": true,
+          "observable": {
+            "object": "基辅州与基辅市",
+            "indicator": "【没有】出现直接战斗",
+            "threshold": "事件数 <1",
+            "source": "UCDP:not(geo_present(RU, UA, Kyiv, 2022, 1))"
+          },
+          "window": {"from": "2022-02-23", "to": "2022-06-30"}
+        }
+      ],
+      "rules_out": ["全面入侵", "基辅受到地面进攻"]
+    },
+    {
+      "id": "RU-UA@2022-P03",
+      "label": "外交解决、俄军部分撤回",
+      "direction": "affirm",
+      "probability": "low",
+      "stages": [
+        {
+          "stage": "俄军撤回集结地",
+          "discriminating": true,
+          "observable": {"object": "俄军", "indicator": "从边境集结地撤回驻地", "threshold": null, "source": null},
+          "window": {"from": "2022-02-23", "to": "2022-04-30"}
+        },
+        {
+          "stage": "明斯克框架重启",
+          "discriminating": true,
+          "observable": {"object": "俄乌双方", "indicator": "重启明斯克协议框架下的谈判", "threshold": null, "source": null},
+          "window": {"from": "2022-02-23", "to": "2022-04-30"}
+        }
+      ],
+      "rules_out": ["战争爆发", "大规模地面进攻"]
+    },
+    {
+      "id": "RU-UA@2022-P04",
+      "label": "北约直接介入",
+      "direction": "affirm",
+      "probability": "low",
+      "stages": [
+        {
+          "stage": "北约出兵",
+          "discriminating": true,
+          "observable": {"object": "北约成员国部队", "indicator": "进入乌克兰并与俄军直接交战", "threshold": null, "source": null},
+          "window": {"from": "2022-02-23", "to": "2023-02-23"}
+        },
+        {
+          "stage": "设禁飞区",
+          "discriminating": true,
+          "observable": {"object": "北约", "indicator": "在乌克兰上空设立并执行禁飞区", "threshold": null, "source": null},
+          "window": {"from": "2022-02-23", "to": "2023-02-23"}
+        }
+      ],
+      "rules_out": ["北约保持不直接参战"]
+    }
+  ],
+  "exclusions": [
+    {
+      "id": "RU-UA@2022-X01",
+      "direction": "exclude",
+      "content": "北约直接出兵乌克兰与俄军交战",
+      "observable": {
+        "object": "北约成员国部队",
+        "indicator": "在乌克兰境内与俄军直接交战",
+        "threshold": null,
+        "source": null
+      },
+      "window": {"from": "2022-02-23", "to": "2025-02-23"},
+      "why": "★ 这条是用户在历史回溯工具里写过的那条排除断言的同类（「北约出兵协助乌克兰」）。它现在【没有 source】—— 因为 UCDP 是冲突数据集，它记录的是「打了」，不记录「谁没参战」。要看这条得从报道里找，而那要人打开存档。"
+    }
+  ],
+  "needs_human": [
+    "event.text（F1 原文）—— 我没有 2022-02-23 当时的一手报道原文，留空未编",
+    "event.time_lock 的原始出处（现有的是我写的摘要）",
+    "diagnoses[].fields —— 俄罗斯与乌克兰【都不在 47 档案里】",
+    "★ 窗口选择本身需要复核：我把窗口起点定在 2022-02-23（入侵前一天）。若定在 2 月 21 日（承认两共和国）或 2021 年底（开始集结），路径空间会不同 —— 这个选择【没有被任何东西约束】，是我定的。"
+  ]
+}

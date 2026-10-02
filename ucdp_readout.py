@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """ucdp_readout.py —— 用 UCDP GED v26.1 造一个【覆盖到 2025】的外部量
 
 ═══ 为什么换数据源 ═══════════════════════════════════════════════════════════
@@ -116,6 +116,12 @@ def build() -> int:
     pair_deaths = defaultdict(lambda: defaultdict(int))
     # ★ 全部双边对（原始名），案例库的候选池。
     dyads = {}
+    # ★★ 地理聚合：按 (主体对, 年, adm_1) 记事件数。
+    #    为什么需要：`dyad_present` 那种「有没有事件」的判据区分力常常不够 ——
+    #    例如 2022 年之前的俄乌对，顿巴斯一直在打（只是被编成 Ukraine||DPR/LPR），
+    #    所以「有没有事件」分不出「有限冲突」与「全面入侵」。
+    #    而**「基辅州出现战斗」能分**。GED 有 adm_1，所以这做得到。
+    geo = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     with zipfile.ZipFile(ZIP) as z, z.open(MEMBER) as fh:
         rdr = csv.DictReader(io.TextIOWrapper(fh, encoding="utf-8", errors="replace"))
         for row in rdr:
@@ -151,6 +157,12 @@ def build() -> int:
             # ★ 全部双边对（不只我们 47 个主体之间的）—— 案例库要「一批」，10 个对撑不起来。
             #   按 side_a / side_b 的【原始名】聚合，不映射到主体码（那样会漏掉没建档的行为体）。
             #   这是 case_skeleton.py 的候选池来源。
+            # 地理：只在【双方都映射到我们主体】时记，规模有界
+            adm = (row.get("adm_1") or "").strip()
+            if adm and len(codes) >= 2:
+                for x, yy in combinations(sorted(codes), 2):
+                    geo["%s-%s" % (x, yy)][y][adm] += 1
+
             a_name = (row.get("side_a") or "").strip()
             b_name = (row.get("side_b") or "").strip()
             if a_name and b_name and a_name != b_name:
@@ -171,6 +183,8 @@ def build() -> int:
             "pairs": {k: dict(sorted(v.items())) for k, v in sorted(pairs.items())},
             "pair_deaths": {k: dict(sorted(v.items())) for k, v in sorted(pair_deaths.items())},
             "dyads": {k: v for k, v in sorted(dyads.items())},
+            "geo": {k: {y: dict(sorted(r.items())) for y, r in sorted(v.items())}
+                    for k, v in sorted(geo.items())},
             "actors": {c: dict(sorted(ys.items())) for c, ys in sorted(per.items())}}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as fh:

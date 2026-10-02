@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """case_check.py —— B4.3：对一个填好的案例跑三条检查，并量出 pending_manual 队列
 
 ★★ 这个工具的产出里，**最重要的一行是 pending_manual 的长度。**
@@ -51,6 +51,14 @@ def load_dyads() -> dict:
         return {}
     with io.open(DATA, encoding="utf-8") as fh:
         return json.load(fh).get("dyads") or {}
+
+
+def load_geo() -> dict:
+    """按 (主体对, 年, adm_1) 聚合的事件数 —— 地理判据的来源。"""
+    if not os.path.exists(DATA):
+        return {}
+    with io.open(DATA, encoding="utf-8") as fh:
+        return json.load(fh).get("geo") or {}
 
 
 def resolve(spec: str) -> list:
@@ -233,6 +241,76 @@ def check_discriminating(case: dict, thresh: float = 0.5) -> dict:
                      "也判不了「是不是所有路径共通的终点」—— 后者是语义判断。"}
 
 
+def check_geo_present(dyads: dict, geo: dict, spec: str):
+    """`geo_present(<码A>,<码B>,<州名关键词>,<年>,<阈值>)` —— 某州有没有足够多的事件。
+
+    ★★ 为什么需要这一种锚：
+      `dyad_present` 那种「有没有事件」的判据，在区分「有限冲突」与「全面入侵」时
+      **根本不够** —— 因为顿巴斯从 2014 年就在打（只是被 UCDP 编成了 Ukraine||DPR/LPR）。
+      实测 RU-UA：**2014 年 1 个州 2 起；2022 年 30 个州、基辅州 132 起、基辅市 42 起。**
+      ⇒ **「基辅州出现战斗」才分得开。而 GED 有 adm_1，所以这做得到。**
+    """
+    m = re.match(r"geo_present\(\s*([^,]+),\s*([^,]+),\s*([^,]+),\s*(\d{4})\s*,\s*(\d+)\s*\)",
+                 normalize_src(spec))
+    if not m:
+        return None
+    a, b, region, year, thr = (m.group(1).strip(), m.group(2).strip(),
+                               m.group(3).strip(), m.group(4), int(m.group(5)))
+    key = "%s-%s" % tuple(sorted([a, b]))
+    if key not in geo:
+        return {"observed": None,
+                "why": "geo 里没有 %s ⇒ 数据不够，不判（**不许**判「没有事件」）" % key}
+    regions = geo[key].get(year) or {}
+    if not regions:
+        return {"observed": None, "why": "%s 年 %s 无行政区记录 ⇒ 数据不够，不判" % (year, key)}
+    hit = {k: v for k, v in regions.items() if region.lower() in k.lower()}
+    n = sum(hit.values())
+    return {"observed": n >= thr,
+            "detail": "%s 年「%s」匹配到的行政区：%s ⇒ 合计 %d 起（阈值 %d）"
+                      % (year, region,
+                         ("；".join("%s:%d" % (k, v) for k, v in
+                                    sorted(hit.items(), key=lambda kv: -kv[1])[:4]) or "无"),
+                         n, thr)}
+
+
+def check_geo_breadth(dyads: dict, geo: dict, spec: str):
+    """`geo_breadth(<码A>,<码B>,<年>,<阈值>)` —— 事件铺开了多少个行政区。"""
+    m = re.match(r"geo_breadth\(\s*([^,]+),\s*([^,]+),\s*(\d{4})\s*,\s*(\d+)\s*\)",
+                 normalize_src(spec))
+    if not m:
+        return None
+    a, b, year, thr = m.group(1).strip(), m.group(2).strip(), m.group(3), int(m.group(4))
+    key = "%s-%s" % tuple(sorted([a, b]))
+    if key not in geo or not geo[key].get(year):
+        return {"observed": None, "why": "%s %s 无行政区记录 ⇒ 数据不够，不判" % (key, year)}
+    n = len(geo[key][year])
+    return {"observed": n >= thr,
+            "detail": "%s 年该对事件铺开到 %d 个行政区（阈值 %d）" % (year, n, thr)}
+
+
+def check_any(dyads: dict, geo: dict, spec: str):
+    """总入口：支持 `not(...)` 包装。
+
+    ★★ 为什么需要 `not()`：
+      写 P02「有限入侵」时，observable 是「战斗**没有**铺开」，而
+      `geo_breadth` 测的是「铺开了多少个州」—— **两者语义相反。**
+      这与 present/absent 是同一个坑：**判据的形状与断言的形状不总是一致。**
+      与其为每种判据都写一个反向版本（会组合爆炸），不如加一个通用取反。
+    """
+    s = normalize_src(spec)
+    neg = False
+    if s.startswith("not(") and s.endswith(")"):
+        neg, s = True, s[4:-1].strip()
+    r = (check_ucdp_present(dyads, s) or check_ucdp_deaths(dyads, s)
+         or check_geo_present(dyads, geo, s) or check_geo_breadth(dyads, geo, s))
+    if r is not None and neg:
+        r = dict(r)
+        if r.get("observed") is not None:
+            r["observed"] = not r["observed"]
+        r["detail"] = "取反（not）：" + (r.get("detail") or r.get("why") or "")
+    return r
+
+
 # ══ 主检查 ══════════════════════════════════════════════════════════════════════
 def load_sources() -> dict:
     """读依据档案索引。key = 快照文件名。"""
@@ -270,6 +348,7 @@ def check_evidence(ev: dict, sources: dict) -> tuple:
 def check_case(case: dict, dyads: dict) -> dict:
     rows, pending = [], []
     sources = load_sources()
+    geo = load_geo()
 
     def judge(jid, kind, obs, window, evidence=None):
         src = (obs or {}).get("source")
@@ -297,7 +376,7 @@ def check_case(case: dict, dyads: dict) -> dict:
 
         if not src:
             return to_manual("没有 source 也没有 evidence ⇒ 没有任何依据")
-        r = check_ucdp_present(dyads, src) or check_ucdp_deaths(dyads, src)
+        r = check_any(dyads, geo, src)
         if r is None:
             return to_manual("source 的写法本工具不认识：%s" % src)
         r["source"] = src
@@ -468,6 +547,33 @@ def selftest() -> int:
        (check_ucdp_deaths(dyads, "UCDP:deaths(IQ, KW, 1991, 1000)") or {}).get("observed") is True)
     ck("★deaths 检查：阈值 999999 ⇒ observed=False",
        (check_ucdp_deaths(dyads, "UCDP:deaths(IQ, KW, 1991, 999999)") or {}).get("observed") is False)
+    # ★★ 地理判据：区分「有限冲突」与「全面入侵」
+    _g = load_geo()
+    ck("★★geo 数据存在（RU-UA 有按州的记录）", bool(_g.get("RU-UA")), str(list(_g)[:3]))
+    _r = check_geo_present(dyads, _g, "UCDP:geo_present(RU, UA, Kyiv, 2022, 1)")
+    ck("★★geo_present：2022 基辅出现在战斗记录里 ⇒ observed=True",
+       _r and _r["observed"] is True, str(_r))
+    _r = check_geo_present(dyads, _g, "UCDP:geo_present(RU, UA, Kyiv, 2014, 1)")
+    ck("★★geo_present：2014 基辅【没有】⇒ observed=False（这就是它区分得开的原因）",
+       _r and _r["observed"] is False, str(_r))
+    _r = check_geo_breadth(dyads, _g, "UCDP:geo_breadth(RU, UA, 2022, 10)")
+    ck("★★geo_breadth：2022 铺开 ≥10 个州 ⇒ observed=True",
+       _r and _r["observed"] is True, str(_r))
+    _r = check_geo_breadth(dyads, _g, "UCDP:geo_breadth(RU, UA, 2014, 10)")
+    ck("★★geo_breadth：2014 只 1 个州 ⇒ observed=False", _r and _r["observed"] is False, str(_r))
+    _r = check_geo_present(dyads, _g, "UCDP:geo_present(CN, IN, Kyiv, 2022, 1)")
+    ck("★★geo 里没有的对 ⇒ 判「数据不够」，不许判「没有事件」",
+       _r and _r["observed"] is None, str(_r))
+    # ★★ not() 取反
+    _r = check_any(dyads, _g, "UCDP:not(geo_breadth(RU, UA, 2022, 100))")
+    ck("★★not()：2022 铺开 30 州、阈值 100 ⇒ 原判 False ⇒ 取反 True",
+       _r and _r["observed"] is True, str(_r))
+    _r = check_any(dyads, _g, "UCDP:not(geo_present(RU, UA, Kyiv, 2014, 1))")
+    ck("★★not()：2014 基辅无战斗 ⇒ 原判 False ⇒ 取反 True", _r and _r["observed"] is True, str(_r))
+    _r = check_any(dyads, _g, "UCDP:not(geo_present(CN, IN, Kyiv, 2022, 1))")
+    ck("★★not() 遇上「数据不够」⇒ 仍然是「数据不够」，不许被取反成 True",
+       _r and _r["observed"] is None, str(_r))
+    ck("★not() 的 detail 里标出取反了", "取反" in (_r.get("detail") or ""), str(_r.get("detail")))
     ck("★不认识的 source 写法 ⇒ 返回 None（会进队列）",
        check_ucdp_present(dyads, "fact:某个历史事实") is None)
 

@@ -1,0 +1,1478 @@
+{
+  "scales": {
+    "身份连续性": {
+      "keys": {
+        "极强": 5,
+        "强": 4,
+        "中": 3,
+        "弱": 2
+      },
+      "src": [
+        "Identity连续性",
+        "连续性类型"
+      ]
+    },
+    "存在方式": {
+      "keys": {
+        "国体": 5,
+        "山巅": 4,
+        "制度实验": 4,
+        "例外": 4,
+        "天下": 4,
+        "第三罗马": 4,
+        "复兴": 4
+      },
+      "src": [
+        "深层Identity"
+      ]
+    },
+    "方法灵活性": {
+      "keys": {
+        "线性+方法切换": 5,
+        "scope递增式": 4,
+        "循环式": 3,
+        "单向锁定": 2
+      },
+      "src": [
+        "方法轨迹类型",
+        "方法轨迹"
+      ]
+    },
+    "维持机制": {
+      "keys": {
+        "交易式": 3,
+        "复兴": 4,
+        "武力恢复": 4,
+        "冻结局": 4,
+        "scope": 4,
+        "循环": 3,
+        "单向锁定": 4,
+        "B": 4
+      },
+      "src": [
+        "当前方法阶段",
+        "当前方法",
+        "构型"
+      ]
+    },
+    "方向扩张性": {
+      "keys": {
+        "↑": 4,
+        "→": 3,
+        "↓": 2,
+        "扩张": 4,
+        "维持": 3,
+        "收缩": 2
+      },
+      "src": [
+        "当前方向",
+        "方向基线"
+      ]
+    },
+    "秩序价值": {
+      "keys": {
+        "山巅": 5,
+        "例外": 5,
+        "天下": 4,
+        "国体": 3,
+        "第三罗马": 3
+      },
+      "src": [
+        "深层Identity"
+      ]
+    },
+    "他者复杂度": {
+      "keys": {
+        "四重": 4,
+        "三重": 3,
+        "双极": 3,
+        "双": 2
+      },
+      "src": [
+        "他者结构"
+      ]
+    },
+    "恐惧深度": {
+      "keys": {
+        "终结": 4,
+        "孤立": 3,
+        "无法建立": 3,
+        "失控": 3,
+        "消除": 4,
+        "双重复合": 4
+      },
+      "src": [
+        "核心恐惧"
+      ]
+    }
+  },
+  "duplicate_of": {
+    "秩序价值": "存在方式"
+  },
+  "actors": [
+    {
+      "code": "CN",
+      "matrices_in_folder": 2,
+      "dims": {
+        "身份连续性": {
+          "value": 3,
+          "key": "中",
+          "source": "矩阵(DE 档案)",
+          "text": "中（天下中断）",
+          "reason": null
+        },
+        "存在方式": {
+          "value": 4,
+          "key": "天下",
+          "source": "矩阵(CN 档案)",
+          "text": "天下体系型",
+          "reason": null
+        },
+        "方法灵活性": {
+          "value": 4,
+          "key": "scope递增式",
+          "source": "矩阵(CN 档案)",
+          "text": "scope递增式（8次）",
+          "reason": null
+        },
+        "维持机制": {
+          "value": 4,
+          "key": "复兴",
+          "source": "矩阵(CN 档案)",
+          "text": "复兴=方法⑦",
+          "reason": null
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "矩阵(DE 档案)",
+          "text": "↑（扩张）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": 4,
+          "key": "天下",
+          "source": "矩阵(CN 档案)",
+          "text": "天下体系型",
+          "reason": null
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(DE 档案)",
+          "text": "indifference（障碍+通道+接受者）",
+          "reason": "命中矩阵但无量表词"
+        },
+        "恐惧深度": {
+          "value": 3,
+          "key": "无法建立",
+          "source": "矩阵(CN 档案)",
+          "text": "天下体系无法建立",
+          "reason": null
+        }
+      }
+    },
+    {
+      "code": "EU",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "IL",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TW 档案)",
+          "text": "高",
+          "reason": "命中矩阵但无量表词"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "IR",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "JP",
+      "matrices_in_folder": 2,
+      "dims": {
+        "身份连续性": {
+          "value": 5,
+          "key": "极强",
+          "source": "矩阵(DE 档案)",
+          "text": "极强（天皇2600年）",
+          "reason": null
+        },
+        "存在方式": {
+          "value": 5,
+          "key": "国体",
+          "source": "矩阵(DE 档案)",
+          "text": "国体完整性",
+          "reason": null
+        },
+        "方法灵活性": {
+          "value": 3,
+          "key": "循环式",
+          "source": "矩阵(JP 档案)",
+          "text": "循环式（6次切换→可能继续）",
+          "reason": null
+        },
+        "维持机制": {
+          "value": 4,
+          "key": "冻结局",
+          "source": "矩阵(DE 档案)",
+          "text": "⑤·冻结局",
+          "reason": null
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "矩阵(DE 档案)",
+          "text": "↑（扩张）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": 3,
+          "key": "国体",
+          "source": "矩阵(DE 档案)",
+          "text": "国体完整性",
+          "reason": null
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(DE 档案)",
+          "text": "冲击+否定+肯定",
+          "reason": "命中矩阵但无量表词"
+        },
+        "恐惧深度": {
+          "value": 3,
+          "key": "失控",
+          "source": "矩阵(JP 档案)",
+          "text": "方法失控（被动重置+过冲崩溃）",
+          "reason": null
+        }
+      }
+    },
+    {
+      "code": "RU",
+      "matrices_in_folder": 1,
+      "dims": {
+        "身份连续性": {
+          "value": 2,
+          "key": "弱",
+          "source": "矩阵(DE 档案)",
+          "text": "弱（苏联崩溃）",
+          "reason": null
+        },
+        "存在方式": {
+          "value": 4,
+          "key": "第三罗马",
+          "source": "矩阵(DE 档案)",
+          "text": "第三罗马",
+          "reason": null
+        },
+        "方法灵活性": {
+          "value": 2,
+          "key": "单向锁定",
+          "source": "矩阵(DE 档案)",
+          "text": "单向锁定",
+          "reason": null
+        },
+        "维持机制": {
+          "value": 4,
+          "key": "武力恢复",
+          "source": "矩阵(DE 档案)",
+          "text": "B·武力恢复",
+          "reason": null
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "矩阵(DE 档案)",
+          "text": "↑（扩张）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": 3,
+          "key": "第三罗马",
+          "source": "矩阵(DE 档案)",
+          "text": "第三罗马",
+          "reason": null
+        },
+        "他者复杂度": {
+          "value": 3,
+          "key": "双极",
+          "source": "矩阵(US 档案)",
+          "text": "双极他者",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": 4,
+          "key": "消除",
+          "source": "矩阵(DE 档案)",
+          "text": "存在消除",
+          "reason": null
+        }
+      }
+    },
+    {
+      "code": "UA",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "US",
+      "matrices_in_folder": 1,
+      "dims": {
+        "身份连续性": {
+          "value": 4,
+          "key": "强",
+          "source": "矩阵(US 档案)",
+          "text": "强（建国文本+宪法框架250年）",
+          "reason": null
+        },
+        "存在方式": {
+          "value": 4,
+          "key": "制度实验",
+          "source": "矩阵(US 档案)",
+          "text": "山巅之城/制度实验/例外论",
+          "reason": null
+        },
+        "方法灵活性": {
+          "value": 5,
+          "key": "线性+方法切换",
+          "source": "矩阵(US 档案)",
+          "text": "线性+方法切换",
+          "reason": null
+        },
+        "维持机制": {
+          "value": 3,
+          "key": "交易式",
+          "source": "矩阵(US 档案)",
+          "text": "方法⑤·交易式收缩",
+          "reason": null
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "矩阵(US 档案)",
+          "text": "→（维持，内部张力上升）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": 5,
+          "key": "山巅",
+          "source": "矩阵(US 档案)",
+          "text": "山巅之城/制度实验/例外论",
+          "reason": null
+        },
+        "他者复杂度": {
+          "value": 4,
+          "key": "四重",
+          "source": "矩阵(US 档案)",
+          "text": "四重他者（理想+敌人+观众+内部）",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": 4,
+          "key": "终结",
+          "source": "矩阵(US 档案)",
+          "text": "例外论的终结（终极）/被孤立（阶段）",
+          "reason": null
+        }
+      }
+    },
+    {
+      "code": "AUS",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "DE",
+      "matrices_in_folder": 5,
+      "dims": {
+        "身份连续性": {
+          "value": 3,
+          "key": "中",
+          "source": "矩阵(DE 档案)",
+          "text": "中（锚点=能力→可衰减+赎罪约束→代际弱化）",
+          "reason": null
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(IN 档案)",
+          "text": "Ordnung型",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "5阶段+2崩溃",
+          "reason": "命中矩阵但无量表词"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(IN 档案)",
+          "text": "赘罪式→再武装",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "矩阵(DE 档案)",
+          "text": "↑（扩张，但有限）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(IN 档案)",
+          "text": "Ordnung型",
+          "reason": "命中矩阵但无量表词"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(DE 档案)",
+          "text": "秩序伙伴+被赎罪者+内部记忆争冠",
+          "reason": "命中矩阵但无量表词"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(IN 档案)",
+          "text": "秩序定义能力丧失",
+          "reason": "命中矩阵但无量表词"
+        }
+      }
+    },
+    {
+      "code": "EG",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "FR",
+      "matrices_in_folder": 1,
+      "dims": {
+        "身份连续性": {
+          "value": 4,
+          "key": "强",
+          "source": "矩阵(FR 档案)",
+          "text": "强（卡佩987-）",
+          "reason": null
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(GB 档案)",
+          "text": "大国使命+普世价值",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(GB 档案)",
+          "text": "线性+锚定",
+          "reason": "命中矩阵但无量表词"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(GB 档案)",
+          "text": "⑥·戴高乐主义自主",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "矩阵(FR 档案)",
+          "text": "→（维持，紧张中）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(GB 档案)",
+          "text": "大国使命+普世价值",
+          "reason": "命中矩阵但无量表词"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(GB 档案)",
+          "text": "被降级为中等国家",
+          "reason": "命中矩阵但无量表词"
+        }
+      }
+    },
+    {
+      "code": "GB",
+      "matrices_in_folder": 2,
+      "dims": {
+        "身份连续性": {
+          "value": 3,
+          "key": "中",
+          "source": "矩阵(GB 档案)",
+          "text": "中（联合王国1707年，但英格兰更久）",
+          "reason": null
+        },
+        "存在方式": {
+          "value": 4,
+          "key": "例外",
+          "source": "矩阵(GB 档案)",
+          "text": "议会主权+普通法+岛国例外",
+          "reason": null
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(DE 档案)",
+          "text": "6阶段",
+          "reason": "命中矩阵但无量表词"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(DE 档案)",
+          "text": "收缩式",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方向扩张性": {
+          "value": 2,
+          "key": "↓",
+          "source": "矩阵(GB 档案)",
+          "text": "↓（收窄）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": 5,
+          "key": "例外",
+          "source": "矩阵(GB 档案)",
+          "text": "议会主权+普通法+岛国例外",
+          "reason": null
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": 4,
+          "key": "终结",
+          "source": "矩阵(GB 档案)",
+          "text": "联合王国解体/制度终结",
+          "reason": null
+        }
+      }
+    },
+    {
+      "code": "IN",
+      "matrices_in_folder": 2,
+      "dims": {
+        "身份连续性": {
+          "value": 3,
+          "key": "中",
+          "source": "矩阵(TR 档案)",
+          "text": "中——稳定但方法病理",
+          "reason": null
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "不被定义=身份（单一锚点）",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "过度扩张+叙事治国",
+          "reason": "命中矩阵但无量表词"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(IN 档案)",
+          "text": "过度扩张+叙事治国",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "不被定义=身份（单一锚点）",
+          "reason": "命中矩阵但无量表词"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "被确认为次等大国",
+          "reason": "命中矩阵但无量表词"
+        }
+      }
+    },
+    {
+      "code": "KR",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "PH",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "RS",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "低——摆荡但不稳定",
+          "reason": "命中矩阵但无量表词"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "在两股外部力量之间摆荡",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "摆荡——外部压力驱动",
+          "reason": "命中矩阵但无量表词"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "在两股外部力量之间摆荡",
+          "reason": "命中矩阵但无量表词"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "静止=存在丧失",
+          "reason": "命中矩阵但无量表词"
+        }
+      }
+    },
+    {
+      "code": "SA",
+      "matrices_in_folder": 1,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(SA 档案)",
+          "text": "石油型身份——\"我付钱，所以我在\"",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(SA 档案)",
+          "text": "石油型身份——\"我付钱，所以我在\"",
+          "reason": "命中矩阵但无量表词"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "SG",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": 3,
+          "key": "中",
+          "source": "矩阵(TW 档案)",
+          "text": "中",
+          "reason": null
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "TR",
+      "matrices_in_folder": 2,
+      "dims": {
+        "身份连续性": {
+          "value": 4,
+          "key": "强",
+          "source": "矩阵(TR 档案)",
+          "text": "极低——两个极都强，无法统一",
+          "reason": null
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "两个国家定义争夺同一国家",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "断裂-回归型——否定→召唤pendulum",
+          "reason": "命中矩阵但无量表词"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "新奥斯曼主义",
+          "reason": "命中矩阵但无量表词"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "两个国家定义争夺同一国家",
+          "reason": "命中矩阵但无量表词"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TR 档案)",
+          "text": "Identity定义失败——无法决定\"我是谁\"",
+          "reason": "命中矩阵但无量表词"
+        }
+      }
+    },
+    {
+      "code": "TW",
+      "matrices_in_folder": 1,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": "矩阵(TW 档案)",
+          "text": "极低（三重身份互斥）",
+          "reason": "命中矩阵但无量表词"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "VN",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "方向扩张性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "无矩阵含该主体/该维度（不填默认）"
+        }
+      }
+    }
+  ]
+}

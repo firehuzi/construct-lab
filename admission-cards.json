@@ -1,0 +1,86 @@
+{
+  "_说明": "事前准入门槛卡。填好它，--feasibility 才可能让一根轴通过。空着 = 不过 —— 不许含糊过关。",
+  "_七道门槛出处": "TaoPaw 机制算子对账.md §9.6 §2",
+  "dimensions": {
+    "身份连续性": {
+      "claim": "该维度对主体的行为后果有解释力",
+      "null_arm": null,
+      "zero_point": null,
+      "noise_sd": null,
+      "min_delta": null,
+      "n_available": null,
+      "readout": null,
+      "zero_selfcheck": null
+    },
+    "存在方式": {
+      "claim": "该维度对主体的行为后果有解释力",
+      "null_arm": null,
+      "zero_point": null,
+      "noise_sd": null,
+      "min_delta": null,
+      "n_available": null,
+      "readout": null,
+      "zero_selfcheck": null
+    },
+    "方法灵活性": {
+      "claim": "该维度对主体的行为后果有解释力",
+      "null_arm": null,
+      "zero_point": null,
+      "noise_sd": null,
+      "min_delta": null,
+      "n_available": null,
+      "readout": null,
+      "zero_selfcheck": null
+    },
+    "维持机制": {
+      "claim": "该维度对主体的行为后果有解释力",
+      "null_arm": null,
+      "zero_point": null,
+      "noise_sd": null,
+      "min_delta": null,
+      "n_available": null,
+      "readout": null,
+      "zero_selfcheck": null
+    },
+    "方向扩张性": {
+      "claim": "该维度对主体的行为后果有解释力",
+      "null_arm": null,
+      "zero_point": null,
+      "noise_sd": null,
+      "min_delta": null,
+      "n_available": null,
+      "readout": null,
+      "zero_selfcheck": null
+    },
+    "秩序价值": {
+      "claim": "该维度对主体的行为后果有解释力",
+      "null_arm": null,
+      "zero_point": null,
+      "noise_sd": null,
+      "min_delta": null,
+      "n_available": null,
+      "readout": null,
+      "zero_selfcheck": null
+    },
+    "他者复杂度": {
+      "claim": "该维度对主体的行为后果有解释力",
+      "null_arm": null,
+      "zero_point": null,
+      "noise_sd": null,
+      "min_delta": null,
+      "n_available": null,
+      "readout": null,
+      "zero_selfcheck": null
+    },
+    "恐惧深度": {
+      "claim": "该维度对主体的行为后果有解释力",
+      "null_arm": null,
+      "zero_point": null,
+      "noise_sd": null,
+      "min_delta": null,
+      "n_available": null,
+      "readout": null,
+      "zero_selfcheck": null
+    }
+  }
+}

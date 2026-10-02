@@ -24,6 +24,7 @@
 from __future__ import annotations
 
 import json
+import math
 import os
 import re
 import sys
@@ -743,6 +744,35 @@ def selftest() -> int:
     check("真数据：合格维度数 = 1（同源重复那一根）", audit_bad_count(real) == 1,
           str(audit_bad_count(real)))
 
+    print("\n【G｜事前门槛：幂算式 ＋ 七道】")
+    check("n ≈ 7.849·(sd/Δ)²：sd=0.5, Δ=0.25 ⇒ 31.396",
+          abs(n_required(0.5, 0.25) - 31.396) < 0.01, "%.3f" % n_required(0.5, 0.25))
+    back = delta_detectable(0.5, n_required(0.5, 0.25))
+    check("自校验：把 n_需 代回 |Δ|=2.802·sd/√n ⇒ 回到 Δ（差 <0.1%）",
+          abs(back - 0.25) / 0.25 < 0.001, "%.5f" % back)
+    m_bad = {n: m for n, m, _r in gate_dimension_feasibility(
+        "方向扩张性", real, {"noise_sd": 0.5, "min_delta": 0.25, "n_available": 10})["rows"]}
+    check("门槛③：n_需 31.4 > n_有 10 ⇒ ⛔ 这一版测不了", m_bad["③ 噪声底／幂"] == "⛔")
+    m_ok = {n: m for n, m, _r in gate_dimension_feasibility(
+        "方向扩张性", real, {"noise_sd": 0.5, "min_delta": 0.25, "n_available": 40})["rows"]}
+    check("门槛③：n_有 40 ≥ n_需 ⇒ ✅", m_ok["③ 噪声底／幂"] == "✅")
+    m_empty = {n: m for n, m, _r in
+               gate_dimension_feasibility("方向扩张性", real, {})["rows"]}
+    check("空卡 ⇒ ① 与 ⑤ 都是 ⛔（空着 = 不过）",
+          m_empty["① 零效应臂"] == "⛔" and m_empty["⑤ 机制级读出口"] == "⛔")
+    full_card = {"null_arm": "关掉某臂", "zero_point": "实测零点", "noise_sd": 0.1,
+                 "min_delta": 0.05, "n_available": 1000,
+                 "readout": "外部量 Y", "zero_selfcheck": "点估计落在区间内"}
+    r_full = gate_dimension_feasibility("方向扩张性", real, full_card)
+    m_full = {n: m for n, m, _r in r_full["rows"]}
+    check("★把卡【填满】⇒ ①②③⑤⑥ 全 ✅（这几道确实受填报驱动）",
+          all(m_full[k] == "✅" for k in ("① 零效应臂", "② 零点是谁", "③ 噪声底／幂",
+                                          "⑤ 机制级读出口", "⑥ 零点模型可证伪")),
+          str(m_full))
+    check("★卡填满也【过不了 ⑦】⇒ 证明 ⑦ 是机器判的、不是声明出来的",
+          m_full["⑦ 可识别性"] == "⛔" and r_full["blockers"] == 1,
+          "blockers=%s" % r_full["blockers"])
+
     print("\n" + "=" * 92)
     print("  自证：通过 %d，失败 %d" % (n_pass, n_fail))
     if n_fail:
@@ -753,11 +783,191 @@ def selftest() -> int:
     return 0 if n_fail == 0 else 1
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+# 事前门槛（--feasibility）—— 把 TaoPaw §9.6 的七道门槛做成【工具】，不再是看法
+#
+# TaoPaw 原话：
+#   「样本量买不到结论，指标才买得到结论。」（§9.6 §3）
+#   「准入卡：下次要跑的实验先填这张（机制假设 / 构造性零效应 + 代码锚点 /
+#     名义零点 + 实测零点 / 噪声底来源 / 最小可关心 Δ / n / 预登记判定规则 /
+#     机制级读出口 /『能不能先算』）。工具支持 --sd= --delta= --n= 直接算。」
+#
+# 移植到 ConStruct：被检验的「机制」是【一根维度轴】，主张是「该维度有解释力」。
+# 机器能判的就机器判（④⑦），判不了的一律【未填即不过】—— 不许含糊过关。
+# ══════════════════════════════════════════════════════════════════════════════
+
+POW_K = 7.849        # (z_{0.975} + z_{0.8})²
+COEF_DELTA = 2.802   # 反向：|Δ| = 2.802·sd/√n
+
+
+def n_required(sd: float, delta: float) -> float:
+    return POW_K * (sd / delta) ** 2
+
+
+def delta_detectable(sd: float, n: float) -> float:
+    return COEF_DELTA * sd / math.sqrt(n)
+
+
+CARD_PATH = os.path.join(HERE, "admission-cards.json")
+
+
+def load_cards() -> dict:
+    if not os.path.exists(CARD_PATH):
+        return {}
+    try:
+        with open(CARD_PATH, encoding="utf-8") as fh:
+            return json.load(fh).get("dimensions", {}) or {}
+    except Exception:
+        return {}
+
+
+def card_template() -> dict:
+    return {
+        "_说明": ("事前准入门槛卡。填好它，--feasibility 才可能让一根轴通过。"
+                  "空着 = 不过 —— 不许含糊过关。"),
+        "_七道门槛出处": "TaoPaw 机制算子对账.md §9.6 §2",
+        "dimensions": {
+            d: {"claim": "该维度对主体的行为后果有解释力",
+                "null_arm": None,          # ① 构造性零效应臂（能把该维度数学上关掉）
+                "zero_point": None,        # ② 零点是谁（名义 vs 实测）
+                "noise_sd": None,          # ③ 噪声底 sd
+                "min_delta": None,         # ③ 最小可关心 Δ
+                "n_available": None,       # ③ n_有
+                "readout": None,           # ⑤ 机制级读出口（外部量）
+                "zero_selfcheck": None}    # ⑥ 点估计是否落在它自己的区间里
+            for d in SCALES
+        },
+    }
+
+
+def gate_dimension_feasibility(dim: str, actors: list[dict], card: dict | None) -> dict:
+    """七道门槛逐条判。返回 rows = [(门槛, 记号, 理由)]。"""
+    card = card or {}
+    filled = [a["dims"][dim] for a in actors if a["dims"][dim]["value"] is not None]
+    rows = []
+
+    arm = card.get("null_arm")
+    rows.append(("① 零效应臂", "✅" if arm else "⛔",
+                 str(arm) if arm else "未声明：没有能把该维度【数学上关掉】的臂"))
+
+    zp = card.get("zero_point")
+    rows.append(("② 零点是谁", "✅" if zp else "⛔",
+                 str(zp) if zp else "未声明：名义零点 ≠ 实测零点，两者都没给"))
+
+    sd, delta, n_have = card.get("noise_sd"), card.get("min_delta"), card.get("n_available")
+    if sd and delta:
+        n_need = n_required(sd, delta)
+        if n_have:
+            ok = n_have >= n_need
+            rows.append(("③ 噪声底／幂", "✅" if ok else "⛔",
+                         "n_需 ≈ %.0f ／ n_有 = %s ⇒ %s"
+                         % (n_need, n_have, "够" if ok else "**这一版测不了**")))
+        else:
+            rows.append(("③ 噪声底／幂", "⛔", "n_需 ≈ %.0f，但 n_有 未声明" % n_need))
+    else:
+        rows.append(("③ 噪声底／幂", "⛔", "未声明 sd／Δ：n ≈ 7.849·(sd/Δ)² 算不出来"))
+
+    # ④ 可先算的别跑 —— 机器判：这些值是【读出来的】还是【测出来的】？
+    #    ⚠️ 注意不能只数「读自矩阵」：读自【档案字段】的同样是读出来的。
+    #    八维里没有任何一项是「测出来的」—— 这正是这道门槛要指出的。
+    by_kind = Counter((v["source"] or "未标来源").split("(")[0] for v in filled)
+    n_measured = sum(1 for v in filled if "测" in (v["source"] or ""))
+    rows.append(("④ 可先算的别跑",
+                 "⚠️" if (filled and n_measured == 0) else ("✅" if filled else "⛔"),
+                 ("值 %d/%d 全部是【读出来】的（%s），【没有一个是测出来的】⇒ 应当先算，别跑实验"
+                  % (len(filled), len(filled),
+                     "／".join("%s %d" % (k, n) for k, n in by_kind.most_common())))
+                 if filled else "无值可判"))
+
+    ro = card.get("readout")
+    rows.append(("⑤ 机制级读出口", "✅" if ro else "⛔",
+                 str(ro) if ro else "未声明：产物只是它自己的编码，没有外部量随之改变"))
+
+    zc = card.get("zero_selfcheck")
+    rows.append(("⑥ 零点模型可证伪", "✅" if zc else "⛔",
+                 str(zc) if zc else "未做：点估计是否落在它自己的区间里，没查"))
+
+    # ⑦ 可识别性 —— 机器判：值是否 ≡ 其证据（单元格）的确定性函数
+    comparable = [v for v in filled if v.get("text")]
+    same = bool(comparable) and all(v["value"] == match_scale(dim, v["text"])[0]
+                                    for v in comparable)
+    rows.append(("⑦ 可识别性",
+                 "⛔" if same else ("⛔" if not comparable else "⚠️"),
+                 "值 ≡ 证据(单元格)的确定性函数 ⇒ 统计量与零点【共用同一个估计量】⇒ 零分辨率"
+                 if same else "无值可判" if not comparable else "需人工核"))
+
+    blockers = sum(1 for _n, mark, _r in rows if mark == "⛔")
+    return {"dim": dim, "rows": rows, "blockers": blockers,
+            "verdict": ("⛔ 不可跑（缺 %d 项）" % blockers) if blockers else "✅ 可跑"}
+
+
+def feasibility(actors: list[dict]) -> int:
+    # ── 幂算式单算模式：--sd= --delta= --n= ──
+    def argval(name):
+        for a in sys.argv:
+            if a.startswith("--%s=" % name):
+                try:
+                    return float(a.split("=", 1)[1])
+                except ValueError:
+                    return None
+        return None
+
+    sd, delta, n_have = argval("sd"), argval("delta"), argval("n")
+    if sd is not None or delta is not None or n_have is not None:
+        print("─" * 92)
+        print("# 幂算式（TaoPaw §9.6 §3）：n ≈ 7.849·(sd/Δ)²　｜　|Δ| = 2.802·sd/√n")
+        print("─" * 92)
+        if sd and delta:
+            n = n_required(sd, delta)
+            print("  给定 sd=%.4g、Δ=%.4g ⇒ n_需 ≈ %.1f" % (sd, delta, n))
+            if n_have:
+                print("  n_有 = %g ⇒ %s" % (n_have, "✅ 够" if n_have >= n else "⛔ 这一版测不了"))
+            back = delta_detectable(sd, n)
+            print("  自校验：把 n_需 代回 |Δ|=2.802·sd/√n ⇒ %.4g（应≈Δ=%.4g，差 %.2f%%）"
+                  % (back, delta, abs(back - delta) / delta * 100))
+        if sd and n_have:
+            print("  给定 sd=%.4g、n=%g ⇒ 最小可分辨 |Δ| ≈ %.4g" % (sd, n_have, delta_detectable(sd, n_have)))
+        return 0
+
+    cards = load_cards()
+    print("=" * 92)
+    print("# 八维 · 事前准入（七道门槛）—— 被检验的主张：「该维度有解释力」")
+    print("=" * 92)
+    if not cards:
+        print("  ⚠️ 未找到准入门槛卡 %s" % os.path.relpath(CARD_PATH, ROOT))
+        print("     跑 `python eightdim.py --card` 生成模板；空着 = 一律不过。")
+        print()
+    ok_cnt = 0
+    for d in SCALES:
+        r = gate_dimension_feasibility(d, actors, cards.get(d))
+        if r["blockers"] == 0:
+            ok_cnt += 1
+        print("\n  ── %s　%s" % (d, r["verdict"]))
+        for name, mark, reason in r["rows"]:
+            print("     %s %-16s %s" % (mark, name, reason))
+    print("\n" + "=" * 92)
+    print("  可跑：%d / %d 根轴" % (ok_cnt, len(SCALES)))
+    if ok_cnt == 0:
+        print("  ⇒ 结论：**按你自己的门槛，这八根轴【现在一根都不能跑】。**")
+        print("     这不是「这一版测不了」，而是【缺可检验性本身】——")
+        print("     最硬的一条是 ⑦：值 ≡ 证据的确定性函数，统计量与零点共用同一个估计量。")
+        print("     ⇒ 补法不是加刻度，是【另找一个外部量】做读出口。")
+    print("=" * 92)
+    return 0 if ok_cnt else 1
+
+
 def main() -> int:
     if "--selftest" in sys.argv:
         return selftest()
     if "--gate" in sys.argv:
         return gate()
+    if "--card" in sys.argv:
+        with open(CARD_PATH, "w", encoding="utf-8") as fh:
+            json.dump(card_template(), fh, ensure_ascii=False, indent=2)
+        print("已写出准入卡模板 %s（空着 = 不过）" % os.path.relpath(CARD_PATH, ROOT))
+        return 0
+    if "--feasibility" in sys.argv:
+        return feasibility(collect())
 
     fp = fingerprints()
     # ── TaoPaw 的 stampHeader()：戳打在第一行 —— 重定向抓走的输出也能拿到 ──

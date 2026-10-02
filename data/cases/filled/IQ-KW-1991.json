@@ -150,7 +150,7 @@
         {
           "stage": "盟友退出",
           "discriminating": true,
-          "observable": {"object": "阿拉伯参战国", "indicator": "退出联军", "threshold": null, "source": null},
+          "observable": {"object": "阿拉伯国家（参与多国部队者）", "indicator": "退出联军", "threshold": null, "source": null},
           "window": {"from": "1991-01-17", "to": "1991-06-30"}
         },
         {

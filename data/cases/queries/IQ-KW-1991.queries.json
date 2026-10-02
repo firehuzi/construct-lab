@@ -1,0 +1,384 @@
+{
+  "schema": "construct-queries-v1",
+  "case": "IQ-KW-1991.json",
+  "items": [
+    {
+      "judgment_id": "IQ-KW@1991-P03/宣布撤军#1",
+      "claim": "在最后期限前宣布从科威特撤军",
+      "object": "伊拉克政府",
+      "time_anchor": "1991年1月",
+      "queries": [
+        {
+          "angle": "时间锚",
+          "query": "伊拉克政府 1991年1月",
+          "why": "只锚主体与时间，不带任何结果词 —— 让当时的材料自己浮出来",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "决策过程",
+          "query": "伊拉克政府 1991年1月 会议 声明 决定 讨论",
+          "why": "问「当时在决定什么」，不问「最后决定了什么」",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "外部约束",
+          "query": "伊拉克政府 1991年1月 美国 联合国",
+          "why": "故意引入第三方 —— 约束条件往往在别人的报道里",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "同期报道",
+          "query": "伊拉克政府 1991年1月 报道",
+          "why": "按【报道日期】筛，不按相关性排 —— 事后的叙述不能用于时间锁定",
+          "result_words_found": [],
+          "clean": true
+        }
+      ],
+      "indicator_note": "★ indicator「在最后期限前宣布从科威特撤军」【没有】被译成查询词 —— 它就是结论，拿它搜等于按答案搜。",
+      "fill_in": {
+        "archived_snapshot": null,
+        "verified_open": null,
+        "witness_type": null,
+        "_options": {
+          "witness_type": [
+            "contemporary",
+            "retrospective",
+            "unknown"
+          ]
+        },
+        "_rules": [
+          "archived_snapshot 存的是【原文快照】不是链接 —— 链接会烂（本轮已实测：搜到的 Baltimore Sun 那条域名解析到非公网 IP，打开是空的）",
+          "verified_open=false ⇒ 这条依据【不存在】，不许拿它判定",
+          "witness_type=retrospective ⇒ **不能用于时间锁定**（它掺了后见之明）"
+        ]
+      }
+    },
+    {
+      "judgment_id": "IQ-KW@1991-P03/联军收手#2",
+      "claim": "停止进攻",
+      "object": "联军",
+      "time_anchor": "1991年1月",
+      "queries": [
+        {
+          "angle": "时间锚",
+          "query": "联军 1991年1月",
+          "why": "只锚主体与时间，不带任何结果词 —— 让当时的材料自己浮出来",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "决策过程",
+          "query": "联军 1991年1月 会议 声明 决定 讨论",
+          "why": "问「当时在决定什么」，不问「最后决定了什么」",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "外部约束",
+          "query": "联军 1991年1月 美国 联合国",
+          "why": "故意引入第三方 —— 约束条件往往在别人的报道里",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "同期报道",
+          "query": "联军 1991年1月 报道",
+          "why": "按【报道日期】筛，不按相关性排 —— 事后的叙述不能用于时间锁定",
+          "result_words_found": [],
+          "clean": true
+        }
+      ],
+      "indicator_note": "★ indicator「停止进攻」【没有】被译成查询词 —— 它就是结论，拿它搜等于按答案搜。",
+      "fill_in": {
+        "archived_snapshot": null,
+        "verified_open": null,
+        "witness_type": null,
+        "_options": {
+          "witness_type": [
+            "contemporary",
+            "retrospective",
+            "unknown"
+          ]
+        },
+        "_rules": [
+          "archived_snapshot 存的是【原文快照】不是链接 —— 链接会烂（本轮已实测：搜到的 Baltimore Sun 那条域名解析到非公网 IP，打开是空的）",
+          "verified_open=false ⇒ 这条依据【不存在】，不许拿它判定",
+          "witness_type=retrospective ⇒ **不能用于时间锁定**（它掺了后见之明）"
+        ]
+      }
+    },
+    {
+      "judgment_id": "IQ-KW@1991-P03/制裁松动#3",
+      "claim": "开始分阶段解除对伊制裁",
+      "object": "联合国安理会",
+      "time_anchor": "1991年1月",
+      "queries": [
+        {
+          "angle": "时间锚",
+          "query": "联合国安理会 1991年1月",
+          "why": "只锚主体与时间，不带任何结果词 —— 让当时的材料自己浮出来",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "决策过程",
+          "query": "联合国安理会 1991年1月 会议 声明 决定 讨论",
+          "why": "问「当时在决定什么」，不问「最后决定了什么」",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "外部约束",
+          "query": "联合国安理会 1991年1月 美国 联合国",
+          "why": "故意引入第三方 —— 约束条件往往在别人的报道里",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "同期报道",
+          "query": "联合国安理会 1991年1月 报道",
+          "why": "按【报道日期】筛，不按相关性排 —— 事后的叙述不能用于时间锁定",
+          "result_words_found": [],
+          "clean": true
+        }
+      ],
+      "indicator_note": "★ indicator「开始分阶段解除对伊制裁」【没有】被译成查询词 —— 它就是结论，拿它搜等于按答案搜。",
+      "fill_in": {
+        "archived_snapshot": null,
+        "verified_open": null,
+        "witness_type": null,
+        "_options": {
+          "witness_type": [
+            "contemporary",
+            "retrospective",
+            "unknown"
+          ]
+        },
+        "_rules": [
+          "archived_snapshot 存的是【原文快照】不是链接 —— 链接会烂（本轮已实测：搜到的 Baltimore Sun 那条域名解析到非公网 IP，打开是空的）",
+          "verified_open=false ⇒ 这条依据【不存在】，不许拿它判定",
+          "witness_type=retrospective ⇒ **不能用于时间锁定**（它掺了后见之明）"
+        ]
+      }
+    },
+    {
+      "judgment_id": "IQ-KW@1991-P04/以色列还击#1",
+      "claim": "对伊拉克本土实施军事报复",
+      "object": "以色列",
+      "time_anchor": "1991年1月",
+      "queries": [
+        {
+          "angle": "时间锚",
+          "query": "以色列 1991年1月",
+          "why": "只锚主体与时间，不带任何结果词 —— 让当时的材料自己浮出来",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "决策过程",
+          "query": "以色列 1991年1月 会议 声明 决定 讨论",
+          "why": "问「当时在决定什么」，不问「最后决定了什么」",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "外部约束",
+          "query": "以色列 1991年1月 美国 联合国",
+          "why": "故意引入第三方 —— 约束条件往往在别人的报道里",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "同期报道",
+          "query": "以色列 1991年1月 报道",
+          "why": "按【报道日期】筛，不按相关性排 —— 事后的叙述不能用于时间锁定",
+          "result_words_found": [],
+          "clean": true
+        }
+      ],
+      "indicator_note": "★ indicator「对伊拉克本土实施军事报复」【没有】被译成查询词 —— 它就是结论，拿它搜等于按答案搜。",
+      "fill_in": {
+        "archived_snapshot": null,
+        "verified_open": null,
+        "witness_type": null,
+        "_options": {
+          "witness_type": [
+            "contemporary",
+            "retrospective",
+            "unknown"
+          ]
+        },
+        "_rules": [
+          "archived_snapshot 存的是【原文快照】不是链接 —— 链接会烂（本轮已实测：搜到的 Baltimore Sun 那条域名解析到非公网 IP，打开是空的）",
+          "verified_open=false ⇒ 这条依据【不存在】，不许拿它判定",
+          "witness_type=retrospective ⇒ **不能用于时间锁定**（它掺了后见之明）"
+        ]
+      }
+    },
+    {
+      "judgment_id": "IQ-KW@1991-P04/盟友退出#2",
+      "claim": "退出联军",
+      "object": "阿拉伯国家（参与多国部队者）",
+      "time_anchor": "1991年1月",
+      "queries": [
+        {
+          "angle": "时间锚",
+          "query": "阿拉伯国家（参与多国部队者） 1991年1月",
+          "why": "只锚主体与时间，不带任何结果词 —— 让当时的材料自己浮出来",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "决策过程",
+          "query": "阿拉伯国家（参与多国部队者） 1991年1月 会议 声明 决定 讨论",
+          "why": "问「当时在决定什么」，不问「最后决定了什么」",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "外部约束",
+          "query": "阿拉伯国家（参与多国部队者） 1991年1月 美国 联合国",
+          "why": "故意引入第三方 —— 约束条件往往在别人的报道里",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "同期报道",
+          "query": "阿拉伯国家（参与多国部队者） 1991年1月 报道",
+          "why": "按【报道日期】筛，不按相关性排 —— 事后的叙述不能用于时间锁定",
+          "result_words_found": [],
+          "clean": true
+        }
+      ],
+      "indicator_note": "★ indicator「退出联军」【没有】被译成查询词 —— 它就是结论，拿它搜等于按答案搜。",
+      "fill_in": {
+        "archived_snapshot": null,
+        "verified_open": null,
+        "witness_type": null,
+        "_options": {
+          "witness_type": [
+            "contemporary",
+            "retrospective",
+            "unknown"
+          ]
+        },
+        "_rules": [
+          "archived_snapshot 存的是【原文快照】不是链接 —— 链接会烂（本轮已实测：搜到的 Baltimore Sun 那条域名解析到非公网 IP，打开是空的）",
+          "verified_open=false ⇒ 这条依据【不存在】，不许拿它判定",
+          "witness_type=retrospective ⇒ **不能用于时间锁定**（它掺了后见之明）"
+        ]
+      }
+    },
+    {
+      "judgment_id": "IQ-KW@1991-P04/联军瓦解#3",
+      "claim": "无法继续作战",
+      "object": "联军",
+      "time_anchor": "1991年1月",
+      "queries": [
+        {
+          "angle": "时间锚",
+          "query": "联军 1991年1月",
+          "why": "只锚主体与时间，不带任何结果词 —— 让当时的材料自己浮出来",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "决策过程",
+          "query": "联军 1991年1月 会议 声明 决定 讨论",
+          "why": "问「当时在决定什么」，不问「最后决定了什么」",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "外部约束",
+          "query": "联军 1991年1月 美国 联合国",
+          "why": "故意引入第三方 —— 约束条件往往在别人的报道里",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "同期报道",
+          "query": "联军 1991年1月 报道",
+          "why": "按【报道日期】筛，不按相关性排 —— 事后的叙述不能用于时间锁定",
+          "result_words_found": [],
+          "clean": true
+        }
+      ],
+      "indicator_note": "★ indicator「无法继续作战」【没有】被译成查询词 —— 它就是结论，拿它搜等于按答案搜。",
+      "fill_in": {
+        "archived_snapshot": null,
+        "verified_open": null,
+        "witness_type": null,
+        "_options": {
+          "witness_type": [
+            "contemporary",
+            "retrospective",
+            "unknown"
+          ]
+        },
+        "_rules": [
+          "archived_snapshot 存的是【原文快照】不是链接 —— 链接会烂（本轮已实测：搜到的 Baltimore Sun 那条域名解析到非公网 IP，打开是空的）",
+          "verified_open=false ⇒ 这条依据【不存在】，不许拿它判定",
+          "witness_type=retrospective ⇒ **不能用于时间锁定**（它掺了后见之明）"
+        ]
+      }
+    },
+    {
+      "judgment_id": "IQ-KW@1991-P05/地面僵持#1",
+      "claim": "地面战持续超过 3 个月未分胜负",
+      "object": "双方地面部队",
+      "time_anchor": "1991年2月",
+      "queries": [
+        {
+          "angle": "时间锚",
+          "query": "双方地面部队 1991年2月",
+          "why": "只锚主体与时间，不带任何结果词 —— 让当时的材料自己浮出来",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "决策过程",
+          "query": "双方地面部队 1991年2月 会议 声明 决定 讨论",
+          "why": "问「当时在决定什么」，不问「最后决定了什么」",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "外部约束",
+          "query": "双方地面部队 1991年2月 美国 联合国",
+          "why": "故意引入第三方 —— 约束条件往往在别人的报道里",
+          "result_words_found": [],
+          "clean": true
+        },
+        {
+          "angle": "同期报道",
+          "query": "双方地面部队 1991年2月 报道",
+          "why": "按【报道日期】筛，不按相关性排 —— 事后的叙述不能用于时间锁定",
+          "result_words_found": [],
+          "clean": true
+        }
+      ],
+      "indicator_note": "★ indicator「地面战持续超过 3 个月未分胜负」【没有】被译成查询词 —— 它就是结论，拿它搜等于按答案搜。",
+      "fill_in": {
+        "archived_snapshot": null,
+        "verified_open": null,
+        "witness_type": null,
+        "_options": {
+          "witness_type": [
+            "contemporary",
+            "retrospective",
+            "unknown"
+          ]
+        },
+        "_rules": [
+          "archived_snapshot 存的是【原文快照】不是链接 —— 链接会烂（本轮已实测：搜到的 Baltimore Sun 那条域名解析到非公网 IP，打开是空的）",
+          "verified_open=false ⇒ 这条依据【不存在】，不许拿它判定",
+          "witness_type=retrospective ⇒ **不能用于时间锁定**（它掺了后见之明）"
+        ]
+      }
+    }
+  ]
+}

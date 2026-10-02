@@ -1,0 +1,817 @@
+## ConStruct World Model Knowledge Base（CWKB）v2.1
+
+> 版本：v2.1 | 日期：2026-06-19
+> 基于：CWKB v2.0 + 优化建议
+> 目标：可被AI调用、可持续演化、支持策略空间分析的世界模型
+
+
+## 核心定位
+
+传统知识库回答：
+
+```
+发生了什么？
+```
+
+ConStruct知识库回答：
+
+```
+这个事件改变了谁？为什么改变？改变方向是什么？
+```
+
+新闻 = 输入 → 主体 = 上下文 → ConStruct = 推理层 → 策略空间变化 = 输出
+
+
+## 一、总体架构
+
+```
+                    ┌────────────────────┐
+                    │  Event Trigger     │
+                    │   新闻/事件流       │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                 ┌──────────────────────────┐
+                 │  ConStruct World Model   │
+                 └──────────────────────────┘
+
+ Layer0  概念词典（Concept Library）
+ Layer1  理论基础（Theory）
+ Layer2  历史文献（History）
+ Layer3  数据与事件（Data）
+ Layer4  智库研究（Think Tanks）
+ Layer5  学术研究（Academic）
+ Layer6  主体档案（Identity Archive）
+ Layer7  关系图谱（Relationship Graph）
+
+              ↓
+         索引层（Index Layer）
+              ↓
+    ┌─────────────────────────────────────┐
+    │  四大动态数据库                      │
+    │  Event Chain Library                │
+    │  Strategy Space Timeline            │
+    │  Prediction Graveyard               │
+    │  Counterexample Library             │
+    └─────────────────────────────────────┘
+              ↓
+        ConStruct Engine
+              ↓
+      Strategy Space Output
+```
+
+
+## 二、Layer 0：概念词典
+
+> **这是整个系统最重要的一层。** 统一AI与研究者的语言体系。
+
+
+### 目录结构
+
+```
+Layer0_Concepts/
+├── INDEX.yaml                 # 概念总索引
+├── Autonomy.yaml
+├── Order.yaml
+├── Continuity.yaml
+├── BufferZone.yaml
+├── Alliance.yaml
+├── Sanction.yaml
+├── Deterrence.yaml
+├── Multipolarity.yaml
+├── StrategicDepth.yaml
+├── FrozenConfiguration.yaml
+├── PendulumState.yaml
+└── InterlockedState.yaml
+```
+
+
+### 单个概念模板
+
+```yaml
+Concept: 战略自主
+
+定义:
+主体关键决策不依赖外部强权
+
+ConStruct映射:
+  L2: 连续性类型
+  L3: 存在方式
+
+观察指标:
+  - 军事自主（国防工业自给率）
+  - 能源自主（进口依赖度）
+  - 金融自主（跨境支付系统独立性）
+
+典型案例:
+  - 法国（核威慑自主、国防工业自主）
+  - 印度（多方向采购、不结盟传统）
+
+反例:
+  - 日本（部分自主，安全依赖美国）
+
+关联概念:
+  - 主权
+  - 联盟
+  - 安全依赖
+  - 战略纵深
+```
+
+
+### 概念与ConStruct层级映射表
+
+| 概念 | L2连续性类型 | L3存在方式 | L6秩序价值 | L7他者系统 | L8核心恐惧 |
+|------|-------------|-----------|-----------|-----------|-----------|
+| 战略自主 | ✅ 主体型 | ✅ 存在方式 | ✅ 秩序塑造 | ✅ 理想他者 | 边缘化 |
+| 秩序连续性 | ✅ 秩序型 | ✅ 文明延续 | ✅ 秩序维持 | — | 失序 |
+| 缓冲区 | — | — | ✅ 秩序价值 | ✅ 观众他者 | 边界失守 |
+| 冻结局 | ✅ 冻结局 | — | ✅ 秩序维持 | ✅ 观众他者 | 身份消失 |
+| 互锁式 | ✅ 互锁式 | — | — | ✅ 镜像他者 | 否定消失 |
+| 联盟 | — | — | ✅ 秩序价值 | ✅ 理想他者 | 孤立 |
+| 制裁 | — | — | ✅ 秩序价值 | ✅ 敌人他者 | 经济崩溃 |
+| 威慑 | — | — | ✅ 军事层 | ✅ 敌人他者 | 被攻击 |
+| 多极化 | — | — | ✅ 全球秩序 | ✅ 观众他者 | 单极霸权 |
+| 战略纵深 | — | — | ✅ 地理层 | ✅ 敌人他者 | 本土被入侵 |
+
+
+### AI分析流程
+
+```
+事件 → 概念识别 → 主体调用 → 推理 → 策略空间变化判断
+```
+
+
+## 三、Layer 1：理论基础
+
+> 回答：用什么框架看世界？
+
+
+### 核心书目
+
+| 作者 | 著作 | 对应ConStruct模块 |
+|------|------|-------------------|
+| 亨廷顿 | 《文明的冲突与世界秩序的重建》 | L2连续性类型 / L7他者系统 |
+| 米尔斯海默 | 《大国政治的悲剧》 | 现实主义参照系 |
+| 布热津斯基 | 《大棋局》 | L6秩序价值 / 全球秩序角色 |
+| 基辛格 | 《大外交》《论中国》《世界秩序》 | 秩序型分析参照 |
+| 米塞斯 | 《人的行动》 | 行动学底板 |
+| 拉康 | 《研讨班XI》 | 欲望拓扑 |
+| 福山 | 《历史的终结与最后的人》 | 作为批判对象 |
+| 罗尔斯 | 《正义论》 | 秩序价值参照 |
+| 华尔兹 | 《人、国家与战争》 | 层次分析参照 |
+| 温特 | 《国际政治的社会理论》 | 建构主义参照 |
+
+
+### TheoryCard模板
+
+每本书必须完成以下卡片：
+
+```yaml
+TheoryCard:
+
+核心命题:
+  一句话概括
+
+适用条件:
+  在什么情境下这个理论有效
+
+失效条件:
+  在什么情境下这个理论失效或偏差
+
+对应ConStruct层级:
+  - L2（连续性类型）
+  - L4（建构来源）
+  - L6（秩序价值）
+
+相关主体:
+  - 主要适用主体
+```
+
+
+## 四、Layer 2：历史文献
+
+> 回答：世界如何走到今天？
+
+
+### 来源
+
+- FRUS（美国对外关系文件集）——美国外交档案汇编，1861年至今
+- National Security Archive（国家安全档案馆）——超9万份解密文件
+- NSDDD v3.0——118个国家1987-2025年的660份国家安全战略文件
+- 外交档案、战略文件、解密文献
+- 凯南等早期战略家公共领域著作（Project Gutenberg）
+
+
+### Historical Event Chain
+
+为每个关键历史时期建立事件链：
+
+```yaml
+冷战形成:
+
+1945 雅尔塔会议
+  ↓
+1947 杜鲁门主义
+  ↓
+1948 柏林危机
+  ↓
+1949 北约成立
+  ↓
+1955 华约成立
+
+关键转折点:
+  - 1947年3月12日：杜鲁门主义提出
+  - 1948年6月24日：柏林封锁开始
+  - 1949年4月4日：北约签署
+
+ConStruct意义:
+  L2: 秩序型连续性确立（两极格局）
+  L6: 全球秩序分裂为两个阵营
+  L7: 美苏互为敌人他者
+```
+
+
+## 五、Layer 3：数据与事件
+
+> 回答：世界正在发生什么？
+
+
+### DEL-1：结构条件（年度更新）
+
+| 数据 | 来源 | 获取方式 |
+|------|------|----------|
+| GDP / 人口 / 贸易 | 世界银行 | 免费API |
+| 军费 / 武器转让 | SIPRI | 免费下载 |
+| 经济展望 / 债务 | IMF WEO | 免费下载 |
+| 外汇储备 / 美元占比 | IMF COFER | 免费下载 |
+
+
+### DEL-2：策略变量（月度更新）
+
+| 数据 | 来源 | 获取方式 |
+|------|------|----------|
+| 油价 / 能源 | EIA | 免费API |
+| 利率 / 汇率 | BIS | 免费API |
+| 制裁动态 | OFAC / EU制裁清单 | RSS订阅 |
+| 选举日程 | 各国选举委员会 | 手动标注 |
+
+
+### DEL-3：事件脉冲（实时更新）
+
+| 数据库 | 优势 | 适用场景 |
+|--------|------|----------|
+| GDELT | 规模最大、覆盖最广 | 宏观趋势识别 |
+| ACLED | 冲突事件精细化、近实时 | 具体冲突分析 |
+| UCDP | 学术标准最高 | 严谨的冲突统计 |
+
+
+### 事件结构化模板
+
+所有事件必须按此格式结构化：
+
+```yaml
+Event:
+
+时间: 2026-06-15
+
+主体:
+  - 美国
+  - 伊朗
+
+类别:
+  - 外交协议
+  - 停火安排
+
+影响方向:
+  美国: →（维持）
+  伊朗: ↑（策略空间扩张）
+  以色列: ↓（策略空间收缩）
+
+相关概念:
+  - 交易式外交
+  - 互锁式身份
+  - 否定性他者
+
+ConStruct意义:
+  美国交易式主体性：成交即存在
+  伊朗互锁式身份：协议不影响核设施
+  以色列被排除在外：损失
+```
+
+
+## 六、Layer 4：智库层
+
+> 回答：世界如何被解释？
+
+
+### 来源
+
+| 智库 | 特点 | 获取方式 |
+|------|------|----------|
+| 卡内基国际和平基金会 | 全球议题，多中心分布 | carnegieendowment.org |
+| 布鲁金斯学会 | 美国外交政策 | brookings.edu |
+| 兰德公司 | 安全研究、军事分析 | rand.org |
+| 国际危机组织（ICG） | 冲突预警、实地报告 | crisisgroup.org |
+| 查塔姆研究所 | 英国视角国际事务 | chathamhouse.org |
+| 中国社科院 / 清华CISS | 中国视角 | 各自官网 |
+
+
+### ThinkTankCard模板
+
+```yaml
+ThinkTankCard:
+
+标题: 2026年中东新秩序
+
+来源: 卡内基国际和平基金会
+
+核心观点:
+  区域正在形成两极格局
+
+假设前提:
+  - 美国持续撤出中东
+  - 伊朗成为地区主导力量
+
+预测:
+  沙特将在12个月内调整对伊政策
+
+证据:
+  沙特与伊朗的间接谈判记录
+
+偏向:
+  美国视角，低估中国的介入能力
+```
+
+
+## 七、Layer 5：学术层
+
+> 回答：学术共同体正在讨论什么？
+
+
+### 来源
+
+- H-Diplo（外交史、国际关系旗舰开放获取学术网络）
+- IREON（国际关系与区域研究学术文献门户，覆盖540万+条参考文献）
+- CIAO（哥伦比亚国际事务在线，1991年至今）
+- SSRN（社会科学研究网络）
+- 开放获取期刊
+
+
+### 分工策略
+
+| 平台 | 用途 |
+|------|------|
+| IREON | 文献检索，查找特定主题的学术文献 |
+| H-Diplo | 学术动态追踪，了解最新的学术讨论和争议 |
+| CIAO | 国际事务学术研究 |
+
+
+### ResearchCard模板
+
+```yaml
+ResearchCard:
+
+研究问题:
+  制裁对伊朗核政策的影响
+
+结论:
+  制裁只改变策略，不改变战略目标
+
+方法:
+  案例比较 + 时序分析
+
+局限:
+  数据截止到2025年，不涵盖2026年
+
+关联概念:
+  - 制裁
+  - 互锁式
+  - 秩序
+```
+
+
+## 八、Layer 6：主体档案库
+
+> ConStruct核心资产。
+
+
+### 已完成/进行中
+
+| Tier | 主体 | 状态 |
+|------|------|------|
+| Tier 1 | 美国、中国、日本、欧盟、俄罗斯、伊朗、以色列、印度 | 部分完成 |
+| Tier 2 | 新加坡、塞尔维亚、英国、德国、法国、土耳其、沙特、韩国 | 待建档 |
+
+
+### 主体档案模板
+
+```yaml
+Basic:
+
+名称: 日本
+人口: 1.24亿
+GDP: 4.2万亿美元
+军费: 530亿美元（2025年，增长12%）
+
+Identity:
+
+L2: 秩序型 → 冻结局
+L3: 海洋贸易国家
+
+L4建构来源:
+  - 1945年战败创伤
+  - 战后和平宪法
+  - 美日安保条约
+
+L5维持机制:
+  - 自民党长期执政
+  - 经团连（经济团体联合会）
+  - 官僚体系惯性
+
+L6秩序价值:
+  - 基础秩序: 4.5/5
+  - 分配秩序: 3.5/5
+  - 共识秩序: 3/5（正在松动）
+
+L7他者系统:
+  - 理想他者: 美国（安全锚点）
+  - 敌人他者: 中国（竞争）
+  - 观众他者: 东亚邻国
+
+L8核心恐惧:
+  - 生存三角断裂（能源/出口/联盟）
+
+Strategy Space:
+
+当前状态: 扩张中（从2条路→5条路）
+路径列表:
+  - 依附美国 ✓（现有）
+  - 军事自主 ✓（释放中）
+  - 半导体重建 ✓（释放中）
+  - 能源多元化 ✓（释放中）
+  - 对华供应链调整 ✓（释放中）
+
+Elasticity:
+
+反馈速度: 中（正在加速）
+调整成本: 中（正在降低）
+过冲风险: 中
+弹性特征: 从低弹性向中弹性过渡
+
+Expected Behavior:
+
+under_high_pressure: 收缩、维持内部秩序
+under_low_pressure: 渐进扩张策略空间
+trigger_threshold: 生存三角任一维度触及临界值
+
+Current Risks:
+  - 冻结局维持机制回缩（如果军费增长引发内部争议）
+  - 半导体重建失败→重新冻结
+  - 美国强力要求日本维持依附
+
+Critical Variables:
+  - 军费增长率
+  - 半导体自主化进度
+  - 能源多元化比例
+  - 对华贸易依赖度
+  - 利率走势
+
+Last Update: 2026-06-19
+Next Review: 2026-09-19
+```
+
+
+## 九、Layer 7：关系图谱
+
+> 主体之间的连接层。
+
+
+### 标准关系类型体系
+
+```
+Relationship Types（关系类型）:
+
+联盟类:
+  - Alliance: 正式军事同盟
+  - Partnership: 战略伙伴关系
+  - Patronage: 庇护关系
+
+竞争类:
+  - Competition: 战略竞争
+  - Conflict: 直接冲突
+  - Proxy Conflict: 代理人冲突
+
+依赖类:
+  - Economic Dependence: 经济依赖
+  - Security Dependence: 安全依赖
+  - Energy Dependence: 能源依赖
+
+历史类:
+  - Historical Trauma: 历史创伤
+  - Territorial Dispute: 领土争议
+  - Alliance Memory: 同盟记忆
+
+认知类:
+  - Idealized Other: 理想他者
+  - Enemy Other: 敌人他者
+  - Mirror Other: 镜像他者
+```
+
+
+### 主体关系实例
+
+**日本：**
+
+```yaml
+Subject: 日本
+
+Relations:
+  - type: Alliance
+    target: 美国
+    strength: 高
+    note: 美日安保条约，安全依赖
+
+  - type: Competition
+    target: 中国
+    strength: 中高
+    note: 东海争议、技术竞争
+
+  - type: Historical Trauma
+    target: 中国
+    strength: 中
+    note: 二战记忆，历史认识问题
+
+  - type: Economic Dependence
+    target: 美国
+    strength: 高
+    note: 出口市场、技术依赖
+
+  - type: Economic Dependence
+    target: 中国
+    strength: 中
+    note: 供应链依赖
+```
+
+**伊朗：**
+
+```yaml
+Subject: 伊朗
+
+Relations:
+  - type: Conflict
+    target: 以色列
+    strength: 极高
+    note: 互锁式否定关系
+
+  - type: Sanction
+    target: 美国
+    strength: 高
+    note: 长期经济制裁
+
+  - type: Proxy
+    target: 真主党
+    strength: 高
+    note: 地区代理人
+
+  - type: Proxy
+    target: 胡塞武装
+    strength: 中
+    note: 也门代理人
+```
+
+
+## 十、索引层（新增）
+
+> 知识库的统一入口，从索引层直接定位到具体资源。
+
+
+### 索引结构
+
+```
+Indexes/
+├── Concept_Index.yaml       # 概念列表（按字母/按层级）
+├── Subject_Index.yaml       # 主体列表（按Tier/按地区）
+├── Relationship_Type_Index.yaml  # 关系类型列表
+├── Event_Chain_Index.yaml   # 事件链列表
+├── Theory_Index.yaml        # 理论书目索引
+├── Data_Source_Index.yaml   # 数据源列表
+└── Quick_Query_Index.yaml   # 快速查询入口
+```
+
+
+### Subject Index模板
+
+```yaml
+Subject_Index:
+
+Tier 1:
+  - US | 美国 | 主体型/交易式 | 档案完成度80%
+  - China | 中国 | 秩序型/整合式 | 档案完成度70%
+  - Japan | 日本 | 秩序型/冻结局 | 档案完成度90%
+  - EU | 欧盟 | 秩序型/整合式 | 档案完成度75%
+  - Russia | 俄罗斯 | 主体型/摆荡式 | 档案完成度60%
+  - Iran | 伊朗 | 主体型/互锁式 | 档案完成度85%
+  - Israel | 以色列 | 主体型/互锁式 | 档案完成度85%
+  - India | 印度 | 主体型/整合式 | 档案完成度50%
+
+Tier 2:
+  - Singapore | 新加坡 | 秩序型/冻结局 | 档案完成度70%
+  - Serbia | 塞尔维亚 | 主体型/摆荡式 | 档案完成度75%
+  - UK | 英国 | 主体型/整合式 | 待建档
+  - Germany | 德国 | 秩序型/整合式 | 待建档
+  - France | 法国 | 主体型/整合式 | 待建档
+  - Turkey | 土耳其 | 主体型/摆荡式 | 待建档
+  - Saudi | 沙特 | 秩序型/整合式 | 待建档
+  - South Korea | 韩国 | 主体型/摆荡式 | 待建档
+```
+
+
+## 十一、四大动态数据库
+
+> ConStruct真正的认知资产。
+
+
+### 1. Event Chain Library（事件链库）
+
+```yaml
+美元走弱
+  ↓
+日本加息（2026-06-16）
+  ↓
+资本回流日本
+  ↓
+日元升值
+  ↓
+日本策略空间扩张（5条路）
+
+Verification:
+  状态: 待验证
+  观察期: 2026-07至2026-10
+  验证指标: 资本流动数据、日元汇率
+```
+
+
+### 2. Strategy Space Timeline（策略空间时间轴）
+
+```yaml
+Japan:
+
+2025-06:
+  策略空间: 2条路（依附美国、有限防御增强）
+  事件触发: 十二日战争
+
+2026-02:
+  策略空间: 3条路（+半导体重建）
+  事件触发: 美伊战争
+
+2026-06:
+  策略空间: 5条路（+军事自主、能源多元化、对华调整）
+  事件触发: 全球利率分化
+  方向: ↑
+  验证: 五行动一致性检测通过
+```
+
+
+### 3. Prediction Graveyard（预测坟场）
+
+```yaml
+Prediction: 日本加息会引发经济衰退
+Time: 2026-06-16
+Outcome: 未发生
+Error Type: 误判
+  - 将金融行为等同于金融逻辑
+  - 忽略了策略空间扩张的信号
+Lesson: 日本加息不是收缩，是生存策略重构
+关联分析: 加息诊断报告 #001
+```
+
+
+### 4. Counterexample Library（反例库）
+
+```yaml
+Surface: 日本加息（2026-06-16）
+Reality: 战略自主信号
+Why Misread: 被表层金融叙事误导
+Recognition Signals（识别信号）:
+  - 伴随军费增长 ✓
+  - 伴随半导体重建 ✓
+  - 伴随能源多元化 ✓
+  - 伴随对华供应链调整 ✓
+  - 伴随利率政策转向 ✓
+关联分析: 加息诊断报告 #001
+```
+
+
+## 十二、知识库目录结构
+
+```
+ConStruct_World_Model/
+├── README.md                 # 总说明
+├── 00_Concepts/              # Layer 0
+│   ├── INDEX.yaml
+│   ├── Autonomy.yaml
+│   ├── Order.yaml
+│   └── ...
+├── 01_Theory/                # Layer 1
+│   ├── INDEX.yaml
+│   ├── TheoryCards/
+│   └── 微信读书书单.md
+├── 02_History/               # Layer 2
+│   ├── INDEX.yaml
+│   ├── FRUS/
+│   ├── NSArchive/
+│   └── NSDDD/
+├── 03_Data/                  # Layer 3
+│   ├── INDEX.yaml
+│   ├── DEL1_Structural/
+│   ├── DEL2_Strategic/
+│   └── DEL3_Events/
+├── 04_ThinkTanks/            # Layer 4
+│   ├── INDEX.yaml
+│   ├── Carnegie/
+│   ├── Brookings/
+│   └── ...
+├── 05_Academic/              # Layer 5
+│   ├── INDEX.yaml
+│   ├── HDiplo/
+│   ├── IREON/
+│   └── Journals/
+├── 06_Identity_Archive/      # Layer 6
+│   ├── INDEX.yaml
+│   ├── Tier1/
+│   └── Tier2/
+├── 07_Relationship_Graph/    # Layer 7
+│   ├── INDEX.yaml
+│   └── Relations/
+├── Indexes/                  # 索引层（新增）
+│   ├── Concept_Index.yaml
+│   ├── Subject_Index.yaml
+│   └── Quick_Query_Index.yaml
+└── Special/                  # 四大动态数据库
+    ├── Event_Chains/
+    ├── Strategy_Timeline/
+    ├── Prediction_Graveyard/
+    └── Counterexamples/
+```
+
+
+## 十三、建设优先级
+
+### Phase 1（2周）——日本MVP
+
+建立：
+- Concept Library（优先：战略自主、秩序连续性、冻结局）
+- Japan Archive（完整主体档案）
+- Japan Relationship Graph
+- Japan Timeline
+- Japan Counterexample（从加息诊断报告提取）
+
+**目标**：完成日本的完整档案，验证知识库结构。
+
+
+### Phase 2（1个月）——主要大国扩展
+
+扩展：
+- 美国
+- 中国
+- 欧盟
+- 俄罗斯
+
+建立：
+- Event Chain Library（冷战至今的关键链条）
+- Strategy Space Timeline（四大国同步追踪）
+- 索引层基础
+
+
+### Phase 3（3个月）——实时数据接入
+
+接入：
+- GDELT / ACLED / UCDP
+- 实现事件→主体匹配→概念调用→策略空间变化判断
+
+建立：
+- 每日事件采集流程
+- 主体匹配规则
+- 策略空间变化自动化判断
+
+
+### Phase 4（6个月）——ConStruct Geopolitical Radar
+
+输出：
+- 今日事件
+- 受影响主体
+- 策略空间变化
+- 变化方向
+- 验证等级
+
+
+## 十四、更新日志
+
+| 版本 | 日期 | 变更 |
+|------|------|------|
+| v2.0 | 2026-06-19 | 初始版本 |
+| v2.1 | 2026-06-19 | 增加关系类型体系；概念-层级映射表；预期行为字段；识别信号字段；索引层设计；术语统一 |
+
+---
+
+*ConStruct World Model Knowledge Base（CWKB）v2.1*

@@ -1,0 +1,322 @@
+## ConStruct Engine · 系统设计文档
+
+> 版本：v0.1 | 日期：2026-06-19
+> 状态：概念设计 | 基于：ConStruct v2.0因果链模型 + 全球主体档案库
+
+
+### 核心洞察
+
+ConStruct的规则是显式的，不是统计式的——不需要ML/AI训练。**规则是人写出来的，不是数据喂出来的。** Identity解释规则是IF-THEN映射（老龄化→中国解释为产业升级），信号检测规则是异常性判断（违背正常行为逻辑的事件），Strategy Selection一致性是方向匹配（5个行动是否指向同一方向），Response Elasticity是历史响应记录（过去3-5次危机的弹性数据）。
+
+引擎的本质是：**把已有的分析判断形式化为可执行规则，然后用代码运行这些规则。**
+
+
+### 系统架构总览
+
+```
+ConStruct Engine
+
+┌─────────────────────────────────────────────────────┐
+│                   Output Layer                       │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌─────────┐│
+│  │ 诊断报告  │ │ Radar UI │ │ 档案更新  │ │ 信号推送 ││
+│  └──────────┘ └──────────┘ └──────────┘ └─────────┘│
+├─────────────────────────────────────────────────────┤
+│                 Processing Layer                     │
+│  ┌──────────────┐ ┌────────────┐ ┌───────────────┐ │
+│  │ Identity      │ │ Signal     │ │ Consistency   │ │
+│  │ Interpreter   │ │ Detector   │ │ Checker       │ │
+│  │ (DEL翻译)     │ │ (异常判断) │ │ (↑↓→方向)    │ │
+│  └──────────────┘ └────────────┘ └───────────────┘ │
+│  ┌──────────────┐                                   │
+│  │ Elasticity   │                                   │
+│  │ Tracker      │                                   │
+│  └──────────────┘                                   │
+├─────────────────────────────────────────────────────┤
+│                   Storage Layer                     │
+│  ┌──────────────┐ ┌──────────┐ ┌─────────────────┐ │
+│  │ SQLite DB    │ │ MD Files │ │ Rule JSONs      │ │
+│  │ (结构化元数据)│ │ (人可读) │ │ (可执行规则)   │ │
+│  └──────────────┘ └──────────┘ └─────────────────┘ │
+├─────────────────────────────────────────────────────┤
+│                 Data Collection Layer                │
+│  ┌──────────────┐ ┌──────────┐ ┌─────────────────┐ │
+│  │ DEL-1        │ │ DEL-2    │ │ DEL-3           │ │
+│  │ (年级数据)   │ │ (月级)   │ │ (日级事件)      │ │
+│  │ WB/IMF API   │ │ RSS+API  │ │ News API+手动   │ │
+│  └──────────────┘ └──────────┘ └─────────────────┘ │
+└─────────────────────────────────────────────────────┘
+```
+
+
+### 存储层设计
+
+#### 双轨存储（SQLite + Markdown）
+
+SQLite是唯一的数据真相源。Markdown永远是从SQLite生成的，不是手动编辑的。修改SQLite→自动重新生成Markdown。
+
+#### SQLite Schema（核心表）
+
+| 表名 | 用途 | 每主体行数 |
+|------|------|----------|
+| subjects | 主体基础信息+方向+版本 | 1 |
+| identity_layers | L2-L8定位 | 8 |
+| del_baseline | DEL-1/2/3数据+Identity解释 | 20-30 |
+| del_translation_rules | DEL翻译规则（可执行） | 5-8 |
+| strategy_space | 策略空间路径+可用性 | 4-6 |
+| strategy_selection | Strategy Selection操作机制 | 4 |
+| response_elasticity | 弹性三维度 | 1 |
+| elasticity_history | 历史弹性记录 | 3-5 |
+| signal_rules | 信号检测规则（可执行） | 5-8 |
+| event_chain | 关键事件链 | 5-10 |
+| actions | 行动记录（一致性检测用） | 持续累积 |
+| cross_references | 档案间对照关系 | N |
+
+#### Rule JSONs（可执行规则文件）
+
+每个主体的信号检测规则+DEL翻译规则，以JSON格式单独存储：
+
+```
+ConStruct_Archive/
+├── rules/
+│   ├── US_signals.json      -- 美国信号检测规则
+│   ├── US_del_rules.json    -- 美国DEL翻译规则
+│   ├── EU_signals.json
+│   ├── EU_del_rules.json
+│   ├── Japan_signals.json
+│   ├── Japan_del_rules.json
+│   └── ...
+```
+
+
+### 数据采集层
+
+#### DEL-1 基础条件（年级）
+
+| 变量 | 来源 | API | 频率 |
+|------|------|-----|------|
+| GDP | World Bank | WB API v2 | 年级 |
+| 人口 | World Bank | WB API v2 | 年级 |
+| 军费 | SIPRI | SIPRI API | 年级 |
+| 贸易结构 | UN COMTRADE | COMTRADE API | 年级 |
+| 能源依赖 | IEA | IEA API | 年级 |
+| 债务/GDP | IMF WEO | IMF API | 年级 |
+
+**MVP阶段：手动输入。** API采集是Phase 2任务。
+
+#### DEL-2 策略变量（月级）
+
+| 变量 | 来源 | 方法 |
+|------|------|------|
+| 油价 | EIA | API |
+| 利率 | BIS | API |
+| 选举日程 | 各国公开 | 手动标注 |
+| 制裁变化 | OFAC/EU | RSS |
+
+**MVP阶段：手动标注。** RSS采集是Phase 2任务。
+
+#### DEL-3 事件脉冲（日级）
+
+| 来源 | 方法 | 用途 |
+|------|------|------|
+| Reuters/BBC/AP RSS | 关键词过滤 | 重大事件自动检测 |
+| GDELT事件数据库 | GDELT API | 全球事件量化 |
+| ACLED | ACLED API | 军事/政治事件 |
+| 手动标注 | CLI工具 | 人工判断的事件 |
+
+**MVP阶段：手动标注（CLI工具）**
+
+
+### 处理层
+
+#### Identity Interpreter（DEL翻译引擎）
+
+输入：DEL数据 + Identity翻译规则 → 输出：Identity解释 + 策略空间约束变化
+
+运行逻辑：
+```
+新DEL数据 → 查匹配的翻译规则 → 输出解释 → 输出策略空间变化
+```
+
+关键：翻译规则不是ML推出来的，是人写出来存进JSON的。引擎只做“查匹配+输出”，不做“推理”。
+
+#### Signal Detector（信号检测引擎）
+
+输入：事件 + 信号规则 → 输出：异常性判断 + 方向判断 + 因果链
+
+运行逻辑：
+```
+事件输入 → 匹配相关主体的信号规则
+  → 判断是否违背正常行为逻辑
+    → 异常 → 方向+因果链
+    → 正常 → 不触发更新
+  → 跨主体异常对比（多主体同方向=结构性信号）
+  → 输出信号报告
+```
+
+#### Consistency Checker（一致性检测引擎）
+
+输入：最近N个行动 + Identity核心指令 → 输出：方向一致性判断 + ↑↓→箭头
+
+运行逻辑：
+```
+读取最近5-8个行动 →
+  每个行动标注方向 →
+  检查与Identity核心指令一致性 →
+  统计方向分布：
+    全部同方向 = 系统性调整
+    多方向矛盾 = 内部矛盾投影
+    不明确 = 摇摆中
+  → 输出↑↓→
+```
+
+
+### 开发路线图
+
+#### Phase 0（当前）：手动建档
+
+- 手动写Markdown档案
+- 手动标注事件
+- 手动写作诊断报告
+- 已完成：5份种子档案+模板+索引
+
+#### Phase 1（1-2周）：SQLite+CLI+同步
+
+**目标：** 把现有档案从MD迁移到SQLite，建立CLI工具
+
+- 创建SQLite schema + 导入5份已有档案数据
+- 从档案中提取规则→生成Rule JSONs
+- MD→SQLite双向同步
+- 事件标注CLI（`construct annotate`）
+- 档案查询CLI（`construct query US --layer=L2`）
+- 一致性检测CLI（`construct check US`）
+
+**产出：** 可运行的CLI工具 + SQLite数据库 + 5份档案已迁移
+
+#### Phase 2（2-4周）：引擎核心+美国30天实验
+
+**目标：** 引擎核心模块运行 + 美国30天实验技术支撑
+
+- Identity Interpreter运行（DEL翻译规则匹配）
+- Signal Detector运行（信号规则匹配）
+- Consistency Checker运行
+- Elasticity Tracker运行
+- DEL-2手动采集30天
+- 静态Radar HTML（美国单主体版）
+
+**产出：** 引擎核心模块可运行 + 美国30天数据 + Radar MVP版
+
+#### Phase 3（4-8周）：数据管道+多主体扩展
+
+**目标：** DEL数据半自动采集 + 扩展到所有Tier 1主体
+
+- DEL-1 API采集脚本
+- DEL-2 RSS采集脚本
+- 信号检测半自动化
+- 所有Tier 1档案完成（8份）
+- 所有Tier 2档案完成（7份）
+- Radar多主体版
+
+**产出：** 半自动数据管道 + 15份完整档案 + 多主体Radar
+
+#### Phase 4（8-12周）：半自动诊断+持续运行
+
+**目标：** 诊断报告半自动生成 + 系统持续运行
+
+- 诊断报告模板（Jinja2填充+人工确认）
+- 档案季度扫描机制
+- Radar实时更新
+- 信号推送机制
+- Elasticity趋势追踪可视化
+
+**产出：** 半自动运行的分析系统
+
+
+### 技术栈
+
+| 层 | 技术 | 选型理由 |
+|------|------|---------|
+| 存储 | SQLite + Markdown | 轻量、无依赖、人机双轨 |
+| 数据采集 | Python + requests | 公开数据源有Python库 |
+| 规则引擎 | Python + JSON | 规则显式，不需要框架级引擎 |
+| 输出 | Jinja2模板 | MD/HTML报告生成 |
+| Radar UI | HTML + Chart.js + Tailwind | 零依赖、本地可运行 |
+| 定时执行 | cron/Task Scheduler | 数据采集+引擎运行 |
+| 版本管理 | Git | 档案版本追踪 |
+| CLI工具 | Python + argparse | 事件标注+查询+更新 |
+
+**不选什么：**
+- 不选Django/Flask（MVP不需要Web服务器）
+- 不选MongoDB（数据结构明确，关系型更合适）
+- 不选ML/AI（规则是显式的）
+- 不选React/Vue（Radar初期是静态页面）
+
+
+### MVP开发清单
+
+**MVP=美国30天实验的技术支撑，约8-10天开发量：**
+
+| # | 任务 | 预估 | 说明 |
+|---|------|------|------|
+| 1 | SQLite schema创建 | 1天 | 按上述设计建表 |
+| 2 | 美国档案数据导入 | 1天 | 从MD提取→写入SQLite |
+| 3 | 美国Rule JSONs提取 | 1天 | 从档案提取规则→JSON |
+| 4 | 事件标注CLI | 1天 | `construct annotate` |
+| 5 | 档案查询CLI | 0.5天 | `construct query` |
+| 6 | 一致性检测脚本 | 1天 | 读取actions→方向统计 |
+| 7 | SQLite→MD同步脚本 | 0.5天 | 从SQLite生成MD |
+| 8 | DEL翻译引擎(v0.1) | 2天 | DEL数据+规则→解释 |
+| 9 | 信号检测引擎(v0.1) | 1天 | 事件+规则→异常判断 |
+| 10 | 静态Radar HTML | 2天 | 美国单主体版 |
+
+**总计：约10天**
+
+
+### 文件结构
+
+```
+construct-engine/
+├── db/
+│   ├── construct.db          -- SQLite主数据库
+│   └── schema.sql            -- Schema定义
+├── rules/
+│   ├── US_signals.json
+│   ├── US_del_rules.json
+│   ├── Japan_signals.json
+│   └── ...
+├── archives/
+│   ├── Tier1/
+│   │   ├── US.md
+│   │   ├── Japan.md
+│   │   └── ...
+│   └── Tier2/
+├── engine/
+│   ├── identity_interpreter.py
+│   ├── signal_detector.py
+│   ├── consistency_checker.py
+│   ├── elasticity_tracker.py
+│   └── archive_updater.py
+├── collectors/
+│   ├── del1_collector.py
+│   ├── del2_collector.py
+│   └── del3_annotator.py
+├── generators/
+│   ├── archive_md_generator.py
+│   ├── diagnostic_generator.py
+│   └── radar_generator.py
+├── cli/
+│   ├── construct.py
+│   ├── annotate.py
+│   ├── query.py
+│   └── check.py
+├── radar/
+│   ├── index.html
+│   └── data.json
+├── templates/
+│   ├── archive_template.md
+│   └── diagnostic_template.md
+└── config/
+    ├── subjects.json
+    ├── del_sources.json
+    └── rss_keywords.json
+```

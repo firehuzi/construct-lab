@@ -1,0 +1,83 @@
+{
+  "matches": [
+    {
+      "year": 1991,
+      "source": "COW",
+      "type": "TERR_GAIN",
+      "label": "369",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Ukraine-Russia_relations"
+    },
+    {
+      "year": 2004,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2014,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2014,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2014,
+      "source": "COW",
+      "type": "TERR_LOSS",
+      "label": "369",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Ukraine-Russia_relations"
+    }
+  ],
+  "unmatched_years": [
+    1917,
+    1922,
+    1932,
+    1933,
+    1986,
+    2021,
+    2022,
+    2023,
+    2026
+  ],
+  "total_events": 5,
+  "code": "UA",
+  "long_code": "UKR",
+  "years_found": [
+    1917,
+    1922,
+    1932,
+    1933,
+    1986,
+    1991,
+    2004,
+    2014,
+    2021,
+    2022,
+    2023,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier1\\UA\\UA_v1_subjects.md"
+}

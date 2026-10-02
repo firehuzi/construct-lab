@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CEF Model - Political Compression System</title>
+
+<style>
+body {
+    background: #0e1117;
+    color: #e6e6e6;
+    font-family: Arial;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 5px;
+    font-size: 22px;
+}
+
+.subtitle {
+    color: #9fb3c8;
+    margin-bottom: 15px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+.panel {
+    width: 340px;
+    background: #161b22;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+canvas {
+    background: #0b0f14;
+    border-radius: 10px;
+}
+
+.slider {
+    width: 100%;
+}
+
+.issue {
+    font-size: 13px;
+    margin-top: 6px;
+    color: #9fb3c8;
+}
+
+.theory {
+    margin-top: 10px;
+    padding: 10px;
+    background: #0b0f14;
+    border-left: 3px solid #3b82f6;
+    font-size: 12px;
+    line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔷 TITLE BLOCK -->
+<h1>CEF Model</h1>
+<div class="subtitle">
+Compression–Expression–Feedback Model<br>
+A Low-Dimensional Political Space Theory
+</div>
+
+<div class="container">
+
+<!-- CONTROL PANEL -->
+<div class="panel">
+
+<button onclick="toggle()">▶ Play / Pause</button>
+
+<br><br>
+
+<label>Compression λ</label>
+<input type="range" min="0" max="100" value="50" id="lambda" class="slider">
+
+<label>Feedback F</label>
+<input type="range" min="0" max="100" value="50" id="feedback" class="slider">
+
+<label>Coupling K</label>
+<input type="range" min="0" max="100" value="50" id="coupling" class="slider">
+
+<div id="info"></div>
+
+<div class="theory">
+<b>Theory Summary</b><br>
+P → C(P) → S → Feedback Ω → System Update<br><br>
+
+• C = information compression under institutional constraints<br>
+• S = low-dimensional political expression space<br>
+• Ω = feedback loop reshaping constraints<br>
+</div>
+
+<hr>
+
+<div class="issue">Real Issue Space:</div>
+<div class="issue">• Racial inequality</div>
+<div class="issue">• Climate change</div>
+<div class="issue">• Gender politics</div>
+<div class="issue">• Institutional ideology (IDE)</div>
+
+</div>
+
+<!-- VISUAL -->
+<canvas id="c" width="700" height="500"></canvas>
+
+</div>
+
+<script>
+
+let canvas = document.getElementById("c");
+let ctx = canvas.getContext("2d");
+
+let t = 0;
+let running = true;
+
+function toggle(){
+    running = !running;
+}
+
+function getParams(){
+    let λ0 = document.getElementById("lambda").value / 100;
+    let F0 = document.getElementById("feedback").value / 100;
+    let K0 = document.getElementById("coupling").value / 100;
+
+    let λ = λ0 + 0.2*Math.sin(t*0.01);
+    let F = F0 + 0.15*Math.cos(t*0.013);
+    let K = K0 + 0.1*Math.sin(t*0.017 + 1);
+
+    return {λ, F, K};
+}
+
+function computeD(λ,F,K){
+    return (λ*(1+K)) / (F + 0.1);
+}
+
+function draw(){
+
+    let {λ, F, K} = getParams();
+    let D = computeD(λ,F,K);
+
+    ctx.clearRect(0,0,700,500);
+
+    // grid
+    ctx.strokeStyle = "#1f2633";
+    for(let i=0;i<10;i++){
+        ctx.beginPath();
+        ctx.moveTo(i*70,0);
+        ctx.lineTo(i*70,500);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0,i*50);
+        ctx.lineTo(700,i*50);
+        ctx.stroke();
+    }
+
+    // issue nodes
+    let issues = [
+        {name:"Race", x:120, y:200},
+        {name:"Climate", x:300, y:120},
+        {name:"Gender", x:500, y:220},
+        {name:"IDE", x:350, y:350}
+    ];
+
+    issues.forEach((p,i)=>{
+
+        let compress = λ * (1 + K);
+
+        let x = p.x + Math.sin(t*0.01+i)*compress*120;
+        let y = p.y + Math.cos(t*0.012+i)*compress*120;
+
+        let spread = (1-F) * 80;
+
+        ctx.fillStyle = "rgba(120,180,255,0.7)";
+        ctx.beginPath();
+        ctx.arc(x + (Math.random()-0.5)*spread,
+                y + (Math.random()-0.5)*spread,
+                10,0,Math.PI*2);
+        ctx.fill();
+
+        ctx.fillStyle = "#aaa";
+        ctx.fillText(p.name, x+10, y+10);
+    });
+
+    // status
+    ctx.fillStyle = D > 2 ? "#ff4d4d" : "#7CFF6B";
+    ctx.font = "16px Arial";
+    ctx.fillText("Polarization D = " + D.toFixed(2), 20, 30);
+
+    let state =
+        D < 1 ? "Stable Low-Dimensional Space" :
+        D < 2 ? "Competitive Framing Phase" :
+        "Polarized Identity Clustering";
+
+    ctx.fillText(state, 20, 55);
+
+    document.getElementById("info").innerHTML = `
+        λ (compression): ${λ.toFixed(2)}<br>
+        F (feedback): ${F.toFixed(2)}<br>
+        K (coupling): ${K.toFixed(2)}<br>
+        D (polarization): ${D.toFixed(2)}<br>
+        time: ${t}
+    `;
+
+    if(running) t++;
+    requestAnimationFrame(draw);
+}
+
+draw();
+
+</script>
+
+</body>
+</html>

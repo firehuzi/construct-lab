@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CEF Model - Shock Propagation</title>
+
+<style>
+body {
+    background: #0e1117;
+    color: #e6e6e6;
+    font-family: Arial;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 { margin-bottom: 5px; }
+
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+.panel {
+    width: 380px;
+    background: #161b22;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+canvas {
+    background: #0b0f14;
+    border-radius: 10px;
+}
+
+button {
+    padding: 6px 10px;
+    margin-bottom: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>CEF Model</h1>
+<div>Shock Propagation System (Global Political Compression Dynamics)</div>
+
+<div class="container">
+
+<div class="panel">
+
+<button onclick="triggerShock()">⚡ Trigger Shock Event</button>
+
+<div id="info"></div>
+
+<hr>
+
+<div>Nodes:</div>
+<div>🇺🇸 US</div>
+<div>🇪🇺 EU</div>
+<div>🇨🇳 CN</div>
+
+<hr>
+
+<div>Shock Types:</div>
+<div>• Financial Crisis</div>
+<div>• War / Conflict</div>
+<div>• AI Breakthrough</div>
+<div>• Energy Shock</div>
+
+</div>
+
+<canvas id="c" width="760" height="520"></canvas>
+
+</div>
+
+<script>
+
+let canvas = document.getElementById("c");
+let ctx = canvas.getContext("2d");
+
+let t = 0;
+
+/* -----------------------
+   BASE SYSTEMS
+------------------------*/
+
+function US(t,shock){
+    return {
+        λ: 0.75,
+        F: 0.45,
+        K: 0.9,
+        shock: shock.US
+    };
+}
+
+function EU(t,shock){
+    return {
+        λ: 0.65,
+        F: 0.6,
+        K: 0.75,
+        shock: shock.EU
+    };
+}
+
+function CN(t,shock){
+    return {
+        λ: 0.55,
+        F: 0.75,
+        K: 0.65,
+        shock: shock.CN
+    };
+}
+
+/* -----------------------
+   SHOCK STATE
+------------------------*/
+
+let shock = {
+    active: false,
+    decay: 0,
+    US: 0,
+    EU: 0,
+    CN: 0
+};
+
+function triggerShock(){
+
+    shock.active = true;
+    shock.decay = 200;
+
+    // asymmetric shock propagation
+    shock.US = 0.9;
+    shock.EU = 0.7;
+    shock.CN = 0.5;
+}
+
+/* -----------------------
+   POLARIZATION
+------------------------*/
+
+function D(s){
+    let effectiveLambda = s.λ + s.shock*0.5;
+    return (effectiveLambda*(1+s.K))/(s.F+0.1);
+}
+
+/* -----------------------
+   DRAW NODE
+------------------------*/
+
+function drawNode(x,y,color,label,s){
+
+    let d = D(s);
+
+    let spread = (1 - s.F) * 90 + s.shock*80;
+
+    for(let i=0;i<18;i++){
+
+        let px = x + (Math.random()-0.5)*spread;
+        let py = y + (Math.random()-0.5)*spread;
+
+        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.7;
+
+        ctx.beginPath();
+        ctx.arc(px,py,8 + s.shock*6,0,Math.PI*2);
+        ctx.fill();
+    }
+
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = color;
+    ctx.font = "14px Arial";
+    ctx.fillText(label, x-30, y-40);
+    ctx.fillText("D: " + d.toFixed(2), x-30, y-20);
+}
+
+/* -----------------------
+   SHOCK DECAY LOGIC
+------------------------*/
+
+function updateShock(){
+
+    if(shock.active){
+
+        shock.decay--;
+
+        shock.US *= 0.98;
+        shock.EU *= 0.99;
+        shock.CN *= 0.995;
+
+        if(shock.decay <= 0){
+            shock.active = false;
+            shock.US = shock.EU = shock.CN = 0;
+        }
+    }
+}
+
+/* -----------------------
+   MAIN LOOP
+------------------------*/
+
+function draw(){
+
+    ctx.clearRect(0,0,760,520);
+
+    updateShock();
+
+    let u = US(t,shock);
+    let e = EU(t,shock);
+    let c = CN(t,shock);
+
+    let avgD = (D(u)+D(e)+D(c))/3;
+
+    drawNode(150,260,"#ff4d4d","US",u);
+    drawNode(380,180,"#7CFF6B","EU",e);
+    drawNode(600,280,"#4da6ff","CN",c);
+
+    /* links */
+    ctx.strokeStyle = "#2a3344";
+    ctx.beginPath();
+    ctx.moveTo(150,260);
+    ctx.lineTo(380,180);
+    ctx.lineTo(600,280);
+    ctx.lineTo(150,260);
+    ctx.stroke();
+
+    /* UI */
+    ctx.fillStyle = "#fff";
+    ctx.font = "16px Arial";
+    ctx.fillText("Shock Active: " + shock.active, 20, 30);
+    ctx.fillText("Global Polarization: " + avgD.toFixed(2), 20, 55);
+
+    if(shock.active){
+        ctx.fillStyle = "#ff4d4d";
+        ctx.fillText("⚡ SYSTEM SHOCK PROPAGATING", 20, 80);
+    }
+
+    document.getElementById("info").innerHTML = `
+        US shock: ${shock.US.toFixed(2)}<br>
+        EU shock: ${shock.EU.toFixed(2)}<br>
+        CN shock: ${shock.CN.toFixed(2)}<br>
+    `;
+
+    t += 0.8;
+    requestAnimationFrame(draw);
+}
+
+draw();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>CEF 模型 - 历史演化模拟 2000–2035</title>
+
+<style>
+body {
+    background: #0e1117;
+    color: #e6e6e6;
+    font-family: "Microsoft YaHei", Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 { margin-bottom: 5px; }
+
+.subtitle {
+    color: #9fb3c8;
+    margin-bottom: 10px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+.panel {
+    width: 360px;
+    background: #161b22;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+canvas {
+    background: #0b0f14;
+    border-radius: 10px;
+}
+
+button {
+    padding: 6px 10px;
+    margin-bottom: 10px;
+}
+
+.theory {
+    font-size: 12px;
+    background: #0b0f14;
+    padding: 10px;
+    border-left: 3px solid #3b82f6;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.label {
+    font-size: 13px;
+    color: #9fb3c8;
+}
+</style>
+</head>
+
+<body>
+
+<h1>CEF 模型</h1>
+<div class="subtitle">
+  压缩–表达–反馈 模型<br>
+  历史演化模拟（2000–2035）
+</div>
+
+<div class="container">
+
+<div class="panel">
+
+<button onclick="toggle()">▶ 播放 / 暂停</button>
+
+<div id="timeLabel" class="label"></div>
+<div id="phaseLabel" class="label"></div>
+
+<div class="theory">
+<b>模型核心</b><br>
+P → C(P, λ(t)) → S → F → Ω → 更新<br><br>
+
+λ(t) : 政治压缩强度趋势<br>
+F(t) : 制度反馈能力<br>
+K(t) : 议题耦合度（全球化与平台效应）<br>
+</div>
+
+<hr>
+
+<div class="label">议题空间：</div>
+<div class="label">• 种族不平等</div>
+<div class="label">• 气候变化</div>
+<div class="label">• 性别政治</div>
+<div class="label">• 制度意识形态（IDE）</div>
+
+</div>
+
+<canvas id="c" width="720" height="520"></canvas>
+
+</div>
+
+<script>
+
+let canvas = document.getElementById("c");
+let ctx = canvas.getContext("2d");
+
+let t = 0;
+let running = true;
+
+function toggle(){
+    running = !running;
+}
+
+function clamp(x,min,max){
+    return Math.max(min,Math.min(max,x));
+}
+
+/* ---------------------------
+   历史参数模型（2000–2035）
+----------------------------*/
+
+function getYear(t){
+    return 2000 + t * 0.2;   // 速度系数
+}
+
+/* λ 随数字化与极化进程上升 */
+function lambda(year){
+    if(year < 2008) return 0.35;
+    if(year < 2016) return 0.55;
+    if(year < 2020) return 0.65;
+    return 0.8 + 0.05*Math.sin(year);
+}
+
+/* F 因信息碎片化而逐渐下降 */
+function feedback(year){
+    if(year < 2008) return 0.7;
+    if(year < 2016) return 0.6;
+    if(year < 2020) return 0.5;
+    return 0.45 - 0.1*Math.sin(year*0.5);
+}
+
+/* K 随全球化与平台化而升高 */
+function coupling(year){
+    if(year < 2008) return 0.4;
+    if(year < 2016) return 0.6;
+    if(year < 2020) return 0.75;
+    return 0.85;
+}
+
+/* --------------------------- */
+
+function computeD(λ,F,K){
+    return (λ*(1+K))/(F+0.1);
+}
+
+function getPhase(year){
+    if(year < 2008) return "全球化扩张期";
+    if(year < 2016) return "金融危机与恢复期";
+    if(year < 2020) return "平台 / 社交媒体加速期";
+    return "高极化时代";
+}
+
+function draw(){
+
+    let year = getYear(t);
+
+    let λ = lambda(year);
+    let F = feedback(year);
+    let K = coupling(year);
+
+    let D = computeD(λ,F,K);
+
+    ctx.clearRect(0,0,720,520);
+
+    /* 网格 */
+    ctx.strokeStyle = "#1f2633";
+    for(let i=0;i<10;i++){
+        ctx.beginPath();
+        ctx.moveTo(i*72,0);
+        ctx.lineTo(i*72,520);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0,i*52);
+        ctx.lineTo(720,i*52);
+        ctx.stroke();
+    }
+
+    let issues = [
+        {name:"种族", x:150, y:220},
+        {name:"气候", x:320, y:140},
+        {name:"性别", x:520, y:240},
+        {name:"意识形态", x:380, y:380}
+    ];
+
+    issues.forEach((p,i)=>{
+
+        let compress = λ * (1 + K);
+
+        let x = p.x + Math.sin(year*0.3+i)*compress*140;
+        let y = p.y + Math.cos(year*0.25+i)*compress*140;
+
+        let spread = (1-F)*90;
+
+        ctx.fillStyle = "rgba(120,180,255,0.75)";
+        ctx.beginPath();
+        ctx.arc(
+            x + (Math.random()-0.5)*spread,
+            y + (Math.random()-0.5)*spread,
+            10,0,Math.PI*2
+        );
+        ctx.fill();
+
+        ctx.fillStyle = "#aaa";
+        ctx.fillText(p.name, x+10, y+10);
+    });
+
+    /* 状态标签 */
+    ctx.fillStyle = D > 2 ? "#ff4d4d" : "#7CFF6B";
+    ctx.font = "16px Arial";
+
+    ctx.fillText("年份：" + year.toFixed(1), 20, 30);
+    ctx.fillText("极化指数 D：" + D.toFixed(2), 20, 55);
+
+    ctx.fillText("阶段：" + getPhase(year), 20, 80);
+
+    document.getElementById("timeLabel").innerHTML =
+        "年份：" + year.toFixed(1);
+
+    document.getElementById("phaseLabel").innerHTML =
+        "阶段：" + getPhase(year);
+
+    if(running) t += 0.8;
+
+    requestAnimationFrame(draw);
+}
+
+draw();
+
+</script>
+
+</body>
+</html>

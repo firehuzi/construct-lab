@@ -1,0 +1,248 @@
+{
+  "matches": [
+    {
+      "year": 1942,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1942,
+      "source": "COW",
+      "type": "WAR",
+      "label": "World War II",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/World_War_II_War"
+    },
+    {
+      "year": 1942,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "WAR",
+      "label": "World War II",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/World_War_II_War"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1951,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1951,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Korean",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Korean_War"
+    },
+    {
+      "year": 1962,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Australia-United_States_relations"
+    },
+    {
+      "year": 1962,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Australia-United_Kingdom_relations"
+    },
+    {
+      "year": 1962,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "FRA",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Australia-France_relations"
+    },
+    {
+      "year": 1972,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Australia-United_States_relations"
+    },
+    {
+      "year": 1972,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Australia-United_Kingdom_relations"
+    },
+    {
+      "year": 1972,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "FRA",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Australia-France_relations"
+    },
+    {
+      "year": 1973,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Australia-United_States_relations"
+    },
+    {
+      "year": 1973,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Australia-United_Kingdom_relations"
+    },
+    {
+      "year": 1973,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "FRA",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Australia-France_relations"
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2002,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    1901,
+    1915,
+    2010,
+    2014,
+    2019,
+    2020,
+    2021,
+    2023,
+    2026
+  ],
+  "total_events": 21,
+  "code": "AUS",
+  "long_code": "AUS",
+  "years_found": [
+    1901,
+    1915,
+    1942,
+    1945,
+    1951,
+    1962,
+    1972,
+    1973,
+    1999,
+    2002,
+    2010,
+    2014,
+    2019,
+    2020,
+    2021,
+    2023,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier2\\AUS\\Australia.md"
+}

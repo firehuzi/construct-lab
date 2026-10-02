@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Theory Dice Generator</title>
+<style>
+body {
+    font-family: Georgia, serif;
+    background: #0f0f10;
+    color: #e8e8e8;
+    margin: 0;
+    padding: 40px;
+}
+
+h1 {
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.dice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.dice {
+    background: #1c1c1f;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #333;
+}
+
+.dice:hover {
+    background: #2a2a2e;
+}
+
+.output {
+    white-space: pre-wrap;
+    background: #151518;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: 180px;
+    border: 1px solid #333;
+}
+
+button {
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 8px 12px;
+    background: #2b2b30;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #3a3a40;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>🎲 Theory Dice Generator</h1>
+
+    <div class="dice-grid">
+        <div class="dice" onclick="rollAll()">🎲 Roll All Dice</div>
+        <div class="dice" onclick="generate()">🧠 Generate Text</div>
+        <div class="dice" onclick="copyText()">📋 Copy Output</div>
+        <div class="dice" onclick="reset()">🔁 Reset</div>
+    </div>
+
+    <div class="output" id="output">Click "Roll All Dice" to generate analysis...</div>
+</div>
+
+<script>
+// ====== DICE SYSTEM ======
+
+const dice = {
+    1: ["弗洛伊德","拉康","齐泽克","福柯","德勒兹","巴特","本雅明","阿尔都塞"],
+    2: ["欲望","创伤","记忆","身份","权力","异化","爱","死亡"],
+    3: ["身体","家庭","空间","时间","消费","语言","社会","技术"],
+    4: ["他者","凝视","缺席","能指/所指","规训","主体","符号系统","再现"],
+    5: ["现代性","后现代性","资本主义","消费社会","数字时代","景观社会","全球化","晚期资本主义"],
+    6: ["欲望生产","意识形态循环","符号过剩","权力内化","差异制造","结构性压抑","身份建构","现实替代"],
+    7: ["主体性的瓦解","身份认同危机","意义系统崩塌","现实边界模糊","日常经验陌异化","归属感消失","结构性失语","符号秩序断裂"]
+};
+
+let state = {};
+
+function rollDice(i){
+    const arr = dice[i];
+    return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function rollAll(){
+    for(let i=1;i<=7;i++){
+        state[i] = rollDice(i);
+    }
+    generate();
+}
+
+function generate(){
+    const t1 = state[1] || rollDice(1);
+    const t2 = state[2] || rollDice(2);
+    const t3 = state[3] || rollDice(3);
+    const t4 = state[4] || rollDice(4);
+    const t5 = state[5] || rollDice(5);
+    const t6 = state[6] || rollDice(6);
+    const t7 = state[7] || rollDice(7);
+
+    const text =
+`在${t1}的理论视角中，${t2}通过${t3}被建构为一个关于${t4}的问题。
+
+在${t5}语境下，这一过程体现为${t6}。
+
+最终指向的是：${t7}。`;
+
+    document.getElementById("output").innerText = text;
+}
+
+function copyText(){
+    const text = document.getElementById("output").innerText;
+    navigator.clipboard.writeText(text);
+    alert("已复制！");
+}
+
+function reset(){
+    state = {};
+    document.getElementById("output").innerText =
+    "Click \"Roll All Dice\" to generate analysis...";
+}
+</script>
+
+</body>
+</html>

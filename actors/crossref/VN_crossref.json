@@ -1,0 +1,180 @@
+{
+  "matches": [
+    {
+      "year": 1954,
+      "source": "COW",
+      "type": "TERR_GAIN",
+      "label": "816",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Vietnam-France_relations"
+    },
+    {
+      "year": 1975,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1975,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Vietnam War, Phase 2",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Vietnam_War,_Phase_2_War"
+    },
+    {
+      "year": 1975,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Vietnamese-Cambodian",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Vietnamese-Cambodian_War"
+    },
+    {
+      "year": 1986,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1986,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Vietnam-Russia_relations"
+    },
+    {
+      "year": 1986,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1990,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Vietnam-Russia_relations"
+    },
+    {
+      "year": 1991,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Vietnam-Russia_relations"
+    },
+    {
+      "year": 1995,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1995,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2010,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    1945,
+    2016,
+    2024,
+    2025,
+    2026
+  ],
+  "total_events": 15,
+  "code": "VN",
+  "long_code": "VNM",
+  "years_found": [
+    1945,
+    1954,
+    1975,
+    1979,
+    1986,
+    1990,
+    1991,
+    1995,
+    2010,
+    2016,
+    2024,
+    2025,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier2\\VN\\VN_v1_subjects.md"
+}

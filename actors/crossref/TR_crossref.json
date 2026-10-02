@@ -1,0 +1,524 @@
+{
+  "matches": [
+    {
+      "year": 1918,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1918,
+      "source": "COW",
+      "type": "WAR",
+      "label": "World War I",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/World_War_I_War"
+    },
+    {
+      "year": 1918,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "DEU",
+      "hostility": "",
+      "opponent": "DEU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Germany_relations"
+    },
+    {
+      "year": 1919,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1919,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1919,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1920,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1920,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1920,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1922,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1922,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Second Greco-Turkish",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Second_Greco-Turkish_War"
+    },
+    {
+      "year": 1922,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1923,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1924,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1938,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Russia_relations"
+    },
+    {
+      "year": 1938,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "FRA",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-France_relations"
+    },
+    {
+      "year": 1938,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRN",
+      "hostility": "",
+      "opponent": "IRN",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Iran_relations"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRN",
+      "hostility": "",
+      "opponent": "IRN",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Iran_relations"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-IRQ_relations"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-United_Kingdom_relations"
+    },
+    {
+      "year": 1952,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRN",
+      "hostility": "",
+      "opponent": "IRN",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Iran_relations"
+    },
+    {
+      "year": 1952,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-IRQ_relations"
+    },
+    {
+      "year": 1952,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1960,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-United_Kingdom_relations"
+    },
+    {
+      "year": 1960,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRN",
+      "hostility": "",
+      "opponent": "IRN",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Iran_relations"
+    },
+    {
+      "year": 1960,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Pakistan_relations"
+    },
+    {
+      "year": 1971,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-United_Kingdom_relations"
+    },
+    {
+      "year": 1971,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRN",
+      "hostility": "",
+      "opponent": "IRN",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Iran_relations"
+    },
+    {
+      "year": 1971,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Pakistan_relations"
+    },
+    {
+      "year": 1974,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-United_Kingdom_relations"
+    },
+    {
+      "year": 1974,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRN",
+      "hostility": "",
+      "opponent": "IRN",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Iran_relations"
+    },
+    {
+      "year": 1974,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Turkey-Pakistan_relations"
+    },
+    {
+      "year": 1984,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1984,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "threat to use force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1984,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1990,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2001,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2001,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2001,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2002,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2002,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2002,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2011,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2011,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2011,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    1980,
+    2016,
+    2019,
+    2020,
+    2024,
+    2025,
+    2026
+  ],
+  "total_events": 48,
+  "code": "TR",
+  "long_code": "TUR",
+  "years_found": [
+    1918,
+    1919,
+    1920,
+    1922,
+    1923,
+    1924,
+    1938,
+    1945,
+    1952,
+    1960,
+    1971,
+    1974,
+    1980,
+    1984,
+    1990,
+    1999,
+    2001,
+    2002,
+    2011,
+    2016,
+    2019,
+    2020,
+    2024,
+    2025,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier2\\TR\\TR_v1_subjects.md"
+}

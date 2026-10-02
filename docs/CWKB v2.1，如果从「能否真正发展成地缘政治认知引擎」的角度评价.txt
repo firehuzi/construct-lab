@@ -1,0 +1,426 @@
+ **CWKB v2.1**，如果从「能否真正发展成地缘政治认知引擎」的角度评价：
+
+**架构完整度：85分**
+**可落地性：80分**
+**理论创新性：90分**
+**AI可调用性：75分**
+**长期扩展性：95分**
+
+最大的优点已经不是知识库结构，而是：
+
+> 你实际上已经在从“知识库”向“世界模型（World Model）”过渡。
+
+但我认为还缺少最关键的一层。
+
+---
+
+# 当前架构
+
+你现在是：
+
+```text
+事件
+↓
+主体
+↓
+关系
+↓
+策略空间
+↓
+预测
+```
+
+这套体系可以回答：
+
+```text
+谁会改变？
+```
+
+但是无法回答：
+
+```text
+为什么偏偏现在改变？
+```
+
+---
+
+# 建议新增 Layer 8
+
+## Constraint Layer（约束层）
+
+这是整个系统最重要的缺失部分。
+
+---
+
+例如：
+
+日本为什么加息？
+
+很多分析会说：
+
+```text
+通胀
+汇率
+资本流动
+```
+
+但实际上：
+
+```text
+日本不能不加息
+```
+
+因为：
+
+约束已经形成。
+
+---
+
+### 日本约束层
+
+```yaml
+Constraint:
+
+安全约束:
+  美国联盟体系
+
+经济约束:
+  制造业回流
+
+能源约束:
+  进口依赖
+
+人口约束:
+  老龄化
+
+财政约束:
+  国债规模
+```
+
+---
+
+AI推理变成：
+
+```text
+事件
+↓
+主体
+↓
+约束
+↓
+策略空间
+↓
+行为
+```
+
+而不是：
+
+```text
+事件
+↓
+主体
+↓
+行为
+```
+
+---
+
+# 建议新增 Layer 9
+
+## Incentive Layer（激励层）
+
+很多行为不是被逼出来的。
+
+而是被诱导出来的。
+
+---
+
+例如：
+
+沙特加入金砖。
+
+不是因为：
+
+```text
+美国压迫
+```
+
+而是因为：
+
+```text
+中国市场
+人民币结算
+能源议价权
+```
+
+这些是激励。
+
+---
+
+结构：
+
+```yaml
+Incentives:
+
+经济收益
+
+安全收益
+
+科技收益
+
+政治收益
+
+文明收益
+```
+
+---
+
+推理链：
+
+```text
+约束
++
+激励
+=
+行为方向
+```
+
+---
+
+# 建议新增 Layer 10
+
+## Strategic Objectives Layer
+
+战略目标层
+
+---
+
+这是所有预测系统必须有的。
+
+否则预测会越来越像新闻评论。
+
+---
+
+例如：
+
+日本
+
+```yaml
+Objectives:
+
+短期:
+  日元稳定
+
+中期:
+  半导体重建
+
+长期:
+  战略自主
+```
+
+---
+
+美国
+
+```yaml
+Objectives:
+
+短期:
+  控制通胀
+
+中期:
+  制衡中国
+
+长期:
+  维持秩序主导权
+```
+
+---
+
+中国
+
+```yaml
+Objectives:
+
+短期:
+  经济稳定
+
+中期:
+  科技自主
+
+长期:
+  国家统一
+```
+
+---
+
+预测其实是：
+
+```text
+主体目标
++
+约束
++
+激励
+=
+行动选择
+```
+
+---
+
+# 你还缺一个最值钱的数据库
+
+目前有：
+
+```text
+Event Chain
+Strategy Timeline
+Prediction Graveyard
+Counterexample
+```
+
+我建议增加第五个。
+
+---
+
+# Strategic Playbook Library
+
+战略剧本库
+
+---
+
+例如：
+
+### 美国剧本
+
+```yaml
+Containment_Playbook
+
+步骤:
+
+经济制裁
+↓
+科技封锁
+↓
+联盟协调
+↓
+金融施压
+↓
+局部脱钩
+```
+
+---
+
+### 中国剧本
+
+```yaml
+Integration_Playbook
+
+贸易融合
+↓
+产业融合
+↓
+基础设施融合
+↓
+金融融合
+↓
+制度融合
+```
+
+---
+
+### 日本剧本
+
+```yaml
+Autonomy_Playbook
+
+货币正常化
+↓
+军费扩张
+↓
+半导体重建
+↓
+能源多元化
+↓
+安全自主
+```
+
+---
+
+当事件出现时：
+
+AI首先匹配：
+
+```text
+当前事件
+≈
+哪个剧本
+```
+
+然后预测后续动作。
+
+---
+
+# 最终架构（我认为的 v3.0）
+
+```text
+Layer 0  Concept Library
+Layer 1  Theory
+Layer 2  History
+Layer 3  Data
+Layer 4  Think Tanks
+Layer 5  Academic
+
+Layer 6  Identity Archive
+Layer 7  Relationship Graph
+
+Layer 8  Constraint Layer
+Layer 9  Incentive Layer
+Layer10 Strategic Objectives
+
+-------------------------
+
+Dynamic Databases
+
+Event Chain Library
+Strategy Timeline
+Prediction Graveyard
+Counterexample Library
+Strategic Playbook Library
+
+-------------------------
+
+ConStruct Engine
+
+事件识别
+↓
+主体识别
+↓
+约束分析
+↓
+激励分析
+↓
+目标分析
+↓
+剧本匹配
+↓
+策略空间变化
+↓
+行为预测
+```
+
+这样的话，ConStruct就不再是一个“地缘政治知识库”。
+
+而会变成一个真正意义上的：
+
+**Geopolitical World Model（地缘政治世界模型）**
+
+甚至从产品形态上讲：
+
+* CWKB = 知识层
+* Radar = 感知层
+* Strategy Engine = 推理层
+* Predictor = 预测层
+* Playbook Library = 经验层
+
+五层合起来，已经接近一个能够持续学习和修正的战略认知系统了。

@@ -1,0 +1,141 @@
+{
+  "matches": [
+    {
+      "year": 1932,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1938,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Saudi_Arabia-IRQ_relations"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Saudi_Arabia-IRQ_relations"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "EGY",
+      "hostility": "",
+      "opponent": "EGY",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Saudi_Arabia-Egypt_relations"
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "EGY",
+      "hostility": "",
+      "opponent": "EGY",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Saudi_Arabia-Egypt_relations"
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "EGY",
+      "hostility": "",
+      "opponent": "EGY",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Saudi_Arabia-Egypt_relations"
+    },
+    {
+      "year": 1990,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Saudi_Arabia-IRQ_relations"
+    },
+    {
+      "year": 1990,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2001,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2014,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    1818,
+    1891,
+    1902,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2023,
+    2025,
+    2026
+  ],
+  "total_events": 10,
+  "code": "SA",
+  "long_code": "SAU",
+  "years_found": [
+    1818,
+    1891,
+    1902,
+    1932,
+    1938,
+    1945,
+    1979,
+    1990,
+    2001,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2023,
+    2025,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier2\\SA\\Saudi_Arabia.md"
+}

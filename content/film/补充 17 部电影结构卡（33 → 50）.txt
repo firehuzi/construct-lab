@@ -1,0 +1,157 @@
+补充 17 部电影结构卡（33 → 50）
+🇺🇸 美国电影（补充 3）
+34. Pulp Fiction
+
+themes: 暴力 / 命运 / 偶然性
+conflicts: 叙事碎片化 / 道德模糊
+spaces: 餐厅 / 汽车 / 公寓
+motifs: 枪 / 对话 / 时间错位
+characters: Jules / Vincent
+theoryFit: deleuze 4 / zizek 4
+
+35. The Social Network
+
+themes: 权力 / 技术 / 孤独
+conflicts: 友谊 vs 资本化
+spaces: 宿舍 / 法庭 / 网络空间
+motifs: 屏幕 / 代码 / 会议
+characters: Zuckerberg
+theoryFit: foucault 4 / marx 4 / deleuze 4
+
+36. Taxi Driver
+
+themes: 异化 / 孤独 / 暴力
+conflicts: 个体 vs 城市
+spaces: 夜晚城市 / 车内
+motifs: 镜子 / 枪 / 雨
+characters: Travis
+theoryFit: foucault 4 / lacan 4
+
+🇫🇷 / 🇪🇺 欧洲补充（5）
+37. The Seventh Seal（瑞典）
+
+themes: 死亡 / 信仰 / 虚无
+conflicts: 人 vs 死神
+spaces: 中世纪荒原
+motifs: 棋局 / 死神 / 海滩
+characters: Knight / Death
+theoryFit: benjamin 4 / lacan 3
+
+38. Amour（法国）
+
+themes: 爱 / 老化 / 死亡
+conflicts: 身体衰退 / 情感维系
+spaces: 公寓 / 医院
+motifs: 水 / 病 / 静止
+characters: 老夫妻
+theoryFit: lacan 4 / foucault 3
+
+39. La Dolce Vita（意大利）
+
+themes: 欲望 / 空虚 / 现代性
+conflicts: 快乐 vs 虚无
+spaces: 罗马夜生活
+motifs: 雕塑 / 派对 / 泳池
+characters: Marcello
+theoryFit: benjamin 4 / barthes 4
+
+40. Berlin Alexanderplatz（德国）
+
+themes: 犯罪 / 社会 / 失败
+conflicts: 个体 vs 城市结构
+spaces: 柏林街头
+motifs: 工业 / 灯光 / 雨
+characters: Franz Biberkopf
+theoryFit: foucault 5 / marx 4
+
+41. The White Ribbon（德国）
+
+themes: 纪律 / 暴力 / 社会结构
+conflicts: 权力隐形化
+spaces: 村庄 / 学校
+motifs: 白丝带 / 监视
+characters: 村民
+theoryFit: foucault 5 / lacan 3
+
+🇯🇵 / 🇰🇷 / 🇨🇳 亚洲补充（6）
+42. Ikiru（日本）
+
+themes: 死亡 / 意义 / 官僚系统
+conflicts: 个体 vs 制度
+spaces: 政府办公室 / 公园
+motifs: 秋千 / 文件
+characters: Watanabe
+theoryFit: benjamin 4 / foucault 4
+
+43. Perfect Days（日本）
+
+themes: 日常 / 孤独 / 重复
+conflicts: 简单生活 vs 意义缺失
+spaces: 东京厕所 / 城市
+motifs: 树 / 音乐 / 光
+characters: Hirayama
+theoryFit: deleuze 4 / barthes 3
+
+44. Infernal Affairs（香港）
+
+themes: 身份 / 双重性 / 权力
+conflicts: 警察 vs 黑帮
+spaces: 城市 / 高楼
+motifs: 电话 / 电梯
+characters: Chan / Lau
+theoryFit: foucault 5 / lacan 4
+
+45. Chungking Express（香港）
+
+themes: 爱 / 偶然 / 孤独
+conflicts: 情感错位
+spaces: 重庆大厦 / 快餐店
+motifs: 凤梨罐头 / 电话
+characters: 警察 / 店员
+theoryFit: barthes 4 / lacan 4
+
+46. Shoplifters（日本）
+
+themes: 家庭 / 生存 / 非正式关系
+conflicts: 法律 vs 情感
+spaces: 小屋 / 城市边缘
+motifs: 偷窃 / 食物
+characters: 临时家庭
+theoryFit: marx 4 / foucault 4
+
+47. A Separation（伊朗）
+
+themes: 道德 / 阶级 / 真相
+conflicts: 家庭 vs 法律
+spaces: 法庭 / 家庭空间
+motifs: 谎言 / 证词
+characters: 家庭群像
+theoryFit: foucault 5 / lacan 4
+
+🌎 拉美 / 其他补充（3）
+48. City of God（巴西）
+
+themes: 暴力 / 阶级 / 生存
+conflicts: 犯罪结构化
+spaces: 贫民窟
+motifs: 枪 / 摄影 / 街道
+characters: Rocket / Zé
+theoryFit: marx 5 / foucault 4
+
+49. Roma（墨西哥）
+
+themes: 记忆 / 阶级 / 家庭
+conflicts: 雇佣关系 vs 情感
+spaces: 家庭 / 城市
+motifs: 水 / 清洁 / 黑白影像
+characters: Cleo
+theoryFit: benjamin 4 / lacan 3
+
+50. Pan’s Labyrinth（西班牙）
+
+themes: 想象 / 战争 / 权力
+conflicts: 现实 vs 幻想
+spaces: 森林 / 地下世界
+motifs: 门 / 怪物 / 迷宫
+characters: Ofelia
+theoryFit: deleuze 4 / lacan 4

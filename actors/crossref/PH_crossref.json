@@ -1,0 +1,71 @@
+{
+  "matches": [
+    {
+      "year": 1946,
+      "source": "COW",
+      "type": "TERR_GAIN",
+      "label": "840",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Philippines-United_States_relations"
+    },
+    {
+      "year": 1951,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1951,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Korean",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Korean_War"
+    },
+    {
+      "year": 2012,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    1898,
+    1942,
+    1945,
+    2016,
+    2019,
+    2022,
+    2025,
+    2026
+  ],
+  "total_events": 4,
+  "code": "PH",
+  "long_code": "PHL",
+  "years_found": [
+    1898,
+    1942,
+    1945,
+    1946,
+    1951,
+    2012,
+    2016,
+    2019,
+    2022,
+    2025,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier2\\PH\\PH_v1_subjects.md"
+}

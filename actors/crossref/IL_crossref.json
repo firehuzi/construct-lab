@@ -1,0 +1,148 @@
+{
+  "matches": [
+    {
+      "year": 1948,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1948,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Arab-Israeli",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Arab-Israeli_War"
+    },
+    {
+      "year": 1948,
+      "source": "COW",
+      "type": "TERR_GAIN",
+      "label": "666",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Israel-United_Kingdom_relations"
+    },
+    {
+      "year": 1967,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1967,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1967,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1976,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "threat to use force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1976,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1976,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2006,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2006,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2006,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    1939,
+    1945,
+    2015,
+    2023,
+    2025,
+    2026
+  ],
+  "total_events": 12,
+  "code": "IL",
+  "long_code": "ISR",
+  "years_found": [
+    1939,
+    1945,
+    1948,
+    1967,
+    1976,
+    2006,
+    2015,
+    2023,
+    2025,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier1\\IL\\IL.md"
+}

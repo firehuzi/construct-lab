@@ -1,0 +1,8 @@
+技术实现路径建议
+功能	复杂度	实现方式	预估工时
+P0-1 出牌飞行	中	Vue Transition + 绝对定位动画 + cloneNode	2-3h
+P0-2 数值飘字	低	绝对定位DOM + CSS @keyframes	1h
+P0-3 卡牌详情浮层	中	改造click逻辑 + 新增preview组件	2-3h
+P1-4 动态背景	低	CSS class切换 + 渐变/粒子动画	1.5-2h
+P1-5 NPC反应	低	CSS keyframe + JS trigger class	0.5h
+P1-6 回合提示	低	条件渲染 + fade transition	0.5h

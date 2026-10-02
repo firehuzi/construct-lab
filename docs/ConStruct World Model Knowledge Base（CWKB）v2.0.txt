@@ -1,0 +1,829 @@
+这是整合后的版本
+# ConStruct World Model Knowledge Base（CWKB）v2.0
+
+目标不再是建立一个“地缘政治资料库”，而是建立一个：
+
+> 可被AI调用、可持续演化、能够支持策略空间分析的世界模型。
+
+---
+
+# 一、总体架构
+
+```text
+                    ┌────────────────────┐
+                    │  Event Trigger     │
+                    │   新闻/事件流       │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+
+                 ┌──────────────────────────┐
+                 │  ConStruct World Model   │
+                 └──────────────────────────┘
+
+ Layer0  概念词典（Concept Library）
+ Layer1  理论基础（Theory）
+ Layer2  历史文献（History）
+ Layer3  数据与事件（Data）
+ Layer4  智库研究（Think Tanks）
+ Layer5  学术研究（Academic）
+ Layer6  主体档案（Identity Archive）
+ Layer7  关系图谱（Relationship Graph）
+
+              ↓
+
+ Event Chain Library
+ Strategy Space Timeline
+ Prediction Graveyard
+ Counterexample Library
+
+              ↓
+
+        ConStruct Engine
+
+              ↓
+
+      Strategy Space Output
+```
+
+---
+
+# 二、知识库战略定位
+
+传统知识库回答：
+
+```text
+发生了什么？
+```
+
+ConStruct知识库回答：
+
+```text
+这个事件改变了谁？
+为什么改变？
+改变方向是什么？
+```
+
+因此：
+
+```text
+新闻 = 输入
+
+主体 = 上下文
+
+ConStruct = 推理层
+
+策略空间变化 = 输出
+```
+
+---
+
+# 三、八层知识库结构
+
+---
+
+# Layer 0：概念词典
+
+这是整个系统最重要的一层。
+
+目的：
+
+统一AI与研究者的语言体系。
+
+---
+
+目录：
+
+```text
+Layer0_Concepts/
+
+Autonomy/
+Order/
+Continuity/
+BufferZone/
+Alliance/
+Sanction/
+Deterrence/
+Multipolarity/
+StrategicDepth/
+```
+
+---
+
+单个概念模板：
+
+```yaml
+Concept:
+战略自主
+
+定义:
+主体关键决策不依赖外部强权
+
+ConStruct映射:
+L2 自主局
+
+观察指标:
+军事自主
+能源自主
+金融自主
+
+典型案例:
+法国
+印度
+
+反例:
+日本(部分自主)
+
+关联概念:
+主权
+联盟
+安全依赖
+```
+
+---
+
+未来AI分析流程：
+
+```text
+事件
+↓
+概念识别
+↓
+主体调用
+↓
+推理
+```
+
+---
+
+# Layer 1：理论基础
+
+回答：
+
+```text
+用什么框架看世界？
+```
+
+---
+
+来源：
+
+* 亨廷顿
+* 米尔斯海默
+* 华尔兹
+* 温特
+* 基辛格
+* 布热津斯基
+* 拉康
+* 米塞斯
+* 罗尔斯
+
+---
+
+新增要求：
+
+每本书必须完成：
+
+```yaml
+TheoryCard:
+
+核心命题:
+
+适用条件:
+
+失效条件:
+
+对应ConStruct层级:
+
+相关主体:
+```
+
+---
+
+而不是单纯收藏书籍。
+
+---
+
+# Layer 2：历史文献
+
+回答：
+
+```text
+世界如何走到今天？
+```
+
+---
+
+来源：
+
+FRUS
+
+National Security Archive
+
+NSDDD
+
+外交档案
+
+战略文件
+
+---
+
+新增：
+
+建立：
+
+```text
+Historical Event Chain
+```
+
+例如：
+
+```yaml
+冷战形成:
+
+1945 雅尔塔
+
+↓
+
+1947 杜鲁门主义
+
+↓
+
+1948 柏林危机
+
+↓
+
+1949 北约成立
+```
+
+---
+
+# Layer 3：数据与事件层
+
+分三层：
+
+---
+
+## DEL-1
+
+结构条件
+
+```text
+GDP
+人口
+军费
+能源
+债务
+```
+
+更新：
+
+年度
+
+---
+
+## DEL-2
+
+策略变量
+
+```text
+利率
+汇率
+油价
+制裁
+选举
+```
+
+更新：
+
+月度
+
+---
+
+## DEL-3
+
+事件脉冲
+
+来源：
+
+```text
+GDELT
+ACLED
+UCDP
+Reuters
+Bloomberg
+```
+
+更新：
+
+实时
+
+---
+
+但新增一个关键要求：
+
+所有事件必须结构化。
+
+```yaml
+Event:
+
+时间:
+
+主体:
+
+类别:
+
+影响方向:
+
+相关概念:
+```
+
+---
+
+# Layer 4：智库层
+
+回答：
+
+```text
+世界如何被解释？
+```
+
+来源：
+
+RAND
+
+Brookings
+
+Carnegie
+
+ICG
+
+Chatham House
+
+CISS
+
+---
+
+每篇报告生成：
+
+```yaml
+ThinkTankCard:
+
+核心观点:
+
+假设前提:
+
+预测:
+
+证据:
+
+偏向:
+```
+
+---
+
+# Layer 5：学术层
+
+回答：
+
+```text
+学术共同体正在讨论什么？
+```
+
+来源：
+
+H-Diplo
+
+IREON
+
+CIAO
+
+SSRN
+
+开放获取期刊
+
+---
+
+输出：
+
+```yaml
+ResearchCard:
+
+研究问题:
+
+结论:
+
+方法:
+
+局限:
+```
+
+---
+
+# Layer 6：主体档案库
+
+ConStruct核心资产。
+
+---
+
+每个主体：
+
+```text
+USA.md
+China.md
+Japan.md
+EU.md
+Russia.md
+Iran.md
+Israel.md
+India.md
+```
+
+---
+
+档案模板：
+
+```yaml
+Basic:
+
+人口
+GDP
+军费
+
+Identity:
+
+L2
+L3
+L4
+L5
+L6
+L7
+L8
+
+Strategy Space:
+
+当前状态
+
+Elasticity:
+
+响应弹性
+
+Critical Variables:
+
+关键约束
+
+Current Risks:
+
+当前风险
+
+Last Update:
+```
+
+---
+
+例如：
+
+日本：
+
+```yaml
+L2:
+连续性维护
+
+L3:
+官僚协调
+
+L8:
+自主性创伤
+
+当前状态:
+自主性增强
+```
+
+---
+
+# Layer 7：关系图谱
+
+这是主体之间的连接层。
+
+---
+
+例如：
+
+日本
+
+```yaml
+Alliance:
+美国
+
+Competition:
+中国
+
+Historical Memory:
+中国
+俄罗斯
+
+Economic Dependence:
+美国
+中国
+```
+
+---
+
+伊朗
+
+```yaml
+Conflict:
+以色列
+
+Sanction:
+美国
+
+Proxy:
+真主党
+胡塞
+```
+
+---
+
+未来形成：
+
+```text
+World Relationship Graph
+```
+
+---
+
+# 四、四大动态数据库
+
+这是ConStruct真正的认知资产。
+
+---
+
+## 1 Event Chain Library
+
+事件链库
+
+结构：
+
+```yaml
+Cause:
+
+Event:
+
+Consequence:
+
+Verification:
+```
+
+---
+
+例如：
+
+```yaml
+美元走弱
+
+↓
+
+日本加息
+
+↓
+
+资本回流
+
+↓
+
+自主性增强
+```
+
+---
+
+# 2 Strategy Space Timeline
+
+策略空间时间轴
+
+例如：
+
+```yaml
+Japan
+
+2025:
+→
+
+2026:
+↑
+
+2027:
+↑
+```
+
+---
+
+记录：
+
+```text
+方向变化
+触发原因
+验证结果
+```
+
+---
+
+这是未来雷达系统的核心数据库。
+
+---
+
+# 3 Prediction Graveyard
+
+预测坟场
+
+记录所有失败判断。
+
+---
+
+模板：
+
+```yaml
+Prediction:
+
+Time:
+
+Outcome:
+
+Error Type:
+
+Lesson:
+```
+
+---
+
+例如：
+
+```yaml
+俄罗斯经济半年崩溃
+
+结果:
+错误
+
+原因:
+低估能源收入
+```
+
+---
+
+# 4 Counterexample Library
+
+反例库
+
+用于训练AI避免表层分析。
+
+---
+
+模板：
+
+```yaml
+表面现象:
+
+真实含义:
+
+为什么误判:
+```
+
+---
+
+例如：
+
+```yaml
+日本加息
+
+表面:
+金融事件
+
+本质:
+战略自主信号
+```
+
+---
+
+# 五、目录结构
+
+```text
+ConStruct_World_Model/
+
+00_Concepts/
+01_Theory/
+02_History/
+03_Data/
+04_ThinkTanks/
+05_Academic/
+06_Identity_Archive/
+07_Relationship_Graph/
+
+Special/
+
+Event_Chains/
+Strategy_Timeline/
+Prediction_Graveyard/
+Counterexamples/
+
+Indexes/
+```
+
+---
+
+# 六、建设优先级
+
+不要同时建设全部。
+
+---
+
+## Phase 1（2周）
+
+建立：
+
+```text
+Concept Library
+Japan Archive
+Japan Relationship Graph
+Japan Timeline
+```
+
+目标：
+
+完成日本MVP。
+
+---
+
+## Phase 2（1个月）
+
+扩展：
+
+```text
+美国
+中国
+欧盟
+俄罗斯
+```
+
+建立：
+
+```text
+Event Chain Library
+```
+
+---
+
+## Phase 3（3个月）
+
+接入：
+
+```text
+GDELT
+ACLED
+UCDP
+```
+
+实现：
+
+```text
+事件
+↓
+主体匹配
+↓
+概念调用
+↓
+策略空间变化判断
+```
+
+---
+
+## Phase 4（6个月）
+
+形成：
+
+```text
+ConStruct Geopolitical Radar
+```
+
+每日输出：
+
+```text
+今日事件
+
+受影响主体
+
+策略空间变化
+
+变化方向
+
+验证等级
+```
+
+---
+
+最终你建设的将不是一个“地缘政治知识库”。
+
+而是一个能够回答：
+
+> “这个世界正在朝哪个方向移动，以及是谁在被改变。”
+
+的 ConStruct 世界模型。这也是未来“地缘政治事件雷达”“策略空间探测器”“主体行为预测器”的底层基础设施。

@@ -1,0 +1,34 @@
+{
+  "US": {
+    "code": "US",
+    "type": "country",
+    "config": "交易式",
+    "dna": {
+      "d1": "中心地位+交易能力",
+      "d2": "交易式",
+      "d3": "中",
+      "d4": "低"
+    },
+    "icc": "",
+    "tier": "Tier1",
+    "file": "US.md",
+    "analyses": [],
+    "outputs": []
+  },
+  "SG": {
+    "code": "SG",
+    "type": "country",
+    "config": "冻结局",
+    "dna": {
+      "d1": "否定结构",
+      "d2": "冻结局",
+      "d3": "高",
+      "d4": "中"
+    },
+    "icc": "不适用",
+    "tier": "Tier2",
+    "file": "Singapore.md",
+    "analyses": [],
+    "outputs": []
+  }
+}

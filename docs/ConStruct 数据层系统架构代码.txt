@@ -1,0 +1,54 @@
+<svg viewBox="0 0 680 735" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>ConStruct 数据层系统架构</title>
+<desc>自下而上七层数据管道：源、Signal采集、Classification分类、Verification验证、Modeling建模、Knowledge策展、Product输出，标注已建/部分/缺失状态与贯穿契约</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<text class="th" x="340" y="30" text-anchor="middle">ConStruct 数据层系统架构</text>
+
+<line x1="70" y1="156" x2="70" y2="116" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="70" y1="252" x2="70" y2="212" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="70" y1="348" x2="70" y2="308" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="70" y1="444" x2="70" y2="404" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="70" y1="540" x2="70" y2="500" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="70" y1="636" x2="70" y2="596" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<rect x="120" y="60" width="380" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="310" y="82" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Product 输出</text>
+<text class="ts" x="310" y="100" text-anchor="middle" dominant-baseline="central" fill="#185FA5">诊断交付物 · 接内容环</text>
+<text class="ts" x="515" y="88" dominant-baseline="central" fill="var(--color-text-danger)">未落地</text>
+
+<rect x="120" y="156" width="380" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="310" y="178" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Knowledge 策展</text>
+<text class="ts" x="310" y="196" text-anchor="middle" dominant-baseline="central" fill="#185FA5">慢 · 人类 · 主体档案</text>
+<text class="ts" x="515" y="184" dominant-baseline="central" fill="var(--color-text-warning)">部分</text>
+
+<rect x="120" y="252" width="380" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="310" y="274" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Modeling 建模</text>
+<text class="ts" x="310" y="292" text-anchor="middle" dominant-baseline="central" fill="#185FA5">知识图谱挂载</text>
+<text class="ts" x="515" y="280" dominant-baseline="central" fill="var(--color-text-warning)">部分</text>
+
+<rect x="120" y="348" width="380" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="310" y="370" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Verification 验证</text>
+<text class="ts" x="310" y="388" text-anchor="middle" dominant-baseline="central" fill="#185FA5">置信度闸门</text>
+<text class="ts" x="515" y="376" dominant-baseline="central" fill="var(--color-text-success)">已建</text>
+
+<rect x="120" y="444" width="380" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="310" y="466" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Classification 分类</text>
+<text class="ts" x="310" y="484" text-anchor="middle" dominant-baseline="central" fill="#185FA5">中 · 人机 · 事件归类</text>
+<text class="ts" x="515" y="472" dominant-baseline="central" fill="var(--color-text-warning)">部分</text>
+
+<rect x="120" y="540" width="380" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="310" y="562" text-anchor="middle" dominant-baseline="central" fill="#0C447C">Signal 采集</text>
+<text class="ts" x="310" y="580" text-anchor="middle" dominant-baseline="central" fill="#185FA5">快 · 自动 · 拉取粗筛</text>
+<text class="ts" x="515" y="568" dominant-baseline="central" fill="var(--color-text-success)">已建</text>
+
+<rect x="120" y="636" width="380" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text class="th" x="310" y="658" text-anchor="middle" dominant-baseline="central" fill="#444441">Source 源</text>
+<text class="ts" x="310" y="676" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">GDELT · 外部价格源</text>
+<text class="ts" x="515" y="664" dominant-baseline="central" fill="var(--color-text-secondary)">基座</text>
+
+<text class="ts" x="340" y="712" text-anchor="middle" fill="var(--color-text-secondary)">贯穿契约 · 保真闸门 · 溯源 · 两层分离 · 幂等</text>
+</svg>

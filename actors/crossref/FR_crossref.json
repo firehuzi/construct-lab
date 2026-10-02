@@ -1,0 +1,591 @@
+{
+  "matches": [
+    {
+      "year": 1870,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1870,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "ITA",
+      "hostility": "",
+      "opponent": "ITA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-ITA_relations"
+    },
+    {
+      "year": 1870,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1871,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1871,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1871,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Franco-Prussian",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Franco-Prussian_War"
+    },
+    {
+      "year": 1918,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "ITA",
+      "hostility": "",
+      "opponent": "ITA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-ITA_relations"
+    },
+    {
+      "year": 1918,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1918,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1940,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "TUR",
+      "hostility": "",
+      "opponent": "TUR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Turkey_relations"
+    },
+    {
+      "year": 1940,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1940,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1944,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1944,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Russia_relations"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Russia_relations"
+    },
+    {
+      "year": 1954,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Russia_relations"
+    },
+    {
+      "year": 1954,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1954,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1956,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1956,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1956,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Pakistan_relations"
+    },
+    {
+      "year": 1958,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1958,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1958,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Pakistan_relations"
+    },
+    {
+      "year": 1960,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1960,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1960,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Pakistan_relations"
+    },
+    {
+      "year": 1962,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1962,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1962,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Pakistan_relations"
+    },
+    {
+      "year": 1963,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1963,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1963,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Pakistan_relations"
+    },
+    {
+      "year": 1964,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1964,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1964,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Pakistan_relations"
+    },
+    {
+      "year": 1966,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1966,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1966,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Pakistan_relations"
+    },
+    {
+      "year": 1967,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1967,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1967,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Pakistan_relations"
+    },
+    {
+      "year": 1968,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1968,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1968,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Pakistan_relations"
+    },
+    {
+      "year": 1970,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_States_relations"
+    },
+    {
+      "year": 1970,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-United_Kingdom_relations"
+    },
+    {
+      "year": 1970,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/France-Pakistan_relations"
+    },
+    {
+      "year": 1992,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1992,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1992,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2005,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2005,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2005,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    1804,
+    1815,
+    2017,
+    2019,
+    2026
+  ],
+  "total_events": 55,
+  "code": "FR",
+  "long_code": "FRA",
+  "years_found": [
+    1804,
+    1815,
+    1870,
+    1871,
+    1918,
+    1940,
+    1944,
+    1945,
+    1954,
+    1956,
+    1958,
+    1960,
+    1962,
+    1963,
+    1964,
+    1966,
+    1967,
+    1968,
+    1970,
+    1992,
+    2005,
+    2017,
+    2019,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier2\\FR\\FR_v1_subjects.md"
+}

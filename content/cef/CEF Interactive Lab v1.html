@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CEF Lab v2 - Prediction & Optimization</title>
+
+<style>
+body {
+    background: #0e1117;
+    color: #e6e6e6;
+    font-family: Arial;
+    margin: 0;
+    padding: 15px;
+}
+
+h1 { margin: 0; }
+
+.subtitle {
+    color: #9fb3c8;
+    font-size: 13px;
+}
+
+.container {
+    display: flex;
+    gap: 15px;
+}
+
+.panel {
+    width: 400px;
+    background: #161b22;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+canvas {
+    background: #0b0f14;
+    border-radius: 10px;
+}
+
+button, select {
+    width: 100%;
+    margin: 4px 0;
+    padding: 6px;
+    background: #0b0f14;
+    color: white;
+    border: 1px solid #2a3344;
+}
+</style>
+</head>
+
+<body>
+
+<h1>CEF Lab v2</h1>
+<div class="subtitle">
+Prediction Engine + Policy Optimization System
+</div>
+
+<div class="container">
+
+<div class="panel">
+
+<button onclick="toggle()">Play / Pause</button>
+
+<select id="mode">
+    <option value="sim">Simulation Mode</option>
+    <option value="opt">Optimization Mode</option>
+</select>
+
+<button onclick="runOptimization()">Run Policy Optimizer</button>
+
+<div id="info"></div>
+
+<hr>
+
+<div style="font-size:12px;color:#9fb3c8">
+Modes:<br>
+• Simulation = world evolution<br>
+• Optimization = search minimal polarization state
+</div>
+
+</div>
+
+<canvas id="c" width="760" height="520"></canvas>
+
+</div>
+
+<script>
+
+let ctx = document.getElementById("c").getContext("2d");
+
+let t = 0;
+let running = true;
+let best = null;
+
+/* -----------------------
+   SYSTEM STATE
+------------------------*/
+
+let state = {
+    US: {λ:0.75,F:0.45,K:0.85},
+    EU: {λ:0.65,F:0.60,K:0.75},
+    CN: {λ:0.55,F:0.75,K:0.65}
+};
+
+function D(s){
+    return (s.λ*(1+s.K))/(s.F+0.1);
+}
+
+function globalD(){
+    return (D(state.US)+D(state.EU)+D(state.CN))/3;
+}
+
+/* -----------------------
+   SIMULATION UPDATE
+------------------------*/
+
+function update(){
+    if(!running) return;
+
+    t += 0.6;
+
+    Object.values(state).forEach(s=>{
+        s.λ += (Math.random()-0.5)*0.002;
+        s.F += (Math.random()-0.5)*0.002;
+        s.K += (Math.random()-0.5)*0.002;
+    });
+}
+
+/* -----------------------
+   POLICY OPTIMIZER
+------------------------*/
+
+function runOptimization(){
+
+    let bestScore = 999;
+
+    for(let i=0;i<2000;i++){
+
+        let test = {
+            US: {λ:Math.random(),F:Math.random(),K:Math.random()},
+            EU: {λ:Math.random(),F:Math.random(),K:Math.random()},
+            CN: {λ:Math.random(),F:Math.random(),K:Math.random()}
+        };
+
+        let score =
+            (D(test.US)+D(test.EU)+D(test.CN))/3;
+
+        if(score < bestScore){
+            bestScore = score;
+            best = JSON.parse(JSON.stringify(test));
+        }
+    }
+
+    state = best;
+}
+
+/* -----------------------
+   DRAW
+------------------------*/
+
+function drawNode(x,y,c,label,s){
+
+    let d = D(s);
+    let spread = (1-s.F)*80;
+
+    for(let i=0;i<12;i++){
+        ctx.fillStyle = c;
+        ctx.globalAlpha = 0.7;
+        ctx.beginPath();
+        ctx.arc(x+(Math.random()-0.5)*spread,
+                y+(Math.random()-0.5)*spread,
+                8,0,Math.PI*2);
+        ctx.fill();
+    }
+
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = c;
+    ctx.fillText(label, x-20, y-30);
+    ctx.fillText("D:"+d.toFixed(2), x-20, y-15);
+}
+
+function render(){
+
+    ctx.clearRect(0,0,760,520);
+
+    let avg = globalD();
+
+    drawNode(150,260,"#ff4d4d","US",state.US);
+    drawNode(380,180,"#7CFF6B","EU",state.EU);
+    drawNode(600,280,"#4da6ff","CN",state.CN);
+
+    ctx.fillStyle = "#fff";
+    ctx.fillText("Mode: " + document.getElementById("mode").value, 20, 30);
+    ctx.fillText("Global D: " + avg.toFixed(3), 20, 55);
+
+    if(best){
+        ctx.fillText("Optimized state loaded", 20, 80);
+    }
+
+    document.getElementById("info").innerHTML = `
+        US D: ${D(state.US).toFixed(2)}<br>
+        EU D: ${D(state.EU).toFixed(2)}<br>
+        CN D: ${D(state.CN).toFixed(2)}<br>
+    `;
+}
+
+/* -----------------------
+   LOOP
+------------------------*/
+
+function loop(){
+    update();
+    render();
+    requestAnimationFrame(loop);
+}
+
+loop();
+
+function toggle(){
+    running = !running;
+}
+
+</script>
+
+</body>
+</html>

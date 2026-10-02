@@ -1,0 +1,271 @@
+{
+  "matches": [
+    {
+      "year": 1882,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1882,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Conquest of Egypt",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Conquest_of_Egypt_War"
+    },
+    {
+      "year": 1882,
+      "source": "COW",
+      "type": "TERR_LOSS",
+      "label": "651",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Egypt-United_Kingdom_relations"
+    },
+    {
+      "year": 1952,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-IRQ_relations"
+    },
+    {
+      "year": 1952,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1952,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1956,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-IRQ_relations"
+    },
+    {
+      "year": 1956,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1956,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1967,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-IRQ_relations"
+    },
+    {
+      "year": 1967,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1967,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1970,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-IRQ_relations"
+    },
+    {
+      "year": 1970,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1970,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1977,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-IRQ_relations"
+    },
+    {
+      "year": 1977,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1977,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-IRQ_relations"
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "SAU",
+      "hostility": "",
+      "opponent": "SAU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Egypt-Saudi_Arabia_relations"
+    },
+    {
+      "year": 1981,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1981,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2011,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    1869,
+    2012,
+    2013,
+    2015,
+    2026
+  ],
+  "total_events": 24,
+  "code": "EG",
+  "long_code": "EGY",
+  "years_found": [
+    1869,
+    1882,
+    1952,
+    1956,
+    1967,
+    1970,
+    1977,
+    1979,
+    1981,
+    2011,
+    2012,
+    2013,
+    2015,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier2\\EG\\Egypt.md"
+}

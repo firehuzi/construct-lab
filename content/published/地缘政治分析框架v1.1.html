@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ConStruct Lab · 地缘政治分析框架 v1.1 | 交互式知识图谱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0b0e14;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Roboto', sans-serif;
+            color: #eef2ff;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+        }
+
+        .framework-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .framework-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1.5rem;
+            position: relative;
+        }
+        .framework-header h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            background: linear-gradient(135deg, #e8b44c, #c27ddb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .framework-header p {
+            color: #8d9aaf;
+            max-width: 700px;
+            margin: 0.5rem auto 0;
+        }
+        .version-badge {
+            display: inline-block;
+            background: #e8b44c20;
+            border: 1px solid #e8b44c40;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: #e8b44c;
+            margin-top: 0.75rem;
+        }
+        .version-badge span {
+            color: #c27ddb;
+        }
+
+        .layer-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .layer-card {
+            background: rgba(18, 24, 34, 0.85);
+            backdrop-filter: blur(2px);
+            border-radius: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        .layer-card:hover {
+            border-color: rgba(232, 180, 76, 0.4);
+            background: rgba(24, 30, 42, 0.95);
+        }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            user-select: none;
+            border-left: 4px solid #e8b44c;
+        }
+        .layer-header.order-layer {
+            border-left-color: #4a9eff;
+        }
+        .layer-header.order-layer .layer-title .layer-sub {
+            background: #4a9eff30;
+            color: #7abfff;
+        }
+
+        .layer-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .layer-icon {
+            font-size: 1.4rem;
+        }
+        .layer-sub {
+            font-size: 0.8rem;
+            background: #2a2f3c;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            color: #b9c7da;
+        }
+        .toggle-icon {
+            font-size: 1.3rem;
+            color: #e8b44c;
+            transition: transform 0.2s;
+        }
+        .layer-content {
+            padding: 0 1.5rem 1.2rem 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: none;
+            background: rgba(12, 16, 24, 0.5);
+        }
+        .layer-card.open .layer-content {
+            display: block;
+        }
+        .layer-card.open .toggle-icon {
+            transform: rotate(90deg);
+        }
+
+        .nodes-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1rem 0 0.5rem;
+        }
+        .node-item {
+            background: #0f131e;
+            border-radius: 2rem;
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #2a3140;
+            transition: all 0.15s;
+            cursor: help;
+        }
+        .node-item:hover {
+            background: #e8b44c20;
+            border-color: #e8b44c;
+            transform: translateY(-2px);
+        }
+        .node-item.order-node {
+            border-color: #4a9eff40;
+        }
+        .node-item.order-node:hover {
+            background: #4a9eff20;
+            border-color: #4a9eff;
+        }
+        .node-desc {
+            font-size: 0.75rem;
+            color: #9aa9bf;
+            margin-top: 0.3rem;
+            line-height: 1.4;
+            padding-left: 0.5rem;
+            border-left: 2px solid #e8b44c60;
+        }
+        .node-desc.order-desc {
+            border-left-color: #4a9eff60;
+        }
+        .dual-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .dual-col .node-item {
+            text-align: center;
+        }
+        .connector-line {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #e8b44c80;
+            margin: -0.2rem 0;
+        }
+        .order-connector {
+            color: #4a9eff80;
+        }
+        hr {
+            border-color: #2a2f3c;
+            margin: 0.5rem 0;
+        }
+
+        /* 双向传导指示 */
+        .flow-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.8rem;
+            color: #8d9aaf;
+        }
+        .flow-indicator .arrow {
+            font-size: 1.2rem;
+            color: #4a9eff;
+        }
+        .flow-indicator .arrow-reverse {
+            color: #e8b44c;
+        }
+
+        @media (max-width: 680px) {
+            .dual-col {
+                grid-template-columns: 1fr;
+            }
+            .layer-header {
+                padding: 0.8rem 1rem;
+            }
+            .layer-title {
+                font-size: 1rem;
+            }
+            .flow-indicator {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        .footnote {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.75rem;
+            color: #5b6e8c;
+            border-top: 1px solid #1e2432;
+            padding-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="framework-container">
+    <div class="framework-header">
+        <h1>⚔️ ConStruct Lab · 地缘分析框架</h1>
+        <p>从事件到长期存在 —— 行为主体如何维持自身</p>
+        <div class="version-badge">结构性诊断 · 交互式知识图谱 <span>v1.1</span></div>
+    </div>
+
+    <div class="layer-stack" id="layerStack">
+        <!-- 层0：世界事件 → 行为观察 -->
+        <div class="layer-card">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">🌍</span> 世界事件 & 行为观察层
+                    <span class="layer-sub">输入层</span>
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="nodes-grid">
+                    <div class="node-item" title="地缘政治、冲突、外交危机、经济波动等">原始事件</div>
+                    <div class="node-item" title="媒体报道、情报分析、公开表态">感知过滤</div>
+                    <div class="node-item" title="观察者立场影响叙事">框架定位</div>
+                </div>
+                <div class="node-desc">地缘博弈的起点：外部冲击或内部变动被行为体“感知”，触发后续分析链。</div>
+            </div>
+        </div>
+
+        <!-- 层1：行为主体 -->
+        <div class="layer-card">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">🎭</span> 行为主体 (Actor)
+                    <span class="layer-sub">分析单元</span>
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="nodes-grid">
+                    <div class="node-item">国家</div><div class="node-item">政党/运动</div><div class="node-item">领导人/派系</div>
+                    <div class="node-item">国际组织</div><div class="node-item">非国家武装</div>
+                </div>
+                <div class="node-desc">核心追问：谁在行动？它的“持续存在”靠什么支撑？</div>
+            </div>
+        </div>
+
+        <!-- 层2：连续性类型 -->
+        <div class="layer-card">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">⚖️</span> 连续性类型
+                    <span class="layer-sub">核心恐惧分野</span>
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="dual-col">
+                    <div>
+                        <div class="node-item">主体连续性 (Identity)</div>
+                        <div class="node-desc">恐惧：身份消失 / 不被承认。<br>典型案例：美国、MAGA、以色列、特朗普</div>
+                    </div>
+                    <div>
+                        <div class="node-item">秩序连续性 (Order)</div>
+                        <div class="node-desc">恐惧：失序 / 内乱 / 制度崩坏。<br>典型案例：中国、日本(内部)、新加坡</div>
+                    </div>
+                </div>
+                <div class="node-item" style="background:#1a2a2f;">混合连续性 (Hybrid)</div>
+                <div class="node-desc">日本外部=摆荡式(主体型) + 内部=家族/秩序型；对外渴望认同，对内严防失序。</div>
+            </div>
+        </div>
+
+        <!-- 层3：存在方式 -->
+        <div class="layer-card">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">🌀</span> 存在方式 (Existence)
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="nodes-grid">
+                    <div class="node-item">主权独立</div><div class="node-item">文化-文明延续</div>
+                    <div class="node-item">制度韧性</div><div class="node-item">象征权力</div>
+                </div>
+                <div class="node-desc">“我们赖以存在的形式”——不仅是物理生存，更是意义和合法性的延续。</div>
+            </div>
+        </div>
+
+        <!-- 层4：建构来源层 -->
+        <div class="layer-card">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">🏛️</span> 建构来源层
+                    <span class="layer-sub">基底原材料</span>
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="nodes-grid">
+                    <div class="node-item">历史叙事</div>
+                    <div class="node-item">创伤锚点</div>
+                    <div class="node-item">建国神话</div>
+                    <div class="node-item">制度遗产</div>
+                </div>
+                <div class="node-desc">文化层 + 组织结构 → 以上要素沉淀为行为体的“身份基因”与“秩序记忆”。</div>
+                <hr>
+                <div class="nodes-grid">
+                    <div class="node-item">文化传统</div>
+                    <div class="node-item">集体记忆</div>
+                    <div class="node-item">社会组织方式</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 层5：维持机制层 -->
+        <div class="layer-card">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">🔧</span> 维持机制层
+                    <span class="layer-sub">内部稳态</span>
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="nodes-grid">
+                    <div class="node-item">合法性 (绩效/程序/传统)</div>
+                    <div class="node-item">忠诚 (政党/家族/意识形态)</div>
+                    <div class="node-item">仪式 (集会/庆典/教育)</div>
+                    <div class="node-item">叙事 (历史故事/危机动员)</div>
+                </div>
+                <div class="node-desc">⬇️ 内部秩序维持系统：制度惯性、官僚体系、社会契约、经济红利。</div>
+            </div>
+        </div>
+
+        <!-- ═══ v1.1 新增：秩序价值层 ═══ -->
+        <div class="layer-card">
+            <div class="layer-header order-layer" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">📊</span> 秩序价值层 <span style="font-size:0.7rem;color:#4a9eff;font-weight:400;">v1.1 新增</span>
+                    <span class="layer-sub">存续质量 · 双维度诊断</span>
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="dual-col">
+                    <div>
+                        <div class="node-item order-node" style="background:#4a9eff10;border-color:#4a9eff40;">🏛️ 内部秩序价值</div>
+                        <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+                            <div class="node-item order-node" style="font-size:0.8rem;">基础秩序</div>
+                            <div class="node-desc order-desc" style="margin-top:0;">主权/安全/公共品供给 · 物理生存底线</div>
+                            <div class="node-item order-node" style="font-size:0.8rem;">分配秩序</div>
+                            <div class="node-desc order-desc" style="margin-top:0;">贫富差距/阶层流动/兜底能力 · 社会稳定压舱石</div>
+                            <div class="node-item order-node" style="font-size:0.8rem;">共识秩序</div>
+                            <div class="node-desc order-desc" style="margin-top:0;">身份认同/合法性/包容度 · 文明存续内核</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="node-item order-node" style="background:#4a9eff10;border-color:#4a9eff40;">🌐 全球秩序价值</div>
+                        <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+                            <div class="node-item order-node" style="font-size:0.8rem;">主体秩序角色</div>
+                            <div class="node-desc order-desc" style="margin-top:0;">塑造者 / 依附者 / 挑战者 / 游离者</div>
+                            <div class="node-item order-node" style="font-size:0.8rem;">秩序贡献/损耗</div>
+                            <div class="node-desc order-desc" style="margin-top:0;">对全球稳定的正向/负向作用</div>
+                            <div class="node-item order-node" style="font-size:0.8rem;">全球正当性</div>
+                            <div class="node-desc order-desc" style="margin-top:0;">在国际体系中的规则认同度</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 双向传导 -->
+                <hr>
+                <div style="font-size:0.75rem;color:#8d9aaf;text-align:center;padding:0.2rem 0;">⟐ 双向传导机制 ⟐</div>
+                <div class="flow-indicator">
+                    <span style="color:#e8b44c;">内部秩序质量</span>
+                    <span class="arrow">➜</span>
+                    <span style="color:#4a9eff;">全球秩序角色</span>
+                    <span class="arrow arrow-reverse">⇠</span>
+                    <span style="color:#4a9eff;">全球秩序压力</span>
+                    <span class="arrow">➜</span>
+                    <span style="color:#e8b44c;">内部秩序重塑</span>
+                </div>
+                <div class="node-desc order-desc" style="text-align:center;border-left:none;padding-left:0;font-size:0.7rem;">
+                    内部秩序健康度决定全球博弈能力，全球秩序压力反过来重塑内部秩序选择
+                </div>
+                <hr>
+                <div style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin-top:0.3rem;">
+                    <div class="node-item" style="background:#1a2a2f;border-color:#4a9eff30;">R16 内部秩序脆弱性约束</div>
+                    <div class="node-item" style="background:#1a2a2f;border-color:#4a9eff30;">R17 全球角色合法性约束</div>
+                    <div class="node-item" style="background:#1a2a2f;border-color:#4a9eff30;">R18 双重崩溃风险</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 层7：他者系统层 -->
+        <div class="layer-card">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">👁️</span> 他者系统层
+                    <span class="layer-sub">欲望拓扑</span>
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="dual-col">
+                    <div>
+                        <div class="node-item">✨ 理想他者</div>
+                        <div class="node-desc">“我想成为你那样”——模板参照（塞尔维亚→欧盟）</div>
+                        <div class="node-item">👀 观众他者</div>
+                        <div class="node-desc">“谁在看我？”——表演对象，新加坡冻结局的核心参照</div>
+                    </div>
+                    <div>
+                        <div class="node-item">⚔️ 敌人他者</div>
+                        <div class="node-desc">“我反对谁”——通过对抗确认身份（特朗普、以色列）</div>
+                        <div class="node-item">🪞 镜像他者</div>
+                        <div class="node-desc">“我像谁？/我不是你”——互锁式否定（塞尔维亚⇄科索沃）</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 层8：创伤系统层 + 核心恐惧 -->
+        <div class="layer-card">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">💔</span> 创伤系统层 → 核心恐惧
+                    <span class="layer-sub">底层驱力</span>
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="nodes-grid">
+                    <div class="node-item">战争创伤</div><div class="node-item">分裂/割让</div>
+                    <div class="node-item">秩序崩溃(失序)</div><div class="node-item">惨败/耻辱</div>
+                </div>
+                <div class="node-desc">↓ 内化为核心恐惧 ↓</div>
+                <div class="dual-col">
+                    <div><div class="node-item">身份消失</div><div class="node-desc">不被承认、被同化、历史虚无</div></div>
+                    <div><div class="node-item">失序恐慌</div><div class="node-desc">内战、制度瓦解、社会撕裂</div></div>
+                    <div><div class="node-item">边缘化</div><div class="node-desc">被国际体系抛弃、沦为棋子</div></div>
+                    <div><div class="node-item">灭绝威胁</div><div class="node-desc">物理消灭、文明断层</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 层9：战略选择 & 行动输出 -->
+        <div class="layer-card">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">🎯</span> 战略选择 → 行动输出
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="nodes-grid">
+                    <div class="node-item">外交结盟/对冲</div>
+                    <div class="node-item">军事威慑/收缩</div>
+                    <div class="node-item">经济制裁/依赖</div>
+                    <div class="node-item">文化输出/防御</div>
+                </div>
+                <div class="node-desc">具体政策、谈判、战争、援助等，最终表现为可观测的国际行为。</div>
+            </div>
+        </div>
+
+        <!-- 层10：生物类比层 -->
+        <div class="layer-card">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">🧬</span> 生物类比层 · 终极动机
+                    <span class="layer-sub">持久生存</span>
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="dual-col">
+                    <div>
+                        <div class="node-item">🌿 适应环境</div>
+                        <div class="node-desc">改革、制度创新、对外合作——改变自身以适应外部压力</div>
+                    </div>
+                    <div>
+                        <div class="node-item">🛡️ 维持自我</div>
+                        <div class="node-desc">保守内聚、秩序冻结、身份强化——防止内部变质</div>
+                    </div>
+                </div>
+                <div class="node-desc">🎯 核心逻辑：一切行为均服务于“长期存在”，区别在于策略倾向。</div>
+                <div class="nodes-grid" style="margin-top:0.5rem;">
+                    <div class="node-item">扩张型</div><div class="node-item">保守型</div>
+                    <div class="node-item">创新型</div><div class="node-item">意识形态型</div>
+                    <div class="node-item">平衡型</div><div class="node-item">共生型</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 层11：长期存在 -->
+        <div class="layer-card" style="border-left-color: #c27ddb;">
+            <div class="layer-header" onclick="toggleLayer(this)">
+                <div class="layer-title">
+                    <span class="layer-icon">♾️</span> 长期存在 · 穿越周期
+                </div>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="layer-content">
+                <div class="node-desc" style="font-size:0.9rem;color:#ddddff;">
+                    一个国家或政治共同体在历史长河中延续自身主体性/秩序性的最终指向。框架不预测短期胜负，而诊断“哪一种存在方式在给定约束下是可能的、哪一种是不可逆的”。
+                </div>
+                <div class="nodes-grid">
+                    <div class="node-item">✅ 可延续路径</div>
+                    <div class="node-item">⚠️ 僵化/裂痕</div>
+                    <div class="node-item">❌ 逻辑不可能</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footnote">
+        ConStruct Lab · v1.1 结构性诊断框架 | 基于行动学 + 欲望拓扑 + 约束验证 + 秩序价值层 | 点击任意层展开
+    </div>
+</div>
+
+<script>
+    function toggleLayer(headerElement) {
+        const card = headerElement.closest('.layer-card');
+        if (card) {
+            card.classList.toggle('open');
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.layer-card');
+        // 默认展开：连续性类型、维持机制层、秩序价值层、他者系统、核心恐惧
+        const defaultOpenIndices = [2, 5, 6, 7, 8];
+        defaultOpenIndices.forEach(idx => {
+            if (cards[idx]) cards[idx].classList.add('open');
+        });
+        // 生物类比层默认打开
+        const bioCard = Array.from(cards).find(c => c.innerText.includes('生物类比层'));
+        if(bioCard) bioCard.classList.add('open');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,347 @@
+{
+  "matches": [
+    {
+      "year": 1885,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1885,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1894,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1894,
+      "source": "COW",
+      "type": "WAR",
+      "label": "First Sino-Japanese",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/First_Sino-Japanese_War"
+    },
+    {
+      "year": 1905,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Japan-United_Kingdom_relations"
+    },
+    {
+      "year": 1905,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1905,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Russo-Japanese",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Russo-Japanese_War"
+    },
+    {
+      "year": 1910,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Japan-United_Kingdom_relations"
+    },
+    {
+      "year": 1910,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "USA",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Japan-United_States_relations"
+    },
+    {
+      "year": 1910,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Japan-Russia_relations"
+    },
+    {
+      "year": 1912,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Japan-United_Kingdom_relations"
+    },
+    {
+      "year": 1912,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Japan-Russia_relations"
+    },
+    {
+      "year": 1937,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "DEU",
+      "hostility": "",
+      "opponent": "DEU",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Japan-Germany_relations"
+    },
+    {
+      "year": 1937,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1937,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1940,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1940,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Third Sino-Japanese",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Third_Sino-Japanese_War"
+    },
+    {
+      "year": 1940,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "WAR",
+      "label": "World War II",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/World_War_II_War"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Japan-Russia_relations"
+    },
+    {
+      "year": 1947,
+      "source": "COW",
+      "type": "TERR_LOSS",
+      "label": "980",
+      "hostility": "",
+      "opponent": "USA",
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Japan-United_States_relations"
+    },
+    {
+      "year": 1991,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "threat to use force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1993,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1993,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2012,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2012,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2012,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    1853,
+    1868,
+    1946,
+    1990,
+    2023,
+    2026
+  ],
+  "total_events": 31,
+  "code": "JP",
+  "long_code": "JPN",
+  "years_found": [
+    1853,
+    1868,
+    1885,
+    1894,
+    1905,
+    1910,
+    1912,
+    1937,
+    1940,
+    1945,
+    1946,
+    1947,
+    1990,
+    1991,
+    1993,
+    1999,
+    2012,
+    2023,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier1\\JP\\JP.md"
+}

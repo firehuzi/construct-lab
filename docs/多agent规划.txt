@@ -1,0 +1,626 @@
+多agent规划
+
+这是我认为的当前项目阶段的版本。
+
+不是「聊天机器人多Agent」。
+
+不是「自动写文章多Agent」。
+
+而是：
+
+> **SRI（System Risk Institute）—— 世界模型工厂 V1**
+
+核心目标：
+
+```text
+持续构建、维护、更新世界模型
+
+而不是回答问题
+```
+
+---
+
+# SRI（System Risk Institute）世界模型工厂 V1
+
+## 一、设计原则
+
+传统AI：
+
+问题 → AI → 答案
+
+SRI：
+
+数据 → 主体 → 关系 → 路线 → 产品
+
+AI只是生产工具。
+
+真正的资产是：
+
+* 主体库（Entity Library）
+* 关系库（Relationship Library）
+* 路线库（Route Library）
+* 世界模型（World Model）
+
+---
+
+# 二、总体架构
+
+Data Layer
+↓
+Entity Layer
+↓
+Relationship Layer
+↓
+Route Layer
+↓
+Output Layer
+
+---
+
+Agents：
+
+Fact Agent
+Entity Agent
+Relationship Agent
+Route Agent
+Narrative Agent
+Critic Agent
+Audit Agent
+
+---
+
+Storage：
+
+Data Store
+Entity Store
+Graph Store
+Route Store
+Output Store
+
+---
+
+# 三、知识生产链
+
+## 第一层：Data Layer（原料层）
+
+目标：
+
+记录客观事实。
+
+内容：
+
+* 新闻
+* 财报
+* 统计数据
+* GDP
+* 人口
+* 能源
+* 专利
+* 论文
+* 政策
+* 战争
+* 危机
+* 技术突破
+
+原则：
+
+不解释。
+不推理。
+不预测。
+
+只记录：
+
+发生了什么。
+
+输出：
+
+Event Object
+
+Data Object
+
+---
+
+## 第二层：Entity Layer（主体层）
+
+目标：
+
+把数据加工成标准主体。
+
+主体类型：
+
+国家
+企业
+组织
+技术
+资源
+人物
+事件
+
+例如：
+
+India
+
+DNA: D2
+
+ICC: Medium
+
+Strength:
+
+* Population
+
+Weakness:
+
+* Infrastructure
+
+Dependencies:
+
+* Energy
+
+输出：
+
+Entity Profile
+
+---
+
+## 第三层：Relationship Layer（关系层）
+
+目标：
+
+建立主体之间的连接。
+
+关系类型：
+
+Supply
+Dependency
+Competition
+Alliance
+Conflict
+Capital
+Technology
+Narrative
+
+示例：
+
+China
+→ Rare Earth
+→ USA
+
+USA
+→ AI Chips
+→ China
+
+Russia
+→ Energy
+→ Europe
+
+输出：
+
+Knowledge Graph
+
+---
+
+## 第四层：Route Layer（路线层）
+
+目标：
+
+构建动态因果链。
+
+这是系统核心资产。
+
+路线定义：
+
+Route = 多个关系组成的演化路径
+
+示例：
+
+消费收缩路线
+
+消费下降
+↓
+企业利润下降
+↓
+投资下降
+↓
+就业下降
+↓
+消费继续下降
+
+---
+
+AI替代路线
+
+AI普及
+↓
+岗位替代
+↓
+收入下降
+↓
+消费下降
+↓
+社会压力上升
+
+---
+
+制造业迁移路线
+
+成本上升
+↓
+资本转移
+↓
+产业迁移
+↓
+就业变化
+↓
+贸易重构
+
+路线需要包含：
+
+Trigger
+
+Drivers
+
+Dependencies
+
+Feedback Loops
+
+End States
+
+---
+
+## 第五层：Output Layer（产品层）
+
+同一路线可以生成不同产品。
+
+产品类型：
+
+文章
+
+研究报告
+
+图谱
+
+播客脚本
+
+视频脚本
+
+演示文稿
+
+知识卡片
+
+最终产品不是资产。
+
+路线才是资产。
+
+---
+
+# 四、Agent体系
+
+## 1 Fact Agent
+
+职责：
+
+收集事实。
+
+输入：
+
+新闻
+数据
+报告
+
+输出：
+
+结构化事件
+
+禁止：
+
+解释
+预测
+
+---
+
+## 2 Entity Agent
+
+职责：
+
+维护主体档案。
+
+输入：
+
+事实
+
+输出：
+
+主体状态更新
+
+例如：
+
+India
+Manufacturing Score
+
+Medium → High
+
+---
+
+## 3 Relationship Agent
+
+职责：
+
+更新关系网络。
+
+输出：
+
+Graph Edge
+
+例如：
+
+China
+→ Battery Supply
+→ Europe
+
+---
+
+## 4 Route Agent
+
+职责：
+
+识别路线。
+
+例如：
+
+发现：
+
+AI
+就业
+消费
+
+形成：
+
+AI替代路线
+
+输出：
+
+Route Object
+
+---
+
+## 5 Narrative Agent
+
+职责：
+
+分析叙事。
+
+比较：
+
+现实世界
+
+VS
+
+宣传叙事
+
+例如：
+
+印度崛起
+
+美国例外论
+
+中国制造升级
+
+输出：
+
+Narrative Gap
+
+---
+
+## 6 Critic Agent
+
+职责：
+
+专门反驳系统结论。
+
+寻找：
+
+反例
+
+遗漏变量
+
+幸存者偏差
+
+因果倒置
+
+输出：
+
+Challenge Report
+
+---
+
+## 7 Audit Agent
+
+职责：
+
+最终质检。
+
+检查：
+
+证据是否充分
+
+逻辑是否跳跃
+
+是否存在循环论证
+
+是否过度推断
+
+输出：
+
+Confidence Score
+
+---
+
+# 五、数据库结构
+
+knowledge_factory/
+
+data/
+
+entities/
+
+relationships/
+
+routes/
+
+outputs/
+
+agents/
+
+ontology/
+
+versions/
+
+---
+
+entities/
+
+countries/
+
+companies/
+
+technologies/
+
+organizations/
+
+resources/
+
+events/
+
+---
+
+relationships/
+
+supply/
+
+dependency/
+
+competition/
+
+alliance/
+
+conflict/
+
+capital/
+
+technology/
+
+narrative/
+
+---
+
+routes/
+
+economic/
+
+geopolitical/
+
+technology/
+
+social/
+
+civilization/
+
+---
+
+# 六、版本管理
+
+世界模型必须可追溯。
+
+例如：
+
+Version 1.0
+
+Version 1.1
+
+Version 1.2
+
+记录：
+
+修改内容
+
+修改原因
+
+证据来源
+
+影响范围
+
+这样系统会越来越强。
+
+而不是聊天记录越来越长。
+
+---
+
+# 七、未来升级路线
+
+V1
+
+主体库
+
+关系库
+
+路线库
+
+Agent协作
+
+---
+
+V2
+
+自动更新主体状态
+
+自动识别关系变化
+
+自动发现新路线
+
+---
+
+V3
+
+路线碰撞分析
+
+路线融合分析
+
+风险传导分析
+
+---
+
+V4
+
+世界模拟器
+
+输入：
+
+某个事件
+
+输出：
+
+未来10年可能路径
+
+---
+
+V5
+
+文明级系统地图
+
+主体层
+
+关系层
+
+路线层
+
+叙事层
+
+时间层
+
+形成持续演化的世界模型。
+
+这个方案里，我认为最重要的认知升级只有一句话：
+
+> **主体不是核心资产，关系也不是核心资产，真正的核心资产是“路线（Route）”。**
+
+因为主体会变，关系会变，但你研究的“债务螺旋路线、技术扩散路线、消费收缩路线、帝国衰退路线、AI替代路线”等系统演化模式会不断复用。未来你的文章、报告、图谱、视频，实际上都只是从路线库中生成的不同表现形式。

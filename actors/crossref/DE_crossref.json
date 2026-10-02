@@ -1,0 +1,372 @@
+{
+  "matches": [
+    {
+      "year": 1848,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-Russia_relations"
+    },
+    {
+      "year": 1848,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-Russia_relations"
+    },
+    {
+      "year": 1848,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "RUS",
+      "hostility": "",
+      "opponent": "RUS",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-Russia_relations"
+    },
+    {
+      "year": 1867,
+      "source": "COW",
+      "type": "TERR_GAIN",
+      "label": "257",
+      "hostility": "",
+      "opponent": null,
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Germany-257_relations"
+    },
+    {
+      "year": 1867,
+      "source": "COW",
+      "type": "TERR_GAIN",
+      "label": "246",
+      "hostility": "",
+      "opponent": null,
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Germany-246_relations"
+    },
+    {
+      "year": 1867,
+      "source": "COW",
+      "type": "TERR_GAIN",
+      "label": "270",
+      "hostility": "",
+      "opponent": null,
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Germany-270_relations"
+    },
+    {
+      "year": 1871,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1871,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Franco-Prussian",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Franco-Prussian_War"
+    },
+    {
+      "year": 1871,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-United_Kingdom_relations"
+    },
+    {
+      "year": 1914,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "ITA",
+      "hostility": "",
+      "opponent": "ITA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-ITA_relations"
+    },
+    {
+      "year": 1914,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "ITA",
+      "hostility": "",
+      "opponent": "ITA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-ITA_relations"
+    },
+    {
+      "year": 1914,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1918,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1918,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1918,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1933,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-United_Kingdom_relations"
+    },
+    {
+      "year": 1933,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "FRA",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-France_relations"
+    },
+    {
+      "year": 1933,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "ITA",
+      "hostility": "",
+      "opponent": "ITA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-ITA_relations"
+    },
+    {
+      "year": 1939,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1939,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "JPN",
+      "hostility": "",
+      "opponent": "JPN",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-Japan_relations"
+    },
+    {
+      "year": 1939,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "ITA",
+      "hostility": "",
+      "opponent": "ITA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-ITA_relations"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "WAR",
+      "label": "World War II",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/World_War_II_War"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "TUR",
+      "hostility": "",
+      "opponent": "TUR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Germany-Turkey_relations"
+    },
+    {
+      "year": 1949,
+      "source": "COW",
+      "type": "TERR_LOSS",
+      "label": "255",
+      "hostility": "",
+      "opponent": null,
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Germany-255_relations"
+    },
+    {
+      "year": 1949,
+      "source": "COW",
+      "type": "TERR_LOSS",
+      "label": "255",
+      "hostility": "",
+      "opponent": null,
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Germany-255_relations"
+    },
+    {
+      "year": 1949,
+      "source": "COW",
+      "type": "TERR_LOSS",
+      "label": "255",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Germany-France_relations"
+    },
+    {
+      "year": 1990,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1990,
+      "source": "COW",
+      "type": "TERR_GAIN",
+      "label": "265",
+      "hostility": "",
+      "opponent": null,
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/Germany-265_relations"
+    },
+    {
+      "year": 1992,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1999,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    1806,
+    1815,
+    1963,
+    1970,
+    1989,
+    2015,
+    2021,
+    2022,
+    2026
+  ],
+  "total_events": 33,
+  "code": "DE",
+  "long_code": "DEU",
+  "years_found": [
+    1806,
+    1815,
+    1848,
+    1867,
+    1871,
+    1914,
+    1918,
+    1933,
+    1939,
+    1945,
+    1949,
+    1963,
+    1970,
+    1989,
+    1990,
+    1992,
+    1999,
+    2015,
+    2021,
+    2022,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier2\\DE\\DE_v1a_subjects.md"
+}

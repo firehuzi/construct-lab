@@ -1,0 +1,459 @@
+补充 50部（51 → 100）
+🇺🇸 美国电影（补充）
+51. Apocalypse Now
+
+themes: 战争 / 疯狂 / 权力
+conflicts: 理性 vs 混乱
+spaces: 河流 / 战场 / 丛林
+motifs: 火 / 河流 / 直升机
+characters: Kurtz / Willard
+theoryFit: foucault 4 / deleuze 4
+
+52. No Country for Old Men
+
+themes: 命运 / 暴力 / 虚无
+conflicts: 人 vs 无意义暴力
+spaces: 沙漠 / 汽车旅馆
+motifs: 硬币 / 枪
+characters: Chigurh / Llewelyn
+theoryFit: lacan 4 / zizek 4
+
+53. The Revenant
+
+themes: 生存 / 创伤 / 自然
+conflicts: 人 vs 自然
+spaces: 雪原 / 森林
+motifs: 熊 / 火 / 血
+characters: Glass
+theoryFit: deleuze 4 / marx 3
+
+54. Whiplash
+
+themes: 纪律 / 天赋 / 压迫
+conflicts: 学生 vs 权威
+spaces: 音乐教室 / 舞台
+motifs: 鼓 / 汗 / 血
+characters: Andrew / Fletcher
+theoryFit: foucault 5 / lacan 3
+
+55. Hereditary
+
+themes: 家庭 / 创伤 / 命运
+conflicts: 家庭结构崩塌
+spaces: 房屋 / 密闭空间
+motifs: 玩具 / 尘 / 剪影
+characters: Annie / Peter
+theoryFit: lacan 5 / freud 5
+
+🇪🇺 欧洲补充
+56. Stalker（苏联）
+
+themes: 欲望 / 信仰 / 空间
+conflicts: 人 vs 区域
+spaces: Zone / 工业废墟
+motifs: 水 / 铁轨
+characters: Stalker / Writer
+theoryFit: deleuze 5 / benjamin 4
+
+57. Mirror（塔可夫斯基）
+
+themes: 记忆 / 时间 / 自我
+conflicts: 现实 vs 回忆
+spaces: 房屋 / 草地
+motifs: 风 / 水 / 火
+characters: 母亲 / 儿童
+theoryFit: lacan 4 / benjamin 5
+
+58. Persona（伯格曼）
+
+themes: 身份 / 沉默 / 分裂
+conflicts: 自我 vs 他者
+spaces: 医院 / 海边
+motifs: 面具 / 静默
+characters: 女演员 / 护士
+theoryFit: lacan 5 / barthes 4
+
+59. Seventh Continent（奥地利）
+
+themes: 家庭 / 虚无 / 逃离
+conflicts: 社会失败
+spaces: 房屋 / 工业空间
+motifs: 食物 / 毁灭
+characters: 家庭
+theoryFit: marx 4 / foucault 4
+
+60. Jeanne Dielman（比利时）
+
+themes: 日常 / 压抑 / 劳动
+conflicts: 重复 vs 崩溃
+spaces: 厨房 / 公寓
+motifs: 家务 / 水
+characters: Jeanne
+theoryFit: foucault 5 / marx 4
+
+🇯🇵 日本补充
+61. Seven Samurai
+
+themes: 战争 / 集体 / 生存
+conflicts: 农民 vs 武士
+spaces: 村庄 / 战场
+motifs: 雨 / 剑
+characters: 武士群像
+theoryFit: foucault 4 / marx 4
+
+62. Cure（黑泽清）
+
+themes: 记忆 / 催眠 / 暴力
+conflicts: 理性 vs 无意识
+spaces: 城市 / 室内
+motifs: 刀 / 问号
+characters: 警察 / 神秘者
+theoryFit: freud 5 / lacan 4
+
+63. Audition
+
+themes: 欲望 / 权力 / 惩罚
+conflicts: 爱 vs 控制
+spaces: 公寓 / 室内
+motifs: 袋子 / 针
+characters: Aoyama / Asami
+theoryFit: zizek 4 / lacan 5
+
+64. Nobody Knows
+
+themes: 家庭 / 遗弃 / 生存
+conflicts: 儿童 vs 社会
+spaces: 公寓
+motifs: 食物 / 沉默
+characters: 儿童群体
+theoryFit: marx 4 / foucault 4
+
+65. Drive（是枝裕和风补充已做）
+🇰🇷 韩国补充
+66. The Handmaiden
+
+themes: 欲望 / 欺骗 / 权力
+conflicts: 阶级 vs 情感
+spaces: 庄园 / 房间
+motifs: 书 / 手 / 监视
+characters: Sook-hee / Lady
+theoryFit: foucault 5 / lacan 5
+
+67. Mother（奉俊昊）
+
+themes: 家庭 / 犯罪 / 保护
+conflicts: 母性 vs 真相
+spaces: 城市 / 农村
+motifs: 针 / 跳舞
+characters: 母亲
+theoryFit: freud 5 / lacan 4
+
+68. I Saw the Devil
+
+themes: 复仇 / 暴力 / 极限
+conflicts: 正义 vs 野蛮
+spaces: 夜晚城市
+motifs: 刀 / 雨
+characters: 侦探 / 杀手
+theoryFit: zizek 4 / foucault 4
+
+69. Burning（已做）
+70. The Wailing
+
+themes: 恐惧 / 信仰 / 不确定性
+conflicts: 理性 vs 超自然
+spaces: 村庄 / 森林
+motifs: 病 / 雨
+characters: 警察
+theoryFit: freud 5 / lacan 4
+
+🇨🇳 中国补充
+71. Farewell My Concubine
+
+themes: 身份 / 历史 / 欲望
+conflicts: 艺术 vs 政治
+spaces: 戏台 / 城市
+motifs: 戏服 / 镜子
+characters: 程蝶衣
+theoryFit: barthes 4 / foucault 4
+
+72. Platform（贾樟柯）
+
+themes: 变迁 / 青年 / 时间
+conflicts: 集体 vs 历史
+spaces: 小镇 / 舞台
+motifs: 音乐 / 灯光
+characters: 青年群体
+theoryFit: benjamin 5 / marx 4
+
+73. Still Life
+
+themes: 消失 / 城市 / 重建
+conflicts: 人 vs 历史
+spaces: 三峡 / 废墟
+motifs: 水 / 爆破
+characters: 普通人
+theoryFit: marx 5 / benjamin 4
+
+74. Ash Is Purest White
+
+themes: 爱 / 暴力 / 时间
+conflicts: 情感 vs 社会变迁
+spaces: 城市 / 河流
+motifs: 火 / 舞
+characters: Qiao
+theoryFit: lacan 4 / marx 4
+
+75. The Eight Hundred
+
+themes: 战争 / 集体 / 记忆
+conflicts: 生存 vs 国家
+spaces: 战场 / 河
+motifs: 旗帜 / 血
+characters: 士兵
+theoryFit: foucault 4 / marx 5
+
+🌍 世界电影补充（拉美 / 中东 / 其他）
+76. El Laberinto del Fauno（补重复英文已在50）
+77. The Secret in Their Eyes（阿根廷）
+
+themes: 记忆 / 正义 / 时间
+conflicts: 真相 vs 历史
+spaces: 法庭 / 城市
+motifs: 眼睛 / 档案
+characters: 检察官
+theoryFit: foucault 4 / benjamin 4
+
+78. City of God（已做）
+79. Y Tu Mamá También（墨西哥）
+
+themes: 欲望 / 青春 / 阶级
+conflicts: 成长 vs 现实
+spaces: 公路 / 海边
+motifs: 路 / 身体
+characters: 少年
+theoryFit: lacan 4 / deleuze 4
+
+80. The Motorcycle Diaries
+
+themes: 觉醒 / 阶级 / 流动
+conflicts: 个体 vs 社会
+spaces: 南美公路
+motifs: 摩托 / 路
+characters: 切·格瓦拉
+theoryFit: marx 5 / benjamin 4
+
+🌍 其他电影（收尾补齐）
+81. Dogville
+
+themes: 社会 / 权力 / 暴力
+conflicts: 个体 vs 社群
+spaces: 舞台空间
+motifs: 绳索 / 标记
+characters: Grace
+theoryFit: foucault 5 / zizek 4
+
+82. The Truman Show
+
+themes: 真实 / 控制 / 媒介
+conflicts: 自由 vs 监控
+spaces: 虚拟城市
+motifs: 摄像头 / 天空
+characters: Truman
+theoryFit: foucault 5 / zizek 5
+
+83. Snowpiercer
+
+themes: 阶级 / 生存 / 系统
+conflicts: 封闭阶级结构
+spaces: 列车
+motifs: 车厢 / 冰
+characters: Curtis
+theoryFit: marx 5 / foucault 4
+
+84. Moonlight
+
+themes: 身份 / 性别 / 成长
+conflicts: 自我认同
+spaces: 城市 / 海边
+motifs: 水 / 光
+characters: Chiron
+theoryFit: lacan 5 / barthes 4
+
+88. Joker（修正版｜结构增强版）
+themes（主题）
+
+权力结构 / 异化 / 精神崩溃 / 城市暴力 / 社会冷漠
+
+conflicts（冲突）
+
+个体心理崩溃 vs 社会结构压迫
+可见秩序 vs 隐形暴力
+“正常性”定义 vs 边缘主体
+
+spaces（空间）
+
+破败公寓
+阶梯城市（上层 vs 下层）
+电视演播室
+地铁系统（群体爆发空间）
+
+motifs（意象）
+
+笑声（失控的身体语言）
+楼梯（上升/坠落的结构符号）
+电视屏幕（意识形态放大器）
+化妆 / 面具（主体伪装）
+
+characters（人物）
+
+Arthur Fleck（分裂主体）
+母亲（虚假叙事源头）
+Thomas Wayne（权力象征）
+电视主持人（意识形态媒介）
+
+theoryFit（理论适配权重）
+Foucault      5（规训 / 精神病体系 / 权力微观结构）
+Žižek         5（意识形态笑点 / 暴力内爆）
+Lacan         4（镜像阶段 / 主体崩解）
+Marx          4（阶级结构 / 城市贫困）
+Deleuze       3（失控流动 / 欲望机器）
+
+🇺🇸 / 🎬 类型片补充
+86. Black Swan
+
+themes: 身体 / 分裂 / 完美
+conflicts: 自我 vs 自我
+spaces: 舞台 / 镜子空间
+motifs: 羽毛 / 镜像 / 指甲
+characters: Nina
+theoryFit: freud 5 / lacan 5 / zizek 4
+
+87. The Shining
+
+themes: 疯狂 / 家庭 / 孤立
+conflicts: 理性 vs 崩溃
+spaces: 酒店 / 雪山
+motifs: 电梯血 / 双胞胎 / 打字机
+characters: Jack
+theoryFit: freud 5 / foucault 4
+
+88. Get Out
+
+themes: 种族 / 身体 / 控制
+conflicts: 身体占有 / 意识剥夺
+spaces: 郊区住宅
+motifs: 茶杯 / 摄影 / 催眠
+characters: Chris
+theoryFit: foucault 5 / zizek 4
+
+89. A Clockwork Orange
+
+themes: 暴力 / 自由 / 规训
+conflicts: 自由意志 vs 国家控制
+spaces: 城市 / 监狱
+motifs: 眼罩 / 贝多芬
+characters: Alex
+theoryFit: foucault 5 / deleuze 4
+
+🇪🇺 欧洲补充（结构电影/哲学电影）
+90. 8½（费里尼）
+
+themes: 创作 / 自我 / 混乱
+conflicts: 想象 vs 现实
+spaces: 梦境 / 片场
+motifs: 圈 / 水 / 女人
+characters: 导演
+theoryFit: lacan 5 / barthes 4
+
+91. Wings of Desire（德国）
+
+themes: 观察 / 存在 / 爱
+conflicts: 天使 vs 人类
+spaces: 柏林 / 图书馆
+motifs: 黑白 / 彩色 / 飞行
+characters: 天使 Damiel
+theoryFit: benjamin 5 / deleuze 4
+
+92. The Sacrifice（塔可夫斯基）
+
+themes: 信仰 / 牺牲 / 世界终结
+conflicts: 理性 vs 信仰
+spaces: 海边房屋
+motifs: 火 / 水 / 房子
+characters: Alexander
+theoryFit: benjamin 5 / lacan 3
+
+93. Funny Games（奥地利）
+
+themes: 暴力 / 媒介 / 观众
+conflicts: 现实 vs 观看
+spaces: 房屋 / 封闭空间
+motifs: 遥控器 / 游戏
+characters: 施暴者
+theoryFit: zizek 5 / foucault 4
+
+🇯🇵 / 🇰🇷 / 亚洲补齐
+94. Perfect Blue
+
+themes: 身份 / 媒体 / 分裂
+conflicts: 真实 vs 虚拟身份
+spaces: 公寓 / 舞台
+motifs: 镜子 / 摄像 / 雨
+characters: Mima
+theoryFit: lacan 5 / foucault 4
+
+95. Akira
+
+themes: 权力 / 身体 / 失控
+conflicts: 技术 vs 身体变异
+spaces: 新东京
+motifs: 爆炸 / 能量 / 血
+characters: Kaneda / Tetsuo
+theoryFit: deleuze 5 / foucault 4
+
+96. Memories of Matsuko（日本）
+
+themes: 爱 / 堕落 / 记忆
+conflicts: 期待 vs 现实
+spaces: 城市 / 房间
+motifs: 颜色 / 音乐
+characters: Matsuko
+theoryFit: lacan 4 / barthes 4
+
+🌍 世界电影补齐
+97. The Hunt（丹麦）
+
+themes: 误解 / 群体 / 排斥
+conflicts: 个体 vs 社会审判
+spaces: 学校 / 小镇
+motifs: 门 / 沉默
+characters: Lucas
+theoryFit: foucault 5 / marx 3
+
+98. Incendies（加拿大）
+
+themes: 家庭 / 战争 / 记忆
+conflicts: 真相 vs 历史
+spaces: 中东 / 法庭
+motifs: 信件 / 火
+characters: 双胞胎
+theoryFit: benjamin 5 / lacan 4
+
+99. Leviathan（俄罗斯）
+
+themes: 权力 / 国家 / 压迫
+conflicts: 个体 vs 官僚机器
+spaces: 海岸 / 政府建筑
+motifs: 骨架 / 酒 / 法庭
+characters: Kolya
+theoryFit: foucault 5 / marx 5
+
+100. Holy Motors（法国）
+
+themes: 身份 / 表演 / 现实
+conflicts: 自我 vs 角色
+spaces: 城市 / 车
+motifs: 面具 / 变形 / 手
+characters: Monsieur Oscar
+theoryFit: deleuze 5 / lacan 5

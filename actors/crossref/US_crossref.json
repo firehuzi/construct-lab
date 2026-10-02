@@ -1,0 +1,477 @@
+{
+  "matches": [
+    {
+      "year": 1845,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1845,
+      "source": "COW",
+      "type": "TERR_GAIN",
+      "label": "7",
+      "hostility": "",
+      "opponent": null,
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/United_States-7_relations"
+    },
+    {
+      "year": 1861,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1865,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1877,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1898,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1898,
+      "source": "COW",
+      "type": "WAR",
+      "label": "Spanish-American",
+      "hostility": "",
+      "opponent": "",
+      "reference": "COW COW Inter-StateWar 4.0",
+      "url": "https://en.wikipedia.org/wiki/Spanish-American_War"
+    },
+    {
+      "year": 1898,
+      "source": "COW",
+      "type": "TERR_GAIN",
+      "label": "9720",
+      "hostility": "",
+      "opponent": null,
+      "reference": "COW COW Territorial Change v6",
+      "url": "https://en.wikipedia.org/wiki/United_States-9720_relations"
+    },
+    {
+      "year": 1929,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-United_Kingdom_relations"
+    },
+    {
+      "year": 1929,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "FRA",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-France_relations"
+    },
+    {
+      "year": 1929,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "JPN",
+      "hostility": "",
+      "opponent": "JPN",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-Japan_relations"
+    },
+    {
+      "year": 1939,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "MEX",
+      "hostility": "",
+      "opponent": "MEX",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-MEX_relations"
+    },
+    {
+      "year": 1939,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "BRA",
+      "hostility": "",
+      "opponent": "BRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-Brazil_relations"
+    },
+    {
+      "year": 1939,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "MEX",
+      "hostility": "",
+      "opponent": "MEX",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-MEX_relations"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "BRA",
+      "hostility": "",
+      "opponent": "BRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-Brazil_relations"
+    },
+    {
+      "year": 1945,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1954,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1954,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1954,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1964,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-United_Kingdom_relations"
+    },
+    {
+      "year": 1964,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "FRA",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-France_relations"
+    },
+    {
+      "year": 1964,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-Pakistan_relations"
+    },
+    {
+      "year": 1965,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-United_Kingdom_relations"
+    },
+    {
+      "year": 1965,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "FRA",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-France_relations"
+    },
+    {
+      "year": 1965,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-Pakistan_relations"
+    },
+    {
+      "year": 1968,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-United_Kingdom_relations"
+    },
+    {
+      "year": 1968,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "FRA",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-France_relations"
+    },
+    {
+      "year": 1968,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-Pakistan_relations"
+    },
+    {
+      "year": 1974,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-United_Kingdom_relations"
+    },
+    {
+      "year": 1974,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "FRA",
+      "hostility": "",
+      "opponent": "FRA",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-France_relations"
+    },
+    {
+      "year": 1974,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PHL",
+      "hostility": "",
+      "opponent": "PHL",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-Philippines_relations"
+    },
+    {
+      "year": 1991,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "ISR",
+      "hostility": "",
+      "opponent": "ISR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/United_States-Israel_relations"
+    },
+    {
+      "year": 1991,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1991,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2001,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2001,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2001,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2008,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2008,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2008,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2009,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2009,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 2009,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    2016,
+    2018,
+    2021,
+    2026
+  ],
+  "total_events": 44,
+  "code": "US",
+  "long_code": "USA",
+  "years_found": [
+    1845,
+    1861,
+    1865,
+    1877,
+    1898,
+    1929,
+    1939,
+    1945,
+    1954,
+    1964,
+    1965,
+    1968,
+    1974,
+    1991,
+    2001,
+    2008,
+    2009,
+    2016,
+    2018,
+    2021,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier1\\US\\US_v1_subjects.md"
+}

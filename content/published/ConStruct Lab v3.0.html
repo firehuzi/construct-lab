@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes">
+<title>ConStruct Lab · 地缘诊断工具 v3.0 | 战略不确定性层</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#f5f3ef;font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;color:#1a1a1a;line-height:1.5;padding:0;}
+.container{max-width:720px;margin:0 auto;padding:1rem 1.5rem 3rem;}
+
+.header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;padding:1rem 0 0.6rem;border-bottom:1px solid #e8e4dc;margin-bottom:0.5rem;}
+.header h1{font-size:1.3rem;font-weight:600;color:#1a1a1a;}
+.header .sub{color:#999;font-size:0.75rem;}
+.version{text-align:right;font-size:0.7rem;color:#999;margin-bottom:0.5rem;}
+.toolbar{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.btn{padding:0.35rem 0.9rem;border-radius:8px;border:1px solid #d3d1c7;background:#faf8f5;color:#555;font-size:0.78rem;cursor:pointer;transition:all 0.15s;}
+.btn:hover{border-color:#534AB7;color:#534AB7;}
+.btn-primary{background:#534AB720;border-color:#534AB760;color:#534AB7;}
+.btn-secondary{background:#E9456020;border-color:#E9456060;color:#E94560;}
+
+.progress{display:flex;align-items:center;gap:0.8rem;padding:0.3rem 0 0.8rem;font-size:0.72rem;color:#999;}
+.progress-track{flex:1;height:3px;background:#e8e4dc;border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:#534AB7;border-radius:3px;transition:width 0.3s;width:0%;}
+
+.layer{margin-bottom:0.5rem;border-radius:12px;border:1px solid #e8e4dc;background:#faf8f5;overflow:hidden;transition:all 0.2s;}
+.layer:hover{border-color:#d3d1c7;}
+.layer-header{display:flex;align-items:center;gap:0.6rem;padding:0.7rem 1rem;cursor:pointer;user-select:none;}
+.layer-header .num{font-size:0.65rem;padding:0.1rem 0.5rem;border-radius:4px;font-weight:700;background:#534AB720;color:#534AB7;font-family:monospace;}
+.layer-header .num.sul{background:#E9456020;color:#E94560;}
+.layer-header .title{font-weight:600;font-size:0.9rem;}
+.layer-header .tag{font-size:0.68rem;background:#eee;padding:0.08rem 0.5rem;border-radius:30px;color:#888;}
+.layer-header .arrow{font-size:0.9rem;color:#534AB7;margin-left:auto;transition:transform 0.2s;}
+.layer.open .layer-header .arrow{transform:rotate(90deg);}
+.layer-content{display:none;padding:0 1rem 1rem;border-top:1px solid #e8e4dc;}
+.layer.open .layer-content{display:block;}
+
+.nodes{display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.5rem 0;}
+.node{padding:0.25rem 0.7rem;border-radius:20px;font-size:0.75rem;border:1px solid #d3d1c7;background:#fff;color:#666;}
+
+.ctrl{margin:0.5rem 0;}
+.ctrl-label{font-size:0.72rem;color:#888;margin-bottom:0.25rem;display:block;}
+.rating{display:flex;gap:0.2rem;}
+.rating-btn{width:1.8rem;height:1.8rem;border-radius:50%;border:1px solid #d3d1c7;background:#fff;color:#999;font-size:0.7rem;font-weight:600;cursor:pointer;transition:all 0.15s;}
+.rating-btn:hover{border-color:#534AB7;color:#534AB7;}
+.rating-btn.on{background:#534AB730;border-color:#534AB7;color:#534AB7;}
+.rating-btn.on-hi{background:#E9456030;border-color:#E94560;color:#E94560;}
+
+input[type=text],select{width:100%;padding:0.4rem 0.7rem;border:1px solid #d3d1c7;border-radius:8px;font-size:0.82rem;color:#333;outline:none;background:#fff;font-family:inherit;}
+input:focus,select:focus{border-color:#534AB7;}
+
+.toggle-group{display:flex;flex-wrap:wrap;gap:0.3rem;}
+.toggle-btn{padding:0.3rem 0.7rem;border-radius:20px;border:1px solid #d3d1c7;background:#fff;color:#888;font-size:0.75rem;cursor:pointer;transition:all 0.15s;}
+.toggle-btn:hover{border-color:#534AB7;color:#534AB7;}
+.toggle-btn.on{background:#534AB720;border-color:#534AB7;color:#534AB7;}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;}
+
+.desc{font-size:0.72rem;color:#999;margin-top:0.3rem;line-height:1.5;}
+
+/* SUL section */
+.sul-card{margin:0.5rem 0;padding:0.8rem 1rem;border-radius:10px;border:1px solid #E9456020;background:#fdf6f0;}
+.sul-card h4{font-size:0.82rem;color:#E94560;margin:0 0 0.5rem;}
+.sul-row{display:flex;justify-content:space-between;align-items:center;padding:0.3rem 0;font-size:0.75rem;border-bottom:1px solid #f0e8de;}
+.sul-row:last-child{border-bottom:none;}
+.sul-label{color:#666;}
+.sul-val{color:#E94560;font-weight:600;}
+.sul-bar{flex:1;height:4px;background:#f0e8de;border-radius:2px;margin:0 0.6rem;overflow:hidden;}
+.sul-fill{height:100%;background:#E94560;border-radius:2px;transition:width 0.3s;}
+
+/* Diagnosis */
+.diag{background:#fff;border:1px solid #e8e4dc;border-radius:12px;padding:1rem;margin-top:0.8rem;}
+.diag h4{font-size:0.85rem;color:#534AB7;margin:0 0 0.6rem;}
+.diag-row{display:flex;justify-content:space-between;padding:0.25rem 0;font-size:0.75rem;border-bottom:1px solid #f5f5f5;}
+.diag-row:last-child{border-bottom:none;}
+.diag-label{color:#888;}
+.diag-val{color:#333;font-weight:500;}
+.verdict{padding:0.6rem 0 0;font-size:0.95rem;font-weight:700;text-align:center;}
+.v-ok{color:#639922;}
+.v-warn{color:#EF9F27;}
+.v-bad{color:#E24B4A;}
+
+.sul-output{margin-top:0.6rem;padding:0.6rem;border-radius:8px;background:#fdf6f0;font-size:0.72rem;}
+.sul-output .conf{font-size:1.1rem;font-weight:700;color:#E94560;}
+
+.footnote{text-align:center;margin-top:2rem;font-size:0.7rem;color:#bbb;border-top:1px solid #e8e4dc;padding-top:1rem;}
+@media(max-width:600px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div>
+    <h1>ConStruct Lab · 地缘诊断工具</h1>
+    <div class="sub">结构性诊断——结构推演 + 战略不确定性评估</div>
+  </div>
+  <div class="toolbar">
+    <button class="btn btn-primary" onclick="exportDiag()">导出诊断</button>
+    <button class="btn btn-secondary" onclick="resetAll()">新建</button>
+  </div>
+</div>
+
+<div class="version">v3.0 · 新增战略不确定性层（SUL）</div>
+
+<div class="progress">
+  <span id="progressText">进度: 0/14</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<!-- L0 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L0</span><span class="title">世界事件 & 行为观察</span><span class="tag">输入层</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="nodes"><span class="node">原始事件</span><span class="node">感知过滤</span><span class="node">框架定位</span></div>
+    <div class="desc">地缘博弈的起点：外部冲击或内部变动被主体"感知"，触发后续分析链。</div>
+    <div class="ctrl"><textarea id="L0" placeholder="描述当前分析的地缘事件情境..." style="width:100%;padding:0.5rem;border:1px solid #d3d1c7;border-radius:8px;font-size:0.8rem;min-height:50px;font-family:inherit;resize:vertical;" onchange="updateProgress()"></textarea></div>
+  </div>
+</div>
+
+<!-- L1 -->
+<div class="layer open">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L1</span><span class="title">行为主体</span><span class="tag">分析单元</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="grid2">
+      <div class="ctrl"><span class="ctrl-label">主体名称</span><input type="text" id="L1name" placeholder="国家/组织名称" onchange="updateProgress()"></div>
+      <div class="ctrl"><span class="ctrl-label">主体类型</span><select id="L1type" onchange="updateProgress()"><option value="">选择类型...</option><option value="国家">国家</option><option value="国际组织">国际组织</option><option value="企业">企业</option><option value="政党/运动">政党/运动</option></select></div>
+    </div>
+  </div>
+</div>
+
+<!-- L2 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L2</span><span class="title">连续性类型</span><span class="tag">核心恐惧分野</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="ctrl">
+      <div class="toggle-group" id="L2group">
+        <button class="toggle-btn" onclick="pickOne(this,'L2')">主体型（恐惧身份消失）</button>
+        <button class="toggle-btn" onclick="pickOne(this,'L2')">秩序型（恐惧失序崩坏）</button>
+        <button class="toggle-btn" onclick="pickOne(this,'L2')">混合型（对外认同+对内维稳）</button>
+      </div>
+    </div>
+    <div class="desc">选择后将自动映射到策略倾向。</div>
+  </div>
+</div>
+
+<!-- L3 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L3</span><span class="title">存在方式</span><span class="tag">权重评估</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="desc">"我们赖以存在的形式"——为每种方式评估重要性</div>
+    <div class="grid2" id="L3grid"></div>
+  </div>
+</div>
+
+<!-- L4 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L4</span><span class="title">建构来源层</span><span class="tag">基底原材料</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="toggle-group" id="L4group">
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">历史叙事</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">创伤锚点</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">建国神话</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">制度遗产</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">文化传统</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">集体记忆</button>
+    </div>
+  </div>
+</div>
+
+<!-- L5 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L5</span><span class="title">维持机制层</span><span class="tag">内部稳态</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="grid2" id="L5grid"></div>
+    <div class="desc">内部秩序维持系统：制度惯性、官僚体系、社会契约、经济红利。</div>
+  </div>
+</div>
+
+<!-- L6 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L6</span><span class="title">秩序价值层</span><span class="tag">双维度诊断</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="grid2">
+      <div>
+        <div class="node" style="display:inline-block;margin-bottom:0.4rem;">内部秩序价值</div>
+        <div id="L6int"></div>
+      </div>
+      <div>
+        <div class="node" style="display:inline-block;margin-bottom:0.4rem;">全球秩序价值</div>
+        <div id="L6glob"></div>
+      </div>
+    </div>
+    <div class="desc">内部秩序健康度 ⇄ 全球秩序角色——双向传导。</div>
+  </div>
+</div>
+
+<!-- L7 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L7</span><span class="title">他者系统层</span><span class="tag">欲望拓扑</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="toggle-group" id="L7group">
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">理想他者</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">观众他者</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">敌人他者</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">镜像他者</button>
+    </div>
+  </div>
+</div>
+
+<!-- L8 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L8</span><span class="title">创伤系统层 → 核心恐惧</span><span class="tag">底层驱力</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="grid2" id="L8grid"></div>
+  </div>
+</div>
+
+<!-- L9 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L9</span><span class="title">战略选择 → 行动输出</span><span class="tag">手段</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="toggle-group" id="L9group">
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">外交结盟/对冲</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">军事威慑/收缩</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">经济制裁/依赖</button>
+      <button class="toggle-btn" onclick="this.classList.toggle('on');updateProgress()">文化输出/防御</button>
+    </div>
+  </div>
+</div>
+
+<!-- L10 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L10</span><span class="title">生物类比层 · 终极动机</span><span class="tag">持久生存</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="ctrl">
+      <span class="ctrl-label">策略类型</span>
+      <select id="L10strat" onchange="updateProgress()">
+        <option value="">选择...</option>
+        <option value="conservative">保守型（维持现状·冻结秩序）</option>
+        <option value="balance">平衡型（摆荡对冲）</option>
+        <option value="innovation">创新型（动态重构身份）</option>
+        <option value="ideological">意识形态型（理念驱动扩张）</option>
+        <option value="expansion">扩张型（主动塑造环境）</option>
+        <option value="symbiotic">共生型（融合式发展）</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- L11 -->
+<div class="layer">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="num">L11</span><span class="title">长期存在 · 穿越周期</span><span class="tag">自动诊断</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="desc">框架不预测短期胜负，而诊断"哪一种存在方式在给定约束下是可能的、哪一种是不可逆的"。</div>
+  </div>
+</div>
+
+<!-- SUL: Strategic Uncertainty Layer -->
+<div class="layer open" style="border-color:#E9456040;">
+  <div class="layer-header" onclick="this.parentElement.classList.toggle('open')" style="border-left:3px solid #E94560;">
+    <span class="num sul">SUL</span><span class="title">战略不确定性层</span><span class="tag">v3.0 新增</span><span class="arrow">▶</span>
+  </div>
+  <div class="layer-content">
+    <div class="desc" style="margin-bottom:0.5rem;">世界不是物理系统——主体会主动干预结构。SUL 不为预测，而为标记"结构推演在什么条件下会被主体行为打断"。</div>
+
+    <div class="sul-card">
+      <h4>1. 意图不确定性</h4>
+      <div class="sul-row">
+        <span class="sul-label">同一事件，意图不同→路线不同</span>
+        <div class="sul-bar"><div class="sul-fill" id="sul1fill" style="width:50%"></div></div>
+        <span class="sul-val" id="sul1val">0.5</span>
+      </div>
+      <div class="ctrl" style="margin-top:0.3rem;">
+        <input type="range" min="0" max="100" value="50" oninput="updateSUL(1,this.value)" style="width:100%">
+      </div>
+    </div>
+
+    <div class="sul-card">
+      <h4>2. 能力不确定性</h4>
+      <div class="sul-row">
+        <span class="sul-label">意图 ≠ 能力（ICC 已量化此差）</span>
+        <div class="sul-bar"><div class="sul-fill" id="sul2fill" style="width:40%"></div></div>
+        <span class="sul-val" id="sul2val">0.4</span>
+      </div>
+      <div class="ctrl" style="margin-top:0.3rem;">
+        <input type="range" min="0" max="100" value="40" oninput="updateSUL(2,this.value)" style="width:100%">
+      </div>
+    </div>
+
+    <div class="sul-card">
+      <h4>3. 执行不确定性</h4>
+      <div class="sul-row">
+        <span class="sul-label">意图+能力 ≠ 成功执行</span>
+        <div class="sul-bar"><div class="sul-fill" id="sul3fill" style="width:60%"></div></div>
+        <span class="sul-val" id="sul3val">0.6</span>
+      </div>
+      <div class="ctrl" style="margin-top:0.3rem;">
+        <input type="range" min="0" max="100" value="60" oninput="updateSUL(3,this.value)" style="width:100%">
+      </div>
+    </div>
+
+    <div class="sul-card">
+      <h4>4. 反应不确定性</h4>
+      <div class="sul-row">
+        <span class="sul-label">行动→反应→再反应（路线树）</span>
+        <div class="sul-bar"><div class="sul-fill" id="sul4fill" style="width:70%"></div></div>
+        <span class="sul-val" id="sul4val">0.7</span>
+      </div>
+      <div class="ctrl" style="margin-top:0.3rem;">
+        <input type="range" min="0" max="100" value="70" oninput="updateSUL(4,this.value)" style="width:100%">
+      </div>
+    </div>
+
+    <div class="sul-card">
+      <h4>5. 黑箱不确定性</h4>
+      <div class="sul-row">
+        <span class="sul-label">内部政治/军情/领导人健康（不可观）</span>
+        <div class="sul-bar"><div class="sul-fill" id="sul5fill" style="width:50%"></div></div>
+        <span class="sul-val" id="sul5val">0.5</span>
+      </div>
+      <div class="ctrl" style="margin-top:0.3rem;">
+        <input type="range" min="0" max="100" value="50" oninput="updateSUL(5,this.value)" style="width:100%">
+      </div>
+    </div>
+
+    <div class="sul-output" id="sulOutput" style="text-align:center;">
+      <span style="color:#888;">综合置信度 </span><span class="conf" id="sulConf">0.58</span>
+    </div>
+  </div>
+</div>
+
+<!-- Diagnosis Panel -->
+<div class="diag">
+  <h4>诊断结果（结构 + 战略不确定性）</h4>
+  <div class="diag-row"><span class="diag-label">连续性类型</span><span class="diag-val" id="dCont">—</span></div>
+  <div class="diag-row"><span class="diag-label">排序恐惧</span><span class="diag-val" id="dFear">—</span></div>
+  <div class="diag-row"><span class="diag-label">内部秩序</span><span class="diag-val" id="dOrder">—</span></div>
+  <div class="diag-row"><span class="diag-label">策略倾向</span><span class="diag-val" id="dStrat">—</span></div>
+  <div class="diag-row"><span class="diag-label">SUL 置信度</span><span class="diag-val" id="dSUL">—</span></div>
+  <div class="verdict" id="dVerdict">请填写各层评估以生成诊断</div>
+</div>
+
+<div class="footnote">ConStruct Lab · v3.0 结构性诊断工具 | 结构推演 + 战略不确定性评估<br>SUL 不预测"领导人会做什么"，只标记"结构推演在什么条件下会被主体行为打断"</div>
+</div>
+
+<script>
+// State
+const state = {
+  L0:'', L1name:'', L1type:'', L2:'',
+  L3:{sovereignty:3,culture:3,institution:3,symbolic:3},
+  L4:[], L5:{legitimacy:3,loyalty:3,ritual:3,narrative:3},
+  L6int:{basic:3,distribution:3,consensus:3}, L6glob:{role:'',contrib:3,legit:3},
+  L7:[], L8:{identity_loss:3,disorder:3,marginalization:3,extinction:3},
+  L9:[], L10:'',
+  SUL:{intent:50,capability:40,execution:60,reaction:70,opaque:50}
+};
+
+function initRatings(){
+  const grids = {
+    L3grid:[['sovereignty','主权独立'],['culture','文化-文明延续'],['institution','制度韧性'],['symbolic','象征权力']],
+    L5grid:[['legitimacy','合法性'],['loyalty','忠诚'],['ritual','仪式'],['narrative','叙事']],
+    L8grid:[['identity_loss','身份消失'],['disorder','失序恐慌'],['marginalization','边缘化'],['extinction','灭绝威胁']],
+    L6int:[['basic','基础秩序'],['distribution','分配秩序'],['consensus','共识秩序']],
+    L6glob:[['contrib','秩序贡献'],['legit','全球正当性']]
+  };
+  for(const [id,pairs] of Object.entries(grids)){
+    const el = document.getElementById(id);
+    if(!el) continue;
+    pairs.forEach(([key,label])=>{
+      const div = document.createElement('div');
+      div.className='ctrl';
+      div.innerHTML = '<span class="ctrl-label">'+label+'</span><div class="rating" data-key="'+key+'" data-scope="'+id+'"></div>';
+      el.appendChild(div);
+      const rg = div.querySelector('.rating');
+      for(let v=1;v<=5;v++){
+        const b = document.createElement('button');
+        b.className='rating-btn'+(v<=3?' on':'');
+        b.textContent=v;b.dataset.val=v;
+        b.onclick = function(){ setRating(rg,v); };
+        rg.appendChild(b);
+      }
+    });
+  }
+}
+
+function setRating(group, val){
+  group.querySelectorAll('.rating-btn').forEach((b,i)=>{
+    b.classList.toggle('on',i+1<=val);
+    b.classList.toggle('on-hi',val>=4&&i+1<=val);
+  });
+  const scope = group.dataset.scope, key = group.dataset.key;
+  if(scope==='L3grid') state.L3[key]=val;
+  else if(scope==='L5grid') state.L5[key]=val;
+  else if(scope==='L8grid') state.L8[key]=val;
+  else if(scope==='L6int') state.L6int[key]=val;
+  else if(scope==='L6glob') state.L6glob[key]=val;
+  updateProgress();
+  diagnose();
+}
+
+function pickOne(btn, layer){
+  btn.parentElement.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  state[layer]=btn.textContent.trim();
+  updateProgress();
+  diagnose();
+}
+
+function updateSUL(n, val){
+  const keys = ['intent','capability','execution','reaction','opaque'];
+  state.SUL[keys[n-1]] = parseInt(val);
+  const pct = val/100;
+  document.getElementById('sul'+n+'fill').style.width=(val)+'%';
+  document.getElementById('sul'+n+'val').textContent=pct.toFixed(1);
+  const avg = Object.values(state.SUL).reduce((a,b)=>a+b,0)/500;
+  document.getElementById('sulConf').textContent=avg.toFixed(2);
+  updateProgress();
+  diagnose();
+}
+
+function updateProgress(){
+  let n=0;
+  if(state.L0)n++;if(state.L1name)n++;if(state.L2)n++;
+  if(Object.values(state.L3).some(v=>v!==3))n++;
+  if(state.L4.length)n++;
+  if(Object.values(state.L5).some(v=>v!==3))n++;
+  if(state.L6glob.role||Object.values(state.L6int).some(v=>v!==3))n++;
+  if(state.L7.length)n++;
+  if(Object.values(state.L8).some(v=>v!==3))n++;
+  if(state.L9.length)n++;if(state.L10)n++;
+  if(Object.values(state.SUL).some(v=>v!==50))n++;
+  document.getElementById('progressFill').style.width=(n/13*100)+'%';
+  document.getElementById('progressText').textContent='进度: '+n+'/13';
+  diagnose();
+}
+
+function diagnose(){
+  const l2labels={'主体型（恐惧身份消失）':'主体连续性','秩序型（恐惧失序崩坏）':'秩序连续性','混合型（对外认同+对内维稳）':'混合连续性'};
+  document.getElementById('dCont').textContent=l2labels[state.L2]||'—';
+
+  const flabels={identity_loss:'身份消失',disorder:'失序恐慌',marginalization:'边缘化',extinction:'灭绝威胁'};
+  let maxF='',maxV=0;
+  Object.entries(state.L8).forEach(([k,v])=>{if(v>maxV){maxV=v;maxF=k;}});
+  document.getElementById('dFear').textContent=maxF?flabels[maxF]+' ('+maxV+')':'—';
+
+  const avg = (state.L6int.basic+state.L6int.distribution+state.L6int.consensus)/3;
+  let oLabel='一般',oCls='';
+  if(avg>=4){oLabel='健康';oCls='ok';}else if(avg<2.5){oLabel='危险';oCls='bad';}else if(avg<3){oLabel='脆弱';oCls='warn';}
+  document.getElementById('dOrder').textContent=oLabel;
+
+  document.getElementById('dStrat').textContent=state.L10||'—';
+
+  const sulAvg=Object.values(state.SUL).reduce((a,b)=>a+b,0)/500;
+  document.getElementById('dSUL').textContent=sulAvg.toFixed(2);
+
+  const v=document.getElementById('dVerdict');
+  if(!state.L1name){v.className='verdict';v.textContent='请填写各层评估以生成诊断';}
+  else if(avg<2.5){v.className='verdict v-bad';v.textContent='基础秩序濒临崩溃——逻辑不可能';}
+  else if(avg<3||maxV>=4){v.className='verdict v-warn';v.textContent='存续约束趋紧——路径需要验证 | SUL:'+sulAvg.toFixed(2);}
+  else{v.className='verdict v-ok';v.textContent='可延续路径——秩序健康 | SUL:'+sulAvg.toFixed(2);}
+}
+
+function exportDiag(){
+  const d = {
+    analysis: new Date().toISOString(),
+    actor: {name:state.L1name,type:state.L1type},
+    context: state.L0,
+    continuity: state.L2,
+    existence: state.L3,
+    sources: state.L4,
+    maintenance: state.L5,
+    order: {internal:state.L6int,global:state.L6glob},
+    others: state.L7,
+    fears: state.L8,
+    strategies: state.L9,
+    strategyType: state.L10,
+    SUL: state.SUL,
+    sulConfidence: (Object.values(state.SUL).reduce((a,b)=>a+b,0)/500).toFixed(2)
+  };
+  const blob = new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='construct_diag_'+Date.now()+'.json';
+  a.click();
+}
+
+function resetAll(){
+  if(!confirm('确定要新建分析？'))return;
+  document.querySelectorAll('input[type=text],textarea').forEach(e=>e.value='');
+  document.querySelectorAll('select').forEach(e=>e.selectedIndex=0);
+  document.querySelectorAll('.toggle-btn').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.rating-btn').forEach(e=>{e.classList.remove('on-hi');e.classList.toggle('on',parseInt(e.dataset.val)<=3);});
+  document.querySelectorAll('.sul-fill').forEach(e=>e.style.width='50%');
+  document.querySelectorAll('.sul-val').forEach((e,i)=>e.textContent=(i===2?'0.6':i===3?'0.7':i===0?'0.5':'0.4'));
+  Object.assign(state,{L0:'',L1name:'',L1type:'',L2:'',L3:{sovereignty:3,culture:3,institution:3,symbolic:3},L4:[],L5:{legitimacy:3,loyalty:3,ritual:3,narrative:3},L6int:{basic:3,distribution:3,consensus:3},L6glob:{role:'',contrib:3,legit:3},L7:[],L8:{identity_loss:3,disorder:3,marginalization:3,extinction:3},L9:[],L10:'',SUL:{intent:50,capability:40,execution:60,reaction:70,opaque:50}});
+  document.querySelectorAll('input[type=range]').forEach(e=>e.value=e.dataset.default||50);
+  updateProgress();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  initRatings();
+  updateProgress();
+  // Open L1 and L2 by default
+  document.querySelectorAll('.layer')[1].classList.add('open');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1323 @@
+# 🧭 骰评·经济版 v1.0 总体架构
+
+## 🎯 核心定义
+
+> 一个通过“经济结构建模 + 理论解释映射 + 随机路径采样”生成多视角经济分析的系统
+
+---
+
+# 🧱 四层系统总览
+
+```text
+L4 输出层（Narrative Output）
+        ↓
+L3 骰子层（Sampling Engine）
+        ↓
+L2 解释层（Theory Lenses）
+        ↓
+L1 结构层（Economic Structure Fields）
+```
+
+---
+
+# 🧩 L1：结构层（9大经济结构场）
+
+👉 世界“如何运行”（不解释，只建模）
+
+## ⭐ 9结构场
+
+### ① 生产结构场
+
+* 劳动
+* 技术
+* 资本投入
+* 生产效率
+
+---
+
+### ② 分配结构场
+
+* 收入分配
+* 财富分层
+* 税收结构
+
+---
+
+### ③ 需求结构场
+
+* 消费
+* 投资
+* 政府支出
+* 外需
+
+---
+
+### ④ 价格机制场
+
+* 市场价格
+* 资产价格
+* 信用价格
+
+---
+
+### ⑤ 金融结构场
+
+* 利率
+* 杠杆
+* 信贷扩张
+* 泡沫
+
+---
+
+### ⑥ 制度结构场
+
+* 政策
+* 法规
+* 国家能力
+* 激励机制
+
+---
+
+### ⑦ 叙事结构场
+
+* 信心
+* 预期
+* 增长叙事
+* 危机叙事
+
+---
+
+### ⑧ 周期结构场
+
+* 扩张
+* 过热
+* 衰退
+* 危机
+* 重构
+
+---
+
+### ⑨ 外部结构场
+
+* 全球贸易
+* 汇率
+* 地缘政治
+* 技术冲击
+
+---
+
+# 🧠 L2：解释层（4+1理论框架）
+
+👉 世界“如何被解释”
+
+## ⭐ 4 + 1 模型（固定）
+
+---
+
+### ① 马克思主义
+
+* 阶级
+* 剩余价值
+* 资本积累
+* 商品化
+
+👉 解释：权力/剥削结构
+
+---
+
+### ② 新古典 / 新自由主义
+
+* 市场效率
+* 理性选择
+* 均衡
+* 价格机制
+
+👉 解释：系统自洽性
+
+---
+
+### ③ 凯恩斯主义
+
+* 总需求
+* 流动性
+* 政府干预
+* 经济周期
+
+👉 解释：波动来源
+
+---
+
+### ④ 制度经济学
+
+* 激励结构
+* 产权
+* 法规
+* 国家能力
+
+👉 解释：规则如何塑造行为
+
+---
+
+### ⑤ 行为 / 叙事经济学（增强层）
+
+* 预期
+* 心理
+* 群体行为
+* 叙事传播
+
+👉 解释：人如何“误判系统”
+
+---
+
+# 🎲 L3：骰子层（核心创新层）
+
+👉 “从结构 × 解释中抽取路径”
+
+---
+
+## 🎯 输入
+
+```text
+经济现象 + 结构场 + 理论层
+```
+
+例如：
+
+> 房价上涨
+
+---
+
+## 🎲 骰子做什么？
+
+不是随机词
+
+而是：
+
+> **随机生成一条“解释路径”**
+
+---
+
+## 🧭 路径结构
+
+```text
+结构场（1~2个）
+  ↓
+理论视角（1个）
+  ↓
+因果链展开（3~5步）
+  ↓
+结论方向
+```
+
+---
+
+## 🎲 示例
+
+### 输入：房价上涨
+
+骰子结果：
+
+```text
+结构场：金融 + 需求
+理论：马克思
+
+路径：
+
+信贷扩张 → 资产化 → 居住商品化 → 阶级分层强化 → 房地产成为剩余价值吸收器
+```
+
+---
+
+### 再掷一次：
+
+```text
+结构场：价格 + 叙事
+理论：行为经济学
+
+路径：
+
+预期上涨 → 羊群效应 → FOMO → 价格自我实现 → 泡沫形成
+```
+
+---
+
+👉 核心：
+
+> 同一现实 = 多条因果路径
+
+---
+
+# ✍️ L4：输出层（骰评生成）
+
+👉 “最终评论形态”
+
+---
+
+## 🎯 标准输出结构
+
+### ① 开场（现象锚定）
+
+* 现实描述一句话
+
+---
+
+### ② 结构路径（核心）
+
+* 1条骰子路径展开（主线）
+
+---
+
+### ③ 对照路径（增强）
+
+* 1~2条不同理论路径
+
+---
+
+### ④ 冲突点
+
+* 哪些解释互相矛盾但同时成立
+
+---
+
+### ⑤ 收束（结构洞察）
+
+* 一个“不可还原结论”
+
+---
+
+## 🧪 示例输出形态
+
+```text
+房价上涨看起来是市场行为，但实际上它同时是三种机制叠加的结果。
+
+在马克思主义视角中，这是资本对居住空间的再吸收过程……
+（路径1）
+
+而在行为经济学中，这更像是预期驱动的自我实现……
+（路径2）
+
+制度经济学则指出……
+（路径3）
+
+三者并不冲突，它们描述的是同一结构的不同层级。
+
+真正的问题不是“为什么涨”，而是：
+当所有解释都成立时，谁在定义现实？
+```
+
+---
+
+# 🧠 系统关系总结（非常关键）
+
+```text
+L1：世界结构（事实机器）
+L2：解释系统（认知光源）
+L3：骰子（路径选择器）
+L4：文本输出（叙事呈现）
+```
+
+---
+
+# 🚀 产品化版本定义（可以直接写PRD）
+
+## 🎯 产品名称建议
+
+> 骰评 · Economic Atlas Engine
+
+---
+
+## 🧩 核心能力
+
+* 结构化经济建模
+* 多理论解释切换
+* 随机因果路径生成
+* 多视角评论输出
+
+---
+
+## 🔁 用户体验流程
+
+```text
+输入经济问题
+        ↓
+系统生成9结构场
+        ↓
+加载4+1理论层
+        ↓
+骰子抽取解释路径
+        ↓
+生成一篇“多视角经济评论”
+        ↓
+用户可重新掷骰探索其他路径
+```
+
+---
+
+# 🧨 这个系统真正的本质（一句话）
+
+> 你不是在生成经济评论，而是在构建“经济现实的多重解释宇宙”。
+
+---
+
+
+# 🧭 骰评·经济版 v1（可开发架构）
+
+---
+
+# 一、系统总架构（工程视角）
+
+```text id="system"
+[Input]
+经济现象（用户输入）
+
+   ↓
+
+[L1] 结构层（9 Fields）
+经济系统分解
+
+   ↓
+
+[L2] 理论层（4+1 Lenses）
+解释框架加载
+
+   ↓
+
+[L3] 骰子层（Sampler Engine）
+路径生成
+
+   ↓
+
+[L4] 输出层（Narrative Generator）
+经济评论生成
+
+   ↓
+
+[Output]
+多视角骰评文章 + 可重掷结构
+```
+
+---
+
+# 二、API设计（核心）
+
+## 1️⃣ 主接口
+
+### POST /api/dice/economy
+
+---
+
+## Request
+
+```json id="req"
+{
+  "topic": "房价为什么持续上涨",
+  "mode": "multi" 
+}
+```
+
+---
+
+## Response（核心结构）
+
+```json id="res"
+{
+  "topic": "房价为什么持续上涨",
+
+  "structure_fields": {
+    "production": [],
+    "distribution": [],
+    "demand": [],
+    "pricing": [],
+    "finance": [],
+    "institution": [],
+    "narrative": [],
+    "cycle": [],
+    "external": []
+  },
+
+  "theory_lenses": [
+    "marx",
+    "neoclassical",
+    "keynesian",
+    "institutional",
+    "behavioral"
+  ],
+
+  "dice_paths": [
+    {
+      "lens": "marx",
+      "fields": ["finance", "distribution"],
+      "causal_chain": [
+        "信贷扩张",
+        "资产化住房",
+        "阶级财富固化",
+        "居住权商品化"
+      ],
+      "insight": "房价上涨是资本吸收剩余价值的空间化形式"
+    }
+  ],
+
+  "selected_path": 0,
+
+  "output": "生成的完整骰评文章",
+
+  "confidence": 0.87
+}
+```
+
+---
+
+# 三、结构层 Prompt（L1）
+
+👉 用于让 AI 建模经济系统
+
+---
+
+## SYSTEM PROMPT（L1）
+
+```text id="l1_prompt"
+You are a structural economist.
+
+Break down the following economic phenomenon into 9 structural fields:
+
+1. Production
+2. Distribution
+3. Demand
+4. Pricing
+5. Finance
+6. Institutions
+7. Narrative
+8. Cycle
+9. External
+
+Rules:
+- Do not explain
+- Do not interpret
+- Only map system components
+- Keep each field concise
+```
+
+---
+
+# 四、理论层 Prompt（L2）
+
+```text id="l2_prompt"
+You are a theory lens selector.
+
+Available lenses:
+- Marxist
+- Neoclassical / Neoliberal
+- Keynesian
+- Institutional Economics
+- Behavioral / Narrative Economics
+
+Task:
+Given a structured economic system, select 1–2 lenses that best reveal causal tensions.
+
+Return:
+- lens name
+- what it highlights
+- what it ignores
+```
+
+---
+
+# 五、骰子层 Prompt（L3）
+
+👉 核心创新层
+
+```text id="l3_prompt"
+You are a causal path generator.
+
+Input:
+- Economic structure fields
+- Selected theory lens
+
+Task:
+Generate 1 causal reasoning chain.
+
+Rules:
+- Select 1–2 structural fields
+- Use selected theory lens
+- Build step-by-step causal chain (3–6 steps)
+- End with an interpretive insight
+- Do NOT summarize, only construct reasoning path
+```
+
+---
+
+# 六、输出层 Prompt（L4）
+
+```text id="l4_prompt"
+You are an economic essay generator.
+
+Input:
+- causal path(s)
+- competing interpretations
+
+Task:
+Write a structured economic commentary.
+
+Structure:
+1. Phenomenon introduction
+2. Primary causal path
+3. Alternative interpretation path (optional)
+4. Tension between explanations
+5. Final insight (non-reductive conclusion)
+
+Tone:
+- analytical
+- non-dogmatic
+- layered
+```
+
+---
+
+# 七、骰子机制设计（核心引擎）
+
+## 🎲 Dice Engine Logic
+
+```text id="dice"
+Step 1: Randomly pick 1 lens
+Step 2: Randomly pick 1–2 structure fields
+Step 3: Map lens ↔ structure interaction
+Step 4: Generate causal chain
+Step 5: Rank coherence score
+Step 6: Output best path
+```
+
+---
+
+## 🔁 重掷机制
+
+```text id="reroll"
+User clicks "re-roll"
+
+→ keep structure fields
+→ change lens
+→ regenerate causal path
+```
+
+---
+
+# 八、前端结构（最简可上线版）
+
+## 页面结构
+
+```text id="ui"
+[输入框]
+“输入经济问题”
+
+[按钮]
+🎲 生成骰评
+
+[输出区]
+
+① 结构场展示（9格）
+② 理论视角标签
+③ 当前骰子路径
+④ 完整评论文本
+
+[按钮]
+↻ 再掷一次（换解释路径）
+```
+
+---
+
+## UI关键体验点
+
+* 结构场是“背景地图”
+* 理论层是“滤镜按钮”
+* 骰子是“生成按钮”
+* 评论是“结果文本”
+
+---
+
+# 九、评分系统（可选增强）
+
+```json id="score"
+{
+  "coherence": 0.86,
+  "novelty": 0.91,
+  "structural_depth": 0.88,
+  "theory_fit": 0.84
+}
+```
+
+用于：
+
+* 判断路径质量
+* 决定是否重采样
+
+---
+
+# 十、系统本质（最重要一句）
+
+你这个系统已经不是：
+
+❌ AI写经济评论
+
+而是：
+
+# 🧠 “多理论解释空间中的因果路径采样器”
+
+---
+
+# 十一、产品一句话定义（可以直接写官网）
+
+> 骰评·经济版：一个通过结构建模 + 理论映射 + 随机路径生成多重经济解释的思想引擎。
+
+---
+
+
+# 🧭 骰评·经济版 v1 —— UI/产品原型
+
+---
+
+# 一、页面结构（非常关键）
+
+整个产品只有一个核心页面：
+
+> 🎯 “经济思想生成器页面”
+
+---
+
+## 🧩 Layout（单页应用）
+
+```text id="ui_layout"
+┌──────────────────────────────┐
+│  骰评 · Economic Atlas       │
+│  输入经济问题                │
+├──────────────────────────────┤
+│ [INPUT BOX]                  │
+│  例如：房价为什么上涨        │
+│                              │
+│ [🎲 生成骰评]                │
+├──────────────────────────────┤
+│  🧱 结构场（9格可视化）      │
+│  Production | Distribution   │
+│  Demand     | Pricing        │
+│  Finance    | Institutions    │
+│  Narrative  | Cycle          │
+│  External                  │
+├──────────────────────────────┤
+│  🧠 理论层                   │
+│  Marx | Neoclassical | Keynes│
+│  Institutional | Behavioral  │
+│                              │
+│  当前选中：Marx             │
+├──────────────────────────────┤
+│  🎲 骰子路径                 │
+│  Finance → Distribution     │
+│  Marx interpretation        │
+│  ↓                          │
+│  信贷扩张 → 资产化 → 阶级固化│
+│                              │
+├──────────────────────────────┤
+│  📝 输出评论                 │
+│  （完整文章）               │
+│                              │
+├──────────────────────────────┤
+│  ↻ 再掷一次（换解释路径）    │
+│  📌 保存本次视角            │
+└──────────────────────────────┘
+```
+
+---
+
+# 二、核心交互逻辑（产品灵魂）
+
+---
+
+## 🎲 1. 生成按钮
+
+用户输入：
+
+> 房价为什么上涨
+
+点击：
+
+```text id="flow1"
+INPUT → L1结构分析 → L2理论加载 → L3骰子生成 → L4输出
+```
+
+---
+
+## 🔁 2. 再掷按钮（核心体验）
+
+不是重新生成全部，而是：
+
+```text id="reroll"
+保持结构场不变
+只改变：
+→ 理论层
+→ 或结构组合
+→ 或路径采样
+```
+
+👉 这就是“探索感”的来源
+
+---
+
+## 🧠 3. 理论切换（像滤镜）
+
+用户可以点：
+
+* Marx
+* Keynes
+* Neoclassical
+
+👉 页面立即“重新解释同一结构”
+
+---
+
+# 三、视觉设计建议（非常关键）
+
+你这个产品不能做成普通SaaS，要有“思想工具感”。
+
+---
+
+## 🎨 风格建议
+
+### ✔ 黑白 / 论文 / 理论工具风
+
+* 黑白主色
+* 铜版印刷感（你之前提的丢勒风格非常对）
+* grid结构
+* 类似“学术地图”
+
+---
+
+## 🧩 结构场 UI
+
+建议：
+
+```text id="grid"
+■ Production
+■ Distribution
+■ Demand
+■ Pricing
+■ Finance
+■ Institution
+■ Narrative
+■ Cycle
+■ External
+```
+
+✔ 当前激活高亮
+✔ 被骰子选中的闪烁
+
+---
+
+## 🎲 骰子动画（关键）
+
+不是3D骰子，是：
+
+> “结构闪烁 + 理论切换 + 路径生成”
+
+表现：
+
+* 结构格子点亮
+* 理论标签切换
+* 一条路径逐步生成
+
+---
+
+# 四、前端技术架构（可直接做）
+
+## 🧱 技术栈
+
+```text id="stack"
+Next.js (App Router)
+TailwindCSS
+Framer Motion (动画)
+Zustand (状态管理)
+OpenAI API (生成)
+```
+
+---
+
+## 📦 核心组件结构
+
+```text id="components"
+/app
+  page.tsx
+
+/components
+  InputPanel.tsx
+  StructureGrid.tsx
+  TheorySelector.tsx
+  DicePath.tsx
+  OutputEssay.tsx
+  RerollButton.tsx
+
+/lib
+  api.ts
+  prompts.ts
+  diceEngine.ts
+```
+
+---
+
+# 五、核心状态模型（非常关键）
+
+```ts id="state"
+type State = {
+  topic: string
+
+  structureFields: {
+    production: any[]
+    distribution: any[]
+    demand: any[]
+    pricing: any[]
+    finance: any[]
+    institution: any[]
+    narrative: any[]
+    cycle: any[]
+    external: any[]
+  }
+
+  theoryLens: "marx" | "keynes" | "neoclassical" | "institutional" | "behavioral"
+
+  dicePath: {
+    fields: string[]
+    steps: string[]
+    insight: string
+  }
+
+  output: string
+}
+```
+
+---
+
+# 六、核心 API 流程（可直接接OpenAI）
+
+```text id="api_flow"
+POST /api/generate
+
+1. L1 → 结构拆解
+2. L2 → 理论筛选
+3. L3 → 骰子路径生成
+4. L4 → 文章生成
+```
+
+---
+
+# 七、产品“灵魂机制”（最重要）
+
+你这个产品真正的killer feature不是生成，而是：
+
+---
+
+## 🧠 “同一问题，多重现实生成”
+
+例如：
+
+房价上涨：
+
+* Marx：资本吸收空间
+* Keynes：流动性过剩
+* 制度：土地财政
+* 行为：预期自反馈
+
+---
+
+👉 用户体验是：
+
+> “现实不是唯一解释，而是解释之间的竞争场”
+
+---
+
+# 八、可以上线的V1功能范围（MVP）
+
+## ✔ 必须有：
+
+* 输入问题
+* 结构场展示
+* 理论选择
+* 骰子生成路径
+* 输出文章
+* reroll按钮
+
+---
+
+## ❌ 暂时不要：
+
+* 社交
+* 排行榜
+* AI评分
+* 多用户系统
+
+（这些会稀释概念）
+
+---
+
+# 九、产品一句话定位（可以直接用）
+
+> 骰评经济版：一个通过结构建模 + 理论映射 + 随机路径生成多重经济解释的思想探索工具。
+
+---
+
+# 十、我帮你总结一下你现在的位置
+
+你已经完成：
+
+```text id="status"
+概念层 ✔
+系统层 ✔
+结构设计 ✔
+API设计 ✔
+UI原型 ✔
+产品逻辑 ✔
+```
+
+---
+
+> 🧱 **“骰评·经济版 V1 可部署工程骨架”**
+
+---
+
+# 🚀 一、项目结构（Next.js 14 App Router）
+
+```text id="project"
+dice-economy/
+│
+├── app/
+│   ├── page.tsx                 # 主页面（UI）
+│   ├── api/
+│   │   └── generate/
+│   │       └── route.ts        # 核心生成API
+│
+├── components/
+│   ├── InputBox.tsx
+│   ├── StructureGrid.tsx
+│   ├── TheorySelector.tsx
+│   ├── DicePath.tsx
+│   ├── OutputPanel.tsx
+│   └── RerollButton.tsx
+│
+├── lib/
+│   ├── prompts.ts              # L1-L4 prompt系统
+│   ├── diceEngine.ts          # 骰子逻辑
+│   └── openai.ts              # API封装
+│
+├── styles/
+│   └── globals.css
+│
+├── package.json
+└── next.config.js
+```
+
+---
+
+# 🧠 二、核心页面（app/page.tsx）
+
+```tsx id="page"
+"use client";
+
+import { useState } from "react";
+import InputBox from "@/components/InputBox";
+import StructureGrid from "@/components/StructureGrid";
+import TheorySelector from "@/components/TheorySelector";
+import DicePath from "@/components/DicePath";
+import OutputPanel from "@/components/OutputPanel";
+
+export default function Home() {
+  const [topic, setTopic] = useState("");
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const generate = async () => {
+    setLoading(true);
+
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      body: JSON.stringify({ topic }),
+    });
+
+    const data = await res.json();
+    setResult(data);
+    setLoading(false);
+  };
+
+  return (
+    <main className="p-10 max-w-4xl mx-auto">
+
+      <h1 className="text-2xl font-bold mb-6">
+        骰评 · Economic Atlas Engine
+      </h1>
+
+      <InputBox value={topic} setValue={setTopic} onGenerate={generate} />
+
+      {loading && <p>骰子旋转中...</p>}
+
+      {result && (
+        <>
+          <StructureGrid data={result.structure_fields} />
+          <TheorySelector data={result.theory_lenses} />
+          <DicePath path={result.dice_paths?.[0]} />
+          <OutputPanel content={result.output} />
+        </>
+      )}
+    </main>
+  );
+}
+```
+
+---
+
+# ⚙️ 三、核心 API（app/api/generate/route.ts）
+
+```ts id="api"
+import { NextResponse } from "next/server";
+import { buildPrompts } from "@/lib/prompts";
+
+export async function POST(req: Request) {
+  const { topic } = await req.json();
+
+  const prompts = buildPrompts(topic);
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: prompts.system },
+        { role: "user", content: topic }
+      ],
+      temperature: 0.9
+    })
+  });
+
+  const data = await response.json();
+  const text = data.choices[0].message.content;
+
+  return NextResponse.json(JSON.parse(text));
+}
+```
+
+---
+
+# 🧠 四、Prompt系统（lib/prompts.ts）
+
+```ts id="prompt"
+export function buildPrompts(topic: string) {
+  return {
+    system: `
+You are Dice Economy Engine.
+
+STEP 1: Build 9-field economic structure:
+Production, Distribution, Demand, Pricing, Finance, Institutions, Narrative, Cycle, External.
+
+STEP 2: Select 1 theory lens:
+Marx / Neoclassical / Keynesian / Institutional / Behavioral
+
+STEP 3: Generate 1 causal dice path:
+- pick 1–2 fields
+- build causal chain (3–6 steps)
+- produce insight
+
+STEP 4: Output strict JSON:
+{
+  "structure_fields": {...},
+  "theory_lenses": [],
+  "dice_paths": [],
+  "output": ""
+}
+`,
+  };
+}
+```
+
+---
+
+# 🎲 五、骰子逻辑（lib/diceEngine.ts）
+
+```ts id="dice"
+export function rollDice(fields: string[], lenses: string[]) {
+  const randomField = () =>
+    fields[Math.floor(Math.random() * fields.length)];
+
+  const randomLens =
+    lenses[Math.floor(Math.random() * lenses.length)];
+
+  return {
+    fields: [randomField(), randomField()],
+    lens: randomLens,
+  };
+}
+```
+
+---
+
+# 🧱 六、结构场组件（StructureGrid）
+
+```tsx id="grid"
+export default function StructureGrid({ data }) {
+  return (
+    <div className="grid grid-cols-3 gap-2 mt-6">
+      {Object.keys(data).map((key) => (
+        <div
+          key={key}
+          className="border p-2 text-sm hover:bg-black hover:text-white"
+        >
+          {key}
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+---
+
+# 🧠 七、理论层组件
+
+```tsx id="theory"
+export default function TheorySelector({ data }) {
+  return (
+    <div className="mt-4 flex gap-2">
+      {data.map((t) => (
+        <span
+          key={t}
+          className="px-2 py-1 border rounded text-xs"
+        >
+          {t}
+        </span>
+      ))}
+    </div>
+  );
+}
+```
+
+---
+
+# 🎲 八、骰子路径组件
+
+```tsx id="dicepath"
+export default function DicePath({ path }) {
+  if (!path) return null;
+
+  return (
+    <div className="mt-6 border-l-2 pl-4">
+      <h3 className="font-bold">骰子路径</h3>
+
+      <p>{path.fields?.join(" → ")}</p>
+
+      <p className="mt-2 text-sm text-gray-600">
+        {path.causal_chain?.join(" → ")}
+      </p>
+
+      <p className="mt-2 italic">{path.insight}</p>
+    </div>
+  );
+}
+```
+
+---
+
+# 📝 九、输出层组件
+
+```tsx id="output"
+export default function OutputPanel({ content }) {
+  return (
+    <div className="mt-8 whitespace-pre-wrap">
+      <h3 className="font-bold mb-2">骰评输出</h3>
+      <div className="text-sm leading-6">{content}</div>
+    </div>
+  );
+}
+```
+
+---
+
+# 🔁 十、Reroll机制（关键产品点）
+
+你下一步一定要加这个：
+
+```ts id="reroll"
+const reroll = async () => {
+  // 不重新生成结构
+  // 只换：
+  // - theory lens
+  // - dice path
+}
+```
+
+👉 这是“探索感”的核心
+
+---
+
+# 🌐 十一、部署（Vercel）
+
+只需要：
+
+```bash id="deploy"
+npx create-next-app dice-economy
+cd dice-economy
+npm install
+vercel
+```
+
+---
+
+# 🧠 十二、这个版本已经具备什么能力？
+
+## ✔ 已实现
+
+* 经济结构建模
+* 多理论解释
+* 随机因果路径生成
+* 可交互UI
+* 可部署API
+
+---
+
+## 🚀 已形成产品雏形
+
+> 一个“经济解释空间探索器”
+
+不是工具，是：
+
+> 🎲 “解释现实的机器”
+
+---
+
+# 🧨 下一步升级（如果你继续）
+
+我可以帮你直接推进：
+
+### V1.1
+
+* reroll不刷新结构
+* 多路径对比视图
+
+### V1.2
+
+* 同一问题3种理论并列
+* “解释冲突图”
+
+### V2
+
+* 用户保存“解释地图”
+* 社区骰子路径库
+
+---
+
+# 最关键一句话（给你这个阶段定性）
+
+你现在做的不是：
+
+❌ AI经济分析工具
+
+而是：
+
+> 🧠 “多理论世界解释模拟器（Interpretation Engine）”
+
+---
+

@@ -1,0 +1,922 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes">
+<title>ConStruct Lab · 地缘政治分析框架 v2.1 | 交互式诊断</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background-color:#0b0e14; font-family:'Inter','Segoe UI',system-ui,-apple-system,'Roboto',sans-serif; color:#eef2ff; line-height:1.5; padding:0; }
+.app-container { max-width:1440px; margin:0 auto; padding:1rem 1.5rem 4rem; }
+
+/* HEADER */
+.app-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; padding:1.2rem 0 0.8rem; border-bottom:1px solid rgba(255,255,255,0.08); margin-bottom:0.5rem; }
+.app-header h1 { font-size:1.5rem; font-weight:600; background:linear-gradient(135deg,#e8b44c,#c27ddb); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.app-header .subtitle { color:#8d9aaf; font-size:0.8rem; }
+.toolbar { display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap; }
+.toolbar input { background:#151c28; border:1px solid #2a3140; border-radius:8px; padding:0.4rem 0.8rem; color:#eef2ff; font-size:0.85rem; width:160px; outline:none; transition:border-color 0.2s; }
+.toolbar input:focus { border-color:#e8b44c; }
+.toolbar input::placeholder { color:#5b6e8c; }
+.btn { background:#1a2230; border:1px solid #2a3140; border-radius:8px; padding:0.4rem 1rem; color:#b9c7da; font-size:0.8rem; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+.btn:hover { border-color:#e8b44c; color:#e8b44c; }
+.btn-primary { background:#e8b44c20; border-color:#e8b44c60; color:#e8b44c; }
+.btn-primary:hover { background:#e8b44c30; }
+.btn-danger { background:#ff444410; border-color:#ff444430; color:#ff6b6b; }
+.btn-danger:hover { background:#ff444420; }
+
+/* PROGRESS BAR */
+.progress-bar { display:flex; align-items:center; gap:1rem; padding:0.4rem 0 1rem; font-size:0.75rem; color:#5b6e8c; }
+.progress-track { flex:1; height:4px; background:#1a2230; border-radius:4px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,#e8b44c,#c27ddb); border-radius:4px; transition:width 0.3s; width:0%; }
+.progress-text { white-space:nowrap; }
+
+/* LAYER CARDS */
+.layer-stack { display:flex; flex-direction:column; gap:0.7rem; }
+.layer-card { background:rgba(18,24,34,0.85); backdrop-filter:blur(2px); border-radius:1.2rem; border:1px solid rgba(255,255,255,0.08); overflow:hidden; transition:all 0.2s; }
+.layer-card:hover { border-color:rgba(232,180,76,0.4); background:rgba(24,30,42,0.95); }
+.layer-header { display:flex; align-items:center; justify-content:space-between; padding:0.8rem 1.2rem; background:rgba(0,0,0,0.3); cursor:pointer; user-select:none; border-left:4px solid #e8b44c; }
+.layer-header.order-layer { border-left-color:#4a9eff; }
+.layer-header.feedback-layer { border-left-color:#c27ddb; }
+.layer-header.done { opacity:0.7; }
+.layer-header.done::after { content:"✓"; color:#4caf50; margin-left:auto; font-size:1rem; }
+.layer-num { font-size:0.65rem; background:#e8b44c30; color:#e8b44c; padding:0.15rem 0.5rem; border-radius:4px; font-weight:700; font-family:'JetBrains Mono','Consolas',monospace; }
+.layer-num.order-num { background:#4a9eff30; color:#4a9eff; }
+.layer-title { font-weight:600; font-size:1rem; letter-spacing:-0.2px; display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; }
+.layer-icon { font-size:1.1rem; }
+.layer-sub { font-size:0.7rem; background:#2a2f3c; padding:0.1rem 0.5rem; border-radius:30px; color:#b9c7da; }
+.toggle-icon { font-size:1.2rem; color:#e8b44c; transition:transform 0.2s; }
+.layer-content { padding:0 1.2rem 1rem; border-top:1px solid rgba(255,255,255,0.05); display:none; background:rgba(12,16,24,0.5); }
+.layer-card.open .layer-content { display:block; }
+.layer-card.open .toggle-icon { transform:rotate(90deg); }
+
+/* ORIGINAL STYLES */
+.nodes-grid { display:flex; flex-wrap:wrap; gap:0.6rem; margin:0.7rem 0 0.4rem; }
+.node-item { background:#0f131e; border-radius:2rem; padding:0.3rem 0.9rem; font-size:0.8rem; font-weight:500; border:1px solid #2a3140; transition:all 0.15s; }
+.node-item:hover { background:#e8b44c20; border-color:#e8b44c; transform:translateY(-2px); }
+.node-item.order-node { border-color:#4a9eff40; }
+.node-item.order-node:hover { background:#4a9eff20; border-color:#4a9eff; }
+.node-desc { font-size:0.72rem; color:#9aa9bf; margin-top:0.25rem; line-height:1.4; padding-left:0.5rem; border-left:2px solid #e8b44c60; }
+.node-desc.order-desc { border-left-color:#4a9eff60; }
+.dual-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:0.4rem; }
+.dual-col .node-item { text-align:center; }
+hr { border-color:#2a2f3c; margin:0.4rem 0; }
+.tag { display:inline-block; padding:0.1rem 0.4rem; border-radius:12px; font-size:0.72rem; margin-right:0.2rem; }
+.tag-identity { background:#e8b44c20; color:#e8b44c; border:1px solid #e8b44c40; }
+.tag-order { background:#4a9eff20; color:#4a9eff; border:1px solid #4a9eff40; }
+.tag-hybrid { background:#c27ddb20; color:#c27ddb; border:1px solid #c27ddb40; }
+
+/* INTERACTIVE CONTROLS */
+.ctrl-group { margin:0.6rem 0 0.2rem; }
+.ctrl-label { font-size:0.75rem; color:#8d9aaf; margin-bottom:0.3rem; display:block; }
+.rating-group { display:flex; gap:0.3rem; flex-wrap:wrap; }
+.rating-btn { width:2rem; height:2rem; border-radius:50%; border:1px solid #2a3140; background:#0f131e; color:#5b6e8c; font-size:0.75rem; font-weight:600; cursor:pointer; transition:all 0.15s; }
+.rating-btn:hover { border-color:#e8b44c; color:#e8b44c; }
+.rating-btn.active { background:#e8b44c30; border-color:#e8b44c; color:#e8b44c; }
+.rating-btn.active-4 { background:#4caf5030; border-color:#4caf50; color:#4caf50; }
+.rating-btn.active-5 { background:#4caf5080; border-color:#4caf50; color:#fff; }
+.toggle-group { display:flex; flex-wrap:wrap; gap:0.4rem; }
+.toggle-btn { padding:0.35rem 0.8rem; border-radius:2rem; border:1px solid #2a3140; background:#0f131e; color:#8d9aaf; font-size:0.78rem; cursor:pointer; transition:all 0.15s; }
+.toggle-btn:hover { border-color:#e8b44c60; color:#b9c7da; }
+.toggle-btn.active { background:#e8b44c20; border-color:#e8b44c; color:#e8b44c; }
+.toggle-btn.active-order { background:#4a9eff20; border-color:#4a9eff; color:#4a9eff; }
+textarea { width:100%; background:#0f131e; border:1px solid #2a3140; border-radius:8px; padding:0.5rem; color:#c8d4e6; font-size:0.8rem; resize:vertical; min-height:50px; outline:none; transition:border-color 0.2s; font-family:inherit; }
+textarea:focus { border-color:#e8b44c; }
+select { background:#0f131e; border:1px solid #2a3140; border-radius:8px; padding:0.3rem 0.6rem; color:#c8d4e6; font-size:0.8rem; outline:none; cursor:pointer; }
+select:focus { border-color:#e8b44c; }
+.compact-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; }
+
+/* DIAGNOSIS PANEL */
+.diagnosis { background:rgba(18,24,34,0.95); border:1px solid #c27ddb40; border-radius:1rem; padding:1rem; margin-top:0.5rem; }
+.diagnosis h4 { color:#c27ddb; font-size:0.85rem; margin-bottom:0.5rem; }
+.diag-item { display:flex; justify-content:space-between; padding:0.3rem 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.78rem; }
+.diag-item:last-child { border-bottom:none; }
+.diag-label { color:#8d9aaf; }
+.diag-value { color:#eef2ff; font-weight:500; }
+.diag-badge { display:inline-block; padding:0.08rem 0.5rem; border-radius:12px; font-size:0.7rem; font-weight:600; }
+.badge-good { background:#4caf5020; color:#4caf50; border:1px solid #4caf5040; }
+.badge-warn { background:#ff980020; color:#ff9800; border:1px solid #ff980040; }
+.badge-bad { background:#f4433620; color:#f44336; border:1px solid #f4433640; }
+.badge-neutral { background:#9e9e9e20; color:#9e9e9e; border:1px solid #9e9e9e40; }
+.diag-verdict { font-size:1.1rem; font-weight:700; padding:0.5rem 0; text-align:center; }
+.verdict-ok { color:#4caf50; }
+.verdict-warn { color:#ff9800; }
+.verdict-bad { color:#f44336; }
+
+/* FEEDBACK ZONE */
+.feedback-zone { background:rgba(18,24,34,0.85); border-radius:1.2rem; border:1px solid rgba(194,125,219,0.3); padding:1.5rem; margin-top:1rem; }
+.feedback-zone h3 { font-size:1rem; color:#c27ddb; margin-bottom:0.8rem; display:flex; align-items:center; gap:0.5rem; }
+.loop-item { display:flex; align-items:flex-start; gap:0.8rem; padding:0.5rem 0; border-bottom:1px solid #1e2432; }
+.loop-item:last-child { border-bottom:none; }
+.loop-arrow { font-size:1rem; color:#c27ddb; min-width:30px; text-align:center; }
+.loop-label { font-size:0.78rem; color:#c8d4e6; line-height:1.4; }
+.loop-label strong { color:#c27ddb; }
+.loop-label .layer-ref { font-family:'JetBrains Mono','Consolas',monospace; font-size:0.65rem; background:#c27ddb20; color:#c27ddb; padding:0.1rem 0.3rem; border-radius:3px; }
+
+/* ACTOR PRESET */
+.actor-bar { display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0.8rem; margin-bottom:0.3rem; background:rgba(18,24,34,0.5); border-radius:10px; border:1px solid rgba(255,255,255,0.05); flex-wrap:wrap; }
+.actor-bar select { flex:1; min-width:180px; background:#0f131e; border:1px solid #2a3140; border-radius:8px; padding:0.4rem 0.6rem; color:#c8d4e6; font-size:0.82rem; outline:none; cursor:pointer; }
+.actor-bar select:focus { border-color:#e8b44c; }
+.actor-info { font-size:0.75rem; color:#8d9aaf; display:flex; gap:0.8rem; flex-wrap:wrap; }
+.actor-info span { background:#1a2230; padding:0.15rem 0.5rem; border-radius:6px; }
+.actor-info .config-tag { display:inline-block; padding:0.1rem 0.4rem; border-radius:12px; font-size:0.72rem; }
+.actor-info .ver-tag { color:#4caf50; }
+/* L12 SCENARIO SYSTEM */
+.system-vis { display:flex; flex-direction:column; gap:0.5rem; margin:0.5rem 0; }
+.sys-layer { border-radius:8px; padding:0.5rem; border:1px solid rgba(255,255,255,0.08); }
+.sys-layer.engine { background:rgba(232,180,76,0.1); border-color:#e8b44c40; }
+.sys-layer.transmit { background:rgba(74,158,255,0.08); border-color:#4a9eff30; }
+.sys-layer.express { background:rgba(194,125,219,0.08); border-color:#c27ddb30; }
+.sys-layer h5 { font-size:0.75rem; margin-bottom:0.2rem; }
+.sys-layer .sys-items { display:flex; flex-wrap:wrap; gap:0.3rem; }
+.sys-tag { padding:0.2rem 0.5rem; border-radius:4px; font-size:0.72rem; background:#0f131e; border:1px solid #2a3140; cursor:pointer; transition:all 0.15s; }
+.sys-tag.active { border-color:#e8b44c; background:#e8b44c20; }
+.method-bar { display:flex; gap:0.15rem; align-items:center; }
+.method-dot { width:1.3rem; height:1.3rem; border-radius:3px; border:1px solid #2a3140; background:#0f131e; font-size:0.6rem; display:flex; align-items:center; justify-content:center; color:#5b6e8c; font-weight:700; }
+.method-dot.high { background:#e8b44c30; border-color:#e8b44c; color:#e8b44c; }
+.method-dot.med { background:#4a9eff20; border-color:#4a9eff40; color:#7abfff; }
+.method-dot.low { opacity:0.4; }
+.ref-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.4rem; font-size:0.72rem; }
+.ref-item { padding:0.3rem; border-radius:6px; background:#0f131e; border:1px solid #2a3140; }
+
+.mapping-table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.75rem; }
+.mapping-table th { background:#1a2030; color:#e8b44c; padding:0.35rem 0.5rem; text-align:left; font-weight:600; border-bottom:1px solid #2a3140; }
+.mapping-table td { padding:0.35rem 0.5rem; border-bottom:1px solid #1e2432; color:#c8d4e6; }
+.mapping-table tr:hover td { background:#e8b44c10; }
+
+.flow-indicator { display:flex; align-items:center; justify-content:center; gap:1rem; padding:0.3rem 0; font-size:0.75rem; color:#8d9aaf; flex-wrap:wrap; }
+
+/* MODAL */
+.modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); display:none; z-index:1000; align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal-box { background:#151c28; border:1px solid #2a3140; border-radius:1rem; padding:1.5rem; max-width:600px; width:90%; max-height:80vh; overflow:auto; }
+.modal-box h3 { color:#e8b44c; margin-bottom:0.8rem; }
+.modal-actions { display:flex; gap:0.5rem; justify-content:flex-end; margin-top:1rem; }
+.modal-box textarea { min-height:200px; font-family:'Consolas','Courier New',monospace; font-size:0.75rem; }
+
+@media (max-width:680px) {
+  .dual-col { grid-template-columns:1fr; }
+  .compact-grid { grid-template-columns:1fr; }
+  .layer-header { padding:0.7rem 0.8rem; }
+  .layer-title { font-size:0.9rem; }
+  .toolbar input { width:120px; }
+  .app-header h1 { font-size:1.2rem; }
+}
+
+.footnote { text-align:center; margin-top:2rem; font-size:0.72rem; color:#5b6e8c; border-top:1px solid #1e2432; padding-top:1rem; }
+</style>
+</head>
+<body>
+<div class="app-container">
+<div class="app-header">
+  <div>
+    <h1>⚔️ ConStruct Lab · 地缘诊断工具</h1>
+    <div class="subtitle">从事件到长期存在 — 行为主体如何维持自身</div>
+  </div>
+  <div class="toolbar">
+    <input type="text" id="analysisName" placeholder="分析名称（可选）" onchange="updateMeta()">
+    <button class="btn btn-primary" onclick="exportReport()">📤 导出报告</button>
+    <button class="btn btn-danger" onclick="resetAll()">🔄 新建分析</button>
+  </div>
+</div>
+  <div class="actor-bar" id="actorBar" style="margin-top:-0.5rem;">
+    <select id="actorSelect" onchange="loadActorPreset(this.value)">
+      <option value="">📋 选择预设主体...</option>
+    </select>
+    <div class="actor-info" id="actorInfo">
+      <span>选中预设后自动填入 L1/L2/L10</span>
+    </div>
+  </div>
+<div class="progress-bar">
+  <span class="progress-text" id="progressText">进度: 0/13</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+<div class="version-badge" style="text-align:right;font-size:0.7rem;color:#5b6e8c;margin-bottom:0.5rem;">
+  结构性诊断 · 交互式工具 <span style="color:#c27ddb;">v2.1</span>
+</div>
+
+<!-- L0 -->
+<div class="layer-stack" id="layerStack">
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L0</span><span class="layer-icon">🌍</span> 世界事件 & 行为观察 <span class="layer-sub">输入层</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="nodes-grid"><div class="node-item" title="地缘政治、冲突等">原始事件</div><div class="node-item" title="媒体报道、情报等">感知过滤</div><div class="node-item" title="观察者立场">框架定位</div></div>
+<div class="node-desc">地缘博弈的起点：外部冲击或内部变动被行为体"感知"，触发后续分析链。</div>
+<div class="ctrl-group"><label class="ctrl-label">当前情境描述</label>
+<textarea id="L0_desc" placeholder="描述当前分析的地缘事件情境..." onchange="updateState('L0_desc','notes.L0')"></textarea></div>
+</div></div>
+
+<!-- L1 -->
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L1</span><span class="layer-icon">🎭</span> 行为主体 (Actor) <span class="layer-sub">分析单元</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="nodes-grid"><div class="node-item">国家</div><div class="node-item">政党/运动</div><div class="node-item">领导人/派系</div><div class="node-item">国际组织</div><div class="node-item">非国家武装</div></div>
+<div class="node-desc">核心追问：谁在行动？它的"持续存在"靠什么支撑？</div>
+<div class="ctrl-group compact-grid">
+<div><label class="ctrl-label">主体名称</label><input type="text" id="L1_name" placeholder="输入国家/组织名称" onchange="updateState('L1_name','actor.name')" style="width:100%;background:#151c28;border:1px solid #2a3140;border-radius:8px;padding:0.4rem 0.8rem;color:#eef2ff;font-size:0.85rem;outline:none;"></div>
+<div><label class="ctrl-label">主体类型</label>
+<select id="L1_type" onchange="updateState('L1_type','actor.type')">
+<option value="">选择类型...</option>
+<option value="国家">国家</option><option value="政党/运动">政党/运动</option>
+<option value="领导人/派系">领导人/派系</option><option value="国际组织">国际组织</option>
+<option value="非国家武装">非国家武装</option>
+</select></div>
+</div>
+</div></div>
+
+<!-- L2 -->
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L2</span><span class="layer-icon">⚖️</span> 连续性类型 <span class="layer-sub">核心恐惧分野 · 贯穿L10</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="ctrl-group"><label class="ctrl-label">选择连续性类型</label>
+<div class="toggle-group" id="L2_group">
+<button class="toggle-btn" data-value="identity" onclick="selectRadio(this,'L2','continuity.type'); cascadeL2()"><span class="tag tag-identity">主体型</span> 主体连续性<br><span style="font-size:0.7rem;color:#8d9aaf;">恐惧身份消失（美国/MAGA/以色列）</span></button>
+<button class="toggle-btn" data-value="order" onclick="selectRadio(this,'L2','continuity.type'); cascadeL2()"><span class="tag tag-order">秩序型</span> 秩序连续性<br><span style="font-size:0.7rem;color:#8d9aaf;">恐惧失序崩坏（中国/日本/新加坡）</span></button>
+<button class="toggle-btn" data-value="hybrid" onclick="selectRadio(this,'L2','continuity.type'); cascadeL2()"><span class="tag tag-hybrid">混合型</span> 混合连续性<br><span style="font-size:0.7rem;color:#8d9aaf;">对外认同渴望 + 对内严防失序</span></button>
+</div>
+</div>
+<div class="node-desc" style="margin-top:0.3rem;">选择后将自动映射到L10策略倾向。可在L10手动调整。</div>
+</div></div>
+
+<!-- L3 -->
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L3</span><span class="layer-icon">🌀</span> 存在方式 (Existence) <span class="layer-sub">权重评估</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="node-desc">"我们赖以存在的形式"——为每种方式评估重要性（1-5）</div>
+<div class="compact-grid" id="L3_grid" style="margin-top:0.5rem;">
+<div><label class="ctrl-label">主权独立</label><div class="rating-group">1 2 3 4 5</div></div>
+<div><label class="ctrl-label">文化-文明延续</label><div class="rating-group">1 2 3 4 5</div></div>
+<div><label class="ctrl-label">制度韧性</label><div class="rating-group">1 2 3 4 5</div></div>
+<div><label class="ctrl-label">象征权力</label><div class="rating-group">1 2 3 4 5</div></div>
+</div>
+<div class="node-desc" style="margin-top:0.4rem;">不仅是物理生存，更是意义和合法性的延续。</div>
+</div></div>
+
+<!-- L4 -->
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L4</span><span class="layer-icon">🏛️</span> 建构来源层 <span class="layer-sub">基底原材料</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="node-desc">挑选对该主体最具影响力的建构来源（可多选）</div>
+<div class="ctrl-group"><div class="toggle-group" id="L4_group">
+<button class="toggle-btn" data-key="narrative" onclick="toggleCheck(this,'sources')">历史叙事</button>
+<button class="toggle-btn" data-key="trauma" onclick="toggleCheck(this,'sources')">创伤锚点</button>
+<button class="toggle-btn" data-key="myth" onclick="toggleCheck(this,'sources')">建国神话</button>
+<button class="toggle-btn" data-key="institution" onclick="toggleCheck(this,'sources')">制度遗产</button>
+<button class="toggle-btn" data-key="tradition" onclick="toggleCheck(this,'sources')">文化传统</button>
+<button class="toggle-btn" data-key="memory" onclick="toggleCheck(this,'sources')">集体记忆</button>
+<button class="toggle-btn" data-key="organization" onclick="toggleCheck(this,'sources')">社会组织方式</button>
+</div></div>
+<div class="node-desc">以上要素沉淀为行为体的"身份基因"与"秩序记忆"。</div>
+</div></div>
+
+<!-- L5 -->
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L5</span><span class="layer-icon">🔧</span> 维持机制层 <span class="layer-sub">内部稳态</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="node-desc">评估各维持机制的健康度（1-5）</div>
+<div class="compact-grid" id="L5_grid" style="margin-top:0.5rem;">
+<div><label class="ctrl-label">合法性（绩效/程序/传统）</label><div class="rating-group"></div></div>
+<div><label class="ctrl-label">忠诚（政党/家族/意识形态）</label><div class="rating-group"></div></div>
+<div><label class="ctrl-label">仪式（集会/庆典/教育）</label><div class="rating-group"></div></div>
+<div><label class="ctrl-label">叙事（历史故事/危机动员）</label><div class="rating-group"></div></div>
+</div>
+<div class="node-desc" style="margin-top:0.4rem;">⬇️ 内部秩序维持系统：制度惯性、官僚体系、社会契约、经济红利。</div>
+</div></div>
+
+<!-- L6 -->
+<div class="layer-card"><div class="layer-header order-layer" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num order-num">L6</span><span class="layer-icon">📊</span> 秩序价值层 <span class="layer-sub">存续质量 · 双维度诊断</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="dual-col">
+<div><div class="node-item order-node">🏛️ 内部秩序价值</div>
+<div style="margin-top:0.5rem;"><div class="ctrl-group"><label class="ctrl-label">基础秩序（主权/安全/公共品供给）</label><div class="rating-group" id="L6_int_basic"></div></div>
+<div class="ctrl-group"><label class="ctrl-label">分配秩序（贫富差距/阶层流动/兜底能力）</label><div class="rating-group" id="L6_int_dist"></div></div>
+<div class="ctrl-group"><label class="ctrl-label">共识秩序（身份认同/合法性/包容度）</label><div class="rating-group" id="L6_int_cons"></div></div></div></div>
+<div><div class="node-item order-node">🌐 全球秩序价值</div>
+<div style="margin-top:0.5rem;">
+<div class="ctrl-group"><label class="ctrl-label">主体秩序角色</label>
+<select id="L6_role" onchange="updateState('L6_role','order.global.role')">
+<option value="">选择角色...</option>
+<option value="塑造者">塑造者</option><option value="依附者">依附者</option>
+<option value="挑战者">挑战者</option><option value="游离者">游离者</option>
+</select></div>
+<div class="ctrl-group"><label class="ctrl-label">秩序贡献（1=巨大损耗,5=巨大贡献）</label><div class="rating-group" id="L6_glob_contrib"></div></div>
+<div class="ctrl-group"><label class="ctrl-label">全球正当性（1=被孤立,5=高度认同）</label><div class="rating-group" id="L6_glob_legit"></div></div></div></div>
+</div>
+<hr>
+<div class="flow-indicator"><span style="color:#e8b44c;">内部秩序质量</span><span class="arrow">➜</span><span style="color:#4a9eff;">全球秩序角色</span><span class="arrow arrow-reverse">⇠</span><span style="color:#4a9eff;">全球秩序压力</span><span class="arrow">➜</span><span style="color:#e8b44c;">内部秩序重塑</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin-top:0.3rem;">
+<div class="node-item" style="background:#1a2a2f;border-color:#4a9eff30;">R16 内部秩序脆弱性约束</div>
+<div class="node-item" style="background:#1a2a2f;border-color:#4a9eff30;">R17 全球角色合法性约束</div>
+<div class="node-item" style="background:#1a2a2f;border-color:#4a9eff30;">R18 双重崩溃风险</div>
+</div>
+</div></div>
+
+<!-- L7 -->
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L7</span><span class="layer-icon">👁️</span> 他者系统层 <span class="layer-sub">欲望拓扑</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="node-desc">标记哪些"他者"在当前分析中活跃</div>
+<div class="ctrl-group"><div class="toggle-group" id="L7_group">
+<button class="toggle-btn" data-key="ideal" onclick="toggleCheck(this,'others')">✨ 理想他者</button>
+<button class="toggle-btn" data-key="audience" onclick="toggleCheck(this,'others')">👀 观众他者</button>
+<button class="toggle-btn" data-key="enemy" onclick="toggleCheck(this,'others')">⚔️ 敌人他者</button>
+<button class="toggle-btn" data-key="mirror" onclick="toggleCheck(this,'others')">🪞 镜像他者</button>
+</div></div>
+</div></div>
+
+<!-- L8 -->
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L8</span><span class="layer-icon">💔</span> 创伤系统层 → 核心恐惧 <span class="layer-sub">底层驱力</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="node-desc">评估每种核心恐惧的驱动强度（1-5），这是诊断的核心输入</div>
+<div class="compact-grid" id="L8_grid" style="margin-top:0.5rem;">
+<div><label class="ctrl-label">身份消失（不被承认/被同化）</label><div class="rating-group"></div></div>
+<div><label class="ctrl-label">失序恐慌（内战/制度瓦解）</label><div class="rating-group"></div></div>
+<div><label class="ctrl-label">边缘化（被体系抛弃/沦为棋子）</label><div class="rating-group"></div></div>
+<div><label class="ctrl-label">灭绝威胁（物理消灭/文明断层）</label><div class="rating-group"></div></div>
+</div>
+</div></div>
+
+<!-- L9 -->
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L9</span><span class="layer-icon">🎯</span> 战略选择 → 行动输出</div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="node-desc">标记该主体正在使用的战略手段</div>
+<div class="ctrl-group"><div class="toggle-group" id="L9_group">
+<button class="toggle-btn" data-key="alliance" onclick="toggleCheck(this,'strategies')">外交结盟/对冲</button>
+<button class="toggle-btn" data-key="military" onclick="toggleCheck(this,'strategies')">军事威慑/收缩</button>
+<button class="toggle-btn" data-key="economic" onclick="toggleCheck(this,'strategies')">经济制裁/依赖</button>
+<button class="toggle-btn" data-key="cultural" onclick="toggleCheck(this,'strategies')">文化输出/防御</button>
+</div></div>
+</div></div>
+
+<!-- L10 -->
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L10</span><span class="layer-icon">🧬</span> 生物类比层 · 终极动机 <span class="layer-sub">持久生存 · 对接L2</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="node-desc">🎯 一切行为均服务于"长期存在"。L2选择自动映射策略类型，可在此手动调整。</div>
+<div class="ctrl-group"><label class="ctrl-label">策略类型（来自L2映射）</label>
+<select id="L10_strategy" onchange="updateState('L10_strategy','strategyType.selected')">
+<option value="" id="L10_auto_hint">等待L2选择...</option>
+<option value="conservative">保守型（维持现状·冻结秩序）</option>
+<option value="balance">平衡型（摆荡对冲）</option>
+<option value="innovation">创新型（动态重构身份）</option>
+<option value="ideological">意识形态型（理念驱动扩张）</option>
+<option value="expansion">扩张型（主动塑造环境）</option>
+<option value="symbiotic">共生型（融合式发展）</option>
+</select>
+</div>
+<table class="mapping-table">
+<tr><th>构型</th><th>典型策略</th><th>行为特征</th></tr>
+<tr><td><span class="tag tag-order">冻结局</span></td><td>保守型 + 平衡型</td><td>冻结一切防变质</td></tr>
+<tr><td><span class="tag tag-identity">摆荡式</span></td><td>平衡型</td><td>在理想他者与敌人他者之间摇摆</td></tr>
+<tr><td><span class="tag tag-identity">互锁式</span></td><td>意识形态型 + 扩张型</td><td>靠否定他者维持自身</td></tr>
+<tr><td><span class="tag tag-identity">交易式</span></td><td>创新型</td><td>身份随交易重构</td></tr>
+<tr><td><span class="tag tag-order">整合式</span></td><td>扩张型 + 共生型</td><td>矛盾内嵌稳定秩序</td></tr>
+</table>
+</div></div>
+
+<!-- L11 -->
+<div class="layer-card" style="border-left-color:#c27ddb;"><div class="layer-header feedback-layer" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num feedback-num">L11</span><span class="layer-icon">♾️</span> 长期存在 · 穿越周期 <span class="layer-sub">自动诊断结果</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="node-desc" style="font-size:0.85rem;color:#ddddff;">
+一个国家或政治共同体在历史长河中延续自身主体性/秩序性的最终指向。框架不预测短期胜负，而诊断"哪一种存在方式在给定约束下是可能的、哪一种是不可逆的"。
+</div>
+<div class="diagnosis" id="diagnosisPanel">
+  <h4>📋 诊断结果（实时更新）</h4>
+  <div id="diagnosisContent">
+    <div class="diag-item"><span class="diag-label">连续性类型</span><span class="diag-value" id="diag_continuity">—</span></div>
+    <div class="diag-item"><span class="diag-label">排序恐惧</span><span class="diag-value" id="diag_fear">—</span></div>
+    <div class="diag-item"><span class="diag-label">内部秩序健康度</span><span class="diag-value" id="diag_orderHealth">—</span></div>
+    <div class="diag-item"><span class="diag-label">全球角色</span><span class="diag-value" id="diag_globalRole">—</span></div>
+    <div class="diag-item"><span class="diag-label">策略倾向</span><span class="diag-value" id="diag_strategy">—</span></div>
+    <div class="diag-item"><span class="diag-label">主要风险</span><span class="diag-value" id="diag_risks">—</span></div>
+    <div class="diag-item"><span class="diag-label">行为评估</span><span class="diag-value" id="diag_profile">—</span></div>
+  </div>
+  <hr style="margin:0.5rem 0;">
+  <div class="diag-verdict" id="diag_verdict">请填写各层评估以生成诊断</div>
+</div>
+</div></div>
+</div>
+
+<!-- L12 -->
+<div class="layer-card"><div class="layer-header" onclick="toggleLayer(this)">
+<div class="layer-title"><span class="layer-num">L12</span><span class="layer-icon">🌍</span> 行为系统地图 <span class="layer-sub">方法·场景·气质</span></div>
+<span class="toggle-icon">▶</span></div>
+<div class="layer-content">
+<div class="node-desc">选中主体后查看其行为方法分布、类型气质及在三级场景网络中的位置。</div>
+<div id="methodDisplay" style="margin:0.5rem 0;">
+  <div style="font-size:0.75rem;color:#8d9aaf;text-align:center;">请在 L1 选择主体或从预设加载</div>
+</div>
+<div style="margin-top:0.5rem;"><div class="ctrl-group"><label class="ctrl-label">行为方法分布 (M1-M8)</label>
+<div class="method-bar" id="methodBar" style="display:flex;gap:0.3rem;flex-wrap:wrap;padding:0.3rem 0;">
+  <span class="method-dot">M1</span><span class="method-dot">M2</span><span class="method-dot">M3</span><span class="method-dot">M4</span><span class="method-dot">M5</span><span class="method-dot">M6</span><span class="method-dot">M7</span><span class="method-dot">M8</span>
+  <span style="font-size:0.65rem;color:#5b6e8c;margin-left:0.5rem;">选择预设显示方法分布</span>
+</div></div></div>
+
+<div class="system-vis" id="sysDisplay">
+<div class="sys-layer engine"><h5>🔥 引擎层</h5><div class="sys-items"><span class="sys-tag">AI/芯片</span><span class="sys-tag">全球金融</span></div></div>
+<div class="sys-layer transmit"><h5>🔄 传导层</h5><div class="sys-items"><span class="sys-tag">中东能源</span><span class="sys-tag">非洲矿产</span><span class="sys-tag">俄乌粮/能</span><span class="sys-tag">北极航道</span></div></div>
+<div class="sys-layer express"><h5>💥 表现层</h5><div class="sys-items"><span class="sys-tag">台海★</span><span class="sys-tag">南海</span><span class="sys-tag">印巴</span><span class="sys-tag">拉美</span></div></div>
+</div>
+
+<hr>
+<div style="font-size:0.7rem;color:#8d9aaf;">▶ <strong>方法简参</strong>: M1=强制 M2=交易 M3=规范 M4=赎罪 M5=冻结 M6=互锁 M7=复兴 M8=自主</div>
+</div></div>
+
+<!-- Feedback Zone -->
+<div class="feedback-zone">
+<h3>🔄 反馈回路 · 线性栈→闭环</h3>
+<div class="loop-item"><div class="loop-arrow">①</div><div class="loop-label"><strong>行动→事件</strong> · <span class="layer-ref">L9</span> → <span class="layer-ref">L0</span><br>战略输出创造新事件（制裁引发反制裁、威慑触发对抗升级）</div></div>
+<div class="loop-item"><div class="loop-arrow">②</div><div class="loop-label"><strong>存在→建构</strong> · <span class="layer-ref">L11</span> → <span class="layer-ref">L4</span><br>长期存续本身成为新的建国神话/制度遗产</div></div>
+<div class="loop-item"><div class="loop-arrow">③</div><div class="loop-label"><strong>全球↔内部</strong> · <span class="layer-ref">L6右</span> ⇄ <span class="layer-ref">L6左</span><br>内部秩序健康度决定全球博弈能力，全球秩序压力反过来重塑内部秩序选择</div></div>
+</div>
+
+<div class="footnote">ConStruct Lab · v2.1 结构性诊断工具 | 行动学 + 欲望拓扑 + 约束验证 + 秩序价值层 + 反馈回路</div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="exportModal"><div class="modal-box">
+<h3>📤 导出报告</h3>
+<textarea id="exportContent" readonly></textarea>
+<div class="modal-actions">
+<button class="btn" onclick="copyExport()">📋 复制</button>
+<button class="btn" onclick="downloadExport()">💾 下载JSON</button>
+<button class="btn btn-danger" onclick="closeModal()">关闭</button>
+</div>
+</div></div>
+
+<script>
+
+<script>
+// ======= STATE & HELPERS =======
+const state = {
+  actor: { name: '', type: '' },
+  continuity: { type: '' },
+  existence: { sovereignty: 3, culture: 3, institution: 3, symbolic: 3 },
+  sources: {},
+  maintenance: { legitimacy: 3, loyalty: 3, ritual: 3, narrative: 3 },
+  order: { internal: { basic: 3, distribution: 3, consensus: 3 }, global: { role: '', contribution: 3, legitimacy: 3 } },
+  others: {},
+  fears: { identity_loss: 3, disorder: 3, marginalization: 3, extinction: 3 },
+  strategies: {},
+  strategyType: { selected: '' },
+  notes: { L0: '' }
+};
+
+// ======= ACTOR PRESET DATABASE =======
+const ACTOR_DB = {
+  US:{name:'美国',type:'国家',config:'交易式',l2:'identity',l10:'innovation',note:'丧失中心地位'},
+  CN:{name:'中国',type:'国家',config:'天下型',l2:'order',l10:'expansion',note:'中心能力衰减'},
+  RU:{name:'俄罗斯',type:'国家',config:'强权复兴式',l2:'identity',l10:'expansion',note:'存在消除'},
+  EU:{name:'欧盟',type:'国际组织',config:'整合式',l2:'order',l10:'symbiotic',note:'共识破裂'},
+  JP:{name:'日本',type:'国家',config:'冻结局',l2:'order',l10:'conservative',note:'解冻=死亡'},
+  DE:{name:'德国',type:'国家',config:'Ordnung型',l2:'order',l10:'conservative',note:'秩序能力丧失'},
+  FR:{name:'法国',type:'国家',config:'戴高乐主义自主',l2:'identity',l10:'balance',note:'大国幻觉破灭'},
+  UK:{name:'英国',type:'国家',config:'收缩式',l2:'hybrid',l10:'conservative',note:'身份再定义失败'},
+  IN:{name:'印度',type:'国家',config:'自主型',l2:'identity',l10:'balance',note:'次等大国确认'},
+  KR:{name:'韩国',type:'国家',config:'冻结局变体',l2:'order',l10:'conservative',note:'双锚冻结'},
+  AU:{name:'澳大利亚',type:'国家',config:'冻结局变体',l2:'order',l10:'balance',note:'经济-安全倒挂'},
+  IL:{name:'以色列',type:'国家',config:'互锁式',l2:'identity',l10:'ideological',note:'对手被承认'},
+  IR:{name:'伊朗',type:'国家',config:'互锁式',l2:'identity',l10:'ideological',note:'对手被承认'},
+  SA:{name:'沙特',type:'国家',config:'交易式',l2:'identity',l10:'innovation',note:'没钱付账'},
+  TR:{name:'土耳其',type:'国家',config:'撕裂式',l2:'hybrid',l10:'balance',note:'Identity失败'},
+  EG:{name:'埃及',type:'国家',config:'断裂-冻结式',l2:'hybrid',l10:'conservative',note:'下次爆裂'},
+  SG:{name:'新加坡',type:'国家',config:'冻结局',l2:'order',l10:'conservative',note:'冻结局变化'},
+  SRB:{name:'塞尔维亚',type:'国家',config:'摆荡式',l2:'hybrid',l10:'balance',note:'静止=丧失'},
+  PK:{name:'巴基斯坦',type:'国家',config:'互锁式变体',l2:'identity',l10:'ideological',note:'南亚镜像'},
+  KP:{name:'朝鲜',type:'国家',config:'冻结局极端版',l2:'order',l10:'conservative',note:'解冻=死亡'},
+  UN:{name:'联合国',type:'国际组织',config:'整合式衰退版',l2:'order',l10:'symbiotic',note:'否决权冻结'},
+  IMF:{name:'IMF',type:'国际组织',config:'整合式冻结版',l2:'order',l10:'innovation',note:'金融消防员'},
+  WB:{name:'世界银行',type:'国际组织',config:'整合式冻结版',l2:'order',l10:'conservative',note:'1944权力'},
+  WTO:{name:'WTO',type:'国际组织',config:'整合式衰退版',l2:'order',l10:'conservative',note:'没法官'},
+  NATO:{name:'北约',type:'国际组织',config:'整合式极端版',l2:'order',l10:'expansion',note:'依附型安全'},
+  SCO:{name:'上合组织',type:'国际组织',config:'多元平台',l2:'hybrid',l10:'symbiotic',note:'双核分歧'},
+  ASEAN:{name:'东盟',type:'国际组织',config:'协调平台',l2:'order',l10:'balance',note:'不选边'},
+  AL:{name:'阿盟',type:'国际组织',config:'协调平台弱版',l2:'order',l10:'balance',note:'统一恐惧'},
+  GCC:{name:'海合会',type:'国际组织',config:'精英俱乐部',l2:'order',l10:'conservative',note:'双核心竞争'},
+  BRICS:{name:'金砖',type:'国际组织',config:'多元平台',l2:'hybrid',l10:'symbiotic',note:'非西方'},
+  OPEC:{name:'OPEC',type:'国际组织',config:'卡特尔',l2:'hybrid',l10:'innovation',note:'作弊最优'},
+  ASML:{name:'ASML',type:'企业',config:'技术冻结局',l2:'order',l10:'conservative',note:'EUV垄断'},
+  TSMC:{name:'台积电',type:'企业',config:'技术互锁式',l2:'identity',l10:'ideological',note:'制程瓶颈'},
+  NVDA:{name:'英伟达',type:'企业',config:'技术锚定式',l2:'hybrid',l10:'expansion',note:'AI生态垄断'},
+  OAI:{name:'OpenAI',type:'企业',config:'技术交易式',l2:'identity',l10:'innovation',note:'AI定义权'},
+  SPX:{name:'SpaceX',type:'企业',config:'技术锚定式双锚',l2:'hybrid',l10:'expansion',note:'太空基础'},
+  SMSNG:{name:'三星',type:'企业',config:'技术互锁式韩版',l2:'identity',l10:'ideological',note:'韩国Identity'},
+  HW:{name:'华为',type:'企业',config:'技术锚定式生存锚',l2:'hybrid',l10:'expansion',note:'制裁质变'},
+  ANTH:{name:'Anthropic',type:'企业',config:'技术锚定式安全锚',l2:'hybrid',l10:'balance',note:'安全派分裂'},
+  DS:{name:'DeepSeek',type:'企业',config:'技术锚定式效率锚',l2:'hybrid',l10:'innovation',note:'效率突破'},
+  BD:{name:'字节跳动',type:'企业',config:'技术交易式',l2:'identity',l10:'innovation',note:'夹层生存'},
+  PLTR:{name:'Palantir',type:'企业',config:'技术锚定式情报锚',l2:'hybrid',l10:'expansion',note:'情报OS'}
+};
+const ACTOR_GROUPS = {
+  '决定性大国':['US','CN','RU','EU'],
+  '区域强国':['JP','DE','FR','UK','IN','KR','AU'],
+  '中东变量':['IL','IR','SA','TR','EG'],
+  '东亚变量':['SG','SRB','PK','KP'],
+  '全球性机构':['UN','IMF','WB','WTO'],
+  '安全政治联盟':['NATO','SCO'],
+  '区域专题':['ASEAN','AL','GCC','BRICS','OPEC'],
+  '物理生态瓶颈':['ASML','TSMC','NVDA','OAI','SPX'],
+  '行业锚点':['SMSNG','HW','ANTH','DS','BD','PLTR']
+};
+
+// ======= CONFIG METHOD PROFILES =======
+const CONFIG_METHODS = {
+  '冻结局':  { m:[1,1,3,1,5,1,1,1], c:'\u03b3/\u03b4', label:'\u51bb\u7ed3=\u751f\u5b58', sys:'\u4f20\u5bfc\u5c42' },
+  '\u6446\u8361\u5f0f': { m:[1,3,1,1,1,1,1,5], c:'\u03b2', label:'\u9759\u6b62=\u4e27\u5931', sys:'\u8868\u73b0\u5c42' },
+  '\u4e92\u9501\u5f0f': { m:[3,1,1,1,1,5,1,1], c:'\u03b5', label:'\u5bf9\u624b=\u9700\u6c42', sys:'\u4f20\u5bfc\u5c42' },
+  '\u4ea4\u6613\u5f0f': { m:[3,5,1,1,1,1,1,1], c:'\u03b2', label:'\u7b39\u7801=\u6743\u529b', sys:'\u5f15\u64ce\u5c42' },
+  '\u6574\u5408\u5f0f': { m:[1,3,5,1,1,1,1,1], c:'\u03b3', label:'\u5171\u8bc6=\u751f\u547d', sys:'\u5f15\u64ce\u5c42' },
+  '\u5929\u4e0b\u578b':  { m:[1,1,3,1,1,1,5,1], c:'\u03b1/\u03b5', label:'\u4e2d\u5fc3=\u79e9\u5e8f', sys:'\u5f15\u64ce\u5c42' },
+  '\u5f3a\u6743\u590d\u5174\u5f0f': { m:[5,1,1,1,1,1,3,1], c:'\u03b5', label:'\u5b58\u5728=\u6743\u529b', sys:'\u5f15\u64ce\u5c42' },
+  '\u81ea\u4e3b\u578b':  { m:[1,2,1,1,1,1,1,5], c:'\u03b2', label:'\u81ea\u4e3b=\u7a7a\u95f4', sys:'\u8868\u73b0\u5c42' },
+  '\u6495\u88c2\u5f0f': { m:[1,1,1,1,1,5,1,3], c:'\u03b5', label:'\u8eab\u4efd=\u6218\u573a', sys:'\u8868\u73b0\u5c42' },
+  'Ordnung\u578b': { m:[1,1,5,3,1,1,1,1], c:'\u03b3', label:'\u79e9\u5e8f=\u8d4e\u7f6a', sys:'\u5f15\u64ce\u5c42' },
+  '\u65ad\u88c2-\u51bb\u7ed3\u5f0f': { m:[1,1,1,1,5,1,1,2], c:'\u03b4', label:'\u51bb\u7ed3=\u5ef6\u7f13', sys:'\u4f20\u5bfc\u5c42' },
+  '\u534f\u8c03\u5e73\u53f0': { m:[1,2,5,1,1,1,1,3], c:'\u03b3', label:'\u4e0d\u9009\u8fb9=\u751f\u5b58', sys:'\u4f20\u5bfc\u5c42' },
+  '\u591a\u5143\u5e73\u53f0': { m:[1,1,3,1,1,1,1,5], c:'\u03b2/\u03b4', label:'\u975e\u897f\u65b9=\u516c\u7ea6\u6570', sys:'\u4f20\u5bfc\u5c42' },
+  '\u7cbe\u82f1\u4ff1\u4e50\u90e8': { m:[1,3,1,1,5,1,1,1], c:'\u03b4', label:'\u53cc\u6838=\u7ade\u4e89\u516c\u5f00', sys:'\u4f20\u5bfc\u5c42' },
+  '\u5361\u7279\u5c14':{ m:[2,5,1,1,3,1,1,1], c:'\u03b2', label:'\u4f5c\u5f0a=\u5354\u8bae\u57fa\u7840', sys:'\u4f20\u5bfc\u5c42' },
+  '\u6280\u672f\u51bb\u7ed3\u5c40':{ m:[1,1,3,1,5,1,1,1], c:'\u03b4', label:'\u5784\u65ad=\u51bb\u7ed3', sys:'\u5f15\u64ce\u5c42' },
+  '\u6280\u672f\u4e92\u9501\u5f0f':{ m:[3,2,1,1,1,5,1,1], c:'\u03b5', label:'\u5236\u7a0b=\u5fc5\u987b', sys:'\u5f15\u64ce\u5c42' },
+  '\u6280\u672f\u951a\u5b9a\u5f0f':{ m:[1,1,1,1,2,1,1,5], c:'\u03b2/\u03b4', label:'\u951a\u70b9=\u8d44\u4ea7', sys:'\u5f15\u64ce\u5c42' },
+  '\u6280\u672f\u4ea4\u6613\u5f0f':{ m:[1,5,1,1,1,1,1,2], c:'\u03b2', label:'\u5b9a\u4e49\u6743=\u4ea4\u6613', sys:'\u5f15\u64ce\u5c42' }
+};
+function getConfigProfile(configName) {
+  for (const [k, v] of Object.entries(CONFIG_METHODS)) {
+    if (configName.includes(k) || k.includes(configName)) return v;
+  }
+  return null;
+}
+
+
+
+function setDeep(obj, path, val) {
+  const keys = path.split('.');
+  for (let i = 0; i < keys.length - 1; i++) {
+    if (obj[keys[i]] === undefined) obj[keys[i]] = {};
+    obj = obj[keys[i]];
+  }
+  obj[keys[keys.length - 1]] = val;
+}
+
+// ======= LAYER TOGGLE =======
+function toggleLayer(header) {
+  const card = header.closest('.layer-card');
+  if (card) card.classList.toggle('open');
+}
+
+// ======= RATING GROUP =======
+function initRatingGroups() {
+  const containers = {
+    'L3_grid': ['existence.sovereignty','existence.culture','existence.institution','existence.symbolic'],
+    'L5_grid': ['maintenance.legitimacy','maintenance.loyalty','maintenance.ritual','maintenance.narrative'],
+    'L8_grid': ['fears.identity_loss','fears.disorder','fears.marginalization','fears.extinction']
+  };
+  for (const [id, paths] of Object.entries(containers)) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    const groups = el.querySelectorAll('.rating-group');
+    groups.forEach((g, i) => {
+      g.dataset.path = paths[i];
+      createRatingButtons(g);
+    });
+  }
+  const l6Map = {
+    'L6_int_basic':'order.internal.basic','L6_int_dist':'order.internal.distribution',
+    'L6_int_cons':'order.internal.consensus','L6_glob_contrib':'order.global.contribution',
+    'L6_glob_legit':'order.global.legitimacy'
+  };
+  for (const [id, path] of Object.entries(l6Map)) {
+    const g = document.getElementById(id);
+    if (!g) continue;
+    g.dataset.path = path;
+    createRatingButtons(g);
+  }
+}
+
+function createRatingButtons(group) {
+  for (let v = 1; v <= 5; v++) {
+    const btn = document.createElement('button');
+    btn.className = 'rating-btn' + (v <= 3 ? ' active' : '');
+    btn.textContent = v;
+    btn.dataset.value = v;
+    btn.onclick = function() { selectRating(this); };
+    group.appendChild(btn);
+  }
+  if (group.dataset.path) setDeep(state, group.dataset.path, 3);
+}
+
+function selectRating(btn) {
+  const group = btn.parentElement;
+  const value = parseInt(btn.dataset.value);
+  group.querySelectorAll('.rating-btn').forEach((b, i) => {
+    const v = i + 1;
+    b.classList.remove('active','active-4','active-5');
+    if (v <= value) {
+      if (v >= 5) b.classList.add('active-5');
+      else if (v >= 4) b.classList.add('active-4');
+      else b.classList.add('active');
+    }
+  });
+  if (group.dataset.path) { setDeep(state, group.dataset.path, value); diagnose(); }
+}
+
+// ======= TOGGLE & RADIO =======
+function toggleCheck(btn, category) {
+  btn.classList.toggle('active');
+  if (!state[category]) state[category] = {};
+  state[category][btn.dataset.key] = btn.classList.contains('active');
+  diagnose();
+}
+
+function selectRadio(btn, layer, path) {
+  btn.parentElement.querySelectorAll('.toggle-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  setDeep(state, path, btn.dataset.value);
+  diagnose();
+}
+
+// ======= STATE UPDATE =======
+function updateState(inputId, path) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  setDeep(state, path, el.value);
+  diagnose();
+}
+
+// ======= L2 CASCADE =======
+function cascadeL2() {
+  const type = state.continuity.type;
+  const sel = document.getElementById('L10_strategy');
+  const hint = document.getElementById('L10_auto_hint');
+  let val = '';
+  let label = '等待L2选择...';
+  if (type === 'identity') { val = 'balance'; label = 'L2建议: 平衡型'; }
+  else if (type === 'order') { val = 'conservative'; label = 'L2建议: 保守型'; }
+  else if (type === 'hybrid') { val = 'balance'; label = 'L2建议: 平衡型'; }
+  if (val) { sel.value = val; state.strategyType.selected = val; }
+  if (hint) hint.textContent = label;
+  diagnose();
+}
+
+
+
+// ======= ACTOR PRESET LOADER =======
+function populateActorDropdown() {
+  var sel = document.getElementById('actorSelect');
+  if (!sel) return;
+  var order = ['决定性大国','区域强国','中东变量','东亚变量','全球性机构','安全政治联盟','区域专题','物理生态瓶颈','行业锚点'];
+  for (var g = 0; g < order.length; g++) {
+    var codeList = ACTOR_GROUPS[order[g]];
+    if (!codeList) continue;
+    var optg = document.createElement('optgroup');
+    optg.label = '\u2501 ' + order[g];
+    for (var c = 0; c < codeList.length; c++) {
+      var a = ACTOR_DB[codeList[c]];
+      if (!a) continue;
+      var opt = document.createElement('option');
+      opt.value = codeList[c];
+      opt.textContent = a.name + ' \u00b7 ' + a.config;
+      optg.appendChild(opt);
+    }
+    sel.appendChild(optg);
+  }
+}
+
+function loadActorPreset(code) {
+  if (!code || !ACTOR_DB[code]) return;
+  var a = ACTOR_DB[code];
+  document.getElementById('L1_name').value = a.name;
+  document.getElementById('L1_type').value = a.type;
+  state.actor.name = a.name;
+  state.actor.type = a.type;
+  var l2Group = document.getElementById('L2_group');
+  var l2Btns = l2Group.querySelectorAll('.toggle-btn');
+  for (var i = 0; i < l2Btns.length; i++) l2Btns[i].classList.remove('active');
+  var l2Btn = l2Group.querySelector('[data-value="' + a.l2 + '"]');
+  if (l2Btn) l2Btn.classList.add('active');
+  state.continuity.type = a.l2;
+  if (typeof cascadeL2 === 'function') cascadeL2();
+  if (a.l10) {
+    document.getElementById('L10_strategy').value = a.l10;
+    state.strategyType.selected = a.l10;
+  }
+  var info = document.getElementById('actorInfo');
+  var tl = {identity:'主体型',order:'秩序型',hybrid:'混合型'};
+  var sl = {conservative:'保守型',balance:'平衡型',innovation:'创新型',ideological:'意识形态型',expansion:'扩张型',symbiotic:'共生型'};
+  info.innerHTML = '<span>' + a.name + ' <span class="config-tag">' + a.config + '</span></span>'
+    + '<span>L2: ' + (tl[a.l2] || '-') + '</span>'
+    + '<span>L10: ' + (sl[a.l10] || '-') + '</span>'
+    + '<span class="ver-tag">' + a.note + '</span>';
+  document.getElementById('analysisName').value = a.name + ' \u00b7 ' + a.config;
+  if (typeof updateMeta === 'function') updateMeta();
+  // Update L12 method display
+  if (typeof getConfigProfile === 'function') {
+    var cp = getConfigProfile(a.config);
+    if (cp) {
+      var md = document.getElementById('methodDisplay');
+      if (md) {
+        var cn = {'a':'\u03b1\u578b-\u5e1d\u56fd', 'b':'\u03b2\u578b-\u4ea4\u6613', 'g':'\u03b3\u578b-\u5236\u5ea6', 'd':'\u03b4\u578b-\u9632\u5fa1', 'e':'\u03b5\u578b-\u53d8\u9769'};
+        var cx = {'\u03b1':'a', '\u03b2':'b', '\u03b3':'g', '\u03b4':'d', '\u03b5':'e'};
+        var chars = cp.c.split('/');
+        var cl = chars.map(function(x) { return cn[cx[x]] || x; }).join(' / ');
+        var h = '<div style="font-size:0.75rem;color:#8d9aaf;margin-bottom:0.35rem;"><strong>\u6c14\u8d28\u7c7b\u578b:</strong> ' + cl + ' <span style="color:#5b6e8c;">|</span> <strong>\u884c\u4e3a\u65b9\u6cd5:</strong></div><div class="method-bar" style="display:flex;gap:0.15rem;">';
+        var ml = ['M1\u5f3a\u5236','M2\u4ea4\u6613','M3\u89c4\u8303','M4\u8d4e\u7f6a','M5\u51bb\u7ed3','M6\u4e92\u9501','M7\u590d\u5174','M8\u81ea\u4e3b'];
+        for (var mi = 0; mi < 8; mi++) {
+          var lv = 'low';
+          if (cp.m[mi] >= 5) lv = 'high';
+          else if (cp.m[mi] >= 3) lv = 'med';
+          h += '<span class="method-dot ' + lv + '" title="' + ml[mi] + '">' + ml[mi].slice(0,2) + '</span>';
+        }
+        md.innerHTML = h + '</div>';
+      }
+      // Highlight scenario system
+      var sysLayer = {'\u5f15\u64ce\u5c42':['AI/\u82af\u7247','\u5168\u7403\u91d1\u878d'], '\u4f20\u5bfc\u5c42':['\u4e2d\u4e1c\u80fd\u6e90','\u975e\u6d32\u77ff\u4ea7','\u4fc4\u4e4c\u7cae/\u80fd','\u5317\u6781\u822a\u9053'], '\u8868\u73b0\u5c42':['\u53f0\u6d77\u2605','\u5357\u6d77','\u5370\u5df4','\u62c9\u7f8e']};
+      var st = document.querySelectorAll('.sys-tag');
+      st.forEach(function(t) { t.classList.remove('active'); });
+      if (cp.sys && sysLayer[cp.sys]) {
+        sysLayer[cp.sys].forEach(function(name) {
+          st.forEach(function(t) {
+            if (t.textContent.trim().startsWith(name)) t.classList.add('active');
+          });
+        });
+      }
+    }
+  }
+  if (typeof diagnose === 'function') diagnose();
+}
+
+// ======= DIAGNOSIS ENGINE =======
+function diagnose() {
+  const d = {};
+  const typeLabels = { identity:'主体连续性', order:'秩序连续性', hybrid:'混合连续性' };
+  d.continuityLabel = typeLabels[state.continuity.type] || '—';
+
+  const fearLabels = { identity_loss:'身份消失', disorder:'失序恐慌', marginalization:'边缘化', extinction:'灭绝威胁' };
+  let maxF = '', maxV = 0;
+  for (const [k, v] of Object.entries(state.fears)) {
+    if (v > maxV) { maxV = v; maxF = k; }
+  }
+  d.primaryFear = maxF ? fearLabels[maxF] + ' (' + maxV + ')' : '—';
+  d.primaryFearKey = maxF;
+  d.primaryFearVal = maxV;
+
+  const io = state.order.internal;
+  const orderAvg = (parseInt(io.basic||3) + parseInt(io.distribution||3) + parseInt(io.consensus||3)) / 3;
+  d.orderAvg = orderAvg;
+  if (orderAvg >= 4) d.orderHealth = { label:'健康', cls:'good' };
+  else if (orderAvg >= 3) d.orderHealth = { label:'一般', cls:'neutral' };
+  else if (orderAvg >= 2) d.orderHealth = { label:'脆弱', cls:'warn' };
+  else d.orderHealth = { label:'危险', cls:'bad' };
+  d.globalRole = state.order.global.role || '—';
+
+  const sl = { conservative:'保守型', balance:'平衡型', innovation:'创新型', ideological:'意识形态型', expansion:'扩张型', symbiotic:'共生型' };
+  d.strategyLabel = sl[state.strategyType.selected] || '—';
+
+  const risks = [];
+  if (parseInt(io.basic||3) < 3) risks.push('基础秩序薄弱');
+  if (parseInt(io.distribution||3) < 3) risks.push('分配秩序失衡');
+  if (parseInt(io.consensus||3) < 3) risks.push('共识秩序裂痕');
+  if (maxV >= 4) risks.push(fearLabels[maxF] + '高度驱动');
+  const gc = parseInt(state.order.global.contribution||3);
+  if (gc < 3) risks.push('全球秩序贡献不足');
+  if (state.order.global.legitimacy && parseInt(state.order.global.legitimacy) < 3) risks.push('全球正当性偏低');
+  if (parseInt(state.maintenance.legitimacy||3) < 3) risks.push('合法性弱化');
+  d.risks = risks.length ? risks.join('；') : '无明显风险';
+  d.riskCount = risks.length;
+
+  const basicOrder = parseInt(io.basic || 3);
+  if (basicOrder < 2) d.verdict = { text:'❌ 逻辑不可能 — 基础秩序濒临崩溃', cls:'bad' };
+  else if (orderAvg < 2.5 || (maxV >= 5 && orderAvg < 3)) d.verdict = { text:'⚠️ 僵化/裂痕 — 存续约束趋紧', cls:'warn' };
+  else if (orderAvg >= 3.5 && maxV < 4) d.verdict = { text:'✅ 可延续路径 — 秩序健康、恐惧可控', cls:'ok' };
+  else if (orderAvg >= 3.5) d.verdict = { text:'✅ 可延续路径 — 但存在驱动性恐惧需关注', cls:'ok' };
+  else d.verdict = { text:'⚠️ 僵化/裂痕 — 秩序压力与恐惧双高', cls:'warn' };
+
+  renderDiagnosis(d);
+  updateProgress();
+  return d;
+}
+
+function renderDiagnosis(d) {
+  document.getElementById('diag_continuity').textContent = d.continuityLabel;
+  document.getElementById('diag_fear').textContent = d.primaryFear;
+  const orderEl = document.getElementById('diag_orderHealth');
+  if (d.orderHealth.cls === 'neutral') orderEl.innerHTML = d.orderHealth.label;
+  else orderEl.innerHTML = '<span class="diag-badge badge-' + d.orderHealth.cls + '">' + d.orderHealth.label + '</span>';
+  document.getElementById('diag_globalRole').textContent = d.globalRole;
+  const stratEl = document.getElementById('diag_strategy');
+  const sel = document.getElementById('L10_strategy');
+  if (sel && sel.value) stratEl.textContent = d.strategyLabel;
+  else stratEl.textContent = '—';
+  document.getElementById('diag_risks').textContent = d.risks;
+  const ver = document.getElementById('diag_verdict');
+  ver.textContent = d.verdict.text;
+  ver.className = 'diag-verdict verdict-' + d.verdict.cls;
+}
+
+// ======= PROGRESS =======
+function updateProgress() {
+  let filled = 0;
+  const total = 14;
+  if (state.actor.name) filled++;
+  if (state.continuity.type) filled++;
+  if (state.existence.sovereignty > 0 && state.existence.culture > 0) filled++;
+  if (Object.keys(state.sources).length > 0) filled++;
+  if (state.maintenance.legitimacy > 0) filled++;
+  if (state.order.internal.basic > 0) filled++;
+  if (state.order.global.role) filled++;
+  if (Object.keys(state.others).length > 0) filled++;
+  if (Object.keys(state.fears).length > 0) filled++;
+  if (Object.keys(state.strategies).length > 0) filled++;
+  if (state.strategyType.selected) filled++;
+  if (state.notes.L0) filled++;
+  const pct = Math.round((filled / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = '进度: ' + filled + '/' + total;
+}
+
+// ======= EXPORT =======
+function exportReport() {
+  if (!state.actor.name && !state.continuity.type) {
+    alert('请先填写至少L1（主体名称）和L2（连续性类型）');
+    return;
+  }
+  const d = diagnose();
+  const obj = {
+    analysisName: document.getElementById('analysisName').value || '未命名分析',
+    date: new Date().toISOString(),
+    state: JSON.parse(JSON.stringify(state)),
+    diagnosis: { continuityLabel:d.continuityLabel, orderHealth:d.orderHealth, primaryFear:d.primaryFear, globalRole:d.globalRole, strategyLabel:d.strategyLabel, risks:d.risks, verdict:d.verdict }
+  };
+  document.getElementById('exportContent').value = JSON.stringify(obj, null, 2);
+  document.getElementById('exportModal').classList.add('open');
+}
+
+function copyExport() {
+  const ta = document.getElementById('exportContent');
+  navigator.clipboard.writeText(ta.value).catch(function() { ta.select(); document.execCommand('copy'); });
+}
+
+function downloadExport() {
+  const text = document.getElementById('exportContent').value;
+  const blob = new Blob([text], { type:'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'construct_diag_' + Date.now() + '.json';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function closeModal() { document.getElementById('exportModal').classList.remove('open'); }
+document.addEventListener('click', function(e) { if (e.target.classList.contains('modal-overlay')) closeModal(); });
+
+// ======= RESET =======
+function resetAll() {
+  if (!confirm('确定要新建分析？所有数据将丢失。')) return;
+  document.querySelectorAll('input[type="text"], textarea').forEach(function(el) { el.value = ''; });
+  document.querySelectorAll('select').forEach(function(el) { el.selectedIndex = 0; });
+  document.querySelectorAll('.toggle-btn').forEach(function(el) { el.classList.remove('active'); });
+  document.querySelectorAll('.rating-group').forEach(function(g) {
+    g.querySelectorAll('.rating-btn').forEach(function(b, i) {
+      b.className = 'rating-btn' + (i < 3 ? ' active' : '');
+    });
+  });
+  Object.assign(state, {
+    actor:{name:'',type:''}, continuity:{type:''},
+    existence:{sovereignty:3,culture:3,institution:3,symbolic:3}, sources:{},
+    maintenance:{legitimacy:3,loyalty:3,ritual:3,narrative:3},
+    order:{internal:{basic:3,distribution:3,consensus:3},global:{role:'',contribution:3,legitimacy:3}},
+    others:{}, fears:{identity_loss:3,disorder:3,marginalization:3,extinction:3},
+    strategies:{}, strategyType:{selected:''}, notes:{L0:''}
+  });
+  const hint = document.getElementById('L10_auto_hint');
+  if (hint) hint.textContent = '等待L2选择...';
+  diagnose();
+}
+
+// ======= INIT =======
+document.addEventListener('DOMContentLoaded', function() {
+  initRatingGroups();
+  populateActorDropdown();
+  diagnose();
+  const cards = document.querySelectorAll('.layer-card');
+  [2, 5, 6, 7, 8, 9].forEach(function(i) { if (cards[i]) cards[i].classList.add('open'); });
+});
+</script>
+</body>
+</html>
+

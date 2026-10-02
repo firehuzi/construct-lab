@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magnifica Humanitas - 人类的光辉</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-primary: #FAFAFA;
+  --bg-secondary: #F5F5F7;
+  --text-primary: #1D1D1F;
+  --text-secondary: #86868B;
+  --accent: #0066CC;
+  --accent-light: #007AFF;
+  --gold: #C9A227;
+  --gradient-dark: linear-gradient(135deg, #1D1D1F 0%, #2D2D30 100%);
+  --font-display: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+  --font-body: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: #000;
+  color: var(--text-primary);
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+.slide-container { width: 100vw; height: 100vh; position: relative; }
+
+.slide {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0; left: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.slide.active { opacity: 1; pointer-events: auto; z-index: 10; }
+
+.nav-dots {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 100;
+}
+
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.nav-dot.active { background: #fff; transform: scale(1.3); }
+
+.nav-arrows {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.nav-arrow {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-arrow:hover { background: rgba(255,255,255,0.2); }
+
+.slide-num {
+  position: fixed;
+  bottom: 40px;
+  right: 60px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  font-family: var(--font-display);
+  z-index: 100;
+}
+
+/* Slide 1: Title */
+.slide-title {
+  background: var(--gradient-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  color: #fff;
+}
+
+.slide-title .main-title {
+  font-family: var(--font-display);
+  font-size: 96px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #fff 0%, #999 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.slide-title .subtitle {
+  font-size: 28px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 8px;
+  margin-bottom: 60px;
+}
+
+.slide-title .cn-title {
+  font-size: 36px;
+  font-weight: 500;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.slide-title .en-title {
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  font-style: italic;
+}
+
+.slide-title .divider {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin: 30px 0;
+}
+
+/* Slide 2: Big Question */
+.slide-question {
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 80px;
+}
+
+.slide-question .big-question {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.2;
+  max-width: 1000px;
+  margin-bottom: 40px;
+}
+
+/* Slide 3: Babel */
+.slide-babel {
+  background: linear-gradient(135deg, #1a0a0a 0%, #2d1a1a 100%);
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+}
+
+.slide-babel .left-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.slide-babel .label {
+  font-size: 14px;
+  color: rgba(255,107,107,0.8);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.slide-babel .title {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 700;
+  color: #FF6B6B;
+  margin-bottom: 32px;
+}
+
+.slide-babel .cn {
+  font-size: 24px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 16px;
+}
+
+.slide-babel .en {
+  font-size: 16px;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+.slide-babel .right-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px;
+}
+
+.slide-babel .quote {
+  font-size: 20px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.6);
+  border-left: 3px solid #FF6B6B;
+  padding-left: 24px;
+}
+
+/* Slide 4: Jerusalem */
+.slide-jerusalem {
+  background: linear-gradient(135deg, #0a1a2e 0%, #1a2d4a 100%);
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+}
+
+.slide-jerusalem .left-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.slide-jerusalem .label {
+  font-size: 14px;
+  color: rgba(107,255,107,0.8);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.slide-jerusalem .title {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 700;
+  color: #6BFFB8;
+  margin-bottom: 32px;
+}
+
+.slide-jerusalem .cn {
+  font-size: 24px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 16px;
+}
+
+.slide-jerusalem .en {
+  font-size: 16px;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+.slide-jerusalem .right-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px;
+}
+
+.slide-jerusalem .quote {
+  font-size: 20px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.6);
+  border-left: 3px solid #6BFFB8;
+  padding-left: 24px;
+}
+
+/* Slide 5: Tech Challenge */
+.slide-tech {
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 80px 120px;
+  gap: 80px;
+}
+
+.slide-tech .left { flex: 1; }
+
+.slide-tech .label {
+  font-size: 14px;
+  color: var(--accent-light);
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+}
+
+.slide-tech .title {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 40px;
+}
+
+.slide-tech .cn {
+  font-size: 22px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 12px;
+}
+
+.slide-tech .en {
+  font-size: 16px;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+.slide-tech .right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slide-tech .stat-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 40px;
+}
+
+.slide-tech .stat-num {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent-light);
+  margin-bottom: 8px;
+}
+
+.slide-tech .stat-label {
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* Slide 6: Human Dignity */
+.slide-dignity {
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 80px;
+}
+
+.slide-dignity .big-text {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 900px;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, #fff 0%, #86868B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.slide-dignity .cn {
+  font-size: 28px;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 12px;
+}
+
+.slide-dignity .en {
+  font-size: 20px;
+  color: var(--gold);
+  font-style: italic;
+}
+
+/* Slide 7: Common Good */
+.slide-common {
+  background: #FAFAFA;
+  color: var(--text-primary);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  height: 100vh;
+}
+
+.slide-common .principle {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  transition: all 0.3s;
+}
+
+.slide-common .principle:hover { background: var(--bg-secondary); }
+
+.slide-common .num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.slide-common .title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.slide-common .cn {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.slide-common .en {
+  font-size: 13px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Slide 8: Truth Work Freedom */
+.slide-three {
+  background: #fff;
+  color: var(--text-primary);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 100vh;
+}
+
+.slide-three .section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+  border-right: 1px solid #E5E5E7;
+}
+
+.slide-three .section:last-child { border-right: none; }
+
+.slide-three .icon {
+  font-size: 48px;
+  margin-bottom: 24px;
+}
+
+.slide-three .title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.slide-three .cn {
+  font-size: 18px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.slide-three .en {
+  font-size: 14px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Slide 9: Two Cities */
+.slide-cities {
+  background: #000;
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+}
+
+.slide-cities .city {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px;
+}
+
+.slide-cities .city-dark {
+  background: linear-gradient(135deg, #1a0a0a 0%, #0d0505 100%);
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.slide-cities .city-light {
+  background: linear-gradient(135deg, #1a2a1a 0%, #0d1a0d 100%);
+}
+
+.slide-cities .label {
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.slide-cities .city-dark .label { color: rgba(255,107,107,0.8); }
+.slide-cities .city-light .label { color: rgba(107,255,107,0.8); }
+
+.slide-cities .title {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+.slide-cities .city-dark .title { color: #FF6B6B; }
+.slide-cities .city-light .title { color: #6BFFB8; }
+
+.slide-cities .cn {
+  font-size: 20px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 12px;
+}
+
+.slide-cities .en {
+  font-size: 15px;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+/* Slide 10: The Way Forward */
+.slide-way {
+  background: linear-gradient(135deg, #0a1628 0%, #1a2d4a 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 80px 120px;
+}
+
+.slide-way .content { max-width: 800px; }
+
+.slide-way .label {
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 4px;
+  margin-bottom: 24px;
+}
+
+.slide-way .title {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 40px;
+}
+
+.slide-way .points {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.slide-way .point {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.slide-way .point-num {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gold);
+  opacity: 0.6;
+}
+
+.slide-way .point-text {
+  font-size: 20px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+}
+
+.slide-way .point-en {
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* Slide 11: Hope */
+.slide-hope {
+  background: linear-gradient(135deg, #1D1D1F 0%, #2D2D30 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 80px;
+}
+
+.slide-hope .magnificat {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 2;
+  max-width: 800px;
+  margin-bottom: 40px;
+  color: rgba(255,255,255,0.9);
+}
+
+.slide-hope .source {
+  font-size: 16px;
+  color: var(--gold);
+}
+
+.slide-hope .cn-verse {
+  font-size: 24px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 40px;
+}
+
+/* Slide 12: Closing */
+.slide-closing {
+  background: var(--gradient-dark);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.slide-closing .main-text {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.slide-closing .cn {
+  font-size: 28px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 12px;
+}
+
+.slide-closing .en {
+  font-size: 18px;
+  color: var(--gold);
+  font-style: italic;
+}
+
+.slide-closing .divider {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin: 40px 0;
+}
+
+.slide-closing .quote {
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+  max-width: 600px;
+  line-height: 1.8;
+}
+</style>
+</head>
+<body>
+<div class="slide-container">
+
+<!-- Slide 1: Title -->
+<div class="slide slide-title active" data-slide="1">
+  <div class="main-title">Magnifica Humanitas</div>
+  <div class="subtitle">HUMANITY IN ITS GRANDEUR</div>
+  <div class="divider"></div>
+  <div class="cn-title">人类的光辉</div>
+  <div class="en-title">教宗方济各通谕 · 2025年5月15日</div>
+</div>
+
+<!-- Slide 2: The Choice -->
+<div class="slide slide-question" data-slide="2">
+  <div class="big-question">Tower of Babel<br>or New Jerusalem?</div>
+  <div class="cn" style="font-size:28px;color:rgba(255,255,255,0.7);margin-top:40px;">巴比伦塔，还是新耶路撒冷？</div>
+  <div class="en" style="font-size:16px;color:var(--gold);margin-top:16px;">人类面临的关键抉择</div>
+</div>
+
+<!-- Slide 3: Babel -->
+<div class="slide slide-babel" data-slide="3">
+  <div class="left-panel">
+    <div class="label">The Danger · 危险</div>
+    <div class="title">BABEL</div>
+    <div class="cn">傲慢的工程</div>
+    <div class="cn" style="font-size:18px;color:rgba(255,255,255,0.5);">以自我为中心的技术崇拜</div>
+    <div class="en">Pride, uniformity, dispersion</div>
+  </div>
+  <div class="right-panel">
+    <div class="quote">
+      "A project conceived without reference to God, supported by a uniformity that eliminated diversity."
+      <br><br>
+      没有以上帝为中心的项目，<br>一种消灭多样性的整齐划一。
+      <br><br>
+      <span style="opacity:0.5">— 创世纪 11</span>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Jerusalem -->
+<div class="slide slide-jerusalem" data-slide="4">
+  <div class="left-panel">
+    <div class="label">The Way · 道路</div>
+    <div class="title">JERUSALEM</div>
+    <div class="cn">共同责任</div>
+    <div class="cn" style="font-size:18px;color:rgba(255,255,255,0.5);">在上帝面前携手重建</div>
+    <div class="en">Shared responsibility, rebuilding together</div>
+  </div>
+  <div class="right-panel">
+    <div class="quote">
+      "The city is reborn through the shared responsibility of all."
+      <br><br>
+      城市因着所有人的共同责任而重生。
+      <br><br>
+      <span style="opacity:0.5">— 尼希米记 2-6</span>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Tech Challenge -->
+<div class="slide slide-tech" data-slide="5">
+  <div class="left">
+    <div class="label">CHAPTER THREE · 第三章</div>
+    <div class="title">Technology<br>& Human Dominance</div>
+    <div class="cn">技术的双刃剑</div>
+    <div class="cn" style="font-size:18px;color:rgba(255,255,255,0.5);">AI时代的尊严与风险</div>
+    <div class="en">The dual nature of technology in the AI era</div>
+  </div>
+  <div class="right">
+    <div class="stat-box">
+      <div class="stat-num">"Never before has humanity had such power over itself."</div>
+      <div class="stat-label">人类从未有过如此强大的自我掌控力</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Human Dignity -->
+<div class="slide slide-dignity" data-slide="6">
+  <div class="big-text">"Only in the mystery of the Word made flesh does the mystery of humanity truly become clear."</div>
+  <div class="cn">只有在圣言降生成人的奥迹中，人类的奥迹才真正显明</div>
+  <div class="en">— 若望保禄二世，《救主使命》</div>
+</div>
+
+<!-- Slide 7: Common Good Principles -->
+<div class="slide slide-common" data-slide="7">
+  <div class="principle">
+    <div class="num">01</div>
+    <div class="title">Common Good</div>
+    <div class="cn">共同益处</div>
+    <div class="en">社会生活的条件总和</div>
+  </div>
+  <div class="principle">
+    <div class="num">02</div>
+    <div class="title">Universal Destination</div>
+    <div class="cn">万物共享</div>
+    <div class="en">万物属于所有人</div>
+  </div>
+  <div class="principle">
+    <div class="num">03</div>
+    <div class="title">Subsidiarity</div>
+    <div class="cn">辅助原则</div>
+    <div class="en">自下而上，非自上而下</div>
+  </div>
+  <div class="principle">
+    <div class="num">04</div>
+    <div class="title">Solidarity</div>
+    <div class="cn">团结互助</div>
+    <div class="en">我们彼此负责</div>
+  </div>
+</div>
+
+<!-- Slide 8: Truth Work Freedom -->
+<div class="slide slide-three" data-slide="8">
+  <div class="section">
+    <div class="icon">◈</div>
+    <div class="title">Truth · 真理</div>
+    <div class="cn">真理是一切共同善的基石</div>
+    <div class="en">Truth as common good</div>
+  </div>
+  <div class="section">
+    <div class="icon">⚒</div>
+    <div class="title">Work · 劳动</div>
+    <div class="cn">劳动的尊严不容被数字取代</div>
+    <div class="en">Dignity of work in digital transition</div>
+  </div>
+  <div class="section">
+    <div class="icon">⚖</div>
+    <div class="title">Freedom · 自由</div>
+    <div class="cn">保护自由，挣脱新型依赖</div>
+    <div class="en">Protecting freedom against dependencies</div>
+  </div>
+</div>
+
+<!-- Slide 9: Two Cities -->
+<div class="slide slide-cities" data-slide="9">
+  <div class="city city-dark">
+    <div class="label">Culture of Power · 权力文化</div>
+    <div class="title">战争与武器</div>
+    <div class="cn">武力至上、军备竞赛</div>
+    <div class="en">Force without limits, weapons of AI</div>
+  </div>
+  <div class="city city-light">
+    <div class="label">Civilization of Love · 爱的文明</div>
+    <div class="title">正义与和平</div>
+    <div class="cn">通过正义建设和平</div>
+    <div class="en">Building peace through justice, dialogue</div>
+  </div>
+</div>
+
+<!-- Slide 10: The Way Forward -->
+<div class="slide slide-way" data-slide="10">
+  <div class="content">
+    <div class="label">THE PATH FORWARD · 前行之路</div>
+    <div class="title">尼希米的道路</div>
+    <div class="points">
+      <div class="point">
+        <div class="point-num">1</div>
+        <div>
+          <div class="point-text">祈祷与明智规划</div>
+          <div class="point-en">Pray, plan wisely</div>
+        </div>
+      </div>
+      <div class="point">
+        <div class="point-num">2</div>
+        <div>
+          <div class="point-text">让每个声音都被听见</div>
+          <div class="point-en">Let every voice be heard</div>
+        </div>
+      </div>
+      <div class="point">
+        <div class="point-num">3</div>
+        <div>
+          <div class="point-text">以上帝为先，以人为中心</div>
+          <div class="point-en">God at the forefront, humanity at the center</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 11: Magnificat -->
+<div class="slide slide-hope" data-slide="11">
+  <div class="magnificat">
+    "The rejected stones will become the cornerstone, and a solid, welcoming common home will emerge."
+  </div>
+  <div class="source">— Magnifica Humanitas</div>
+  <div class="cn-verse">被弃的石头将成为房角石<br>一座坚实、好客的共同家园将拔地而起</div>
+</div>
+
+<!-- Slide 12: Closing -->
+<div class="slide slide-closing" data-slide="12">
+  <div class="main-text">Remain Human</div>
+  <div class="cn">保持人性</div>
+  <div class="divider"></div>
+  <div class="quote">"In the era of AI, when human dignity is threatened by new forms of dehumanization, ours is the pressing duty to remain profoundly human."</div>
+</div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav-dots" id="navDots"></div>
+<div class="nav-arrows">
+  <button class="nav-arrow" id="prevBtn">←</button>
+  <button class="nav-arrow" id="nextBtn">→</button>
+</div>
+<div class="slide-num" id="slideNum">1 / 12</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+let currentSlide = 0;
+
+function updateSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === index);
+  });
+  document.getElementById('slideNum').textContent = `${index + 1} / ${totalSlides}`;
+  updateDots();
+}
+
+function updateDots() {
+  const dots = document.getElementById('navDots').children;
+  for (let i = 0; i < dots.length; i++) {
+    dots[i].classList.toggle('active', i === currentSlide);
+  }
+}
+
+function createDots() {
+  const container = document.getElementById('navDots');
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => { currentSlide = i; updateSlide(i); };
+    container.appendChild(dot);
+  }
+}
+
+document.getElementById('prevBtn').onclick = () => {
+  currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+  updateSlide(currentSlide);
+};
+
+document.getElementById('nextBtn').onclick = () => {
+  currentSlide = (currentSlide + 1) % totalSlides;
+  updateSlide(currentSlide);
+};
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateSlide(currentSlide);
+  } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlide(currentSlide);
+  }
+});
+
+createDots();
+updateSlide(0);
+</script>
+</body>
+</html>

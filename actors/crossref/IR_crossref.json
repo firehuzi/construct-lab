@@ -1,0 +1,103 @@
+{
+  "matches": [
+    {
+      "year": 1953,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "TUR",
+      "hostility": "",
+      "opponent": "TUR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Iran-Turkey_relations"
+    },
+    {
+      "year": 1953,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "IRQ",
+      "hostility": "",
+      "opponent": "IRQ",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Iran-IRQ_relations"
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "GBR",
+      "hostility": "",
+      "opponent": "GBR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Iran-United_Kingdom_relations"
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "TUR",
+      "hostility": "",
+      "opponent": "TUR",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Iran-Turkey_relations"
+    },
+    {
+      "year": 1979,
+      "source": "COW",
+      "type": "ALLIANCE",
+      "label": "PAK",
+      "hostility": "",
+      "opponent": "PAK",
+      "reference": "COW COW Alliances 4.1",
+      "url": "https://en.wikipedia.org/wiki/Iran-Pakistan_relations"
+    },
+    {
+      "year": 1980,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "war",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1980,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "use of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    },
+    {
+      "year": 1980,
+      "source": "COW",
+      "type": "MID",
+      "label": "",
+      "hostility": "display of force",
+      "opponent": "",
+      "reference": "COW COW MID 5.0",
+      "url": ""
+    }
+  ],
+  "unmatched_years": [
+    2015,
+    2018,
+    2025,
+    2026
+  ],
+  "total_events": 8,
+  "code": "IR",
+  "long_code": "IRN",
+  "years_found": [
+    1953,
+    1979,
+    1980,
+    2015,
+    2018,
+    2025,
+    2026
+  ],
+  "md_file": "D:\\Projects\\地缘推演台\\actors\\Tier1\\IR\\IR.md"
+}

@@ -297,6 +297,85 @@ def evaluate(e: dict) -> dict:
     return {"state": STATE_UNDECIDABLE, "evidence": "未实现的核对类型"}
 
 
+INGEST_DIRS = [os.path.join(HERE, "backtest-tool"),
+               os.path.join(HERE, "data", "exclusions")]
+
+# 摄入记录的状态（与人工抽取的断言分档，因为来源不同）
+IN_FALSIFIABLE = "⏳ 可证伪 · 尚未被证伪"
+IN_NO_WINDOW = "⚠️ 可证伪但无窗口 ⇒ 只是「尚未发生」"
+IN_UNFALSIFIABLE = "⛔ 不可证伪 ⇒ 不携带信息（写下时就该拦下）"
+
+
+def ingested_rows() -> list:
+    """读 backtest-tool 导出的 `construct-exclusion-v1` 记录。
+
+    ★ 这一步是整件事的闭环：断言不再由我【事后从散文里抽】，
+      而是由工具在【写下的那一刻】生成结构化记录 —— 那时口径清不清是可见的。
+    """
+    out = []
+    for d in INGEST_DIRS:
+        if not os.path.isdir(d):
+            continue
+        for p in sorted(glob.glob(os.path.join(d, "**", "*.json"), recursive=True)):
+            try:
+                with open(p, encoding="utf-8") as fh:
+                    rec = json.load(fh)
+            except (OSError, ValueError):
+                continue
+            if not isinstance(rec, dict) or rec.get("schema") != "construct-exclusion-v1":
+                continue
+            for x in rec.get("exclusions", []):
+                crit = (x.get("criterion") or "").strip()
+                win = (x.get("window") or "").strip()
+                if not crit:
+                    st = IN_UNFALSIFIABLE
+                elif not win:
+                    st = IN_NO_WINDOW
+                else:
+                    st = IN_FALSIFIABLE
+                out.append({
+                    "id": x.get("id") or "?",
+                    "scenario": rec.get("scenario") or x.get("scenario") or "?",
+                    "time_lock": rec.get("time_lock") or "",
+                    "excluded": (x.get("excluded") or "").strip(),
+                    "criterion": crit,
+                    "window": win,
+                    "state": st,
+                    "from": os.path.relpath(p, ROOT),
+                })
+    return out
+
+
+def print_ingest() -> int:
+    rows = ingested_rows()
+    print("=" * 96)
+    print("# 摄入：backtest-tool 导出的排除断言记录（construct-exclusion-v1）")
+    print("=" * 96)
+    if not rows:
+        print("\n  未找到记录。在工具里写完排除断言后点「🚫 导出排除断言（JSON）」，")
+        print("  把文件放进 %s/ 或 %s/。" % (os.path.relpath(INGEST_DIRS[0], ROOT),
+                                          os.path.relpath(INGEST_DIRS[1], ROOT)))
+        print("\n  （这一步是整件事的闭环：断言由工具在写下时就结构化，不再事后从散文里抽。）")
+        return 0
+    print("\n  %-22s %-12s %-34s %s" % ("id", "状态", "排除的路径", "判据"))
+    print("  " + "-" * 92)
+    for r in rows:
+        print("  %-22s %-12s %-34s %s" % (r["id"], r["state"].split()[0],
+                                          r["excluded"][:34], r["criterion"][:30] or "（缺）"))
+    tally = {}
+    for r in rows:
+        tally[r["state"]] = tally.get(r["state"], 0) + 1
+    print("  " + "-" * 92)
+    for k, v in sorted(tally.items()):
+        print("    %-46s %d" % (k, v))
+    bad = tally.get(IN_UNFALSIFIABLE, 0)
+    print("\n  ★ 关键指标：**不可证伪比例** = %d/%d = %.0f%%"
+          % (bad, len(rows), 100.0 * bad / len(rows)))
+    print("     工具的拦截发生在【写下的那一刻】—— 这正是它比事后抽取强的地方。")
+    print("=" * 96)
+    return 0
+
+
 def compute() -> dict:
     rows = []
     for e in E:
@@ -311,6 +390,8 @@ def compute() -> dict:
 def main() -> int:
     if "--selftest" in sys.argv:
         return selftest()
+    if "--ingest" in sys.argv:
+        return print_ingest()
     cur = compute()
     print("=" * 96)
     print("# 「不可能路径」账 —— 排除性断言（单向可证伪）")
@@ -391,6 +472,18 @@ def selftest() -> int:
           "%s / %s / %s" % (WAR_DEATH_THRESHOLD, WAR_THRESHOLD_SOURCE, WAR_THRESHOLD_DEFINED))
     check("★X-16 不再挂在阈值上（口径不对题 ⇒ 不该用战争阈值判领土突破）",
           next(e for e in E if e["id"] == "X-16")["check"] is None)
+    # ── 摄入（工具导出的记录）──
+    rows = ingested_rows()
+    check("★摄入：没有记录时不崩，返回空表", isinstance(rows, list), str(type(rows)))
+    if rows:
+        check("★摄入：每条都带状态，且状态只有三档",
+              all(r["state"] in (IN_FALSIFIABLE, IN_NO_WINDOW, IN_UNFALSIFIABLE) for r in rows))
+        check("★摄入：可证伪且带窗口的才判『可证伪』",
+              all((r["state"] == IN_FALSIFIABLE) == (bool(r["criterion"]) and bool(r["window"]))
+                  for r in rows))
+        check("★摄入：缺判据的一律判『不可证伪』",
+              all(r["state"] == IN_UNFALSIFIABLE for r in rows if not r["criterion"]))
+        print("      （当前摄入目录里有 %d 条真实记录）" % len(rows))
     r9 = evaluate({"check": "ucdpwar:CN-XX:2008"})
     check("★UCDP 战争阈值：没有该双边对 ⇒ 数据不够（不猜）",
           r9["state"] == STATE_NO_DATA, r9["state"])

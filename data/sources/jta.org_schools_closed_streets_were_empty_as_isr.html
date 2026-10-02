@@ -1,0 +1,1358 @@
+
+<!doctype html>
+<html lang="en-US" class="no-js">
+<head>
+	<!-- DNS Prefetching -->
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//securepubads.g.doubleclick.net">
+	<link rel="dns-prefetch" href="//www.googletagmanager.com">
+
+	<meta charset="UTF-8"><script type="text/javascript">(window.NREUM||(NREUM={})).init={ajax:{deny_list:["bam.nr-data.net"]}};(window.NREUM||(NREUM={})).loader_config={licenseKey:"34f9066ae4",applicationID:"6329638",browserID:"6637279"};;/*! For license information please see nr-loader-rum-1.323.0.min.js.LICENSE.txt */
+(()=>{var e={8122(e,t,r){"use strict";r.d(t,{a:()=>i});var n=r(944);function i(e,t){try{if(!e||"object"!=typeof e)return(0,n.R)(3);if(!t||"object"!=typeof t)return(0,n.R)(4);const r=Object.create(Object.getPrototypeOf(t),Object.getOwnPropertyDescriptors(t)),a=0===Object.keys(r).length?e:r;for(let s in a)if(void 0!==e[s])try{if(null===e[s]){r[s]=null;continue}Array.isArray(e[s])&&Array.isArray(t[s])?r[s]=Array.from(new Set([...e[s],...t[s]])):e[s]instanceof Map||e[s]instanceof Set||e[s]instanceof Date||e[s]instanceof RegExp?r[s]=e[s]:"object"==typeof e[s]&&null!==t[s]&&"object"==typeof t[s]?r[s]=i(e[s],t[s]):r[s]=e[s]}catch(e){r[s]||(0,n.R)(1,e)}return r}catch(e){(0,n.R)(2,e)}}},2555(e,t,r){"use strict";r.d(t,{f:()=>s});var n=r(384),i=r(8122);const a={beacon:n.NT.beacon,errorBeacon:n.NT.errorBeacon,licenseKey:void 0,applicationID:void 0,sa:void 0,queueTime:void 0,applicationTime:void 0,ttGuid:void 0,user:void 0,account:void 0,product:void 0,extra:void 0,jsAttributes:{},userAttributes:void 0,atts:void 0,transactionName:void 0,tNamePlain:void 0};function s(e){try{return!!e.licenseKey&&!!e.errorBeacon&&!!e.applicationID}catch(e){return!1}}r.d(t,["D",0,e=>(0,i.a)(e,a)])},7699(e,t,r){"use strict";var n=r(860);const i={[n.K7.logging]:!0,[n.K7.genericEvents]:!0,[n.K7.jserrors]:!0,[n.K7.ajax]:!0};r.d(t,["It",0,1e6,"KC",0,i,"qh",0,"SESSION_ERROR"])},9324(e,t,r){"use strict";r.d(t,["xv",0,"1.323.0"])},981(e,t,r){"use strict";r.d(t,["R",0,{AJAX:"AjaxRequest",PA:"PageAction",UA:"UserAction",BP:"BrowserPerformance",WS:"WebSocket",SPV:"SecurityPolicyViolation",JSE:"JavaScriptError",LOG:"Log",PVE:"PageView",PVT:"PageViewTiming",SR:"SessionReplay",ST:"SessionTrace",BI:"BrowserInteraction"}])},6154(e,t,r){"use strict";var n=r(1863);const i="undefined"!=typeof window&&!!window.document,a="undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self.navigator instanceof WorkerNavigator||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis.navigator instanceof WorkerNavigator),s=i?window:"undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis),o=Boolean("hidden"===s?.document?.visibilityState),c=""+s?.location,u=/iPad|iPhone|iPod/.test(s.navigator?.userAgent),d=u&&"undefined"==typeof SharedWorker,l=((()=>{const e=s.navigator?.userAgent?.match(/Firefox[/\s](\d+\.\d+)/);Array.isArray(e)&&e.length>=2&&e[1]})(),Date.now()-(0,n.t)());r.d(t,["OF",0,u,"RI",0,i,"WN",0,l,"bv",0,a,"gm",0,s,"m",0,c,"mw",0,o,"sb",0,d,"zk",0,()=>{const e=s?.performance?.getEntriesByType?.("navigation")?.[0];if(e&&e.responseStart>0&&e.responseStart<s.performance.now())return e}])},3241(e,t,r){"use strict";r.d(t,{W:()=>i});var n=r(6154);function i(e={}){try{n.gm.dispatchEvent(new CustomEvent("newrelic",{detail:e}))}catch(e){}}},1687(e,t,r){"use strict";r.d(t,{Ak:()=>o,Ze:()=>u,x3:()=>c});var n=r(3241),i=r(3606),a=r(860),s=r(2646);function o(e,t){if(!e)return;const r={staged:!1,priority:a.P3[t]||0};e.runtime.drainRegistry.get(t)||e.runtime.drainRegistry.set(t,r)}function c(e,t){if(!e)return;const r=e.runtime.drainRegistry;r&&(r.get(t)&&r.delete(t),l(e,t,!1),r.size&&d(e))}function u(e,t="feature",r=!1){if(e){if(!e.runtime.drainRegistry.get(t)||r)return l(e,t);e.runtime.drainRegistry.get(t).staged=!0,d(e)}}function d(e){if(!e)return;const t=Array.from(e.runtime.drainRegistry);t.every(([e,t])=>t.staged)&&(t.sort((e,t)=>e[1].priority-t[1].priority),t.forEach(([t])=>{e.runtime.drainRegistry.delete(t),l(e,t)}))}function l(e,t,r=!0){if(!e)return;const a=e.ee,o=i.i.handlers;if(a&&!a.aborted&&a.backlog&&o){if((0,n.W)({type:"lifecycle",name:"drain",feature:t}),r){const e=a.backlog[t],r=o[t];if(r){for(let t=0;e&&t<e.length;++t)f(e[t],r);Object.entries(r).forEach(([e,t])=>{Object.values(t||{}).forEach(t=>{t[0]?.on&&t[0].context()instanceof s.y&&!t[0].listeners(e).includes(t[1])&&t[0].on(e,t[1])})})}}a.isolatedBacklog||delete o[t],a.backlog[t]=null,a.emit("drain-"+t,[])}}function f(e,t){var r=e[1];Object.values(t[r]||{}).forEach(t=>{var r=e[0];if(t[0]===r){var n=t[1],i=e[3],a=e[2];n.apply(i,a)}})}},7836(e,t,r){"use strict";var n=r(384),i=r(8990),a=r(2646),s=r(5607);const o="nr@context:".concat(s.W),c=function e(t,r){var n={},s={},d={},l=!1;try{l=16===r.length&&u.initializedAgents?.[r]?.runtime.isolatedBacklog}catch(e){}var f={on:p,addEventListener:p,removeEventListener:function(e,t){var r=n[e];if(!r)return;for(var i=0;i<r.length;i++)r[i]===t&&r.splice(i,1)},emit:function(e,r,n,i,a){!1!==a&&(a=!0);if(c.aborted&&!i)return;t&&a&&t.emit(e,r,n);var o=g(n);m(e).forEach(e=>{e.apply(o,r)});var u=v()[s[e]];u&&u.push([f,e,r,o]);return o},get:h,listeners:m,context:g,buffer:function(e,t){const r=v();if(t=t||"feature",f.aborted)return;Object.entries(e||{}).forEach(([e,n])=>{s[n]=t,t in r||(r[t]=[])})},abort:function(){f._aborted=!0,Object.keys(f.backlog).forEach(e=>{delete f.backlog[e]})},isBuffering:function(e){return!!v()[s[e]]},debugId:r,backlog:l?{}:t&&"object"==typeof t.backlog?t.backlog:{},isolatedBacklog:l};return Object.defineProperty(f,"aborted",{get:()=>{let e=f._aborted||!1;return e||(t&&(e=t.aborted),e)}}),f;function g(e){return e&&e instanceof a.y?e:e?(0,i.I)(e,o,()=>new a.y(o)):new a.y(o)}function p(e,t){n[e]=m(e).concat(t)}function m(e){return n[e]||[]}function h(t){return d[t]=d[t]||e(f,t)}function v(){return f.backlog}}(void 0,"globalEE"),u=(0,n.Zm)();u.ee||(u.ee=c),r.d(t,["P",0,o,"ee",0,c])},2646(e,t,r){"use strict";r.d(t,{y:()=>n});class n{constructor(e){this.contextId=e}}},9908(e,t,r){"use strict";r.d(t,{d:()=>n,p:()=>i});var n=r(7836).ee.get("handle");function i(e,t,r,i,a){a?(a.buffer([e],i),a.emit(e,t,r)):(n.buffer([e],i),n.emit(e,t,r))}},3606(e,t,r){"use strict";r.d(t,{i:()=>a});var n=r(9908);a.on=s;var i=a.handlers={};function a(e,t,r,a){s(a||n.d,i,e,t,r)}function s(e,t,r,i,a){a||(a="feature"),e||(e=n.d);var s=t[a]=t[a]||{};(s[r]=s[r]||[]).push([e,i])}},3878(e,t,r){"use strict";function n(e,t){return{capture:e,passive:!1,signal:t}}function i(e,t,r=!1,i){window.addEventListener(e,t,n(r,i))}function a(e,t,r=!1,i){document.addEventListener(e,t,n(r,i))}r.d(t,{DD:()=>a,jT:()=>n,sp:()=>i})},5607(e,t,r){"use strict";const n=(0,r(9566).bz)();r.d(t,["W",0,n])},9566(e,t,r){"use strict";r.d(t,{LA:()=>s,bz:()=>a});var n=r(6154);function i(e,t){return e?15&e[t]:16*Math.random()|0}function a(){const e=n.gm?.crypto||n.gm?.msCrypto;let t,r=0;return e&&e.getRandomValues&&(t=e.getRandomValues(new Uint8Array(30))),"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("").map(e=>"x"===e?i(t,r++).toString(16):"y"===e?(3&i()|8).toString(16):e).join("")}function s(e){const t=n.gm?.crypto||n.gm?.msCrypto;let r,a=0;t&&t.getRandomValues&&(r=t.getRandomValues(new Uint8Array(e)));const s=[];for(var o=0;o<e;o++)s.push(i(r,a++).toString(16));return s.join("")}},2614(e,t,r){"use strict";r.d(t,["BB",0,18e5,"Wt",0,"NRBA_SESSION::","iL",0,{SAME_TAB:"same-tab",CROSS_TAB:"cross-tab"},"tS",0,{STARTED:"session-started",PAUSE:"session-pause",RESET:"session-reset",RESUME:"session-resume",UPDATE:"session-update"},"wk",0,144e5])},1863(e,t,r){"use strict";function n(){return Math.floor(performance.now())}r.d(t,{t:()=>n})},944(e,t,r){"use strict";r.d(t,{R:()=>i});var n=r(3241);function i(e,t){"function"==typeof console.debug&&(console.debug("New Relic Warning: https://github.com/newrelic/newrelic-browser-agent/blob/main/docs/warning-codes.md#".concat(e),t),(0,n.W)({drained:null,type:"data",name:"warn",feature:"warn",data:{code:e,secondary:t}}))}},8990(e,t,r){"use strict";r.d(t,{I:()=>i});var n=Object.prototype.hasOwnProperty;function i(e,t,r){if(n.call(e,t))return e[t];var i=r();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:i,writable:!0,enumerable:!1}),i}catch(e){}return e[t]=i,i}},6389(e,t,r){"use strict";function n(e,t=500,r={}){const n=r?.leading||!1;let i;return(...r)=>{n&&void 0===i&&(e.apply(this,r),i=setTimeout(()=>{i=clearTimeout(i)},t)),n||(clearTimeout(i),i=setTimeout(()=>{e.apply(this,r)},t))}}function i(e){let t=!1;return(...r)=>{t||(t=!0,e.apply(this,r))}}r.d(t,{J:()=>i,s:()=>n})},1910(e,t,r){"use strict";r.d(t,{i:()=>a});var n=r(944);const i=new Map;function a(...e){return e.every(e=>{if(i.has(e))return i.get(e);const t="function"==typeof e?e.toString():"",r=t.includes("[native code]"),a=t.includes("nrWrapper");return r||a||(0,n.R)(64,e?.name||t),i.set(e,r),r})}},5289(e,t,r){"use strict";r.d(t,{GG:()=>s,Qr:()=>c,sB:()=>o});var n=r(3878),i=r(6389);function a(){return"undefined"==typeof document||"complete"===document.readyState}function s(e,t){if(a())return e();const r=(0,i.J)(e),s=setInterval(()=>{a()&&(clearInterval(s),r())},500);(0,n.sp)("load",r,t)}function o(e){if(a())return e();(0,n.DD)("DOMContentLoaded",e)}function c(e){if(a())return e();(0,n.sp)("popstate",e)}},384(e,t,r){"use strict";r.d(t,{Zm:()=>c,bQ:()=>d,dV:()=>u,pV:()=>l});var n=r(6154),i=r(1863),a=r(944),s=r(1910);const o={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net"};function c(){return n.gm.NREUM||(n.gm.NREUM={}),void 0===n.gm.newrelic&&(n.gm.newrelic=n.gm.NREUM),n.gm.NREUM}function u(){let e=c();return e.o||(e.o={ST:n.gm.setTimeout,SI:n.gm.setImmediate||n.gm.setInterval,CT:n.gm.clearTimeout,XHR:n.gm.XMLHttpRequest,REQ:n.gm.Request,EV:n.gm.Event,PR:n.gm.Promise,MO:n.gm.MutationObserver,FETCH:n.gm.fetch,WS:n.gm.WebSocket},(0,s.i)(...Object.values(e.o))),e}function d(e,t){let r=c();r.initializedAgents??={},t.initializedAt={ms:(0,i.t)(),date:new Date},r.initializedAgents[e]=t,2===Object.keys(r.initializedAgents).length&&(0,a.R)(69)}function l(){return function(){let e=c();const t=e.info||{};e.info={beacon:o.beacon,errorBeacon:o.errorBeacon,...t}}(),function(){let e=c();const t=e.init||{};e.init={...t}}(),u(),function(){let e=c();const t=e.loader_config||{};e.loader_config={...t}}(),c()}r.d(t,["NT",0,o])},2843(e,t,r){"use strict";r.d(t,{G:()=>a,u:()=>i});var n=r(3878);function i(e,t=!1,r,i){(0,n.DD)("visibilitychange",function(){if(t)return void("hidden"===document.visibilityState&&e());e(document.visibilityState)},r,i)}function a(e,t,r){(0,n.sp)("pagehide",e,t,r)}},9300(e,t,r){"use strict";r(860).K7.ajax;r.d(t,["mo",0,{NONE:"none",FAILURES:"failures",ALL:"all"}])},3969(e,t,r){"use strict";const n=r(860).K7.metrics;r.d(t,["TZ",0,n,"XG",0,"storeEventMetrics","xV",0,"storeSupportabilityMetrics"])},6630(e,t,r){"use strict";const n=r(860).K7.pageViewEvent;r.d(t,["T",0,n])},782(e,t,r){"use strict";const n=r(860).K7.pageViewTiming;r.d(t,["T",0,n])},4234(e,t,r){"use strict";r.d(t,{W:()=>i});var n=r(1687);class i{constructor(e,t){this.agentRef=e,this.ee=e?.ee,this.featureName=t,this.blocked=!1}deregisterDrain(){(0,n.x3)(this.agentRef,this.featureName)}}},7767(e,t,r){"use strict";var n=r(6154);r.d(t,["V",0,e=>n.RI&&!0===e?.privacy.cookies_enabled])},8362(e,t,r){"use strict";r.d(t,{d:()=>a});var n=r(9566),i=r(1741);class a extends i.W{agentIdentifier=(0,n.LA)(16)}},1741(e,t,r){"use strict";r.d(t,{W:()=>a});var n=r(944),i=r(4261);class a{#e(e,...t){if(this[e]!==a.prototype[e])return this[e](...t);(0,n.R)(35,e)}addPageAction(e,t){return this.#e(i.hG,e,t)}register(e){return this.#e(i.eY,e)}recordCustomEvent(e,t){return this.#e(i.fF,e,t)}setPageViewName(e,t){return this.#e(i.Fw,e,t)}setCustomAttribute(e,t,r){return this.#e(i.cD,e,t,r)}noticeError(e,t){return this.#e(i.o5,e,t)}setUserId(e,t=!1){return this.#e(i.Dl,e,t)}setApplicationVersion(e){return this.#e(i.nb,e)}setErrorHandler(e){return this.#e(i.bt,e)}addRelease(e,t){return this.#e(i.k6,e,t)}log(e,t){return this.#e("log",e,t)}start(){return this.#e("start")}finished(e){return this.#e(i.BL,e)}recordReplay(){return this.#e(i.CH)}pauseReplay(){return this.#e(i.Tb)}addToTrace(e){return this.#e(i.U2,e)}setCurrentRouteName(e){return this.#e(i.PA,e)}interaction(e){return this.#e(i.dT,e)}wrapLogger(e,t,r){return this.#e(i.Wb,e,t,r)}measure(e,t){return this.#e(i.V1,e,t)}consent(e){return this.#e(i.Pv,e)}}},4261(e,t,r){"use strict";r.d(t,["BL",0,"finished","CH",0,"recordReplay","Dl",0,"setUserId","Fw",0,"setPageViewName","PA",0,"setCurrentRouteName","Pv",0,"consent","Tb",0,"pauseReplay","U2",0,"addToTrace","V1",0,"measure","Wb",0,"wrapLogger","bt",0,"setErrorHandler","cD",0,"setCustomAttribute","dT",0,"interaction","eY",0,"register","fF",0,"recordCustomEvent","hG",0,"addPageAction","k6",0,"addRelease","nb",0,"setApplicationVersion","o5",0,"noticeError"])},1738(e,t,r){"use strict";r.d(t,{U:()=>l,Y:()=>d});var n=r(3241),i=r(9908),a=r(1863),s=r(944),o=r(3969),c=r(8362),u=r(860);function d(e,t,r,a){const d=a||r;!d||d[e]&&d[e]!==c.d.prototype[e]||(d[e]=function(){(0,i.p)(o.xV,["API/"+e+"/called"],void 0,u.K7.metrics,r.ee),(0,n.W)({drained:!!r.runtime?.activatedFeatures,type:"data",name:"api",feature:"api-"+e,data:{}});try{return t.apply(this,arguments)}catch(e){(0,s.R)(23,e)}})}function l(e,t,r,n,s){const o=e.info;null===r?delete o.jsAttributes[t]:o.jsAttributes[t]=r,(s||null===r)&&(0,i.p)("api-"+n,[(0,a.t)(),t,r],void 0,"session",e.ee)}},8374(e,t,r){r.nc=(()=>{try{return document?.currentScript?.nonce}catch(e){}return""})()},860(e,t,r){"use strict";const n="events",i="jserrors",a="browser/blobs",s="browser/logs",o={ajax:"ajax",genericEvents:"generic_events",jserrors:i,logging:"logging",metrics:"metrics",pageAction:"page_action",pageViewEvent:"page_view_event",pageViewTiming:"page_view_timing",sessionReplay:"session_replay",sessionTrace:"session_trace",softNav:"soft_navigations"},c={[o.pageViewEvent]:1,[o.pageViewTiming]:2,[o.metrics]:3,[o.jserrors]:4,[o.softNav]:5,[o.ajax]:6,[o.sessionTrace]:7,[o.sessionReplay]:8,[o.logging]:9,[o.genericEvents]:10},u={[o.pageViewEvent]:"rum",[o.pageViewTiming]:n,[o.ajax]:n,[o.softNav]:n,[o.metrics]:i,[o.jserrors]:i,[o.sessionTrace]:a,[o.sessionReplay]:a,[o.logging]:s,[o.genericEvents]:"ins"};r.d(t,["$J",0,u,"K7",0,o,"P3",0,c,"XX",0,i,"Yy",0,s,"df",0,a,"hg",0,"connect"])}};const t={};function r(n){const i=t[n];if(void 0!==i)return i.exports;const a=t[n]={exports:{}};return e[n](a,a.exports,r),a.exports}r.m=e,r.d=(e,t)=>{if(Array.isArray(t))for(var n=0;n<t.length;){var i=t[n++],a=t[n++];r.o(e,i)?0===a&&n++:0===a?Object.defineProperty(e,i,{enumerable:!0,value:t[n++]}):Object.defineProperty(e,i,{enumerable:!0,get:a})}else for(var i in t)r.o(t,i)&&!r.o(e,i)&&Object.defineProperty(e,i,{enumerable:!0,get:t[i]})},r.f={},r.e=e=>Promise.all(Object.keys(r.f).reduce((t,n)=>(r.f[n](e,t),t),[])),r.u=e=>"nr-rum-1.323.0.min.js",r.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{const e={},t="NRBA-1.323.0.PROD:";r.l=(n,i,a,s)=>{if(e[n])return void e[n].push(i);let o,c;if(void 0!==a){const e=document.getElementsByTagName("script");for(var u=0;u<e.length;u++){const r=e[u];if(r.getAttribute("src")==n||r.getAttribute("data-webpack")==t+a){o=r;break}}}if(!o){c=!0;var d={296:"sha512-zhTI1o3vPu0UcYWUELiLeb9P46+LBW0K7R4KO/PafMc68L5tJ2mSHyvZtcNeG9Cw/PTZstuo62K1wwaoAsHdXQ=="};o=document.createElement("script"),o.charset="utf-8",r.nc&&o.setAttribute("nonce",r.nc),o.setAttribute("data-webpack",t+a),o.src=n,0!==o.src.indexOf(window.location.origin+"/")&&(o.crossOrigin="anonymous"),d[s]&&(o.integrity=d[s])}e[n]=[i];const l=(t,r)=>{o.onerror=o.onload=null,clearTimeout(f);const i=e[n];if(delete e[n],o.parentNode?.removeChild(o),i?.forEach(e=>e(r)),t)return t(r)},f=setTimeout(l.bind(null,void 0,{type:"timeout",target:o}),12e4);o.onerror=l.bind(null,o.onerror),o.onload=l.bind(null,o.onload),c&&document.head.appendChild(o)}})(),r.r=e=>{Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.p="https://js-agent.newrelic.com/",(()=>{const e={374:0,840:0};r.f.j=(t,n)=>{let i=r.o(e,t)?e[t]:void 0;if(0!==i)if(i)n.push(i[2]);else{const a=new Promise((r,n)=>i=e[t]=[r,n]);n.push(i[2]=a);const s=r.p+r.u(t),o=new Error,c=n=>{if(r.o(e,t)&&(i=e[t],0!==i&&(e[t]=void 0),i)){const e=n&&("load"===n.type?"missing":n.type),r=n&&n.target&&n.target.src;o.message="Loading chunk "+t+" failed: ("+e+": "+r+")",o.name="ChunkLoadError",o.type=e,o.request=r,i[1](o)}};r.l(s,c,"chunk-"+t,t)}};const t=(t,n)=>{let[i,a,s]=n;var o,c,u=0;if(i.some(t=>0!==e[t])){for(o in a)r.o(a,o)&&(r.m[o]=a[o]);if(s)s(r)}for(t&&t(n);u<i.length;u++)c=i[u],r.o(e,c)&&e[c]&&e[c][0](),e[c]=0},n=self["webpackChunk:NRBA-1.323.0.PROD"]=self["webpackChunk:NRBA-1.323.0.PROD"]||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))})(),(()=>{"use strict";r(8374);var e=r(8362),t=r(860);const n=Object.values(t.K7);var i=r(384),a=r(1741);var s=r(2555),o=r(981);t.K7.genericEvents,o.R.PA,o.R.UA,o.R.BP;const c={RESOURCES:"experimental.resources",REGISTER:"register"};var u=r(9300);const d=e=>{if(!e||"string"!=typeof e)return!1;try{document.createDocumentFragment().querySelector(e)}catch{return!1}return!0};var l=r(2614),f=r(944),g=r(8122);const p="[data-nr-mask]",m=e=>(0,g.a)(e,(()=>{const e={feature_flags:[],experimental:{register:!1,resources:!1,iframe_bridge:!1,iframe_domains:[]},mask_selector:"*",block_selector:"[data-nr-block]",mask_input_options:{color:!1,date:!1,"datetime-local":!1,email:!1,month:!1,number:!1,range:!1,search:!1,tel:!1,text:!1,time:!1,url:!1,week:!1,textarea:!1,select:!1,password:!0}};return{ajax:{deny_list:void 0,block_internal:!0,enabled:!0,autoStart:!0,capture_payloads:u.mo.NONE},api:{register:{get enabled(){return e.feature_flags.includes(c.REGISTER)||e.experimental.register},set enabled(t){e.experimental.register=t},duplicate_data_to_container:!1,get allow_iframe_bridge(){return e.feature_flags.includes(c.IFRAME_BRIDGE)||e.experimental.iframe_bridge},set allow_iframe_bridge(t){e.experimental.iframe_bridge=t},get iframe_domains(){return e.experimental.iframe_domains},set iframe_domains(t){Array.isArray(t)?e.experimental.iframe_domains=t:(0,f.R)(1,t)}}},browser_consent_mode:{enabled:!1},distributed_tracing:{enabled:void 0,exclude_newrelic_header:void 0,cors_use_newrelic_header:void 0,cors_use_tracecontext_headers:void 0,allowed_origins:void 0},get feature_flags(){return e.feature_flags},set feature_flags(t){e.feature_flags=t},generic_events:{enabled:!0,autoStart:!0},harvest:{interval:30},jserrors:{enabled:!0,autoStart:!0},logging:{enabled:!0,autoStart:!0},metrics:{enabled:!0,autoStart:!0},obfuscate:void 0,page_action:{enabled:!0},page_view_event:{enabled:!0,autoStart:!0},page_view_timing:{enabled:!0,autoStart:!0},performance:{capture_marks:!1,capture_measures:!1,capture_detail:!0,resources:{get enabled(){return e.feature_flags.includes(c.RESOURCES)||e.experimental.resources},set enabled(t){e.experimental.resources=t},asset_types:[],first_party_domains:[],ignore_newrelic:!0}},privacy:{cookies_enabled:!0},proxy:{assets:void 0,beacon:void 0},session:{expiresMs:l.wk,inactiveMs:l.BB},session_replay:{autoStart:!0,enabled:!1,preload:!1,sampling_rate:10,error_sampling_rate:100,collect_fonts:!1,inline_images:!1,fix_stylesheets:!0,mask_all_inputs:!0,get mask_text_selector(){return e.mask_selector},set mask_text_selector(t){d(t)?e.mask_selector="".concat(t,",").concat(p):""===t||null===t?e.mask_selector=p:(0,f.R)(5,t)},get block_class(){return"nr-block"},get ignore_class(){return"nr-ignore"},get mask_text_class(){return"nr-mask"},get block_selector(){return e.block_selector},set block_selector(t){d(t)?e.block_selector+=",".concat(t):""!==t&&(0,f.R)(6,t)},get mask_input_options(){return e.mask_input_options},set mask_input_options(t){t&&"object"==typeof t?e.mask_input_options={...t,password:!0}:(0,f.R)(7,t)}},session_trace:{enabled:!0,autoStart:!0},soft_navigations:{enabled:!0,autoStart:!0},ssl:void 0,user_actions:{enabled:!0,elementAttributes:["id","className","tagName","type"]},web_sockets:{enabled:!1}}})());var h=r(6154),v=r(9324);let b=0;const y={buildEnv:"PROD",distMethod:"CDN",version:v.xv,originTime:h.WN},_={consented:!1},w={activatedFeatures:void 0,appMetadata:{},configured:!1,get consented(){return this.session?.state?.consent||_.consented},set consented(e){_.consented=e},customTransaction:void 0,denyList:[],disabled:!1,drainRegistry:new Map,connector:void 0,harvester:void 0,v2Target:void 0,isolatedBacklog:!1,isRecording:!1,loaderType:void 0,maxBytes:3e4,obfuscator:void 0,onerror:void 0,ptid:void 0,releaseIds:{},session:void 0,timeKeeper:void 0,registeredEntities:[],jsAttributesMetadata:{bytes:0},get harvestCount(){return++b},listeningForIframeMessages:!1},R="BA";var A=r(7836),x=r(3241);const E={accountID:void 0,trustKey:void 0,agentID:void 0,licenseKey:void 0,applicationID:void 0,xpid:void 0};var S=r(9908);const k="newrelic-iframe-";function T(e,t={},n,o){let{init:c,info:u,loader_config:d,runtime:l={},exposed:f=!0}=t;if(!u){const e=(0,i.pV)();c=e.init,u=e.info,d=e.loader_config}var p;e.init=m(c||{}),e.loader_config=(p=d||{},(0,g.a)(p,E)),u.jsAttributes??={},h.bv&&(u.jsAttributes.isWorker=!0),e.info=(0,s.D)(u);const v=e.init;e.runtime??=(e=>{const t=(0,g.a)(e,w),r=Object.keys(y).reduce((e,t)=>(e[t]={value:y[t],writable:!1,configurable:!0,enumerable:!0},e),{});return Object.defineProperties(t,r)})(l),e.runtime.v2Target??={type:R,instance:e.agentIdentifier,get id(){return e.runtime.appMetadata?.agents?.[0]?.entityGuid},get attributes(){return{"entity.guid":this.id,appId:e.info.applicationID}}},v.proxy.assets&&(e=>{const t=e.startsWith("http");e+="/",r.p=t?e:"https://"+e})(v.proxy.assets),e.runtime.configured||(Object.defineProperty(e,"beacons",{get:()=>[e.info.beacon,e.info.errorBeacon,e.init.proxy.assets,e.init.proxy.beacon].filter(Boolean)}),Object.defineProperty(e.runtime,"denyList",{get:()=>[...e.init.ajax.deny_list||[],...e.init.ajax.block_internal?e.beacons:[]]}),e.runtime.ptid=e.agentIdentifier,function(e){const t=(0,i.pV)();Object.getOwnPropertyNames(a.W.prototype).forEach(r=>{const n=a.W.prototype[r];if("function"!=typeof n||"constructor"===n)return;let i=t[r];e[r]&&!1!==e.exposed&&"micro-agent"!==e.runtime?.loaderType&&(t[r]=(...t)=>{const n=e[r](...t);return i?i(...t):n})})}(e),e.runtime.loaderType=n,e.ee=A.ee.get(e.agentIdentifier),e.exposed=f,(0,x.W)({drained:!!e.runtime.activatedFeatures,type:"lifecycle",name:"initialize",feature:void 0,data:e.config}),e.init.api.register.allow_iframe_bridge&&h.gm.addEventListener("message",t=>{"string"==typeof t.data?.type&&t.data.type.startsWith(k)&&(0,S.p)("iframe-message",[t],void 0,"IFRAME",e.ee)}),e.runtime.configured=!0)}var j=r(1863),P=r(4261),N=r(1738);var O=r(1687),M=r(4234),I=r(5289),D=r(7767);function V(e){return!!(0,i.dV)().o.MO&&(0,D.V)(e)&&!0===e?.session_trace.enabled}var W=r(6389),B=r(7699);const C=new WeakSet,K=new WeakMap;class U extends M.W{constructor(e,t){super(e,t),this.abortHandler=void 0,this.featAggregate=void 0,this.loadedSuccessfully=void 0,this.onAggregateImported=new Promise(e=>{this.loadedSuccessfully=e}),this.deferred=Promise.resolve(),!1===e.init[this.featureName].autoStart?this.deferred=new Promise((t,r)=>{this.ee.on("manual-start-all",(0,W.J)(()=>{(0,O.Ak)(e,this.featureName),t()}))}):(0,O.Ak)(e,t)}importAggregator(e,t,n={}){if(this.featAggregate)return;const i=async()=>{if(await this.deferred,this.#t(e),!(0,s.f)(e.info))return(0,f.R)(43),e.ee.abort(),void this.loadedSuccessfully(!1);try{await async function(e,t,n){if(K.has(e))return K.get(e);const i=(async()=>{if((0,D.V)(e.init))try{const{setupAgentSession:t}=await r.e(296).then(r.bind(r,1768));t(e)}catch(e){(0,f.R)(20,e),t.emit("internal-error",[e]),(0,S.p)(B.qh,[e],void 0,n,t)}if(e.init.api.register.allow_iframe_bridge)try{const{setupIframeMFEMessageListener:t}=await Promise.resolve().then(function(){const e=new Error("Cannot find module '../../loaders/configure/iframe-message-handler'");throw e.code="MODULE_NOT_FOUND",e});t(e)}catch(e){(0,f.R)(23,e)}const[{Connector:i},{Harvester:a}]=await Promise.all([r.e(296).then(r.bind(r,6589)),r.e(296).then(r.bind(r,5237))]);e.runtime.connector=new i(e),e.runtime.harvester=new a(e);const s=Object.values(e.features).filter(t=>e.runtime.drainRegistry.has(t.featureName));Promise.all(s.map(e=>e.onAggregateImported)).then(()=>e.runtime.harvester.startTimer())})();K.set(e,i),await i}(e,this.ee,this.featureName)}catch(e){return(0,f.R)(79,e),this.ee.abort(),void this.loadedSuccessfully(!1)}try{if(!this.#r(this.featureName,e.runtime.session,e.init))return this.abortHandler?.(),(0,O.Ze)(this.agentRef,this.featureName),void this.loadedSuccessfully(!1);const{Aggregate:r}=await t();this.featAggregate=new r(e,n),e.runtime.harvester.initializedAggregates.push(this.featAggregate),this.loadedSuccessfully(!0)}catch(e){(0,f.R)(34,e),this.abortHandler?.(),(0,O.Ze)(this.agentRef,this.featureName,!0),this.loadedSuccessfully(!1)}};h.RI?(0,I.GG)(()=>i(),!0):i()}#r(e,r,n){if(this.blocked)return!1;switch(e){case t.K7.sessionReplay:return V(n)&&!!r;case t.K7.sessionTrace:return!!r;default:return!0}}#t(e){if(!C.has(e)&&(C.add(e),!(0,s.f)(e.info))){const t=(0,i.pV)();let r={...t.info?.jsAttributes};try{r={...r,...e.info?.jsAttributes}}catch(e){}T(e,{...t,info:{...t.info,jsAttributes:r},runtime:e.runtime},e.runtime.loaderType)}}}var L=r(6630);class F extends U{static featureName=L.T;constructor(e){var t;super(e,L.T),this.setupInspectionEvents(),t=e,(0,N.Y)(P.Fw,function(e,r){"string"==typeof e&&("/"!==e.charAt(0)&&(e="/"+e),t.runtime.customTransaction=(r||"http://custom.transaction")+e,(0,S.p)("api-"+P.Fw,[(0,j.t)()],void 0,void 0,t.ee))},t),this.importAggregator(e,()=>e.init.feature_flags.includes("rum_v2")?r.e(296).then(r.bind(r,908)):r.e(296).then(r.bind(r,7927)))}setupInspectionEvents(){const e=(e,t)=>{e&&(0,x.W)({timeStamp:e.timeStamp,loaded:"complete"===e.target.readyState,type:"window",name:t,data:e.target.location+""})};(0,I.sB)(t=>{e(t,"DOMContentLoaded")}),(0,I.GG)(t=>{e(t,"load")}),(0,I.Qr)(t=>{e(t,"navigate")}),this.ee.on(l.tS.UPDATE,(e,t)=>{(0,x.W)({type:"lifecycle",name:"session",data:t})})}}class G extends e.d{constructor(e){var t;(super(),h.gm)?(this.features={},(0,i.bQ)(this.agentIdentifier,this),this.desiredFeatures=new Set(e.features||[]),this.desiredFeatures.add(F),T(this,e,e.loaderType||"agent"),t=this,(0,N.Y)(P.cD,function(e,r,n=!1){if("string"==typeof e){if(["string","number","boolean"].includes(typeof r)||null===r)return(0,N.U)(t,e,r,P.cD,n);(0,f.R)(40,typeof r)}else(0,f.R)(39,typeof e)},t),function(e){(0,N.Y)(P.Dl,function(t,r=!1){if("string"!=typeof t&&null!==t)return void(0,f.R)(41,typeof t);const n=e.info.jsAttributes["enduser.id"];r&&null!=n&&n!==t?(0,S.p)("api-setUserIdAndResetSession",[t],void 0,"session",e.ee):(0,N.U)(e,"enduser.id",t,P.Dl,!0)},e)}(this),function(e){(0,N.Y)(P.nb,function(t){if("string"==typeof t||null===t)return(0,N.U)(e,"application.version",t,P.nb,!1);(0,f.R)(42,typeof t)},e)}(this),function(e){(0,N.Y)("start",function(){e.ee.emit("manual-start-all")},e)}(this),function(e){(0,N.Y)(P.Pv,function(t=!0){if("boolean"==typeof t){if((0,S.p)("api-"+P.Pv,[t],void 0,"session",e.ee),e.runtime.consented=t,t){const t=e.features.page_view_event;t.onAggregateImported.then(e=>{const r=t.featAggregate;e&&!r.sentRum&&r.sendRum?.()})}}else(0,f.R)(65,typeof t)},e)}(this),this.run()):(0,f.R)(21)}get config(){return{info:this.info,init:this.init,loader_config:this.loader_config,runtime:this.runtime}}get api(){return this}run(){try{const e=function(e){const t={};return n.forEach(r=>{t[r]=!!e[r]?.enabled}),t}(this.init),r=[...this.desiredFeatures],i=this.init.feature_flags.includes("rum_v2");r.sort((e,r)=>t.P3[e.featureName]-t.P3[r.featureName]),r.forEach(r=>{if(!e[r.featureName]&&(i||r.featureName!==t.K7.pageViewEvent))return;const n=function(e){switch(e){case t.K7.ajax:return[t.K7.jserrors];case t.K7.sessionTrace:return[t.K7.ajax,t.K7.pageViewEvent];case t.K7.sessionReplay:return[t.K7.sessionTrace];case t.K7.pageViewTiming:return[t.K7.pageViewEvent];default:return[]}}(r.featureName).filter(e=>!(e in this.features));n.length>0&&(0,f.R)(36,{targetFeature:r.featureName,missingDependencies:n}),this.features[r.featureName]=new r(this)})}catch(e){(0,f.R)(22,e);for(const e in this.features)this.features[e].abortHandler?.();const t=(0,i.Zm)();delete t.initializedAgents[this.agentIdentifier]?.features,delete this.sharedAggregator;return t.ee.get(this.agentIdentifier).abort(),!1}}}var H=r(2843),z=r(782);class Y extends U{static featureName=z.T;constructor(e){super(e,z.T),h.RI&&((0,H.u)(()=>(0,S.p)("docHidden",[(0,j.t)()],void 0,z.T,this.ee),!0),(0,H.G)(()=>(0,S.p)("winPagehide",[(0,j.t)()],void 0,z.T,this.ee)),this.importAggregator(e,()=>r.e(296).then(r.bind(r,9981))))}}var Z=r(3969);class q extends U{static featureName=Z.TZ;constructor(e){super(e,Z.TZ),this.importAggregator(e,()=>r.e(296).then(r.bind(r,9623)))}}new G({features:[F,Y,q],loaderType:"lite"})})()})();</script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<script>
+		document.documentElement.className = document.documentElement.className.replace('no-js', ' ');
+		document.documentElement.className += ' js ';
+	</script>
+	<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+<!-- InMobi Choice. Consent Manager Tag v3.0 (for TCF 2.2) -->
+<script type="text/javascript" async=true>
+(function() {
+  var host = window.location.hostname;
+  var element = document.createElement('script');
+  var firstScript = document.getElementsByTagName('script')[0];
+  var url = 'https://cmp.inmobi.com'
+    .concat('/choice/', 'GANCBjEfRH5Fe', '/', host, '/choice.js?tag_version=V3');
+  var uspTries = 0;
+  var uspTriesLimit = 3;
+  element.async = true;
+  element.type = 'text/javascript';
+  element.src = url;
+
+  firstScript.parentNode.insertBefore(element, firstScript);
+
+  function makeStub() {
+    var TCF_LOCATOR_NAME = '__tcfapiLocator';
+    var queue = [];
+    var win = window;
+    var cmpFrame;
+
+    function addFrame() {
+      var doc = win.document;
+      var otherCMP = !!(win.frames[TCF_LOCATOR_NAME]);
+
+      if (!otherCMP) {
+        if (doc.body) {
+          var iframe = doc.createElement('iframe');
+
+          iframe.style.cssText = 'display:none';
+          iframe.name = TCF_LOCATOR_NAME;
+          doc.body.appendChild(iframe);
+        } else {
+          setTimeout(addFrame, 5);
+        }
+      }
+      return !otherCMP;
+    }
+
+    function tcfAPIHandler() {
+      var gdprApplies;
+      var args = arguments;
+
+      if (!args.length) {
+        return queue;
+      } else if (args[0] === 'setGdprApplies') {
+        if (
+          args.length > 3 &&
+          args[2] === 2 &&
+          typeof args[3] === 'boolean'
+        ) {
+          gdprApplies = args[3];
+          if (typeof args[2] === 'function') {
+            args[2]('set', true);
+          }
+        }
+      } else if (args[0] === 'ping') {
+        var retr = {
+          gdprApplies: gdprApplies,
+          cmpLoaded: false,
+          cmpStatus: 'stub'
+        };
+
+        if (typeof args[2] === 'function') {
+          args[2](retr);
+        }
+      } else {
+        if(args[0] === 'init' && typeof args[3] === 'object') {
+          args[3] = Object.assign(args[3], { tag_version: 'V3' });
+        }
+        queue.push(args);
+      }
+    }
+
+    function postMessageEventHandler(event) {
+      var msgIsString = typeof event.data === 'string';
+      var json = {};
+
+      try {
+        if (msgIsString) {
+          json = JSON.parse(event.data);
+        } else {
+          json = event.data;
+        }
+      } catch (ignore) {}
+
+      var payload = json.__tcfapiCall;
+
+      if (payload) {
+        window.__tcfapi(
+          payload.command,
+          payload.version,
+          function(retValue, success) {
+            var returnMsg = {
+              __tcfapiReturn: {
+                returnValue: retValue,
+                success: success,
+                callId: payload.callId
+              }
+            };
+            if (msgIsString) {
+              returnMsg = JSON.stringify(returnMsg);
+            }
+            if (event && event.source && event.source.postMessage) {
+              event.source.postMessage(returnMsg, '*');
+            }
+          },
+          payload.parameter
+        );
+      }
+    }
+
+    while (win) {
+      try {
+        if (win.frames[TCF_LOCATOR_NAME]) {
+          cmpFrame = win;
+          break;
+        }
+      } catch (ignore) {}
+
+      if (win === window.top) {
+        break;
+      }
+      win = win.parent;
+    }
+    if (!cmpFrame) {
+      addFrame();
+      win.__tcfapi = tcfAPIHandler;
+      win.addEventListener('message', postMessageEventHandler, false);
+    }
+  };
+
+  makeStub();
+
+  var uspStubFunction = function() {
+    var arg = arguments;
+    if (typeof window.__uspapi !== uspStubFunction) {
+      setTimeout(function() {
+        if (typeof window.__uspapi !== 'undefined') {
+          window.__uspapi.apply(window.__uspapi, arg);
+        }
+      }, 500);
+    }
+  };
+
+  var checkIfUspIsReady = function() {
+    uspTries++;
+    if (window.__uspapi === uspStubFunction && uspTries < uspTriesLimit) {
+      console.warn('USP is not accessible');
+    } else {
+      clearInterval(uspInterval);
+    }
+  };
+
+  if (typeof window.__uspapi === 'undefined') {
+    window.__uspapi = uspStubFunction;
+    var uspInterval = setInterval(checkIfUspIsReady, 6000);
+  }
+})();
+</script>
+<!-- End InMobi Choice. Consent Manager Tag v3.0 (for TCF 2.2) -->
+
+	<!-- This site is optimized with the Yoast SEO plugin v28.6 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>Schools Closed, Streets Were Empty As Israel Awaited Military Action - Jewish Telegraphic Agency</title>
+	<link rel="canonical" href="https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Schools Closed, Streets Were Empty As Israel Awaited Military Action - Jewish Telegraphic Agency" />
+	<meta property="og:description" content="The Education Ministry ordered Israeli schools closed Wednesday after consultations with the defense minister and the Israel Defense Force chief..." />
+	<meta property="og:url" content="https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action" />
+	<meta property="og:site_name" content="Jewish Telegraphic Agency" />
+	<meta property="og:image" content="https://www.jta.org/wp-content/uploads/2018/12/jta-long-logo-bw.jpg" />
+	<meta property="og:image:width" content="600" />
+	<meta property="og:image:height" content="315" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Est. reading time" />
+	<meta name="twitter:data1" content="3 minutes" />
+	<meta name="twitter:label2" content="Written by" />
+	<meta name="twitter:data2" content="ArchiveAuthor" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https:\/\/schema.org","@graph":[{"@type":"NewsArticle","@id":"https:\/\/www.jta.org\/archive\/schools-closed-streets-were-empty-as-israel-awaited-military-action#article","isPartOf":{"@id":"https:\/\/www.jta.org\/archive\/schools-closed-streets-were-empty-as-israel-awaited-military-action"},"author":[{"@id":"https:\/\/www.jta.org\/#\/schema\/person\/image\/8612d4e90807a1ee428f13e787874126"}],"headline":"Schools Closed, Streets Were Empty As Israel Awaited Military Action","datePublished":"1991-01-17T10:00:00+00:00","mainEntityOfPage":{"@id":"https:\/\/www.jta.org\/archive\/schools-closed-streets-were-empty-as-israel-awaited-military-action"},"wordCount":548,"publisher":{"@id":"https:\/\/www.jta.org\/#organization"},"keywords":["Movies"],"articleSection":["Archive"],"inLanguage":"en-US"},{"@type":"WebPage","@id":"https:\/\/www.jta.org\/archive\/schools-closed-streets-were-empty-as-israel-awaited-military-action","url":"https:\/\/www.jta.org\/archive\/schools-closed-streets-were-empty-as-israel-awaited-military-action","name":"Schools Closed, Streets Were Empty As Israel Awaited Military Action - Jewish Telegraphic Agency","isPartOf":{"@id":"https:\/\/www.jta.org\/#website"},"datePublished":"1991-01-17T10:00:00+00:00","inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https:\/\/www.jta.org\/archive\/schools-closed-streets-were-empty-as-israel-awaited-military-action"]}]},{"@type":"WebSite","@id":"https:\/\/www.jta.org\/#website","url":"https:\/\/www.jta.org\/","name":"Jewish Telegraphic Agency","description":"The Global Jewish News Source","publisher":{"@id":"https:\/\/www.jta.org\/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https:\/\/www.jta.org\/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"en-US"},{"@type":["Organization","NewsMediaOrganization"],"@id":"https:\/\/www.jta.org\/#organization","name":"Jewish Telegraphic Agency","url":"https:\/\/www.jta.org\/","logo":{"@type":"ImageObject","inLanguage":"en-US","@id":"https:\/\/www.jta.org\/#\/schema\/logo\/image\/","url":"https:\/\/www.jta.org\/wp-content\/uploads\/2018\/12\/jta-long-logo-bw.jpg","contentUrl":"https:\/\/www.jta.org\/wp-content\/uploads\/2018\/12\/jta-long-logo-bw.jpg","width":600,"height":315,"caption":"Jewish Telegraphic Agency"},"image":{"@id":"https:\/\/www.jta.org\/#\/schema\/logo\/image\/"}},{"@type":"Person","@id":"https:\/\/www.jta.org\/#\/schema\/person\/image\/8612d4e90807a1ee428f13e787874126","name":"ArchiveAuthor","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https:\/\/secure.gravatar.com\/avatar\/?s=96&d=mm&r=g23494c9101089ad44ae88ce9d2f56aac","url":"https:\/\/secure.gravatar.com\/avatar\/?s=96&d=mm&r=g","contentUrl":"https:\/\/secure.gravatar.com\/avatar\/?s=96&d=mm&r=g","caption":"ArchiveAuthor"},"url":"https:\/\/www.jta.org\/author\/archiveauthor"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//www.google.com' />
+<link rel='dns-prefetch' href='//forms.jta.org' />
+<link rel='dns-prefetch' href='//giving.classy.org' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="Jewish Telegraphic Agency &raquo; Feed" href="https://www.jta.org/feed" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://www.jta.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.jta.org%2Farchive%2Fschools-closed-streets-were-empty-as-israel-awaited-military-action" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://www.jta.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.jta.org%2Farchive%2Fschools-closed-streets-were-empty-as-israel-awaited-military-action&#038;format=xml" />
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id="wp-block-library-inline-css">
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}:root .has-text-align-center{text-align:center}:root .has-text-align-left{text-align:left}:root .has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{word-wrap:normal!important;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style^=border-color],[style*=";border-color"],[style*="; border-color"]){border-style:solid}html :where([style^=border-top-color],[style*=";border-top-color"],[style*="; border-top-color"]){border-top-style:solid}html :where([style^=border-right-color],[style*=";border-right-color"],[style*="; border-right-color"]){border-right-style:solid}html :where([style^=border-bottom-color],[style*=";border-bottom-color"],[style*="; border-bottom-color"]){border-bottom-style:solid}html :where([style^=border-left-color],[style*=";border-left-color"],[style*="; border-left-color"]){border-left-style:solid}html :where([style^=border-width],[style*=";border-width"],[style*="; border-width"]){border-style:solid}html :where([style^=border-top-width],[style*=";border-top-width"],[style*="; border-top-width"]){border-top-style:solid}html :where([style^=border-right-width],[style*=";border-right-width"],[style*="; border-right-width"]){border-right-style:solid}html :where([style^=border-bottom-width],[style*=";border-bottom-width"],[style*="; border-bottom-width"]){border-bottom-style:solid}html :where([style^=border-left-width],[style*=";border-left-width"],[style*="; border-left-width"]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=/wp-includes/css/dist/block-library/common.min.css */
+</style>
+
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--white: #ffffff;--wp--preset--color--jta-yellow: #fdf062;--wp--preset--color--jta-red: #d83536;--wp--preset--color--gray-900: #121212;--wp--preset--color--gray-500: #4a4a4a;--wp--preset--color--gray-400: #dddddd;--wp--preset--color--gray-300: #f8f8f8;--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: clamp(14px, 0.875rem + ((1vw - 3.2px) * 0.612), 20px);--wp--preset--font-size--large: clamp(22.041px, 1.378rem + ((1vw - 3.2px) * 1.424), 36px);--wp--preset--font-size--x-large: clamp(25.014px, 1.563rem + ((1vw - 3.2px) * 1.733), 42px);--wp--preset--font-size--xs: var(--wp--custom--font--size--xs);--wp--preset--font-size--sm: var(--wp--custom--font--size--sm);--wp--preset--font-size--base: var(--wp--custom--font--size--base);--wp--preset--font-size--lg: var(--wp--custom--font--size--lg);--wp--preset--font-size--xl: var(--wp--custom--font--size--xl);--wp--preset--font-size--2-xl: var(--wp--custom--font--size--2-xl);--wp--preset--font-size--3-xl: var(--wp--custom--font--size--3-xl);--wp--preset--font-size--4-xl: var(--wp--custom--font--size--4-xl);--wp--preset--font-size--5-xl: var(--wp--custom--font--size--5-xl);--wp--preset--font-family--primary-font: Roboto,"Helvetica Neue",sans-serif;--wp--preset--font-family--secondary-font: Lora,"Georgia",serif;--wp--preset--spacing--20: var(--wp--custom--spacing--20);--wp--preset--spacing--30: var(--wp--custom--spacing--30);--wp--preset--spacing--40: var(--wp--custom--spacing--40);--wp--preset--spacing--50: var(--wp--custom--spacing--50);--wp--preset--spacing--60: var(--wp--custom--spacing--60);--wp--preset--spacing--70: var(--wp--custom--spacing--70);--wp--preset--spacing--80: var(--wp--custom--spacing--80);--wp--preset--spacing--5: var(--wp--custom--spacing--5);--wp--preset--spacing--10: var(--wp--custom--spacing--10);--wp--preset--spacing--15: var(--wp--custom--spacing--15);--wp--preset--spacing--25: var(--wp--custom--spacing--25);--wp--preset--spacing--35: var(--wp--custom--spacing--35);--wp--preset--spacing--100: var(--wp--custom--spacing--100);--wp--preset--spacing--120: var(--wp--custom--spacing--120);--wp--preset--spacing--0-60: var(--wp--custom--spacing--0-60);--wp--preset--spacing--100-60: var(--wp--custom--spacing--100-60);--wp--preset--spacing--120-60: var(--wp--custom--spacing--120-60);--wp--custom--color--black: #000000;--wp--custom--full-viewport-width: calc(100vw - var(--wp--custom--scrollbar-width, 0px));--wp--custom--main-content-width-side-spacing: calc((var(--wp--custom--full-viewport-width) - var(--wp--style--global--content-size)) / 2);--wp--custom--main-wide-width-side-spacing: calc((var(--wp--custom--full-viewport-width) - var(--wp--style--global--wide-size)) / 2);--wp--custom--scrollbar-width: 0px;--wp--custom--site-content-width: calc(var(--wp--custom--full-viewport-width) - (2 * var(--wp--custom--site-outer-padding)));--wp--custom--site-outer-padding: max(var(--wp--preset--spacing--20, 20px), env(safe-area-inset-left));--wp--custom--font--size--xs: var(--font-size-12);--wp--custom--font--size--sm: var(--font-size-14);--wp--custom--font--size--base: var(--font-size-16);--wp--custom--font--size--lg: var(--font-size-18);--wp--custom--font--size--xl: var(--font-size-21);--wp--custom--font--size--2-xl: clamp(var(--font-size-18), 18px + 0.5vw, var(--font-size-26));--wp--custom--font--size--3-xl: var(--font-size-28);--wp--custom--font--size--4-xl: var(--font-size-32);--wp--custom--font--size--5-xl: clamp(var(--font-size-30), 30px + 1vw, var(--font-size-35));--wp--custom--font-weight--light: 300;--wp--custom--font-weight--regular: 400;--wp--custom--font-weight--medium: 500;--wp--custom--font-weight--semi-bold: 600;--wp--custom--font-weight--bold: 700;--wp--custom--font-weight--extrabold: 900;--wp--custom--radius--sm: 6px;--wp--custom--radius--md: 8px;--wp--custom--radius--lg: 12px;--wp--custom--radius--xl: 16px;--wp--custom--radius--2-xl: 24px;--wp--custom--radius--full: 9999px;--wp--custom--typography--presets--0--slug: heading-1;--wp--custom--typography--presets--0--selector: h1;--wp--custom--typography--presets--0--name: Heading 1;--wp--custom--typography--presets--0--font-size: var(--font-size-37);--wp--custom--typography--presets--0--font-weight: 400;--wp--custom--typography--presets--0--line-height: 1.3;--wp--custom--typography--presets--0--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--1--slug: heading-2;--wp--custom--typography--presets--1--selector: h2;--wp--custom--typography--presets--1--name: Heading 2;--wp--custom--typography--presets--1--font-size: var(--font-size-30);--wp--custom--typography--presets--1--font-weight: 400;--wp--custom--typography--presets--1--line-height: 1.3;--wp--custom--typography--presets--1--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--2--slug: heading-3;--wp--custom--typography--presets--2--selector: h3;--wp--custom--typography--presets--2--name: Heading 3;--wp--custom--typography--presets--2--font-size: var(--font-size-26);--wp--custom--typography--presets--2--font-weight: 400;--wp--custom--typography--presets--2--line-height: 1.3;--wp--custom--typography--presets--2--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--3--slug: heading-4;--wp--custom--typography--presets--3--selector: h4;--wp--custom--typography--presets--3--name: Heading 4;--wp--custom--typography--presets--3--font-size: var(--font-size-21);--wp--custom--typography--presets--3--font-weight: 400;--wp--custom--typography--presets--3--line-height: 1.3;--wp--custom--typography--presets--3--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--4--slug: display-lg;--wp--custom--typography--presets--4--name: Display Large;--wp--custom--typography--presets--4--font-size: var(--font-size-37);--wp--custom--typography--presets--4--font-weight: 400;--wp--custom--typography--presets--4--line-height: 1.25;--wp--custom--typography--presets--4--letter-spacing: .09em;--wp--custom--typography--presets--4--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--5--slug: display-md;--wp--custom--typography--presets--5--name: Display Medium;--wp--custom--typography--presets--5--font-size: var(--font-size-30);--wp--custom--typography--presets--5--font-weight: 400;--wp--custom--typography--presets--5--line-height: 1.25;--wp--custom--typography--presets--5--letter-spacing: .09em;--wp--custom--typography--presets--5--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--6--slug: display-sm;--wp--custom--typography--presets--6--name: Display Small;--wp--custom--typography--presets--6--font-size: var(--font-size-14);--wp--custom--typography--presets--6--font-weight: 600;--wp--custom--typography--presets--6--line-height: 1.2;--wp--custom--typography--presets--6--letter-spacing: 2px;--wp--custom--typography--presets--6--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--7--slug: eyebrow;--wp--custom--typography--presets--7--name: Eyebrow;--wp--custom--typography--presets--7--font-size: var(--font-size-14);--wp--custom--typography--presets--7--font-weight: 500;--wp--custom--typography--presets--7--line-height: normal;--wp--custom--typography--presets--7--letter-spacing: .15rem;--wp--custom--typography--presets--7--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--8--slug: heading-lg;--wp--custom--typography--presets--8--name: Heading Large;--wp--custom--typography--presets--8--font-size: var(--font-size-32);--wp--custom--typography--presets--8--font-weight: 600;--wp--custom--typography--presets--8--line-height: 1.3;--wp--custom--typography--presets--8--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--9--slug: heading-md;--wp--custom--typography--presets--9--name: Heading Medium;--wp--custom--typography--presets--9--font-size: var(--font-size-26);--wp--custom--typography--presets--9--font-weight: 600;--wp--custom--typography--presets--9--line-height: 1.425;--wp--custom--typography--presets--9--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--10--slug: heading-sm;--wp--custom--typography--presets--10--name: Heading Small;--wp--custom--typography--presets--10--font-size: var(--font-size-18);--wp--custom--typography--presets--10--font-weight: 600;--wp--custom--typography--presets--10--line-height: 1.5;--wp--custom--typography--presets--10--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--11--slug: heading-xsm;--wp--custom--typography--presets--11--name: Heading Extra Small;--wp--custom--typography--presets--11--font-size: var(--font-size-16);--wp--custom--typography--presets--11--font-weight: 600;--wp--custom--typography--presets--11--line-height: 1.4;--wp--custom--typography--presets--11--font-family: var(--wp--preset--font-family--primary-font);--wp--custom--typography--presets--12--slug: body-lg;--wp--custom--typography--presets--12--name: Body Large;--wp--custom--typography--presets--12--font-size: var(--font-size-21);--wp--custom--typography--presets--12--font-weight: 400;--wp--custom--typography--presets--12--line-height: 1.35;--wp--custom--typography--presets--12--font-family: var(--wp--preset--font-family--secondary-font);--wp--custom--typography--presets--13--slug: body-base;--wp--custom--typography--presets--13--name: Body;--wp--custom--typography--presets--13--font-size: var(--font-size-16);--wp--custom--typography--presets--13--font-weight: 500;--wp--custom--typography--presets--13--line-height: 1.6;--wp--custom--typography--presets--13--font-family: var(--wp--preset--font-family--secondary-font);--wp--custom--typography--presets--14--slug: body-sm;--wp--custom--typography--presets--14--name: Body Small;--wp--custom--typography--presets--14--font-size: var(--font-size-16);--wp--custom--typography--presets--14--font-weight: 400;--wp--custom--typography--presets--14--line-height: 1.5;--wp--custom--typography--presets--14--font-family: var(--wp--preset--font-family--secondary-font);--wp--custom--spacing--0: 0;--wp--custom--spacing--5: var(--spacing-5);--wp--custom--spacing--10: var(--spacing-10);--wp--custom--spacing--15: var(--spacing-15);--wp--custom--spacing--20: var(--spacing-20);--wp--custom--spacing--25: var(--spacing-25);--wp--custom--spacing--30: var(--spacing-30);--wp--custom--spacing--35: var(--spacing-35);--wp--custom--spacing--40: var(--spacing-40);--wp--custom--spacing--50: var(--spacing-50);--wp--custom--spacing--60: var(--spacing-60);--wp--custom--spacing--70: var(--spacing-70);--wp--custom--spacing--80: var(--spacing-80);--wp--custom--spacing--100: var(--spacing-100);--wp--custom--spacing--120: var(--spacing-120);--wp--custom--spacing--0-60: var(--spacing-0-60);--wp--custom--spacing--100-60: var(--spacing-100-60);--wp--custom--spacing--120-60: var(--spacing-120-60);}.wp-block-button{--wp--preset--dimension--25: 25%;--wp--preset--dimension--50: 50%;--wp--preset--dimension--75: 75%;--wp--preset--dimension--100: 100%;}:root { --wp--style--global--content-size: 700px;--wp--style--global--wide-size: 1300px; }:where(body) { margin: 0; }.wp-site-blocks { padding-top: var(--wp--style--root--padding-top); padding-bottom: var(--wp--style--root--padding-bottom); }.has-global-padding { padding-right: var(--wp--style--root--padding-right); padding-left: var(--wp--style--root--padding-left); }.has-global-padding > .alignfull { margin-right: calc(var(--wp--style--root--padding-right) * -1); margin-left: calc(var(--wp--style--root--padding-left) * -1); }.has-global-padding :where(:not(.alignfull.is-layout-flow) > .has-global-padding:not(.wp-block-block, .alignfull)) { padding-right: 0; padding-left: 0; }.has-global-padding :where(:not(.alignfull.is-layout-flow) > .has-global-padding:not(.wp-block-block, .alignfull)) > .alignfull { margin-left: 0; margin-right: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: var(--wp--preset--spacing--20); margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: var(--wp--preset--spacing--20); }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: var(--wp--preset--spacing--20);margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: var(--wp--preset--spacing--20);margin-block-end: 0;}:root :where(.is-layout-flex){gap: var(--wp--preset--spacing--20);}:root :where(.is-layout-grid){gap: var(--wp--preset--spacing--20);}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{background-color: var(--wp--preset--color--white);color: var(--wp--preset--color--gray-900);font-family: var(--wp--preset--font-family--secondary-font);font-size: var(--font-size-16);font-weight: 500;line-height: 1.6;--wp--style--root--padding-top: 0;--wp--style--root--padding-right: var(--wp--custom--site-outer-padding);--wp--style--root--padding-bottom: 0;--wp--style--root--padding-left: var(--wp--custom--site-outer-padding);}a:where(:not(.wp-element-button)){color: var(--wp--preset--color--gray-900);text-decoration: none;}:root :where(a:where(:not(.wp-element-button)):hover){color: var(--wp--preset--color--gray-900);}h1, h2, h3, h4, h5, h6{color: var(--wp--preset--color--gray-900);font-family: var(--wp--preset--font-family--primary-font);font-weight: 400;}h1{color: var(--wp--preset--color--gray-900);font-family: var(--wp--preset--font-family--primary-font);font-size: var(--font-size-37);font-weight: 400;line-height: 1.3;}h2{color: var(--wp--preset--color--gray-900);font-family: var(--wp--preset--font-family--primary-font);font-size: var(--font-size-30);font-weight: 400;line-height: 1.3;}h3{color: var(--wp--preset--color--gray-900);font-family: var(--wp--preset--font-family--primary-font);font-size: var(--font-size-26);font-weight: 400;line-height: 1.3;}h4{color: var(--wp--preset--color--gray-900);font-family: var(--wp--preset--font-family--primary-font);font-size: var(--font-size-21);font-weight: 400;line-height: 1.3;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-jta-yellow-color{color: var(--wp--preset--color--jta-yellow) !important;}.has-jta-red-color{color: var(--wp--preset--color--jta-red) !important;}.has-gray-900-color{color: var(--wp--preset--color--gray-900) !important;}.has-gray-500-color{color: var(--wp--preset--color--gray-500) !important;}.has-gray-400-color{color: var(--wp--preset--color--gray-400) !important;}.has-gray-300-color{color: var(--wp--preset--color--gray-300) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-jta-yellow-background-color{background-color: var(--wp--preset--color--jta-yellow) !important;}.has-jta-red-background-color{background-color: var(--wp--preset--color--jta-red) !important;}.has-gray-900-background-color{background-color: var(--wp--preset--color--gray-900) !important;}.has-gray-500-background-color{background-color: var(--wp--preset--color--gray-500) !important;}.has-gray-400-background-color{background-color: var(--wp--preset--color--gray-400) !important;}.has-gray-300-background-color{background-color: var(--wp--preset--color--gray-300) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-jta-yellow-border-color{border-color: var(--wp--preset--color--jta-yellow) !important;}.has-jta-red-border-color{border-color: var(--wp--preset--color--jta-red) !important;}.has-gray-900-border-color{border-color: var(--wp--preset--color--gray-900) !important;}.has-gray-500-border-color{border-color: var(--wp--preset--color--gray-500) !important;}.has-gray-400-border-color{border-color: var(--wp--preset--color--gray-400) !important;}.has-gray-300-border-color{border-color: var(--wp--preset--color--gray-300) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}.has-xs-font-size{font-size: var(--wp--preset--font-size--xs) !important;}.has-sm-font-size{font-size: var(--wp--preset--font-size--sm) !important;}.has-base-font-size{font-size: var(--wp--preset--font-size--base) !important;}.has-lg-font-size{font-size: var(--wp--preset--font-size--lg) !important;}.has-xl-font-size{font-size: var(--wp--preset--font-size--xl) !important;}.has-2-xl-font-size{font-size: var(--wp--preset--font-size--2-xl) !important;}.has-3-xl-font-size{font-size: var(--wp--preset--font-size--3-xl) !important;}.has-4-xl-font-size{font-size: var(--wp--preset--font-size--4-xl) !important;}.has-5-xl-font-size{font-size: var(--wp--preset--font-size--5-xl) !important;}.has-primary-font-font-family{font-family: var(--wp--preset--font-family--primary-font) !important;}.has-secondary-font-font-family{font-family: var(--wp--preset--font-family--secondary-font) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='sfm_shared-css' href='https://www.jta.org/wp-content/mu-plugins/sfm-core/dist/css/shared-style.css?ver=5c755fe2' media='all' />
+<link rel='stylesheet' id='style-css' href='https://www.jta.org/wp-content/mu-plugins/sfm-core/dist/css/style.css?ver=5c755fe2' media='all' />
+<link rel='stylesheet' id='frontend-style-css' href='https://www.jta.org/wp-content/mu-plugins/multi-list-subscription/dist/css/style.css?ver=5c755fe2' media='all' />
+<style id="jetpack-stats-inline-css">
+img#wpstats{display:none}
+/*# sourceURL=jetpack-stats-inline-css */
+</style>
+<link rel='stylesheet' id='ep_general_styles-css' href='https://www.jta.org/wp-content/plugins/elasticpress/dist/css/general-styles.css?ver=66295efe92a630617c00' media='all' />
+<link rel='stylesheet' id='styles-frontend-css' href='https://www.jta.org/wp-content/themes/JTA-Blocks/dist/css/style-frontend.css?ver=5c755fe2' media='all' />
+<link rel='stylesheet' id='styles-css' href='https://www.jta.org/wp-content/themes/JTA-Blocks/dist/css/style.css?ver=5c755fe2' media='all' />
+<link rel='stylesheet' id='gfonts-css' href='https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i|Roboto:400,400i,500,500i,700,700i,900|Work+Sans:400&#038;display=swap&#038;ver=5c755fe2' media='all' />
+<link rel='stylesheet' id='sharedaddy-css' href='https://www.jta.org/wp-content/plugins/jetpack/modules/sharedaddy/sharing.css?ver=16.2' media='all' />
+<link rel='stylesheet' id='social-logos-css' href='https://www.jta.org/wp-content/plugins/jetpack/_inc/build/social-logos/social-logos.css?ver=16.2' media='all' />
+<script id="digioh-custom-domain-js" async="async" src="https://forms.jta.org/w37htfhcq2/vendor/cc37810a-cd8f-4c23-b49e-a31ba8c502ce/lightbox_speed.js"></script>
+<link rel="https://api.w.org/" href="https://www.jta.org/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://www.jta.org/wp-json/wp/v2/archive/589251" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.jta.org/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 7.1.2" />
+<link rel='shortlink' href='https://www.jta.org/?p=589251' />
+<!-- Stream WordPress user activity plugin v4.4.0 -->
+
+	<script>
+		dataLayer = [{"canonicalURL":"https:\/\/www.jta.org\/archive\/schools-closed-streets-were-empty-as-israel-awaited-military-action","postId":"589251","pageType":"archive","pageSlug":"schools-closed-streets-were-empty-as-israel-awaited-military-action","publishDate":"19910117","cat":"archive","subcat":"","categoryId":"44","postTag":"movies","postTagId":"1920","author":"archiveauthor","authorId":"458655"}];
+	</script>
+		<!-- Google Tag Manager -->
+		<script>
+			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-TKZ5V3');
+		</script>
+		<!-- End Google Tag Manager -->
+		
+	<link rel="preload" as="script" href="https://securepubads.g.doubleclick.net/tag/js/gpt.js" />
+
+	<script>
+	var tude = window.tude || { cmd: [] };
+	var targeting = {};
+
+	targeting["canonicalURL"] = "https:\/\/www.jta.org\/archive\/schools-closed-streets-were-empty-as-israel-awaited-military-action";targeting["postId"] = "589251";targeting["pageType"] = "archive";targeting["pageSlug"] = "schools-closed-streets-were-empty-as-israel-awaited-military-action";targeting["publishDate"] = "19910117";targeting["cat"] = ["archive"];targeting["subcat"] = [];targeting["categoryId"] = ["44"];targeting["postTag"] = ["movies"];targeting["postTagId"] = ["1920"];targeting["author"] = ["archiveauthor"];targeting["authorId"] = ["458655"];
+	
+
+	tude.cmd.push(function() {
+		tude.setPageTargeting(targeting);
+	});
+	</script>
+	<script async src="https://dn0qt3r0xannq.cloudfront.net/seventyfm-zGj9Dt9kTF/jta/prebid-load.js"></script>
+		<!-- Hotjar Tracking Code for https://www.jta.org/ -->
+	<script>
+		(function(h,o,t,j,a,r){
+			h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+			h._hjSettings={hjid:1148709,hjsv:6};
+			a=o.getElementsByTagName('head')[0];
+			r=o.createElement('script');r.async=1;
+			r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+			a.appendChild(r);
+		})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+	</script>
+	      <meta name="onesignal" content="wordpress-plugin"/>
+            <script>
+
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+
+      OneSignalDeferred.push(function(OneSignal) {
+        var oneSignal_options = {};
+        window._oneSignalInitOptions = oneSignal_options;
+
+        oneSignal_options['serviceWorkerParam'] = { scope: "\/wp-content\/plugins\/onesignal\/sdk_files\/push\/onesignal\/" };
+oneSignal_options['serviceWorkerPath'] = 'OneSignalSDKWorker.js';
+
+        OneSignal.Notifications.setDefaultUrl("https://www.jta.org");
+
+        oneSignal_options['wordpress'] = true;
+oneSignal_options['appId'] = '0095c2da-d3f6-4599-921f-e40ed7c2b2a3';
+oneSignal_options['allowLocalhostAsSecureOrigin'] = true;
+oneSignal_options['welcomeNotification'] = { };
+oneSignal_options['welcomeNotification']['title'] = "";
+oneSignal_options['welcomeNotification']['message'] = "";
+oneSignal_options['path'] = "https://www.jta.org/wp-content/plugins/onesignal/sdk_files/";
+oneSignal_options['safari_web_id'] = "web.onesignal.auto.5f80e2fb-b063-4ecb-90f7-0c7e45de9678";
+oneSignal_options['promptOptions'] = { };
+              OneSignal.init(window._oneSignalInitOptions);
+                    });
+
+      function documentInitOneSignal() {
+        var oneSignal_elements = document.getElementsByClassName("OneSignal-prompt");
+
+        var oneSignalLinkClickHandler = function(event) { OneSignal.Notifications.requestPermission(); event.preventDefault(); };        for(var i = 0; i < oneSignal_elements.length; i++)
+          oneSignal_elements[i].addEventListener('click', oneSignalLinkClickHandler, false);
+      }
+
+      if (document.readyState === 'complete') {
+           documentInitOneSignal();
+      }
+      else {
+           window.addEventListener("load", function(event){
+               documentInitOneSignal();
+          });
+      }
+    </script>
+				<script type="text/javascript">
+					var CaptchaCallback = function() {
+						var captchas = document.getElementsByClassName( 'g-recaptcha' );
+						for(var i = 0; i < captchas.length; i++) {
+							var widgetID = grecaptcha.render( captchas[i], { 'sitekey' : captchas[i].getAttribute('data-sitekey') } );
+							captchas[i].setAttribute('data-widgetid', widgetID );
+						}
+					};
+				</script>
+					<script src="https://experiments.parsely.com/vip-experiments.js?apiKey=jta.org"></script>
+	<link rel="icon" href="https://www.jta.org/wp-content/uploads/2024/04/cropped-JTA-Favicon-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://www.jta.org/wp-content/uploads/2024/04/cropped-JTA-Favicon-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.jta.org/wp-content/uploads/2024/04/cropped-JTA-Favicon-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.jta.org/wp-content/uploads/2024/04/cropped-JTA-Favicon-270x270.png" />
+</head>
+
+<body class="wp-singular archive-template-default single single-archive postid-589251 wp-theme-JTA-Blocks wp-core-is-desktop">
+	
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=http://GTM-TKZ5V3"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	
+	<div id="page" class="site">
+		<!-- part: skip to content -->
+		<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+		<!-- part: mobile menu -->
+		
+<div class="mobile-menu-container-2" id="siteHeaderMobileMenu">
+	<button
+		class="mobile-menu-container-2__toggle js-toggle-mobile-menu"
+		aria-label="Expand mobile menu"
+		title="Mobile menu toggle"
+	>
+		<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M2.53341 19.3333L0.666748 17.4666L8.13341 9.99996L0.666748 2.53329L2.53341 0.666626L10.0001 8.13329L17.4667 0.666626L19.3334 2.53329L11.8667 9.99996L19.3334 17.4666L17.4667 19.3333L10.0001 11.8666L2.53341 19.3333Z" fill="#121212"/>
+		</svg>
+	</button>
+
+	<div class="mobile-menu-container-2__search">
+		<form role="search" method="get" class="search-form" action="https://www.jta.org/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+	</label>
+	<input type="submit" class="search-submit" value="Search" />
+	<input type="hidden" value="global" name="search-type" />
+</form>	</div>
+
+	<h3 class="mobile-menu-container-2__nav-title">
+		Sections	</h3>
+
+	<nav id="site-navigation-mobile" class="mobile-menu-container-2__nav-container">
+		<div class="menu-primary-2025-container"><ul id="primary-menu-mobile" class="mobile-menu-container-2__nav"><li id="menu-item-1881150" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881150"><a data-gtm="navigation" href="https://www.jta.org/category/united-states">US</a></li>
+<li id="menu-item-1881151" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881151"><a data-gtm="navigation" href="https://www.jta.org/category/israel">Israel</a></li>
+<li id="menu-item-1881157" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881157"><a data-gtm="navigation" href="https://www.jta.org/category/ideas">Ideas</a></li>
+<li id="menu-item-1881152" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881152"><a data-gtm="navigation" href="https://www.jta.org/category/global">Global</a></li>
+<li id="menu-item-1881168" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1881168"><a data-gtm="navigation" href="/newyork">New York</a></li>
+<li id="menu-item-1881154" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881154"><a data-gtm="navigation" href="https://www.jta.org/category/obituaries">Obituaries</a></li>
+<li id="menu-item-1881155" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881155"><a data-gtm="navigation" href="https://www.jta.org/category/culture">Culture</a></li>
+<li id="menu-item-1881156" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881156"><a data-gtm="navigation" href="https://www.jta.org/category/sports">Sports</a></li>
+<li id="menu-item-1881158" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881158"><a data-gtm="navigation" href="https://www.jta.org/category/politics">Politics</a></li>
+<li id="menu-item-1881159" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881159"><a data-gtm="navigation" href="https://www.jta.org/category/food">Food</a></li>
+<li id="menu-item-1881160" class="menu-item menu-item-type-taxonomy menu-item-object-category current-archive-ancestor current-menu-parent current-archive-parent menu-item-1881160"><a data-gtm="navigation" href="https://www.jta.org/category/archive">Archive</a></li>
+<li id="menu-item-1881161" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1881161"><a data-gtm="navigation" href="https://www.jta.org/jta-teen-journalism-fellowship">Teen Fellowship</a></li>
+</ul></div>	</nav>
+
+	
+	<div class="mobile-menu-container-2__about-donate">
+		<a data-gtm="navigation" href="https://www.jta.org/support" class="site-header-2__donate">
+			Donate		</a>
+	</div>
+</div>
+
+<div class="site-header-2__backdrop"></div>
+
+		<div class="site-header-2__subscribe" id="siteHeaderSubscribe">
+			<div class="newsletter-signup -header">
+	<div class="wrapper-narrow">
+		<div class="newsletter-signup__content">
+			<div>
+				<p class="is-style-heading newsletter-signup__title">
+					Get JTA in your inbox				</p>
+				<form class="newsletter-form is-flex">
+					<input type="hidden" value="589251" class="newsletter-form__pageid"/>
+					<input type="hidden" value="header" class="newsletter-form__context"/>
+					<input type="email" required placeholder="Your Email" class="newsletter-form__email"/>
+					<input type="button" value="Sign Up" class="newsletter-form__submit newsletter-form__submit--header"/>
+					<input type="hidden" required="required" id="gdpr-checkbox-6abf8eb6ab901" class="newsletter-form__checkbox" name="gdpr-checkbox-6abf8eb6ab901"/>
+					<input type="hidden" id="jta-subscription-form-6abf8eb6ab901" name="jta-subscription-form-6abf8eb6ab901" value="4230742a77" /><input type="hidden" name="_wp_http_referer" value="/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action" />
+					<div class="newsletter-form__validation-message -no-error -invalid">
+						
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 20 20" role="presentation" class="jta-icon jta-icon-chevron-up" aria-hidden="true"><path d="M2.582 13.891c-.272.268-.709.268-.979 0s-.271-.701 0-.969l7.908-7.83a.697.697 0 0 1 .979 0l7.908 7.83c.27.268.27.701 0 .969s-.709.268-.978 0L10 6.75z"></path></svg>
+						Please accept the JTA Privacy Policy					</div>
+
+											<div class="newsletter-form__terms">
+							<p>By submitting the above I agree to the <a href="https://jta.org/privacy-policy">privacy policy</a> and <a href="https://jta.org/terms-of-use">terms</a> of use of JTA.org</p>
+						</div>
+					
+											<div class="sfm-recaptcha g-recaptcha newsletter-form__captcha" id="header-subscribe-form" data-sitekey="6Ld6pAMsAAAAAF2zZeBfcXtFUp1rPN8jbTR9-ads" data-recaptcha-id="header-subscribe-form" data-recaptcha-name="header-subscribe-form" style="display: none;"></div>
+					
+				</form>
+
+				<div class="feedback"></div>
+
+			</div>
+		</div>
+
+					<div class="newsletter-signup__controls">
+				<button class="newsletter-signup__close-button" aria-label="close subscribe form">Close</button>
+			</div>
+			</div>
+</div>
+
+
+
+		</div>
+
+		<!-- part: sticky site header 2 -->
+		<div class="sticky-header-2 site-header-2" aria-hidden="true">
+			<div class="wrapper site-header-2__inner">
+				<div class="site-header-2__grid">
+					
+<div class="site-header-2__grid-left">
+	<button
+		class="site-header-2__nav-toggle js-toggle-mobile-menu"
+		aria-label="Expand mobile menu"
+		title="Mobile menu toggle">
+
+		<span class="linescontain">
+			<span class="lines"></span>
+		</span>
+	</button>
+
+	<a data-gtm="navigation" href="https://www.jta.org/support" class="site-header-2__donate button">
+		Donate	</a>
+</div>
+
+<div class="site-header-2__grid-center-1">
+	<a data-gtm="navigation" href="https://www.jta.org/" rel="home" aria-label="Jewish Telegraphic Agency - Home">
+		<svg class="site-header-2__logo site-header-2__logo-desktop" width="804" height="45" viewBox="0 0 804 45" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation">
+			<path d="M71.5529 28.591C71.5529 31.5865 70.9475 34.1677 69.7365 36.3346C68.5575 38.5334 66.8845 40.2223 64.7175 41.4014C62.5506 42.5805 60.0491 43.2178 57.2129 43.3134V36.5736C62.1204 36.3187 64.5741 33.61 64.5741 28.4476V0.8192H71.5529V28.591ZM106.279 0.8192V7.5112H89.2142V15.0158H104.319V21.7078H89.2142V29.308H106.948V36H82.2832V0.8192H106.279ZM145.002 37.5296L136.637 16.6888L126.886 37.6252L112.737 1.0582H120.863L127.794 21.421L133.147 7.9892L130.375 1.0582H137.258L145.145 20.6084L151.12 1.0582H158.577L145.002 37.5296ZM173.229 0.8192V36H166.298V0.8192H173.229ZM202.724 9.3276C199.665 7.63867 197.004 6.7942 194.742 6.7942C193.212 6.7942 192.017 7.09693 191.157 7.7024C190.328 8.30787 189.914 9.21607 189.914 10.427C189.914 11.5423 190.519 12.5302 191.73 13.3906C192.973 14.2191 194.614 15.0158 196.654 15.7806C198.311 16.3861 199.729 17.0871 200.908 17.8838C202.087 18.6486 203.059 19.7161 203.824 21.0864C204.62 22.4567 205.019 24.1934 205.019 26.2966C205.019 28.113 204.541 29.8019 203.585 31.3634C202.66 32.893 201.29 34.1199 199.474 35.044C197.657 35.9363 195.49 36.3824 192.973 36.3824C190.87 36.3824 188.783 36.0797 186.711 35.4742C184.64 34.8369 182.712 33.8809 180.927 32.6062L183.987 27.2048C185.198 28.0971 186.584 28.83 188.145 29.4036C189.707 29.9772 191.109 30.264 192.352 30.264C193.817 30.264 195.092 29.9613 196.176 29.3558C197.259 28.7185 197.801 27.6987 197.801 26.2966C197.801 24.4802 196.096 22.9028 192.686 21.5644C190.679 20.7677 189.006 20.0029 187.667 19.27C186.329 18.5371 185.166 17.4855 184.178 16.1152C183.222 14.7449 182.744 13.0241 182.744 10.9528C182.744 7.92547 183.732 5.48767 185.707 3.6394C187.715 1.79113 190.376 0.787333 193.69 0.628C196.303 0.628 198.486 0.930733 200.239 1.5362C201.991 2.1098 203.696 2.93833 205.353 4.0218L202.724 9.3276ZM243.024 36H236.093V21.7078H220.367V36H213.436V0.8192H220.367V15.0158H236.093V0.8192H243.024V36ZM292.209 0.8192V7.5112H283.653V36H276.722V7.5112H268.5V0.8192H292.209ZM324.523 0.8192V7.5112H307.459V15.0158H322.563V21.7078H307.459V29.308H325.192V36H300.528V0.8192H324.523ZM340.924 0.8192V29.308H357.463V36H333.993V0.8192H340.924ZM390.24 0.8192V7.5112H373.175V15.0158H388.28V21.7078H373.175V29.308H390.909V36H366.244V0.8192H390.24ZM428.246 32.4628C427.704 33.0364 426.732 33.6419 425.33 34.2792C423.96 34.8847 422.43 35.3945 420.741 35.8088C419.084 36.1912 417.571 36.3824 416.2 36.3824C412.472 36.3824 409.19 35.6654 406.353 34.2314C403.549 32.7655 401.382 30.7579 399.853 28.2086C398.323 25.6274 397.558 22.6957 397.558 19.4134C397.558 15.3026 398.371 11.8291 399.996 8.993C401.621 6.125 403.804 3.98993 406.545 2.5878C409.285 1.1538 412.313 0.4368 415.627 0.4368C417.762 0.4368 419.769 0.6758 421.649 1.1538C423.53 1.6318 425.187 2.2532 426.621 3.018L424.374 9.471C423.45 8.96113 422.175 8.49907 420.55 8.0848C418.957 7.63867 417.618 7.4156 416.535 7.4156C412.711 7.4156 409.779 8.3716 407.74 10.2836C405.732 12.1956 404.728 15.0317 404.728 18.792C404.728 20.9589 405.222 22.855 406.21 24.4802C407.198 26.0735 408.568 27.3004 410.321 28.1608C412.105 29.0212 414.129 29.4514 416.391 29.4514C418.558 29.4514 420.168 29.1487 421.219 28.5432V24.289H415.149V17.597H428.246V32.4628ZM456.726 36L449.317 24.8148H444.68V36H437.749V0.8192H448.408C452.774 0.8192 456.152 1.88673 458.542 4.0218C460.964 6.125 462.175 9.00893 462.175 12.6736C462.175 14.8405 461.713 16.88 460.789 18.792C459.896 20.6721 458.51 22.1539 456.63 23.2374L464.804 36H456.726ZM444.68 18.1228H449.603C451.484 18.1228 452.854 17.5811 453.714 16.4976C454.575 15.3823 455.005 14.1873 455.005 12.9126C455.005 11.6379 454.638 10.427 453.905 9.2798C453.172 8.10073 451.754 7.5112 449.651 7.5112H444.68V18.1228ZM489.547 29.1168H477.884L475.016 36H468.18L484.05 -0.566999H484.432L500.302 36H492.271L489.547 29.1168ZM487.252 23.2852L483.859 14.729L480.321 23.2852H487.252ZM517.719 0.8192C522.021 0.8192 525.351 1.88673 527.709 4.0218C530.068 6.125 531.247 9.00893 531.247 12.6736C531.247 14.7768 530.832 16.7525 530.004 18.6008C529.207 20.4172 527.885 21.9149 526.036 23.094C524.22 24.2731 521.862 24.8626 518.962 24.8626H513.991V36H507.06V0.8192H517.719ZM518.914 18.1228C520.221 18.1228 521.272 17.836 522.069 17.2624C522.866 16.6569 523.439 15.9559 523.79 15.1592C524.14 14.3625 524.316 13.5977 524.316 12.8648C524.316 11.622 523.949 10.427 523.216 9.2798C522.483 8.10073 521.065 7.5112 518.962 7.5112H513.991V18.1228H518.914ZM568.666 36H561.735V21.7078H546.009V36H539.078V0.8192H546.009V15.0158H561.735V0.8192H568.666V36ZM586.289 0.8192V36H579.358V0.8192H586.289ZM623.384 33.0842C622.492 33.8171 621.074 34.5501 619.13 35.283C617.186 36.0159 615.067 36.3824 612.773 36.3824C609.108 36.3824 605.921 35.5857 603.213 33.9924C600.504 32.3991 598.433 30.264 596.999 27.5872C595.565 24.8785 594.848 21.9149 594.848 18.6964C594.848 15.1592 595.565 12.0044 596.999 9.232C598.433 6.4596 600.44 4.3086 603.022 2.779C605.603 1.21753 608.582 0.4368 611.96 0.4368C614.095 0.4368 616.071 0.7236 617.887 1.2972C619.704 1.8708 621.297 2.5878 622.667 3.4482L619.943 9.9968C617.425 8.0848 614.844 7.1288 612.199 7.1288C610.415 7.1288 608.742 7.62273 607.18 8.6106C605.619 9.59847 604.376 10.9528 603.452 12.6736C602.528 14.3625 602.066 16.2427 602.066 18.314C602.066 20.5765 602.496 22.5682 603.356 24.289C604.217 25.9779 605.443 27.3004 607.037 28.2564C608.63 29.2124 610.494 29.6904 612.629 29.6904C614.35 29.6904 615.896 29.4195 617.266 28.8778C618.636 28.3042 619.72 27.635 620.516 26.8702L623.384 33.0842ZM666.531 29.1168H654.868L652 36H645.164L661.034 -0.566999H661.416L677.286 36H669.255L666.531 29.1168ZM664.236 23.2852L660.843 14.729L657.305 23.2852H664.236ZM711.133 32.4628C710.592 33.0364 709.62 33.6419 708.217 34.2792C706.847 34.8847 705.318 35.3945 703.629 35.8088C701.972 36.1912 700.458 36.3824 699.088 36.3824C695.359 36.3824 692.077 35.6654 689.241 34.2314C686.437 32.7655 684.27 30.7579 682.74 28.2086C681.21 25.6274 680.446 22.6957 680.446 19.4134C680.446 15.3026 681.258 11.8291 682.883 8.993C684.509 6.125 686.692 3.98993 689.432 2.5878C692.173 1.1538 695.2 0.4368 698.514 0.4368C700.649 0.4368 702.657 0.6758 704.537 1.1538C706.417 1.6318 708.074 2.2532 709.508 3.018L707.261 9.471C706.337 8.96113 705.063 8.49907 703.437 8.0848C701.844 7.63867 700.506 7.4156 699.422 7.4156C695.598 7.4156 692.667 8.3716 690.627 10.2836C688.619 12.1956 687.616 15.0317 687.616 18.792C687.616 20.9589 688.11 22.855 689.097 24.4802C690.085 26.0735 691.456 27.3004 693.208 28.1608C694.993 29.0212 697.016 29.4514 699.279 29.4514C701.446 29.4514 703.055 29.1487 704.107 28.5432V24.289H698.036V17.597H711.133V32.4628ZM744.632 0.8192V7.5112H727.567V15.0158H742.672V21.7078H727.567V29.308H745.301V36H720.636V0.8192H744.632ZM785.793 0.8192V37.434H785.602L760.985 15.207L761.128 36H754.101V-0.566999H754.388L778.957 21.9946L778.814 0.8192H785.793ZM822.868 33.0842C821.976 33.8171 820.558 34.5501 818.614 35.283C816.67 36.0159 814.551 36.3824 812.256 36.3824C808.592 36.3824 805.405 35.5857 802.696 33.9924C799.988 32.3991 797.916 30.264 796.482 27.5872C795.048 24.8785 794.331 21.9149 794.331 18.6964C794.331 15.1592 795.048 12.0044 796.482 9.232C797.916 6.4596 799.924 4.3086 802.505 2.779C805.086 1.21753 808.066 0.4368 811.444 0.4368C813.579 0.4368 815.555 0.7236 817.371 1.2972C819.187 1.8708 820.781 2.5878 822.151 3.4482L819.426 9.9968C816.909 8.0848 814.328 7.1288 811.683 7.1288C809.898 7.1288 808.225 7.62273 806.664 8.6106C805.102 9.59847 803.859 10.9528 802.935 12.6736C802.011 14.3625 801.549 16.2427 801.549 18.314C801.549 20.5765 801.979 22.5682 802.84 24.289C803.7 25.9779 804.927 27.3004 806.52 28.2564C808.114 29.2124 809.978 29.6904 812.113 29.6904C813.834 29.6904 815.379 29.4195 816.75 28.8778C818.12 28.3042 819.203 27.635 820 26.8702L822.868 33.0842ZM860.695 0.8192L847.502 25.0538V36H840.571V25.0538L827.617 0.8192H836.173L844.252 17.0712L852.139 0.8192H860.695Z" transform="translate(-57 1)"/>
+		</svg>
+
+		<svg class="site-header-2__logo site-header-2__logo-mobile" width="38" height="21" viewBox="0 0 38 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation">
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M0.0162857 21V16.8657L0.798 16.8226C1.22686 16.7957 1.60686 16.7203 1.94886 16.5911C2.26914 16.4727 2.53514 16.3058 2.75771 16.0851C2.96943 15.8644 3.14314 15.5791 3.27343 15.2023V15.1861C3.41457 14.7985 3.49057 14.314 3.49057 13.7165V0.193796H7.90943V13.7811C7.90943 14.8685 7.73029 15.8644 7.36114 16.7634C7.01371 17.6247 6.51429 18.373 5.86829 18.9921C5.23314 19.6273 4.47857 20.1064 3.60457 20.4401C2.75229 20.7685 1.84029 20.9408 0.863143 20.9731L0 21H0.0162857ZM23.2777 0.269162V4.47885H19.228V17.9585H14.7983V4.47885H10.8409V0.269162H23.2777ZM33.7331 17.9585L33.516 17.4632C33.478 17.3771 33.4074 17.2156 33.2989 16.9787V16.9626L33.2826 16.9464C33.1903 16.7203 33.0763 16.435 32.9297 16.0959C32.7831 15.7513 32.6203 15.3745 32.4411 14.96V14.9492C32.3326 14.6855 32.2186 14.4217 32.11 14.1471H28.1363L26.5131 17.9585H22.2246L22.7457 16.8118C22.7946 16.6988 22.9249 16.4135 23.1257 15.9505C23.3266 15.4714 23.5763 14.89 23.8749 14.201V14.1956C24.1843 13.4958 24.5209 12.726 24.8846 11.8808V11.8754C25.2646 11.0141 25.65 10.142 26.0409 9.25378C26.4317 8.37093 26.8063 7.50423 27.17 6.65906V6.65368C27.55 5.79236 27.8866 5.02256 28.1797 4.3335V4.32812C28.4891 3.6283 28.7443 3.04691 28.9451 2.58934C29.146 2.11561 29.2763 1.81415 29.336 1.67957L30.096 0L30.856 1.67957C30.9157 1.80877 31.046 2.11023 31.2414 2.57857C31.4586 3.04691 31.7191 3.63368 32.0123 4.32812C32.3217 5.01718 32.6637 5.79236 33.0274 6.65368C33.4074 7.49885 33.7874 8.36555 34.1783 9.2484C34.5691 10.1366 34.9491 11.0087 35.3129 11.8754C35.6874 12.7206 36.0294 13.4958 36.328 14.1956C36.6374 14.8793 36.8926 15.466 37.0989 15.9451C37.2997 16.4081 37.4246 16.6934 37.4789 16.8065L38 17.9531H33.7169L33.7331 17.9585ZM28.424 11.2886H31.7897L30.3294 7.83261C30.3294 7.83261 30.2969 7.76801 30.2589 7.66573C30.2589 7.66573 30.2589 7.66573 30.2589 7.66034C30.248 7.63343 30.2426 7.60651 30.2317 7.5796C30.1774 7.40733 30.1394 7.2566 30.1123 7.12202C30.0851 7.2566 30.0471 7.40733 29.9929 7.5796C29.982 7.61189 29.9711 7.63881 29.9657 7.66034C29.9657 7.66034 29.9657 7.66034 29.9657 7.66573C29.9331 7.76801 29.9169 7.82184 29.9169 7.83261L28.4349 11.2886H28.424Z" />
+		</svg>
+
+		<span class="screen-reader-text">Jewish Telegraphic Agency</span>
+	</a>
+</div>
+
+
+<div class="site-header-2__grid-right">
+	<div class="site-header-2__grid-right-first">
+		<button class="site-header-2__subscribe-toggle" id="siteHeaderSubscribeToggle_desktop">
+			<span class="site-header-2__subscribe-toggle-text">
+				Subscribe			</span>
+
+			<svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
+				<path d="M18.1893 14.2857H1.81062C0.812298 14.2857 0 13.4939 0 12.5202V1.76517C0 0.791956 0.812298 0 1.81062 0H18.1893C19.1876 0 19.9999 0.791956 19.9999 1.76517V12.5202C19.9999 13.4939 19.1876 14.2857 18.1893 14.2857ZM1.81062 0.923662C1.33472 0.923662 0.947572 1.30108 0.947572 1.7651V12.5202C0.947572 12.9843 1.33472 13.3621 1.81062 13.3621H18.1893C18.6652 13.3621 19.0523 12.9843 19.0523 12.5202V1.76517C19.0523 1.30115 18.6652 0.923726 18.1893 0.923726H1.81062V0.923662Z" fill="#121212"/>
+				<path d="M10 9.56031C9.89267 9.56031 9.78524 9.52491 9.69766 9.45398L0.216542 1.78496C0.0740452 1.66975 0.0135329 1.48418 0.0614873 1.30977C0.273671 0.538565 0.992923 0 1.81062 0H18.1893C19.0069 0 19.7263 0.538565 19.9384 1.31003C19.9864 1.48443 19.9259 1.67 19.7834 1.78521L10.3025 9.45398C10.2148 9.52491 10.1074 9.56031 9.99997 9.56031H10ZM1.09527 1.29537L10 8.49815L18.9047 1.29569C18.7472 1.06812 18.4813 0.923726 18.1894 0.923726H1.81062C1.51866 0.923726 1.25274 1.06818 1.09527 1.29544V1.29537Z" fill="#121212"/>
+				<path d="M18.1894 14.2857H1.81068C1.18135 14.2857 0.606155 13.9728 0.27223 13.449C0.146911 13.2522 0.190116 12.9957 0.373475 12.8487L7.60113 7.04493C7.77622 6.90364 8.02953 6.90396 8.20463 7.04594L10.0001 8.49815L11.7955 7.04594C11.9703 6.90396 12.2236 6.90364 12.399 7.04493L19.6266 12.8487C19.8099 12.9957 19.8532 13.2522 19.7277 13.449C19.3938 13.9728 18.8187 14.2857 18.1894 14.2857ZM1.37115 13.2443C1.50187 13.3204 1.65289 13.362 1.81068 13.362H18.1894C18.3472 13.362 18.4982 13.3204 18.6288 13.2443L12.099 8.00076L10.3025 9.45404C10.1272 9.59596 9.87295 9.59596 9.69766 9.45404L7.90102 8.00076L1.37115 13.2443Z" fill="#121212"/>
+			</svg>
+		</button>
+	</div>
+
+	<div class="site-header-2__search">
+		<div class="site-header-2__search-form">
+			<form role="search" method="get" class="search-form" action="https://www.jta.org/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+	</label>
+	<input type="submit" class="search-submit" value="Search" />
+	<input type="hidden" value="global" name="search-type" />
+</form>		</div>
+
+		<button class="site-header-2__search-toggle">
+			
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="17" viewbox="0 0 15 17" role="img" class="jta-icon site-header-2__search-icon-open" aria-label="Search icon"><path stroke="#121212" stroke-width="2" d="m14.293 15.342-4.054-4.054"></path><circle cx="6.385" cy="6.385" r="5.385" fill="transparent" stroke="#121212" stroke-width="2"></circle></svg>
+
+			
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" role="img" class="jta-icon site-header-2__search-icon-close" aria-label="Close icon"><path fill="#121212" d="M1.4 14 0 12.6 5.6 7 0 1.4 1.4 0 7 5.6 12.6 0 14 1.4 8.4 7l5.6 5.6-1.4 1.4L7 8.4z"></path></svg>
+
+			<span class="screen-reader-text">
+				Search Toggle			</span>
+		</button>
+	</div>
+</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- part: site header 2 -->
+		<header id="masthead" class="site-header-2">
+			<div class="site-header-2__inner">
+				<div class="site-header-2__top-bar js-site-header__top-bar"></div>
+
+				<div class="wrapper site-header-2__grid">
+					
+<div class="site-header-2__grid-left">
+	<button
+		class="site-header-2__nav-toggle js-toggle-mobile-menu"
+		aria-label="Expand mobile menu"
+		title="Mobile menu toggle">
+
+		<span class="linescontain">
+			<span class="lines"></span>
+		</span>
+	</button>
+
+	<a data-gtm="navigation" href="https://www.jta.org/support" class="site-header-2__donate button">
+		Donate	</a>
+</div>
+
+<div class="site-header-2__grid-center-1">
+	<a data-gtm="navigation" href="https://www.jta.org/" rel="home" aria-label="Jewish Telegraphic Agency - Home">
+		<svg class="site-header-2__logo site-header-2__logo-desktop" width="804" height="45" viewBox="0 0 804 45" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation">
+			<path d="M71.5529 28.591C71.5529 31.5865 70.9475 34.1677 69.7365 36.3346C68.5575 38.5334 66.8845 40.2223 64.7175 41.4014C62.5506 42.5805 60.0491 43.2178 57.2129 43.3134V36.5736C62.1204 36.3187 64.5741 33.61 64.5741 28.4476V0.8192H71.5529V28.591ZM106.279 0.8192V7.5112H89.2142V15.0158H104.319V21.7078H89.2142V29.308H106.948V36H82.2832V0.8192H106.279ZM145.002 37.5296L136.637 16.6888L126.886 37.6252L112.737 1.0582H120.863L127.794 21.421L133.147 7.9892L130.375 1.0582H137.258L145.145 20.6084L151.12 1.0582H158.577L145.002 37.5296ZM173.229 0.8192V36H166.298V0.8192H173.229ZM202.724 9.3276C199.665 7.63867 197.004 6.7942 194.742 6.7942C193.212 6.7942 192.017 7.09693 191.157 7.7024C190.328 8.30787 189.914 9.21607 189.914 10.427C189.914 11.5423 190.519 12.5302 191.73 13.3906C192.973 14.2191 194.614 15.0158 196.654 15.7806C198.311 16.3861 199.729 17.0871 200.908 17.8838C202.087 18.6486 203.059 19.7161 203.824 21.0864C204.62 22.4567 205.019 24.1934 205.019 26.2966C205.019 28.113 204.541 29.8019 203.585 31.3634C202.66 32.893 201.29 34.1199 199.474 35.044C197.657 35.9363 195.49 36.3824 192.973 36.3824C190.87 36.3824 188.783 36.0797 186.711 35.4742C184.64 34.8369 182.712 33.8809 180.927 32.6062L183.987 27.2048C185.198 28.0971 186.584 28.83 188.145 29.4036C189.707 29.9772 191.109 30.264 192.352 30.264C193.817 30.264 195.092 29.9613 196.176 29.3558C197.259 28.7185 197.801 27.6987 197.801 26.2966C197.801 24.4802 196.096 22.9028 192.686 21.5644C190.679 20.7677 189.006 20.0029 187.667 19.27C186.329 18.5371 185.166 17.4855 184.178 16.1152C183.222 14.7449 182.744 13.0241 182.744 10.9528C182.744 7.92547 183.732 5.48767 185.707 3.6394C187.715 1.79113 190.376 0.787333 193.69 0.628C196.303 0.628 198.486 0.930733 200.239 1.5362C201.991 2.1098 203.696 2.93833 205.353 4.0218L202.724 9.3276ZM243.024 36H236.093V21.7078H220.367V36H213.436V0.8192H220.367V15.0158H236.093V0.8192H243.024V36ZM292.209 0.8192V7.5112H283.653V36H276.722V7.5112H268.5V0.8192H292.209ZM324.523 0.8192V7.5112H307.459V15.0158H322.563V21.7078H307.459V29.308H325.192V36H300.528V0.8192H324.523ZM340.924 0.8192V29.308H357.463V36H333.993V0.8192H340.924ZM390.24 0.8192V7.5112H373.175V15.0158H388.28V21.7078H373.175V29.308H390.909V36H366.244V0.8192H390.24ZM428.246 32.4628C427.704 33.0364 426.732 33.6419 425.33 34.2792C423.96 34.8847 422.43 35.3945 420.741 35.8088C419.084 36.1912 417.571 36.3824 416.2 36.3824C412.472 36.3824 409.19 35.6654 406.353 34.2314C403.549 32.7655 401.382 30.7579 399.853 28.2086C398.323 25.6274 397.558 22.6957 397.558 19.4134C397.558 15.3026 398.371 11.8291 399.996 8.993C401.621 6.125 403.804 3.98993 406.545 2.5878C409.285 1.1538 412.313 0.4368 415.627 0.4368C417.762 0.4368 419.769 0.6758 421.649 1.1538C423.53 1.6318 425.187 2.2532 426.621 3.018L424.374 9.471C423.45 8.96113 422.175 8.49907 420.55 8.0848C418.957 7.63867 417.618 7.4156 416.535 7.4156C412.711 7.4156 409.779 8.3716 407.74 10.2836C405.732 12.1956 404.728 15.0317 404.728 18.792C404.728 20.9589 405.222 22.855 406.21 24.4802C407.198 26.0735 408.568 27.3004 410.321 28.1608C412.105 29.0212 414.129 29.4514 416.391 29.4514C418.558 29.4514 420.168 29.1487 421.219 28.5432V24.289H415.149V17.597H428.246V32.4628ZM456.726 36L449.317 24.8148H444.68V36H437.749V0.8192H448.408C452.774 0.8192 456.152 1.88673 458.542 4.0218C460.964 6.125 462.175 9.00893 462.175 12.6736C462.175 14.8405 461.713 16.88 460.789 18.792C459.896 20.6721 458.51 22.1539 456.63 23.2374L464.804 36H456.726ZM444.68 18.1228H449.603C451.484 18.1228 452.854 17.5811 453.714 16.4976C454.575 15.3823 455.005 14.1873 455.005 12.9126C455.005 11.6379 454.638 10.427 453.905 9.2798C453.172 8.10073 451.754 7.5112 449.651 7.5112H444.68V18.1228ZM489.547 29.1168H477.884L475.016 36H468.18L484.05 -0.566999H484.432L500.302 36H492.271L489.547 29.1168ZM487.252 23.2852L483.859 14.729L480.321 23.2852H487.252ZM517.719 0.8192C522.021 0.8192 525.351 1.88673 527.709 4.0218C530.068 6.125 531.247 9.00893 531.247 12.6736C531.247 14.7768 530.832 16.7525 530.004 18.6008C529.207 20.4172 527.885 21.9149 526.036 23.094C524.22 24.2731 521.862 24.8626 518.962 24.8626H513.991V36H507.06V0.8192H517.719ZM518.914 18.1228C520.221 18.1228 521.272 17.836 522.069 17.2624C522.866 16.6569 523.439 15.9559 523.79 15.1592C524.14 14.3625 524.316 13.5977 524.316 12.8648C524.316 11.622 523.949 10.427 523.216 9.2798C522.483 8.10073 521.065 7.5112 518.962 7.5112H513.991V18.1228H518.914ZM568.666 36H561.735V21.7078H546.009V36H539.078V0.8192H546.009V15.0158H561.735V0.8192H568.666V36ZM586.289 0.8192V36H579.358V0.8192H586.289ZM623.384 33.0842C622.492 33.8171 621.074 34.5501 619.13 35.283C617.186 36.0159 615.067 36.3824 612.773 36.3824C609.108 36.3824 605.921 35.5857 603.213 33.9924C600.504 32.3991 598.433 30.264 596.999 27.5872C595.565 24.8785 594.848 21.9149 594.848 18.6964C594.848 15.1592 595.565 12.0044 596.999 9.232C598.433 6.4596 600.44 4.3086 603.022 2.779C605.603 1.21753 608.582 0.4368 611.96 0.4368C614.095 0.4368 616.071 0.7236 617.887 1.2972C619.704 1.8708 621.297 2.5878 622.667 3.4482L619.943 9.9968C617.425 8.0848 614.844 7.1288 612.199 7.1288C610.415 7.1288 608.742 7.62273 607.18 8.6106C605.619 9.59847 604.376 10.9528 603.452 12.6736C602.528 14.3625 602.066 16.2427 602.066 18.314C602.066 20.5765 602.496 22.5682 603.356 24.289C604.217 25.9779 605.443 27.3004 607.037 28.2564C608.63 29.2124 610.494 29.6904 612.629 29.6904C614.35 29.6904 615.896 29.4195 617.266 28.8778C618.636 28.3042 619.72 27.635 620.516 26.8702L623.384 33.0842ZM666.531 29.1168H654.868L652 36H645.164L661.034 -0.566999H661.416L677.286 36H669.255L666.531 29.1168ZM664.236 23.2852L660.843 14.729L657.305 23.2852H664.236ZM711.133 32.4628C710.592 33.0364 709.62 33.6419 708.217 34.2792C706.847 34.8847 705.318 35.3945 703.629 35.8088C701.972 36.1912 700.458 36.3824 699.088 36.3824C695.359 36.3824 692.077 35.6654 689.241 34.2314C686.437 32.7655 684.27 30.7579 682.74 28.2086C681.21 25.6274 680.446 22.6957 680.446 19.4134C680.446 15.3026 681.258 11.8291 682.883 8.993C684.509 6.125 686.692 3.98993 689.432 2.5878C692.173 1.1538 695.2 0.4368 698.514 0.4368C700.649 0.4368 702.657 0.6758 704.537 1.1538C706.417 1.6318 708.074 2.2532 709.508 3.018L707.261 9.471C706.337 8.96113 705.063 8.49907 703.437 8.0848C701.844 7.63867 700.506 7.4156 699.422 7.4156C695.598 7.4156 692.667 8.3716 690.627 10.2836C688.619 12.1956 687.616 15.0317 687.616 18.792C687.616 20.9589 688.11 22.855 689.097 24.4802C690.085 26.0735 691.456 27.3004 693.208 28.1608C694.993 29.0212 697.016 29.4514 699.279 29.4514C701.446 29.4514 703.055 29.1487 704.107 28.5432V24.289H698.036V17.597H711.133V32.4628ZM744.632 0.8192V7.5112H727.567V15.0158H742.672V21.7078H727.567V29.308H745.301V36H720.636V0.8192H744.632ZM785.793 0.8192V37.434H785.602L760.985 15.207L761.128 36H754.101V-0.566999H754.388L778.957 21.9946L778.814 0.8192H785.793ZM822.868 33.0842C821.976 33.8171 820.558 34.5501 818.614 35.283C816.67 36.0159 814.551 36.3824 812.256 36.3824C808.592 36.3824 805.405 35.5857 802.696 33.9924C799.988 32.3991 797.916 30.264 796.482 27.5872C795.048 24.8785 794.331 21.9149 794.331 18.6964C794.331 15.1592 795.048 12.0044 796.482 9.232C797.916 6.4596 799.924 4.3086 802.505 2.779C805.086 1.21753 808.066 0.4368 811.444 0.4368C813.579 0.4368 815.555 0.7236 817.371 1.2972C819.187 1.8708 820.781 2.5878 822.151 3.4482L819.426 9.9968C816.909 8.0848 814.328 7.1288 811.683 7.1288C809.898 7.1288 808.225 7.62273 806.664 8.6106C805.102 9.59847 803.859 10.9528 802.935 12.6736C802.011 14.3625 801.549 16.2427 801.549 18.314C801.549 20.5765 801.979 22.5682 802.84 24.289C803.7 25.9779 804.927 27.3004 806.52 28.2564C808.114 29.2124 809.978 29.6904 812.113 29.6904C813.834 29.6904 815.379 29.4195 816.75 28.8778C818.12 28.3042 819.203 27.635 820 26.8702L822.868 33.0842ZM860.695 0.8192L847.502 25.0538V36H840.571V25.0538L827.617 0.8192H836.173L844.252 17.0712L852.139 0.8192H860.695Z" transform="translate(-57 1)"/>
+		</svg>
+
+		<svg class="site-header-2__logo site-header-2__logo-mobile" width="38" height="21" viewBox="0 0 38 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation">
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M0.0162857 21V16.8657L0.798 16.8226C1.22686 16.7957 1.60686 16.7203 1.94886 16.5911C2.26914 16.4727 2.53514 16.3058 2.75771 16.0851C2.96943 15.8644 3.14314 15.5791 3.27343 15.2023V15.1861C3.41457 14.7985 3.49057 14.314 3.49057 13.7165V0.193796H7.90943V13.7811C7.90943 14.8685 7.73029 15.8644 7.36114 16.7634C7.01371 17.6247 6.51429 18.373 5.86829 18.9921C5.23314 19.6273 4.47857 20.1064 3.60457 20.4401C2.75229 20.7685 1.84029 20.9408 0.863143 20.9731L0 21H0.0162857ZM23.2777 0.269162V4.47885H19.228V17.9585H14.7983V4.47885H10.8409V0.269162H23.2777ZM33.7331 17.9585L33.516 17.4632C33.478 17.3771 33.4074 17.2156 33.2989 16.9787V16.9626L33.2826 16.9464C33.1903 16.7203 33.0763 16.435 32.9297 16.0959C32.7831 15.7513 32.6203 15.3745 32.4411 14.96V14.9492C32.3326 14.6855 32.2186 14.4217 32.11 14.1471H28.1363L26.5131 17.9585H22.2246L22.7457 16.8118C22.7946 16.6988 22.9249 16.4135 23.1257 15.9505C23.3266 15.4714 23.5763 14.89 23.8749 14.201V14.1956C24.1843 13.4958 24.5209 12.726 24.8846 11.8808V11.8754C25.2646 11.0141 25.65 10.142 26.0409 9.25378C26.4317 8.37093 26.8063 7.50423 27.17 6.65906V6.65368C27.55 5.79236 27.8866 5.02256 28.1797 4.3335V4.32812C28.4891 3.6283 28.7443 3.04691 28.9451 2.58934C29.146 2.11561 29.2763 1.81415 29.336 1.67957L30.096 0L30.856 1.67957C30.9157 1.80877 31.046 2.11023 31.2414 2.57857C31.4586 3.04691 31.7191 3.63368 32.0123 4.32812C32.3217 5.01718 32.6637 5.79236 33.0274 6.65368C33.4074 7.49885 33.7874 8.36555 34.1783 9.2484C34.5691 10.1366 34.9491 11.0087 35.3129 11.8754C35.6874 12.7206 36.0294 13.4958 36.328 14.1956C36.6374 14.8793 36.8926 15.466 37.0989 15.9451C37.2997 16.4081 37.4246 16.6934 37.4789 16.8065L38 17.9531H33.7169L33.7331 17.9585ZM28.424 11.2886H31.7897L30.3294 7.83261C30.3294 7.83261 30.2969 7.76801 30.2589 7.66573C30.2589 7.66573 30.2589 7.66573 30.2589 7.66034C30.248 7.63343 30.2426 7.60651 30.2317 7.5796C30.1774 7.40733 30.1394 7.2566 30.1123 7.12202C30.0851 7.2566 30.0471 7.40733 29.9929 7.5796C29.982 7.61189 29.9711 7.63881 29.9657 7.66034C29.9657 7.66034 29.9657 7.66034 29.9657 7.66573C29.9331 7.76801 29.9169 7.82184 29.9169 7.83261L28.4349 11.2886H28.424Z" />
+		</svg>
+
+		<span class="screen-reader-text">Jewish Telegraphic Agency</span>
+	</a>
+</div>
+
+	<div class="site-header-2__grid-center-2">
+		<div class="site-header-2__subhead">EST 1917</div>
+	</div>
+
+<div class="site-header-2__grid-right">
+	<div class="site-header-2__grid-right-first">
+		<button class="site-header-2__subscribe-toggle" id="siteHeaderSubscribeToggle_desktop">
+			<span class="site-header-2__subscribe-toggle-text">
+				Subscribe			</span>
+
+			<svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
+				<path d="M18.1893 14.2857H1.81062C0.812298 14.2857 0 13.4939 0 12.5202V1.76517C0 0.791956 0.812298 0 1.81062 0H18.1893C19.1876 0 19.9999 0.791956 19.9999 1.76517V12.5202C19.9999 13.4939 19.1876 14.2857 18.1893 14.2857ZM1.81062 0.923662C1.33472 0.923662 0.947572 1.30108 0.947572 1.7651V12.5202C0.947572 12.9843 1.33472 13.3621 1.81062 13.3621H18.1893C18.6652 13.3621 19.0523 12.9843 19.0523 12.5202V1.76517C19.0523 1.30115 18.6652 0.923726 18.1893 0.923726H1.81062V0.923662Z" fill="#121212"/>
+				<path d="M10 9.56031C9.89267 9.56031 9.78524 9.52491 9.69766 9.45398L0.216542 1.78496C0.0740452 1.66975 0.0135329 1.48418 0.0614873 1.30977C0.273671 0.538565 0.992923 0 1.81062 0H18.1893C19.0069 0 19.7263 0.538565 19.9384 1.31003C19.9864 1.48443 19.9259 1.67 19.7834 1.78521L10.3025 9.45398C10.2148 9.52491 10.1074 9.56031 9.99997 9.56031H10ZM1.09527 1.29537L10 8.49815L18.9047 1.29569C18.7472 1.06812 18.4813 0.923726 18.1894 0.923726H1.81062C1.51866 0.923726 1.25274 1.06818 1.09527 1.29544V1.29537Z" fill="#121212"/>
+				<path d="M18.1894 14.2857H1.81068C1.18135 14.2857 0.606155 13.9728 0.27223 13.449C0.146911 13.2522 0.190116 12.9957 0.373475 12.8487L7.60113 7.04493C7.77622 6.90364 8.02953 6.90396 8.20463 7.04594L10.0001 8.49815L11.7955 7.04594C11.9703 6.90396 12.2236 6.90364 12.399 7.04493L19.6266 12.8487C19.8099 12.9957 19.8532 13.2522 19.7277 13.449C19.3938 13.9728 18.8187 14.2857 18.1894 14.2857ZM1.37115 13.2443C1.50187 13.3204 1.65289 13.362 1.81068 13.362H18.1894C18.3472 13.362 18.4982 13.3204 18.6288 13.2443L12.099 8.00076L10.3025 9.45404C10.1272 9.59596 9.87295 9.59596 9.69766 9.45404L7.90102 8.00076L1.37115 13.2443Z" fill="#121212"/>
+			</svg>
+		</button>
+	</div>
+
+	<div class="site-header-2__search">
+		<div class="site-header-2__search-form">
+			<form role="search" method="get" class="search-form" action="https://www.jta.org/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+	</label>
+	<input type="submit" class="search-submit" value="Search" />
+	<input type="hidden" value="global" name="search-type" />
+</form>		</div>
+
+		<button class="site-header-2__search-toggle">
+			
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="17" viewbox="0 0 15 17" role="img" class="jta-icon site-header-2__search-icon-open" aria-label="Search icon"><path stroke="#121212" stroke-width="2" d="m14.293 15.342-4.054-4.054"></path><circle cx="6.385" cy="6.385" r="5.385" fill="transparent" stroke="#121212" stroke-width="2"></circle></svg>
+
+			
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14" role="img" class="jta-icon site-header-2__search-icon-close" aria-label="Close icon"><path fill="#121212" d="M1.4 14 0 12.6 5.6 7 0 1.4 1.4 0 7 5.6 12.6 0 14 1.4 8.4 7l5.6 5.6-1.4 1.4L7 8.4z"></path></svg>
+
+			<span class="screen-reader-text">
+				Search Toggle			</span>
+		</button>
+	</div>
+</div>
+				</div>
+			</div>
+
+			<nav id="site-navigation" class="wrapper site-header-2__navigation">
+				<div class="menu-primary-jta-2025-container"><ul id="primary-menu" class="site-header-2__navigation-ul"><li id="menu-item-1881162" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881162"><a data-gtm="navigation" href="https://www.jta.org/category/united-states">US</a></li>
+<li id="menu-item-1881163" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881163"><a data-gtm="navigation" href="https://www.jta.org/category/israel">Israel</a></li>
+<li id="menu-item-1891826" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1891826"><a data-gtm="navigation" href="https://www.jta.org/category/ideas">Ideas</a></li>
+<li id="menu-item-1881167" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1881167"><a data-gtm="navigation" href="/newyork">New York</a></li>
+<li id="menu-item-1881164" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881164"><a data-gtm="navigation" href="https://www.jta.org/category/global">Global</a></li>
+<li id="menu-item-1881165" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881165"><a data-gtm="navigation" href="https://www.jta.org/category/politics">Politics</a></li>
+<li id="menu-item-1881166" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1881166"><a data-gtm="navigation" href="https://www.jta.org/category/sports">Sports</a></li>
+</ul></div>			</nav>
+		</header>
+
+		<!-- area: trending topics -->
+		
+		<div id="content" class="site-content">
+
+<div id="primary" class="content-area has-sidebar">
+	<main id="main" class="site-main">
+
+		
+<article id="post-589251" class="wrapper-narrow post-589251 archive type-archive status-publish hentry category-archive tag-movies">
+	<div itemprop="mainEntityOfPage">
+
+		
+					<div class="leaderboard-ad leaderboard-ad--above">
+				
+<div class="leaderboard -centered -desktop">
+	<div class="leaderboard__title">Advertisement</div>
+
+	<div id='leaderboard_top'></div>
+</div>
+
+			</div>
+		
+		<h1 class="entry-title" itemprop="headline">Schools Closed, Streets Were Empty As Israel Awaited Military Action</h1>
+
+		
+		
+					<!-- Featured image or video-->
+					 <!-- end Jewniverse content conditional check -->
+
+						<a href="http://pdfs.jta.org/1991/1991-01-17_012.pdf" target="_blank">
+					<div class="post-pdf">
+						<div class="post-pdf__date">
+							January 17, <span>1991</span>						</div>
+						<div class="post-pdf__link">
+							
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 16 16" role="img" class="jta-icon post-pdf__icon" aria-label="PDF icon"><path fill="#000" fill-rule="nonzero" d="M9.969 8.734c.391.313.828.594 1.312.875a16 16 0 0 1 1.828-.109c1.047 0 2.375.125 2.766.766.109.156.203.438.031.812-.016.016-.031.047-.047.063v.016c-.047.281-.281.594-1.109.594-1 0-2.516-.453-3.828-1.141-2.172.234-4.453.719-6.125 1.297-1.609 2.75-2.844 4.094-3.781 4.094a.9.9 0 0 1-.438-.109l-.375-.187c-.047-.016-.063-.047-.094-.078-.078-.078-.141-.25-.094-.562.156-.719 1-1.922 2.938-2.938.125-.078.281-.031.359.094a.1.1 0 0 1 .031.063 41 41 0 0 0 1.672-3.078C5.718 7.8 6.265 6.425 6.64 5.112c-.5-1.703-.656-3.453-.375-4.484.109-.391.344-.625.656-.625h.344c.234 0 .422.078.547.234.187.219.234.562.141 1.062-.016.047-.031.094-.063.125a.3.3 0 0 1 .016.125v.469c-.016.984-.031 1.922-.219 3 .547 1.641 1.359 2.969 2.281 3.719zm-9 6.422c.469-.219 1.141-.891 2.141-2.469-1.172.906-1.906 1.937-2.141 2.469M7.157 2.844c.047-.25.078-.484.109-.688.031-.266.078-.484.109-.672a.5.5 0 0 1 .063-.125c-.016-.016-.016-.047-.031-.078C7.391 1 7.298.828 7.204.719c0 .031-.016.047-.016.063-.156.437-.156 1.187-.031 2.062m2.531 6.999c-.156-.125-.313-.234-.453-.359-.766-.672-1.453-1.609-1.984-2.75-.297.953-.734 1.969-1.297 3.078-.234.438-.469.875-.703 1.297a24 24 0 0 1 4.437-1.266m3.468.641c.766.281 1.469.438 1.937.438.141 0 .219 0 .281-.016 0-.016-.016-.031-.031-.047-.077-.078-.483-.375-2.187-.375"></path></svg>
+							<span>
+								See Original Daily Bulletin From This Date							</span>
+						</div>
+					</div>
+				</a>
+			
+		
+		
+		
+		<!-- entry content and sidebar -->
+		<div class="is-flex">
+			<div class="entry-content"  itemprop="articleBody">
+
+				
+				 <!-- end Jewniverse content conditional check -->
+
+								<p>The Education Ministry ordered Israeli schools closed Wednesday after consultations with the defense minister and the Israel Defense Force chief of staff.</p>
+<p>Nervous parents had kept 25 percent of the student body home from classes Tuesday and about 50 percent had been expected to stay away from classes Wednesday.</p>
+<p>Under those circumstances, it was decided to advise all students to stay home, Education Minister Zevulun Hammer announced.</p>
+<p>The order applied only to elementary and secondary schools. Universities, teacher training colleges and religious seminaries stayed open. But many students were absent on military duty or taking care of personal matters.</p><html><div id="lightbox-inline-form-9fad5317-cc1f-4c75-869d-4249b53b851a"></div>
+<div id="lightbox-inline-form-8eaf9ca1-0df5-46d3-b00e-5af82833377d"></div>
+<div id="lightbox-inline-form-f7e91d8e-6381-4dc6-b7d7-09a05defdd2e"></div>
+ <div id="lightbox-inline-form-7ffa4c37-60be-4536-a0e6-68b4ac1c2d24" style="text-align: center"></div>
+<div id="lightbox-inline-form-9b1d9323-b2f5-42a7-9058-14764ae9fb39" style="text-align: center"></div></html>
+<p>The threat of an Iraqi missile attack on Israel had other visible effects Wednesday.</p>
+<p>Normally congested Tel Aviv streets were relatively empty. The light traffic was characteristic of the Sabbath rather than a usual business day.</p>
+<p>Many Israelis remained close to their radios and television sets, listening to the news in rooms scaled against gas attack according to IDF instructions.</p>
+<p>At factories, shops and offices, it was a normal workday. But many closed early to allow parents to spend more time with their children and be closer to their scaled rooms should a missile attack occur.</p>
+<p>But it was at nightfall that the myth of Tel Aviv as “the city that never sleeps” was demolished, at least for the duration of the crisis.</p>
+<p>By 7:30 p.m. local time, Ibn Gvirol Street, normally teeming with pedestrians, was almost deserted. The clothing shops that do a brisk business in the evening had closed early. So did the late-night snack shops and late-night grocers.</p>
+<p>The video rental shop opposite City Hall was open for business. But while it is usually jammed until midnight with people looking for a movie to rent, the only person in the store Wednesday evening was the clerk yawning with boredom.</p>
+<p>“If it stays this way, I will close at 10 o’clock,” she told the Jewish Telegraphic Agency.</p>
+<p>Even on Dizengoff Street, Tel Aviv’s biggest shopping and entertainment center, most cafes were closed by 6 p.m., and most bars did not bother to open.</p>
+<p>Hospitals responded to the uncertain situation by discharging about a fifth of their patients, keeping only those unable to be moved or in need of continuous medical care.</p>
+<p>That left plenty of empty beds for casualties should an Iraqi attack occur.</p>
+<h2>A STAUNCH FRIEND TURNS UP</h2>
+<p>Meanwhile, a staunch friend of Israel turned up unexpectedly Wednesday, despite a prior engagement in New York.</p>
+<p>Zubin Mehta, the Indian-born conductor and musical director of the Israel Philharmonic Orchestra, had a commitment to rehearse the New York Philharmonic and was en route there from Vienna when he grew worried about Israel after watching television reports.</p>
+<p>“I got as far as Paris and was preparing to board a Concorde when I passed a flight notice announcing a flight to Tel Aviv within the hour,” the maestro told an Israel Television interviewer.</p>
+<p>“I turned around and took the Israel-bound aircraft,” Mehta said. “After all, I was adopted by this country and I felt it my duty to be with the Israelis in a time of emergency.”</p>
+<p>Asked what his wife in New York and his parents in Bombay thought of his change of plans, he said their reaction was “Gevalt!”</p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer"
+				data-shared="sharing-twitter-589251"
+				class="share-twitter sd-button share-icon"
+				href="https://x.com/intent/tweet?url=https%3A%2F%2Fwww.jta.org%2Farchive%2Fschools-closed-streets-were-empty-as-israel-awaited-military-action&#038;text=Schools%20Closed%2C%20Streets%20Were%20Empty%20As%20Israel%20Awaited%20Military%20Action&#038;via=JTAnews"
+				target="_blank"
+				aria-labelledby="sharing-twitter-589251"
+				>
+				<span id="sharing-twitter-589251" hidden>Share on X (Opens in new window)</span>
+				<span>X</span>
+			</a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer"
+				data-shared="sharing-facebook-589251"
+				class="share-facebook sd-button share-icon"
+				href="https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action?share=facebook"
+				target="_blank"
+				aria-labelledby="sharing-facebook-589251"
+				>
+				<span id="sharing-facebook-589251" hidden>Share on Facebook (Opens in new window)</span>
+				<span>Facebook</span>
+			</a></li><li class="share-jetpack-whatsapp"><a rel="nofollow noopener noreferrer"
+				data-shared="sharing-whatsapp-589251"
+				class="share-jetpack-whatsapp sd-button share-icon"
+				href="https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action?share=jetpack-whatsapp"
+				target="_blank"
+				aria-labelledby="sharing-whatsapp-589251"
+				>
+				<span id="sharing-whatsapp-589251" hidden>Share on WhatsApp (Opens in new window)</span>
+				<span>WhatsApp</span>
+			</a></li><li class="share-email"><a rel="nofollow noopener noreferrer"
+				data-shared="sharing-email-589251"
+				class="share-email sd-button share-icon"
+				href="mailto:?subject=%5BShared%20Post%5D%20Schools%20Closed%2C%20Streets%20Were%20Empty%20As%20Israel%20Awaited%20Military%20Action&#038;body=https%3A%2F%2Fwww.jta.org%2Farchive%2Fschools-closed-streets-were-empty-as-israel-awaited-military-action&#038;share=email"
+				target="_blank"
+				aria-labelledby="sharing-email-589251"
+				data-email-share-error-title="Do you have email set up?" data-email-share-error-text="If you&#039;re having problems sharing via email, you might not have email set up for your browser. You may need to create a new email yourself." data-email-share-nonce="807269eb07" data-email-share-track-url="https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action?share=email">
+				<span id="sharing-email-589251" hidden>Email a link to a friend (Opens in new window)</span>
+				<span>Email</span>
+			</a></li><li class="share-end"></li></ul></div></div></div>				
+				
+									<div class="sfm-gofundmepro sfm-gofundmepro-incontent">
+	<div class="container wrapper-narrow">
+	<div class="sfm-gofundmepro--content">
+					<div class="sfm-gofundmepro--content-wrap">
+				<p><span data-sheets-root="1"><strong>As the Year Turns, Support the Journalism You Trust.</strong> JTA covers the stories shaping Jewish life around the world — with the depth this moment calls for. As you reflect on the year ahead, consider a gift that keeps independent Jewish journalism strong.</span></p>			</div>
+					</div>
+	<div class="sfm-gofundmepro--form">
+					
+<form class="sfm-classy-donate-form" autocomplete="off" data-campaign-url="https://support.70facesmedia.org/campaign/678151/donate?c_src=JTA_HH_Module_Cart" data-endpoint_type="campaign_url">
+	<div class="sfm-classy--donate-type">
+		<button type="button" class="active" data-type="one-time">One-time</button>
+		<button type="button" data-type="monthly">Monthly</button>
+	</div>
+	<span class="sfm-classy--choose-label">Choose an amount to donate</span>
+	<div class="sfm-classy--amounts">
+		<button type="button" class="sfm-classy--amount-btn active" data-amount="72">$72</button><button type="button" class="sfm-classy--amount-btn " data-amount="180">$180</button><button type="button" class="sfm-classy--amount-btn " data-amount="360">$360</button><button type="button" class="sfm-classy--amount-btn " data-amount="500">$500</button>	</div>
+	<div class="sfm-classy--other-wrap">
+		<div class="sfm-classy--other-input-wrap">
+			<span class="sfm-classy--other-prefix" aria-hidden="true">$</span>
+			<input type="number" min="1" step="any" class="sfm-classy--other-input" placeholder="Other" name="other_amount" />
+		</div>
+	</div>
+	<button type="submit" class="sfm-classy--submit-btn">Support Us</button>
+</form>
+			</div>
+
+		</div>
+</div>
+									
+				
+																								
+									<div class="post-info__disclaimer"><p>The Archive of the Jewish Telegraphic Agency includes articles published from 1923 to 2008. Archive stories reflect the journalistic standards and practices of the time they were published.</p>
+</div>
+
+				
+				
+				
+				
+<div class="inline-ad">
+	<div id='textad'></div>
+	<script>
+			window.tude = window.tude || { cmd: [] };
+			tude.cmd.push(function() {
+				tude.refreshAdsViaDivMappings([
+				{
+					divId: 'textad',
+					baseDivId: 'pb-slot-text-ad',
+				}
+				], true);
+			});
+	</script>
+</div>
+
+
+
+<div id='teads' style='height:1px; width:1px;'></div>
+<script>
+	window.tude = window.tude || { cmd: [] };
+	tude.cmd.push(function() {
+		tude.refreshAdsViaDivMappings([
+		{
+			divId: 'teads',
+			baseDivId: 'pb-slot-teads',
+		}
+		], true);
+	});
+</script>
+
+			</div>
+
+							
+<aside id="secondary" class="top-stories-widget sticky-aside">
+
+	
+						<div class="hide-on-tablet">
+				<h3 class="flag-heading -smaller -unmargin">
+					<span>The Latest</span>
+				</h3>
+
+				
+<ul class="most-recent-widget">
+	
+<li class="most-recent-widget-article">
+	<div class="most-recent-widget-article__title">
+		<a href="https://www.jta.org/2026/10/01/politics/jewish-groups-hail-california-law-making-it-the-first-state-to-list-jewish-as-an-ethnicity">
+			Jewish groups hail California law making it the first state to list ‘Jewish’ as an ethnicity		</a>
+	</div>
+</li>
+
+<li class="most-recent-widget-article">
+	<div class="most-recent-widget-article__title">
+		<a href="https://www.jta.org/2026/10/01/global/zara-removes-halloween-costume-likened-to-concentration-camp-uniform">
+			Zara removes Halloween costume likened to concentration camp uniform 		</a>
+	</div>
+</li>
+
+<li class="most-recent-widget-article">
+	<div class="most-recent-widget-article__title">
+		<a href="https://www.jta.org/2026/10/01/israel/in-its-first-detailed-response-to-naza-documentary-idf-claims-fundamental-errors">
+			In its first detailed response to &#8216;NAZA&#8217; documentary, IDF claims ‘fundamental errors’		</a>
+	</div>
+</li>
+
+<li class="most-recent-widget-article">
+	<div class="most-recent-widget-article__title">
+		<a href="https://www.jta.org/2026/10/01/ny/columbia-professor-receives-israels-nobel">
+			Columbia professor receives Israel&#8217;s Nobel		</a>
+	</div>
+</li>
+
+<li class="most-recent-widget-article">
+	<div class="most-recent-widget-article__title">
+		<a href="https://www.jta.org/2026/10/01/united-states/rabbi-who-coached-adam-brody-for-nobody-wants-this-calls-him-ignorant-jew-over-gaza-genocide-comments">
+			Rabbi who coached Adam Brody for ‘Nobody Wants This’ calls him ‘ignorant Jew’ over Gaza ‘genocide’ comments		</a>
+	</div>
+</li>
+
+<li class="most-recent-widget-article">
+	<div class="most-recent-widget-article__title">
+		<a href="https://www.jta.org/2026/10/01/culture/adl-makes-a-play-for-the-arts-with-new-reports-suggesting-anti-jewish-bias-in-culture-spaces">
+			ADL alleges &#8216;systemic&#8217; anti-Jewish bias in cultural spaces		</a>
+	</div>
+</li>
+</ul>
+			</div>
+			
+	<!-- Jewniverse Content -->
+	
+	
+	<div class="sticky">
+		
+<div class="right-rail-container">
+	<div class="right-rail rail -centered -desktop">
+
+		<div class="leaderboard__title">Advertisement</div>
+
+		<!-- /1052128/JTA_rail -->
+		<div id='rail0' class="">
+																<script>
+
+						var right_rail_id = 'rail0';
+						var right_rail_count = parseInt(right_rail_id.match(/\d+$/)[0], 10);
+						var right_rail_baseDivId = 'pb-slot-incontent-' + (Math.min(right_rail_count + 1, 3));
+
+						window.tude = window.tude || { cmd: [] };
+						tude.cmd.push(function() {
+							tude.refreshAdsViaDivMappings([
+							{
+								divId: 'rail0',
+								baseDivId: right_rail_baseDivId,
+							}
+							]);
+						});
+						</script>
+									</div>
+
+	</div>
+</div>
+	</div>
+
+
+</aside>
+			
+		</div>
+		<!-- entry content and sidebar -->
+
+	</div>
+</article>
+
+
+
+
+
+
+
+
+				<!-- Related posts -->
+	<div class="single-post-related-content-container wrapper-narrow">
+		<h2 class="flag-heading -unmargin -margin-top">
+			<span class="flag-heading__text">Recommended from JTA</span>
+		</h2>
+
+		<div class="is-flex">
+			<div class="alternating-grid-wrapper">
+				<div class="non-alternating-grid-posts">
+					<div class="alternating-grid">
+						
+<article id="post-957412" class="alternating-grid-post post-957412 post type-post status-publish format-standard has-post-thumbnail hentry category-archive category-culture category-lifestyle tag-anti-semitism article_type-story">
+			<div class="alternating-grid-post__image-container">
+			<div class="alternating-grid-post__image">
+				<a class="alternating-grid-post__link" href="https://www.jta.org/2015/03/20/archive/from-notre-dame-to-prague-europes-anti-semitism-is-literally-carved-in-stone">
+					<span class="alternating-grid-post__image-bg"></span>
+					<img width="540" height="300" src="https://www.jta.org/wp-content/uploads/2015/02/Notre_Dame_Cathedral_5753500432-540x300.jpg" class="attachment-single-posts-small size-single-posts-small wp-post-image" alt="Notre_Dame_Cathedral_(5753500432)" decoding="async" loading="lazy" srcset="https://www.jta.org/wp-content/uploads/2015/02/Notre_Dame_Cathedral_5753500432-540x300.jpg 540w, https://www.jta.org/wp-content/uploads/2015/02/Notre_Dame_Cathedral_5753500432-1080x600.jpg 1080w" sizes="auto, (max-width: 540px) 100vw, 540px" />									</a>
+			</div>
+		</div>
+	
+	<div class="alternating-grid-post__content">
+		
+<div class="post-categories ">
+										<a href="https://www.jta.org/category/archive" class="post-category -underlinedcat category-archive" itemprop="articleSection">Archive</a>
+						</div>
+
+		<h2 class="alternating-grid-post__title" itemprop="headline">
+			<a href="https://www.jta.org/2015/03/20/archive/from-notre-dame-to-prague-europes-anti-semitism-is-literally-carved-in-stone" itemprop="url">From Notre Dame to Prague, Europe’s anti-Semitism is literally carved in stone</a>
+		</h2>
+
+		
+	</div>
+</article>
+
+<article id="post-949018" class="alternating-grid-post post-949018 post type-post status-publish format-standard has-post-thumbnail hentry category-archive category-culture tag-abraham-joshua-heschel tag-explore-the-archive tag-martin-luther-king-jr tag-news-opinion tag-selma article_type-story">
+			<div class="alternating-grid-post__image-container">
+			<div class="alternating-grid-post__image">
+				<a class="alternating-grid-post__link" href="https://www.jta.org/2015/01/17/culture/from-the-archive-in-selma-sold-out-yarmulkes-and-shabbat-behind-bars">
+					<span class="alternating-grid-post__image-bg"></span>
+					<img width="540" height="300" src="https://www.jta.org/wp-content/uploads/2015/01/Selma_to_Montgomery_Marches-540x300.jpg" class="attachment-single-posts-small size-single-posts-small wp-post-image" alt="Selma_to_Montgomery_Marches" decoding="async" loading="lazy" />									</a>
+			</div>
+		</div>
+	
+	<div class="alternating-grid-post__content">
+		
+<div class="post-categories ">
+										<a href="https://www.jta.org/category/culture" class="post-category -underlinedcat category-culture" itemprop="articleSection">Culture</a>
+						</div>
+
+		<h2 class="alternating-grid-post__title" itemprop="headline">
+			<a href="https://www.jta.org/2015/01/17/culture/from-the-archive-in-selma-sold-out-yarmulkes-and-shabbat-behind-bars" itemprop="url">From the Archive: In Selma, sold-out yarmulkes and Shabbat behind bars</a>
+		</h2>
+
+		
+	</div>
+</article>
+
+<article id="post-937826" class="alternating-grid-post post-937826 post type-post status-publish format-standard hentry category-archive category-culture tag-nazi-germany tag-news-opinion tag-spain tag-spanish-inquisition">
+	
+	<div class="alternating-grid-post__content">
+		
+<div class="post-categories ">
+										<a href="https://www.jta.org/category/archive" class="post-category -underlinedcat category-archive" itemprop="articleSection">Archive</a>
+						</div>
+
+		<h2 class="alternating-grid-post__title" itemprop="headline">
+			<a href="https://www.jta.org/2014/12/13/archive/from-the-archive-jews-immigrating-to-spain" itemprop="url">From the Archive: Jews immigrating to Spain</a>
+		</h2>
+
+		
+	</div>
+</article>
+
+<article id="post-932764" class="alternating-grid-post post-932764 post type-post status-publish format-standard hentry category-archive category-culture tag-american-jewish-congress tag-harry-truman tag-hias tag-immigration tag-news-opinion tag-refugees">
+	
+	<div class="alternating-grid-post__content">
+		
+<div class="post-categories ">
+										<a href="https://www.jta.org/category/archive" class="post-category -underlinedcat category-archive" itemprop="articleSection">Archive</a>
+						</div>
+
+		<h2 class="alternating-grid-post__title" itemprop="headline">
+			<a href="https://www.jta.org/2014/11/30/archive/from-the-archive-jews-welcome-the-stranger" itemprop="url">From the Archive: Jews welcome the stranger</a>
+		</h2>
+
+		
+	</div>
+</article>
+
+<article id="post-930377" class="alternating-grid-post post-930377 post type-post status-publish format-standard has-post-thumbnail hentry category-archive category-culture tag-har-nof tag-jerusalem tag-jimmy-carter tag-mahmoud-abbas tag-news-opinion tag-terror-attacks tag-vienna article_type-story">
+			<div class="alternating-grid-post__image-container">
+			<div class="alternating-grid-post__image">
+				<a class="alternating-grid-post__link" href="https://www.jta.org/2014/11/23/archive/from-the-archive-synagogues-under-fire">
+					<span class="alternating-grid-post__image-bg"></span>
+					<img width="450" height="300" src="https://www.jta.org/wp-content/uploads/2014/11/har-nof-terror-attack.jpg" class="attachment-single-posts-small size-single-posts-small wp-post-image" alt="har nof terror attack november 2014" decoding="async" loading="lazy" srcset="https://www.jta.org/wp-content/uploads/2014/11/har-nof-terror-attack.jpg 2286w, https://www.jta.org/wp-content/uploads/2014/11/har-nof-terror-attack-156x104.jpg 156w, https://www.jta.org/wp-content/uploads/2014/11/har-nof-terror-attack-350x233.jpg 350w, https://www.jta.org/wp-content/uploads/2014/11/har-nof-terror-attack-1024x682.jpg 1024w" sizes="auto, (max-width: 450px) 100vw, 450px" />									</a>
+			</div>
+		</div>
+	
+	<div class="alternating-grid-post__content">
+		
+<div class="post-categories ">
+										<a href="https://www.jta.org/category/archive" class="post-category -underlinedcat category-archive" itemprop="articleSection">Archive</a>
+						</div>
+
+		<h2 class="alternating-grid-post__title" itemprop="headline">
+			<a href="https://www.jta.org/2014/11/23/archive/from-the-archive-synagogues-under-fire" itemprop="url">From the Archive: Synagogues under fire</a>
+		</h2>
+
+		
+	</div>
+</article>
+
+<article id="post-927736" class="alternating-grid-post post-927736 post type-post status-publish format-standard has-post-thumbnail hentry category-archive category-culture tag-fatah tag-news-opinion tag-oslo-accords tag-palestine-liberation-organization tag-palestinians tag-yasser-arafat">
+			<div class="alternating-grid-post__image-container">
+			<div class="alternating-grid-post__image">
+				<a class="alternating-grid-post__link" href="https://www.jta.org/2014/11/14/archive/from-the-archive-they-came-to-bury-yasser-not-to-praise-him">
+					<span class="alternating-grid-post__image-bg"></span>
+					<img width="402" height="300" src="https://www.jta.org/wp-content/uploads/2014/11/arafat-1974.jpg" class="attachment-single-posts-small size-single-posts-small wp-post-image" alt="YASSER ARAFAT 1974" decoding="async" loading="lazy" srcset="https://www.jta.org/wp-content/uploads/2014/11/arafat-1974.jpg 3422w, https://www.jta.org/wp-content/uploads/2014/11/arafat-1974-156x116.jpg 156w, https://www.jta.org/wp-content/uploads/2014/11/arafat-1974-350x261.jpg 350w, https://www.jta.org/wp-content/uploads/2014/11/arafat-1974-1024x764.jpg 1024w" sizes="auto, (max-width: 402px) 100vw, 402px" />									</a>
+			</div>
+		</div>
+	
+	<div class="alternating-grid-post__content">
+		
+<div class="post-categories ">
+										<a href="https://www.jta.org/category/archive" class="post-category -underlinedcat category-archive" itemprop="articleSection">Archive</a>
+						</div>
+
+		<h2 class="alternating-grid-post__title" itemprop="headline">
+			<a href="https://www.jta.org/2014/11/14/archive/from-the-archive-they-came-to-bury-yasser-not-to-praise-him" itemprop="url">From the Archive: They came to bury Yasser, not to praise him</a>
+		</h2>
+
+		
+	</div>
+</article>
+					</div>
+				</div>
+			</div>
+
+							<aside class="-newsletter-offset">
+
+				</aside>
+					</div>
+	</div>
+	<!-- End related posts-->
+
+			<!-- Newsletter component -->
+			<div class="newsletter-signup -with-ad">
+	<div class="wrapper-narrow">
+		<div class="newsletter-signup__content">
+			<div>
+				<p class="is-style-heading newsletter-signup__title">
+					Get JTA in your inbox				</p>
+				<form class="newsletter-form is-flex">
+					<input type="hidden" value="589251" class="newsletter-form__pageid"/>
+					<input type="hidden" value="with-ad" class="newsletter-form__context"/>
+					<input type="email" required placeholder="Your Email" class="newsletter-form__email"/>
+					<input type="button" value="Sign Up" class="newsletter-form__submit newsletter-form__submit--single newsletter-form__submit--inline"/>
+					<input type="hidden" required="required" id="gdpr-checkbox-6abf8eb6e3233" class="newsletter-form__checkbox" name="gdpr-checkbox-6abf8eb6e3233"/>
+					<input type="hidden" id="jta-subscription-form-6abf8eb6e3233" name="jta-subscription-form-6abf8eb6e3233" value="4230742a77" /><input type="hidden" name="_wp_http_referer" value="/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action" />
+					<div class="newsletter-form__validation-message -no-error -invalid">
+						
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 20 20" role="presentation" class="jta-icon jta-icon-chevron-up" aria-hidden="true"><path d="M2.582 13.891c-.272.268-.709.268-.979 0s-.271-.701 0-.969l7.908-7.83a.697.697 0 0 1 .979 0l7.908 7.83c.27.268.27.701 0 .969s-.709.268-.978 0L10 6.75z"></path></svg>
+						Please accept the JTA Privacy Policy					</div>
+
+											<div class="newsletter-form__terms">
+							<p>By submitting the above I agree to the <a href="https://jta.org/privacy-policy">privacy policy</a> and <a href="https://jta.org/terms-of-use">terms</a> of use of JTA.org</p>
+						</div>
+					
+											<div class="sfm-recaptcha g-recaptcha newsletter-form__captcha" id="single-article-subscribe-form" data-sitekey="6Ld6pAMsAAAAAF2zZeBfcXtFUp1rPN8jbTR9-ads" data-recaptcha-id="single-article-subscribe-form" data-recaptcha-name="single-article-subscribe-form" style="display: none;"></div>
+					
+				</form>
+
+				<div class="feedback"></div>
+
+			</div>
+		</div>
+
+			</div>
+</div>
+
+
+
+			<!-- Newsletter component -->
+
+		
+		<div itemprop="publisher">
+	<div itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject">
+		<meta itemprop="url" content="https://www.jta.org/wp-content/themes/JTA-Blocks/assets/svg/jta-sticky-logo.svg" />
+		<meta itemprop="width" content="70px" />
+		<meta itemprop="height" content="39px" />
+		<meta itemprop="encodingFormat" content="svg+xml" />
+	</div>
+	<meta itemprop="name" content="Jewish Telegraphic Agency" />
+	<meta itemprop="url" content="https://www.jta.org" />
+</div>
+
+
+	</main><!-- #main -->
+</div><!-- #primary -->
+
+		</div><!-- #content -->
+
+		
+<div class="leaderboard -centered -desktop" id="leaderboard_bottom_wrapper">
+	<div class="leaderboard__title">Advertisement</div>
+
+	<!-- /1052128/JTA_leaderboard -->
+	<div id='leaderboard_bottom'>
+		<script>
+			window.tude = window.tude || { cmd: [] };
+			tude.cmd.push(function() {
+				tude.refreshAdsViaDivMappings([
+				{
+					divId: 'leaderboard_bottom',
+					baseDivId: 'pb-slot-leaderboard-bottom',
+				}
+				]);
+			});
+		</script>
+	</div>
+</div>
+
+
+
+
+		<div class="sfm-gofundmepro sfm-gofundmepro-footer">
+	<div class="container wrapper-narrow">
+	<div class="sfm-gofundmepro--content">
+					<div class="sfm-gofundmepro--content-wrap">
+				<p><span data-sheets-root="1"><strong>As the Year Turns, Support the Journalism You Trust.</strong> JTA covers the stories shaping Jewish life around the world — with the depth this moment calls for. As you reflect on the year ahead, consider a gift that keeps independent Jewish journalism strong.</span></p>			</div>
+					</div>
+	<div class="sfm-gofundmepro--form">
+					
+<form class="sfm-classy-donate-form" autocomplete="off" data-campaign-url="https://support.70facesmedia.org/campaign/678151/donate?c_src=JTA_HH_Module_Cart" data-endpoint_type="campaign_url">
+	<div class="sfm-classy--donate-type">
+		<button type="button" class="active" data-type="one-time">One-time</button>
+		<button type="button" data-type="monthly">Monthly</button>
+	</div>
+	<span class="sfm-classy--choose-label">Choose an amount to donate</span>
+	<div class="sfm-classy--amounts">
+		<button type="button" class="sfm-classy--amount-btn active" data-amount="72">$72</button><button type="button" class="sfm-classy--amount-btn " data-amount="180">$180</button><button type="button" class="sfm-classy--amount-btn " data-amount="360">$360</button><button type="button" class="sfm-classy--amount-btn " data-amount="500">$500</button>	</div>
+	<div class="sfm-classy--other-wrap">
+		<div class="sfm-classy--other-input-wrap">
+			<span class="sfm-classy--other-prefix" aria-hidden="true">$</span>
+			<input type="number" min="1" step="any" class="sfm-classy--other-input" placeholder="Other" name="other_amount" />
+		</div>
+	</div>
+	<button type="submit" class="sfm-classy--submit-btn">Support Us</button>
+</form>
+			</div>
+
+		</div>
+</div>
+
+		<footer class="fm-footer jta-footer">
+			<div class="fm-footer__contain">
+				<div class="fm-footer__grid">
+					<div class="fm-footer__col fm-footer__col-1">
+						<div class="fm-footer__logo jta-logo__maxw">
+							<a href="https://www.jta.org" rel="home">
+								<span class="screen-reader-text">Jewish Telegraphic Agency</span>
+								
+<svg xmlns="http://www.w3.org/2000/svg" width="804" height="45" viewbox="0 0 804 45" role="presentation" class="jta-icon jta-logo" aria-hidden="true"><path fill="#fff" d="M14.553 29.591q0 4.494-1.816 7.744-1.769 3.297-5.02 5.066-3.25 1.77-7.504 1.912v-6.74q7.36-.382 7.361-8.125V1.819h6.979zM49.279 1.819v6.692H32.214v7.505H47.32v6.692H32.214v7.6h17.734V37H25.283V1.82zm38.723 36.71-8.365-20.84-9.751 20.936L55.737 2.058h8.126l6.931 20.363 5.353-13.432-2.772-6.93h6.883l7.887 19.55 5.975-19.55h7.457zm28.227-36.71V37h-6.931V1.82zm29.495 8.509q-4.589-2.534-7.982-2.534-2.295 0-3.585.908-1.243.909-1.243 2.725 0 1.672 1.816 2.964 1.864 1.242 4.924 2.39 2.486.907 4.254 2.103 1.769 1.147 2.916 3.202 1.195 2.055 1.195 5.21a9.53 9.53 0 0 1-1.434 5.067q-1.387 2.295-4.111 3.681-2.726 1.338-6.501 1.338a22.2 22.2 0 0 1-6.262-.908 20 20 0 0 1-5.784-2.868l3.06-5.401q1.817 1.338 4.158 2.199 2.343.86 4.207.86 2.198 0 3.824-.908 1.625-.956 1.625-3.06 0-2.724-5.115-4.732-3.01-1.194-5.019-2.294-2.007-1.1-3.489-3.155-1.434-2.054-1.434-5.162 0-4.541 2.963-7.314 3.012-2.772 7.983-3.011 3.92 0 6.549.908 2.628.86 5.114 2.486zM186.024 37h-6.931V22.708h-15.726V37h-6.931V1.82h6.931v14.196h15.726V1.819h6.931zm49.185-35.18V8.51h-8.556V37h-6.931V8.511H211.5V1.82zm32.314 0V8.51h-17.064v7.505h15.104v6.692h-15.104v7.6h17.733V37h-24.664V1.82zm16.401 0v28.488h16.539V37h-23.47V1.82zm49.316 0V8.51h-17.065v7.505h15.105v6.692h-15.105v7.6h17.734V37h-24.665V1.82zm38.006 31.643q-.813.86-2.916 1.816-2.055.908-4.589 1.53-2.485.573-4.541.573-5.592 0-9.847-2.15-4.206-2.2-6.5-6.023-2.295-3.872-2.295-8.796 0-6.165 2.438-10.42 2.437-4.302 6.549-6.405 4.11-2.151 9.082-2.151 3.202 0 6.022.717t4.972 1.864l-2.247 6.453q-1.386-.765-3.824-1.386-2.39-.67-4.015-.67-5.736 0-8.795 2.869-3.012 2.868-3.012 8.508 0 3.25 1.482 5.688 1.482 2.39 4.111 3.68 2.677 1.291 6.07 1.291 3.251 0 4.828-.908V25.29h-6.07v-6.692h13.097zM399.726 37l-7.409-11.185h-4.637V37h-6.931V1.82h10.659q6.549 0 10.134 3.202 3.633 3.155 3.633 8.652a13.9 13.9 0 0 1-1.386 6.118q-1.34 2.82-4.159 4.445L407.804 37zM387.68 19.123h4.923q2.821 0 4.111-1.625 1.291-1.673 1.291-3.585t-1.1-3.633q-1.1-1.77-4.254-1.769h-4.971zm44.867 10.994h-11.663L418.016 37h-6.836L427.05.433h.382L443.302 37h-8.031zm-2.295-5.832-3.393-8.556-3.538 8.556zM460.719 1.82q6.453 0 9.99 3.203 3.538 3.155 3.538 8.652 0 3.155-1.243 5.927-1.195 2.724-3.968 4.493-2.724 1.77-7.074 1.769h-4.971V37h-6.931V1.82zm1.195 17.304q1.96 0 3.155-.86 1.195-.909 1.721-2.104.526-1.194.526-2.294 0-1.865-1.1-3.585-1.1-1.77-4.254-1.769h-4.971v10.612zM511.666 37h-6.931V22.708h-15.726V37h-6.931V1.82h6.931v14.196h15.726V1.819h6.931zm17.623-35.18V37h-6.931V1.82zm37.095 32.264q-1.338 1.1-4.254 2.199-2.916 1.1-6.357 1.1-5.498 0-9.56-2.39t-6.214-6.406q-2.151-4.063-2.151-8.89 0-5.307 2.151-9.465t6.023-6.453q3.871-2.342 8.938-2.342 3.203 0 5.927.86 2.725.86 4.78 2.151l-2.724 6.549q-3.777-2.868-7.744-2.868-2.676 0-5.019 1.482t-3.728 4.063q-1.386 2.534-1.386 5.64 0 3.393 1.29 5.975 1.29 2.533 3.681 3.967t5.592 1.434q2.582 0 4.637-.812 2.055-.86 3.25-2.008zm43.147-3.967h-11.663L595 37h-6.836L604.034.433h.382L620.286 37h-8.031zm-2.295-5.832-3.393-8.556-3.538 8.556zm46.897 9.178q-.812.86-2.916 1.816-2.055.908-4.588 1.53-2.486.573-4.541.573-5.593 0-9.847-2.15-4.206-2.2-6.501-6.023-2.294-3.872-2.294-8.796 0-6.165 2.437-10.42 2.439-4.302 6.549-6.405 4.111-2.151 9.082-2.151 3.203 0 6.023.717t4.971 1.864l-2.247 6.453q-1.385-.765-3.824-1.386-2.39-.67-4.015-.67-5.735 0-8.795 2.869-3.012 2.868-3.011 8.508 0 3.25 1.481 5.688 1.483 2.39 4.111 3.68 2.677 1.291 6.071 1.291 3.25 0 4.828-.908V25.29h-6.071v-6.692h13.097zm33.499-31.644v6.692h-17.065v7.505h15.105v6.692h-15.105v7.6h17.734V37h-24.665V1.82zm41.161 0v36.615h-.191l-24.617-22.227.143 20.793h-7.027V.433h.287l24.569 22.562-.143-21.176zm37.075 32.265q-1.338 1.1-4.254 2.199-2.916 1.1-6.358 1.1-5.496 0-9.56-2.39-4.062-2.39-6.214-6.406-2.151-4.063-2.151-8.89 0-5.307 2.151-9.465t6.023-6.453q3.872-2.342 8.939-2.342 3.203 0 5.927.86 2.725.86 4.78 2.151l-2.725 6.549q-3.775-2.868-7.743-2.868-2.678 0-5.019 1.482-2.343 1.481-3.729 4.063-1.386 2.534-1.386 5.64 0 3.393 1.291 5.975 1.29 2.533 3.68 3.967t5.593 1.434q2.581 0 4.637-.812 2.055-.86 3.25-2.008zM803.695 1.82l-13.193 24.235V37h-6.931V26.054L770.617 1.819h8.556l8.079 16.252 7.887-16.252z"></path></svg>
+							</a>
+						</div>
+
+						<nav class="fm-footer__social-container"><ul id="footer-social-menu" class="fm-footer__social jta-footer__social footer-social-menu"><li id="menu-item-1868865" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868865"><a data-gtm="navigation" href="https://www.instagram.com/jtanews/"><span class="screen-reader-text">Instagram</span></a></li>
+<li id="menu-item-1868866" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868866"><a data-gtm="navigation" href="https://www.facebook.com/JTAnews"><span class="screen-reader-text">Facebook</span></a></li>
+<li id="menu-item-1868867" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868867"><a data-gtm="navigation" href="https://twitter.com/JTAnews"><span class="screen-reader-text">Twitter</span></a></li>
+<li id="menu-item-1868868" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868868"><a data-gtm="navigation" href="https://www.youtube.com/channel/UCDyTKLG1BzCgbzjRvtcKtHg"><span class="screen-reader-text">YouTube</span></a></li>
+</ul></nav>
+						<div class="fm-footer__col-underline"></div>
+					</div>
+
+					<div class="fm-footer__col">
+						<nav class="fm-footer__nav-container"><ul id="footer-menu" class="fm-footer__nav jta-footer__nav"><li id="menu-item-1868846" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1868846"><a data-gtm="navigation" href="https://www.jta.org/about-us">About Us</a></li>
+<li id="menu-item-1871605" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1871605"><a data-gtm="navigation" href="https://www.jta.org/email-newsletters">Newsletters</a></li>
+<li id="menu-item-1868848" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1868848"><a data-gtm="navigation" href="https://www.jta.org/contact">Contact</a></li>
+<li id="menu-item-1868847" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1868847"><a data-gtm="navigation" href="https://www.jta.org/syndication">Syndication</a></li>
+<li id="menu-item-1868851" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868851"><a data-gtm="navigation" href="https://partnerships.70facesmedia.org/">Advertise</a></li>
+<li id="menu-item-1904350" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1904350"><a data-gtm="navigation" href="https://www.jta.org/careers">Careers</a></li>
+<li id="menu-item-1868852" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868852"><a data-gtm="navigation" href="https://support.70facesmedia.org/campaign/678151/donate?c_src=JTA_Website_Footer">Donate</a></li>
+<li id="menu-item-1904351" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1904351"><a data-gtm="navigation" href="https://www.jta.org/about-us/global-staff">Masthead</a></li>
+</ul></nav>					</div>
+
+					<div class="fm-footer__col fm-footer__col-3">
+						<div class="footer-newsletter">
+	<div class="newsletter-signup">
+		<div class="wrapper-narrow">
+			<div class="newsletter-signup__content">
+				<div>
+					<p class="is-style-heading newsletter-signup__title">
+						Get JTA in your inbox					</p>
+											<div class="mls-footer-feedback"></div>
+						<form class="newsletter-form-footer" method="post" id="mls-footer">
+							<div class="mls-footer-fields is-flex">
+								<input type="email" required placeholder="Your Email" class="newsletter-form__email mls_footer_email"/>
+								<input type="submit" value="Sign Up" class="newsletter-form__submit newsletter-form__submit--footer newsletter-form__submit--inline mls_footer_submit"/>
+							</div>
+							<input type="hidden" value="4491479" class="mls_footer_list_id" name="mls_footer_list_id" />
+							<input type="hidden" id="mls-footer-form" name="mls-footer-form" value="4230742a77" /><input type="hidden" name="_wp_http_referer" value="/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action" />
+															<div class="mls_footer_disclaimer" style="display:none;">
+									<p>I accept the <a href="/privacy-policy">Privacy Policy</a>.</p>
+								</div>
+																						<div class="g-recaptcha sfm-recaptcha newsletter-form__captcha" id="mls-footer-recaptcha" data-sitekey="6Ld6pAMsAAAAAF2zZeBfcXtFUp1rPN8jbTR9-ads" style="display:none;"></div>
+													</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+					</div>
+				</div>
+
+				<div class="footer-associated-sites">
+					<a href="https://70facesmedia.org/" class="footer-associated-sites--first">
+						<span class="screen-reader-text">70 Faces Media</span>
+						
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 425.2 75.1" role="presentation" class="jta-icon 70f-logo-footer" aria-hidden="true"><path fill="#FFF" d="M14.7 18.5h27.7v7.1q-3.9 3.45-6 7.2c-1.4 2.5-2.4 5.1-2.9 7.7-.5 2.7-.8 5.5-.8 8.4H21.8c0-3.3.4-6.4 1.3-9.2.9-2.9 2.3-5.6 4.2-8.2s4.4-5.2 7.6-7.7l2.5 2.8H14.7zm44.7 30.9q-7.2 0-10.5-3.9c-2.3-2.6-3.4-6.5-3.4-11.7s1.1-9.1 3.4-11.7q3.45-3.9 10.5-3.9c7.05 0 8.3 1.3 10.5 3.9 2.3 2.6 3.4 6.5 3.4 11.7s-1.1 9.1-3.4 11.7q-3.3 3.9-10.5 3.9m0-8.1c.8 0 1.5-.2 1.9-.6s.8-1.2.9-2.3c.2-1.1.3-2.7.3-4.6 0-2-.1-3.5-.3-4.6s-.5-1.9-.9-2.3-1.1-.6-1.9-.6-1.4.2-1.9.6-.8 1.2-1 2.3-.3 2.7-.3 4.6c0 2 .1 3.5.3 4.6s.5 1.9 1 2.3 1.1.6 1.9.6m55.9-14.9h-14.9v4.2h12.1v7.9h-12.1v10.4H89.3V18.5h26zm34 22.5H138l-1.4-5.8h-8.5l-1.5 5.8h-11l10.2-30.4h13.3zm-19.5-12.5h5.2l-2.6-10.5zm50.9 3.2c-.6 2.4-1.5 4.3-2.9 5.7s-3 2.5-5 3.1q-3 .9-6.6.9c-3.3 0-6.1-.6-8.5-1.8s-4.2-3-5.5-5.3-1.9-5.2-1.9-8.5.6-6.1 1.9-8.5c1.3-2.3 3.1-4.1 5.5-5.3s5.2-1.8 8.5-1.8c2.3 0 4.5.3 6.5.9s3.7 1.6 5.1 3c1.4 1.3 2.3 3.1 2.7 5.3l-9.5 3.6q-.45-3-1.5-3.9c-.8-.6-1.8-.9-2.9-.9s-2 .3-2.7.8-1.3 1.4-1.7 2.5-.5 2.6-.5 4.3.2 3.1.5 4.3c.3 1.1.9 2 1.6 2.5.8.5 1.8.8 3 .8 1.1 0 2.1-.3 2.8-1s1.2-1.7 1.4-3.2zm2.7 9.3V18.5h26v7.9h-15v3.8h12.1v7.3h-12.1V41H210v7.9zm43.5-30.8c3 0 5.7.4 8.1 1.1s4.5 1.8 6.3 3.2l-4.5 6.9c-1.5-1-3-1.8-4.7-2.4-1.6-.6-3.4-.9-5.3-.9-.8 0-1.5.1-2 .2s-.8.3-1 .5-.3.5-.3.7c0 .4.3.6.9.8s1.3.4 2.2.6l4.3 1c3.2.7 5.6 1.7 7.2 3.1q2.4 2.1 2.4 5.7c0 2.5-.6 4.5-1.9 6-1.2 1.6-2.9 2.8-5 3.5-2.1.8-4.5 1.1-7.2 1.1-2 0-4-.2-6-.5-2-.4-3.9-.9-5.6-1.6s-3.2-1.5-4.4-2.5l4.4-7c.9.7 2 1.3 3.3 1.9s2.6 1 4 1.4c1.4.3 2.7.5 3.9.5.8 0 1.4-.1 1.8-.2s.8-.3.9-.5c.2-.2.3-.4.3-.7 0-.4-.2-.8-.5-1-.4-.2-1-.4-2-.6l-4.8-1q-2.55-.6-4.8-1.5c-2.25-.9-2.8-1.5-3.7-2.7-1-1.2-1.4-2.8-1.4-4.8 0-2.1.6-3.9 1.7-5.5 1.2-1.6 2.8-2.8 5-3.7 2.6-.7 5.3-1.1 8.4-1.1m69.3.4v30.4h-9.6V38.4l.1-10.2h-.1l-6.1 20.7h-8.8l-6-20.7h-.2l.1 10.2v10.5h-9.7V18.5h15.5L275 32l1.4 5.7h.1l1.4-5.7 3.6-13.5zm4.7 30.4V18.5h26v7.9h-15v3.8H324v7.3h-12V41h15.5v7.9zm45.2-30.4c4.9 0 8.6 1.3 11.1 4 2.5 2.6 3.8 6.4 3.8 11.2s-1.3 8.5-3.8 11.2-6.2 4-11.1 4h-15.4V18.5zm-1.6 22.8c2.1 0 3.4-.6 4.1-1.8s1-3.1 1-5.7-.3-4.5-1-5.7-2.1-1.8-4.1-1.8h-2.8v15.1h2.8zm31.3-22.8v30.4h-11.1V18.5zm35.6 30.4h-11.3l-1.4-5.8h-8.5l-1.5 5.8h-11l10.2-30.4h13.3zm-19.6-12.5h5.2l-2.6-10.5z"></path></svg>
+					</a>
+					<nav class="footer-associated-sites__links"><ul id="footer-sites-menu" class="footer-menu"><li id="menu-item-1868853" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1868853"><a data-gtm="navigation" href="https://www.jta.org">Jewish Telegraphic Agency</a></li>
+<li id="menu-item-1868854" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868854"><a data-gtm="navigation" href="https://www.jta.org/newyork">New York Jewish Week</a></li>
+<li id="menu-item-1868855" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868855"><a data-gtm="navigation" href="https://www.myjewishlearning.com/the-nosher/">The Nosher</a></li>
+<li id="menu-item-1868856" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868856"><a data-gtm="navigation" href="https://www.kveller.com">Kveller</a></li>
+<li id="menu-item-1868857" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868857"><a data-gtm="navigation" href="https://www.heyalma.com">Hey Alma</a></li>
+<li id="menu-item-1868858" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1868858"><a data-gtm="navigation" href="https://www.myjewishlearning.com">My Jewish Learning</a></li>
+</ul></nav>				</div>
+
+				<div class="footer-privacy">
+					<nav class="footer-privacy-menu"><ul id="footer-privacy-menu" class="footer-privacy-links"><li id="menu-item-1868860" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1868860"><a data-gtm="navigation" href="https://www.jta.org/privacy-policy">Privacy Policy</a></li>
+<li id="menu-item-1868859" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1868859"><a data-gtm="navigation" href="https://www.jta.org/terms-of-use">Terms of Use and Re-Using Content</a></li>
+</ul></nav>
+					<div class="footer-privacy-copyright">
+						&copy; 2026 JEWISH TELEGRAPHIC AGENCY ALL RIGHTS RESERVED.					</div>
+				</div>
+			</div>
+		</footer>
+	</div><!-- #page -->
+
+		<script>
+		var siteCanonical = document.querySelector("link[rel='canonical']");
+		var urlref = '';
+
+		if(null !== siteCanonical) {
+			urlref = siteCanonical.href;
+		} else {
+			var fullPath = location.pathname.split('/');
+			var endPath = fullPath[2];
+			urlref = location.href.replace(endPath,'');
+		}
+		PARSELY = {
+			// after PARSELY tracking code loads asynchronously
+			onload: function() {
+				PARSELY.isLoaded = true,
+				PARSELY.siteCanonical = urlref
+			}
+		};
+	</script>
+	<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/JTA-Blocks/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action":589251};
+	</script>
+				<script id="sfm_frontend-js-extra">
+var load_more_posts = {"load_more_endpoint":"https://www.jta.org/wp-json/sfm/v1/load-more-posts"};
+var notification_bar = {"notification_endpoint":"https://www.jta.org/wp-json/sfm/v1/notification-bar"};
+//# sourceURL=sfm_frontend-js-extra
+</script>
+<script id="sfm_frontend-js" src="https://www.jta.org/wp-content/mu-plugins/sfm-core/dist/js/frontend.js?ver=5c755fe2"></script>
+<script id="multi_list_subscription_frontend-js-extra">
+var MLS = {"gdprConfirmationError":"Please accept JTA Privacy Policy","listSelectionError":"Please select at least one list for subscription"};
+//# sourceURL=multi_list_subscription_frontend-js-extra
+</script>
+<script id="multi_list_subscription_frontend-js" src="https://www.jta.org/wp-content/mu-plugins/multi-list-subscription/dist/js/frontend.js?ver=5c755fe2"></script>
+<script id="recaptcha-js" src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&#038;render=explicit&#038;ver=2"></script>
+<script id="moment-js" src="https://www.jta.org/wp-includes/js/dist/vendor/moment.min.js?ver=2.30.1"></script>
+<script id="moment-js-after">
+moment.updateLocale( 'en_US', {"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthsShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"weekdaysShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"week":{"dow":1},"longDateFormat":{"LT":"g:i a","LTS":null,"L":null,"LL":"F j, Y","LLL":"F j, Y g:i a","LLLL":null}} );
+//# sourceURL=moment-js-after
+</script>
+<script id="frontend-js" src="https://www.jta.org/wp-content/themes/JTA-Blocks/dist/js/frontend.js?ver=45987f31c14ea3a21d47"></script>
+<script id="gofundmepro-sdk-js" src="https://giving.classy.org/embedded/api/sdk/js/83026"></script>
+<script id="jetpack-stats-js-before">
+_stq = window._stq || [];
+_stq.push([ "view", {"v":"ext","blog":"184582307","post":"589251","tz":"-4","srv":"www.jta.org","j":"1:16.2"} ]);
+_stq.push([ "clickTrackerInit", "184582307", "589251" ]);
+//# sourceURL=jetpack-stats-js-before
+</script>
+<script data-wp-strategy="defer" defer fetchpriority="low" id="jetpack-stats-js" src="https://stats.wp.com/e-202640.js"></script>
+<script data-wp-strategy="defer" defer id="remote_sdk-js" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js?ver=1.0.0"></script>
+<script id="sharing-js-js-extra">
+var sharing_js_options = {"lang":"en","counts":"1","is_stats_active":"1"};
+//# sourceURL=sharing-js-js-extra
+</script>
+<script id="sharing-js-js" src="https://www.jta.org/wp-content/plugins/jetpack/_inc/build/sharedaddy/sharing.min.js?ver=16.2"></script>
+<script id="sharing-js-js-after">
+window.WPCOM_sharing_popups = window.WPCOM_sharing_popups || {};
+window.WPCOM_sharing_popups[ "twitter" ] = "menubar=1,resizable=1,width=600,height=350";
+window.WPCOM_sharing_popups = window.WPCOM_sharing_popups || {};
+window.WPCOM_sharing_popups[ "facebook" ] = "menubar=1,resizable=1,width=600,height=400";
+//# sourceURL=sharing-js-js-after
+</script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://www.jta.org/wp-includes/js/wp-emoji-release.min.js?ver=7.1.2"}}
+</script>
+<script type="module">
+/*! This file is auto-generated */
+var e="script#wp-emoji-settings",t=document.querySelector(e);if(!(t instanceof HTMLScriptElement))throw new Error("Element missing: "+e);const r=JSON.parse(t.text),s=(window._wpemojiSettings=r,"wpEmojiSettingsSupports"),o=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(s,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const r=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===r[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,r){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!r(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,r){let a;const s=(a="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),o=(s.textBaseline="top",s.font="600 32px Arial",{});return e.forEach(e=>{o[e]=t(s,e,n,r)}),o}function a(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}r.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(s));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(o),u.toString(),c.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"});const a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=e=>{i(n=e.data),a.terminate(),t(n)})}catch(e){}i(n=f(o,u,c,p))}t(n)}).then(e=>{for(const n in e)r.supports[n]=e[n],r.supports.everything=r.supports.everything&&r.supports[n],"flag"!==n&&(r.supports.everythingExceptFlag=r.supports.everythingExceptFlag&&r.supports[n]);var t;r.supports.everythingExceptFlag=r.supports.everythingExceptFlag&&!r.supports.flag,r.supports.everything||((t=r.source||{}).concatemoji?a(t.concatemoji):t.wpemoji&&t.twemoji&&(a(t.twemoji),a(t.wpemoji)))});
+//# sourceURL=https://www.jta.org/wp-includes/js/wp-emoji-loader.min.js
+</script>
+
+	
+<div id='prestitial'></div>
+<script>
+	window.tude = window.tude || { cmd: [] };
+	tude.cmd.push(function() {
+		tude.refreshAdsViaDivMappings([
+		{
+			divId: 'prestitial',
+			baseDivId: 'pb-slot-prestitial',
+		}
+		],true);
+	});
+</script>
+<div id='skin'></div>
+<script>
+	window.tude = window.tude || { cmd: [] };
+	tude.cmd.push(function() {
+		tude.refreshAdsViaDivMappings([
+		{
+			divId: 'skin',
+			baseDivId: 'pb-slot-skin',
+		}
+		], true);
+	});
+</script>
+	
+	<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"34f9066ae4","applicationID":"6329638","transactionName":"MwAANkJRXUFTBkVQWApKIwFEWVxcHRZYV1AIAA==","queueTime":0,"applicationTime":582,"atts":"H0cDQApLTk8=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>

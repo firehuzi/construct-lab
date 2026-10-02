@@ -87,7 +87,13 @@ def table_rows(text: str):
 
 
 def field_rows(text: str) -> dict:
-    """把「| 标签 | 值 |」与「### L2 …：A + B」都收进一个 dict（键=行名/小节名）。"""
+    """把三种载体都收进一个 dict（键=行名/小节名/引用块标签）：
+       ① 表格行 `| 标签 | 值 |`
+       ② 小节标题 `### L2 …：A + B`
+       ③ 引用块头部 `> 状态方向基线：→（维持…）`
+    ★ ③ 是必须的：`方向基线` 这类字段【只写在引用块头部】，不在表格里。
+      （同一个坑在 construct-lab-site 审计里踩过一次：字段在 blockquote，不在表。）
+    """
     out: dict[str, str] = {}
     for cells in table_rows(text):
         k, v = cells[0], cells[1]
@@ -97,9 +103,21 @@ def field_rows(text: str) -> dict:
         h = m.group(1).strip().replace("L2 ", "").replace("L2", "").strip()
         if "：" in h:
             k, v = h.split("：", 1)
-            k = k.replace("连续性类型", "连续性类型").replace(" + 构型", "").replace("+构型", "").strip()
+            k = k.replace(" + 构型", "").replace("+构型", "").strip()
             if k and k not in out:
                 out[k] = v.strip()
+    for line in text.split("\n"):
+        s = line.strip()
+        if not s.startswith(">"):
+            continue
+        body = strip_md(s.lstrip(">").strip())
+        for part in body.split("|"):
+            if "：" not in part:
+                continue
+            k, v = part.split("：", 1)
+            k, v = k.strip(), v.strip()
+            if k and v and k not in out:
+                out[k] = v
     return out
 
 
@@ -182,37 +200,78 @@ def harvest(text: str) -> list[dict]:
 
 
 def match_scale(dim: str, raw: str):
-    """在维度对应的量表里做子串匹配（长键优先）。未命中返回 (None, None) —— 不填默认。"""
+    """在维度对应的量表里做子串匹配（长键优先）。未命中返回 (None, None) —— 不填默认。
+
+    ★ 单字键必须【锚定在单元格开头】：量表里的 强/中/弱/↑/→/↓ 只有一个字，
+      若在全串里找，任何单元格都可能碰巧含「中」字而被误判成「中＝3」。
+      实测就发生过：「身份连续性」有两个值来自 `连续性类型` 单元格里碰巧的「中」。
+      （矩阵单元格的写法是 `强（建国文本+宪法框架250年）`，量词在开头。）
+    """
     for key, val in sorted(SCALES[dim]["keys"].items(), key=lambda kv: -len(kv[0])):
-        if key in raw:
+        if len(key) == 1:
+            if key in raw[:8]:
+                return val, key
+        elif key in raw:
             return val, key
     return None, None
 
 
+# ★★ 第二条取值来源：矩阵覆盖不到时，回退到【主体自己的档案字段】。
+#   为什么必须回退：矩阵是多国列、全域只有约 15 个国家列 ——
+#   只用矩阵，覆盖到不了 47 份档案的量级（目标 (1)：覆盖 4 → 40+）。
+#   规矩不变：仍是【对着同一组量表做子串匹配】，匹配不到就 None，不发明映射。
+FIELD_SOURCES = {
+    "身份连续性":   ["连续性类型", "Identity连续性"],
+    "存在方式":     ["深层Identity", "存在方式"],
+    "方法灵活性":   ["方法轨迹类型", "方法轨迹"],
+    "维持机制":     ["构型", "当前方法阶段", "当前方法"],
+    "方向扩张性":   ["方向基线", "当前方向"],
+    "秩序价值":     ["深层Identity", "秩序价值"],
+    "恐惧深度":     ["核心恐惧", "终极恐惧"],
+}
+
+
 def encode_actor(code: str, text: str, mats: list[dict], pool: list[dict]) -> dict:
-    # 优先级：本主体文件夹里的矩阵 → 行数多的矩阵
+    """取值顺序：① 构型对照矩阵（分析师显式对比，保真度最高）
+                  ② 主体自己的档案字段（覆盖面最广）
+                  ③ None + 理由（绝不填默认）"""
     ordered = sorted(pool, key=lambda p: (p["owner"] != code,
                                           -sum(len(v) for v in p["data"].values())))
+    fields = field_rows(text)
     dims: dict[str, dict] = {}
     for dim in SCALES:
         got = None
+        # ① 矩阵
         for p in ordered:
             src_dim = "存在方式" if dim == "秩序价值" else dim   # 秩序价值与存在方式同源
             raw = p["data"].get(code, {}).get(src_dim)
             if not raw:
                 continue
             val, key = match_scale(dim, raw)
-            got = {"value": val, "key": key,
-                   "source": "矩阵(%s 档案)" % p["owner"], "text": raw[:90],
-                   "reason": None if val is not None else "命中矩阵但无量表词"}
             if val is not None:
+                got = {"value": val, "key": key, "source": "矩阵(%s 档案)" % p["owner"],
+                       "text": raw[:90], "reason": None}
                 break
+        # ② 档案字段
+        if got is None:
+            for fname in FIELD_SOURCES.get(dim, []):
+                cell = fields.get(fname)
+                if cell is None:
+                    for k, v in fields.items():
+                        if fname in k:
+                            cell = v
+                            break
+                if not cell:
+                    continue
+                val, key = match_scale(dim, cell)
+                if val is not None:
+                    got = {"value": val, "key": key, "source": "档案字段(%s)" % fname,
+                           "text": cell[:90], "reason": None}
+                    break
         dims[dim] = got or {"value": None, "key": None, "source": None, "text": None,
-                            "reason": "无矩阵含该主体/该维度（不填默认）"}
+                            "reason": "矩阵与该档案字段都未命中量表词（不填默认）"}
     # ★★ 他者复杂度：优先用【结构计数】—— 数他者系统表的条目数。
-    #   这是【结构量】而非文本匹配：2 条→双、3 条→三重、4+ 条→四重。
-    #   （我曾一度把它换成矩阵文本匹配，「他者结构」行全域只出现 1 次，
-    #     覆盖率立刻从 82% 掉到 9% —— 换回来。）
+    #   这是【结构量】而非文本匹配：2 条→双极、3 条→三重、4+ 条→四重。
     n = hezhe_count(text)
     if n:
         key = "四重" if n >= 4 else "三重" if n == 3 else "双极" if n == 2 else "双"
@@ -222,36 +281,59 @@ def encode_actor(code: str, text: str, mats: list[dict], pool: list[dict]) -> di
     return dims
 
 
-def collect() -> list[dict]:
-    """★ 矩阵散落在各主体文件夹的不同 md 里 ⇒ 全收进一个池，再按国家列取值。
-    ★ 而主体清单必须取【全部文件夹】——因为矩阵是多国列：
-      埃及档案的表里有「以色列」列、沙特档案的表里有「以色列」列，
-      故以色列的值来自【别人的】矩阵。只遍历「自有矩阵」的主体就会漏掉它们。
+def actor_sources() -> list[tuple[str, list[str]]]:
+    """枚举 actors/ 下的全部主体 —— 覆盖两种组织形态：
+       ① 子目录式（Tier1/CN、Tier2/DE、Tier3/组织/NATO）
+       ② 平铺 md 式（Tier3/企业/NVDA.md、Tier3/组织/UN.md）
     """
-    folder_mats: dict[str, list[dict]] = {}
-    folder_text: dict[str, str] = {}
-    all_codes: list[str] = []
+    found: dict[str, list[str]] = {}
+
+    def add(code: str, paths: list[str]) -> None:
+        found.setdefault(code, []).extend(paths)
+
     for tier in ("Tier1", "Tier2"):
         base = os.path.join(ACTORS_DIR, tier)
         if not os.path.isdir(base):
             continue
-        for name in sorted(os.listdir(base)):
-            folder = os.path.join(base, name)
-            if not os.path.isdir(folder):
-                continue
-            all_codes.append(name)
-            mats, chunks = [], []
-            for fn in sorted(f for f in os.listdir(folder) if f.endswith(".md")):
-                with open(os.path.join(folder, fn), encoding="utf-8") as fh:
-                    t = fh.read()
-                chunks.append(t)
-                mats += harvest(t)
-            folder_text[name] = "\n\n".join(chunks)
-            if mats:
-                folder_mats[name] = mats
+        for e in sorted(os.listdir(base)):
+            p = os.path.join(base, e)
+            if os.path.isdir(p):
+                add(e, sorted(os.path.join(p, f) for f in os.listdir(p) if f.endswith(".md")))
+    for grp in ("企业", "组织"):
+        base = os.path.join(ACTORS_DIR, "Tier3", grp)
+        if not os.path.isdir(base):
+            continue
+        for e in sorted(os.listdir(base)):
+            p = os.path.join(base, e)
+            if os.path.isdir(p):
+                add(e, sorted(os.path.join(p, f) for f in os.listdir(p) if f.endswith(".md")))
+            elif e.endswith(".md"):
+                add(e[:-3], [p])
+    return [(c, ps) for c, ps in found.items() if ps]
+
+
+def collect() -> list[dict]:
+    """★ 矩阵散落在各主体文件夹的不同 md 里 ⇒ 全收进一个池，再按国家列取值。
+    ★ 主体清单取【全部 47 个】（Tier1+Tier2+Tier3），因为矩阵是多国列：
+      埃及档案的表里有「以色列」列、沙特档案的表里有「以色列」列，
+      故以色列的值来自【别人的】矩阵；而 Tier3 的字段回退需要它自己在清单里。
+    """
+    srcs = actor_sources()
+    folder_mats: dict[str, list[dict]] = {}
+    folder_text: dict[str, str] = {}
+    for code, paths in srcs:
+        chunks, mats = [], []
+        for path in paths:
+            with open(path, encoding="utf-8") as fh:
+                t = fh.read()
+            chunks.append(t)
+            mats += harvest(t)
+        folder_text[code] = "\n\n".join(chunks)
+        if mats:
+            folder_mats[code] = mats
     pool = [{"owner": c, "data": m} for c, ms in folder_mats.items() for m in ms]
     actors = []
-    for code in all_codes:
+    for code, _paths in srcs:
         actors.append({"code": code,
                        "matrices_in_folder": len(folder_mats.get(code, [])),
                        "dims": encode_actor(code, folder_text[code],

@@ -159,9 +159,9 @@
         "他者复杂度": {
           "value": null,
           "key": null,
-          "source": "矩阵(DE 档案)",
-          "text": "indifference（障碍+通道+接受者）",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "恐惧深度": {
           "value": 3,
@@ -181,42 +181,42 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "制度实验",
+          "source": "矩阵(NATO 档案)",
+          "text": "理性主义的制度实验",
+          "reason": null
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "扩张",
+          "source": "档案字段(方向基线)",
+          "text": "↓↓（策略空间持续收窄——扩张冲动 vs 整合式刚性）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 3,
@@ -230,7 +230,7 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -241,44 +241,44 @@
         "身份连续性": {
           "value": null,
           "key": null,
-          "source": "矩阵(TW 档案)",
-          "text": "高",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "扩张",
+          "source": "档案字段(方向基线)",
+          "text": "↓（结构层面收窄+行动层面扩张的矛盾状态）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 3,
@@ -292,7 +292,7 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -305,56 +305,56 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方向扩张性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "恐惧深度": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -407,9 +407,9 @@
         "他者复杂度": {
           "value": null,
           "key": null,
-          "source": "矩阵(DE 档案)",
-          "text": "冲击+否定+肯定",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "恐惧深度": {
           "value": 3,
@@ -491,42 +491,42 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "↑",
+          "source": "档案字段(方向基线)",
+          "text": "↑/→（战时身份整合中——正在从“被撕裂的主体”向“整合式抵抗主体”过渡，但战争结果将决定这个过渡的方向）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 3,
@@ -540,7 +540,7 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -615,42 +615,42 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "冻结局",
+          "source": "档案字段(构型)",
+          "text": "冻结局变体（安全锚强化+经济锚有议价权）——安全锚定US（AUKUS=锚升级为核潜艇级），经济锚定CN（但CN需要AU的铁矿石=不对称依赖给了AU反向议价权）",
+          "reason": null
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——安全锚在强化，经济锚仍在运作，但有战略深度缓冲）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 4,
@@ -664,7 +664,7 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -682,23 +682,23 @@
         "存在方式": {
           "value": null,
           "key": null,
-          "source": "矩阵(IN 档案)",
-          "text": "Ordnung型",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "5阶段+2崩溃",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
-          "source": "矩阵(IN 档案)",
-          "text": "赘罪式→再武装",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方向扩张性": {
           "value": 4,
@@ -710,9 +710,9 @@
         "秩序价值": {
           "value": null,
           "key": null,
-          "source": "矩阵(IN 档案)",
-          "text": "Ordnung型",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 4,
@@ -724,9 +724,9 @@
         "恐惧深度": {
           "value": null,
           "key": null,
-          "source": "矩阵(IN 档案)",
-          "text": "秩序定义能力丧失",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -739,42 +739,42 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "冻结局",
+          "source": "档案字段(构型)",
+          "text": "断裂-冻结式——每一次Identity建构都否定前一次，建构失败后进入冻结局维持期（\"不要问我们是谁\"），冻结局爆裂→新一轮建构→再冻结",
+          "reason": null
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——塞西冻结局仍在运作，但裂缝在加深，不知何时再次爆裂）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 4,
@@ -788,7 +788,7 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -806,23 +806,23 @@
         "存在方式": {
           "value": null,
           "key": null,
-          "source": "矩阵(GB 档案)",
-          "text": "大国使命+普世价值",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
-          "source": "矩阵(GB 档案)",
-          "text": "线性+锚定",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
-          "source": "矩阵(GB 档案)",
-          "text": "⑥·戴高乐主义自主",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方向扩张性": {
           "value": 3,
@@ -834,9 +834,9 @@
         "秩序价值": {
           "value": null,
           "key": null,
-          "source": "矩阵(GB 档案)",
-          "text": "大国使命+普世价值",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 4,
@@ -848,9 +848,9 @@
         "恐惧深度": {
           "value": null,
           "key": null,
-          "source": "矩阵(GB 档案)",
-          "text": "被降级为中等国家",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -875,16 +875,16 @@
         "方法灵活性": {
           "value": null,
           "key": null,
-          "source": "矩阵(DE 档案)",
-          "text": "6阶段",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
-          "source": "矩阵(DE 档案)",
-          "text": "收缩式",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方向扩张性": {
           "value": 2,
@@ -930,37 +930,37 @@
         "存在方式": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "不被定义=身份（单一锚点）",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "过度扩张+叙事治国",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
-          "source": "矩阵(IN 档案)",
-          "text": "过度扩张+叙事治国",
-          "reason": "命中矩阵但无量表词"
-        },
-        "方向扩张性": {
-          "value": null,
-          "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 2,
+          "key": "↓",
+          "source": "档案字段(方向基线)",
+          "text": "↓（策略空间收窄——叙事治国+能力不足+外部挤压）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "不被定义=身份（单一锚点）",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 4,
@@ -972,9 +972,9 @@
         "恐惧深度": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "被确认为次等大国",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -987,42 +987,42 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "冻结局",
+          "source": "档案字段(构型)",
+          "text": "冻结局变体（双锚冻结）——安全锚定美国（牢不可破）+ 经济锚定中国（日渐加深）。两锚同时收紧→策略空间比日本单一锚冻结更窄",
+          "reason": null
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 2,
+          "key": "↓",
+          "source": "档案字段(方向基线)",
+          "text": "↓（策略空间持续收窄——US安全锚牢不可破+CN经济锚日渐加深→夹层中的挤压越来越大）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 4,
@@ -1036,7 +1036,7 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -1049,42 +1049,42 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 2,
+          "key": "↓",
+          "source": "档案字段(方向基线)",
+          "text": "↓（策略空间持续收窄——被家族战争、美日同盟锁定、中美博弈三重挤压）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 4,
@@ -1098,7 +1098,7 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -1109,44 +1109,44 @@
         "身份连续性": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "低——摆荡但不稳定",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "在两股外部力量之间摆荡",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "摆荡——外部压力驱动",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持摆荡）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "在两股外部力量之间摆荡",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 3,
@@ -1158,9 +1158,9 @@
         "恐惧深度": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "静止=存在丧失",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -1173,42 +1173,42 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
-          "source": "矩阵(SA 档案)",
-          "text": "石油型身份——\"我付钱，所以我在\"",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "交易式",
+          "source": "档案字段(构型)",
+          "text": "交易式——家族企业+瓦哈比教义+石油美元。三根支柱都是交易性的，没有一根是信念性的",
+          "reason": null
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——石油收入仍在，转型仍在进行，但时间窗口在收窄）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
-          "source": "矩阵(SA 档案)",
-          "text": "石油型身份——\"我付钱，所以我在\"",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 4,
@@ -1222,7 +1222,7 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -1242,35 +1242,35 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "冻结局",
+          "source": "档案字段(构型)",
+          "text": "冻结局（冻结身份流动，以制度替代认同，用否定维持稳定）",
+          "reason": null
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持，高维护成本阶段）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 4,
@@ -1284,7 +1284,7 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -1293,46 +1293,46 @@
       "matrices_in_folder": 2,
       "dims": {
         "身份连续性": {
-          "value": 4,
-          "key": "强",
-          "source": "矩阵(TR 档案)",
-          "text": "极低——两个极都强，无法统一",
-          "reason": null
-        },
-        "存在方式": {
-          "value": null,
-          "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "两个国家定义争夺同一国家",
-          "reason": "命中矩阵但无量表词"
-        },
-        "方法灵活性": {
-          "value": null,
-          "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "断裂-回归型——否定→召唤pendulum",
-          "reason": "命中矩阵但无量表词"
-        },
-        "维持机制": {
-          "value": null,
-          "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "新奥斯曼主义",
-          "reason": "命中矩阵但无量表词"
-        },
-        "方向扩张性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "档案字段(方向基线)",
+          "text": "↑（扩张——新奥斯曼主义+叙利亚影响力+多向外交，策略空间在区域层面持续扩张，但经济基础严重制约）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "两个国家定义争夺同一国家",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 4,
@@ -1344,9 +1344,9 @@
         "恐惧深度": {
           "value": null,
           "key": null,
-          "source": "矩阵(TR 档案)",
-          "text": "Identity定义失败——无法决定\"我是谁\"",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     },
@@ -1357,44 +1357,44 @@
         "身份连续性": {
           "value": null,
           "key": null,
-          "source": "矩阵(TW 档案)",
-          "text": "极低（三重身份互斥）",
-          "reason": "命中矩阵但无量表词"
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 2,
+          "key": "↓",
+          "source": "档案字段(方向基线)",
+          "text": "↓↓（策略空间持续收窄——美国支持力度下降，大陆压力上升，内部共识碎裂）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 3,
@@ -1404,11 +1404,11 @@
           "reason": null
         },
         "恐惧深度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "终结",
+          "source": "档案字段(核心恐惧)",
+          "text": "被统一——不是“被攻击”，是“被纳入中国框架”=身份终结",
+          "reason": null
         }
       }
     },
@@ -1421,42 +1421,42 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "存在方式": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "方法灵活性": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "维持机制": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "冻结局",
+          "source": "档案字段(构型)",
+          "text": "冻结局变体 / 双锚冻结：一个锚=中国（经济命脉），一个锚=美国（安全杠杆）。两个锚同时存在、互相制衡",
+          "reason": null
         },
         "方向扩张性": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（双锚对冲维持——正在强化中国锚以应对美国压力，但未放弃美国锚）",
+          "reason": null
         },
         "秩序价值": {
           "value": null,
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         },
         "他者复杂度": {
           "value": 3,
@@ -1470,7 +1470,1557 @@
           "key": null,
           "source": null,
           "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "ANTH",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "档案字段(方向基线)",
+          "text": "↑（扩张——Claude不断逼近GPT系列，安全叙事有市场差异化价值，但规模远不及OpenAI）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": 3,
+          "key": "三重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 3 条",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "ASML",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": 4,
+          "key": "冻结局",
+          "source": "档案字段(构型)",
+          "text": "技术冻结局——被三方锁定：US控制技术组件出口（Wassenaar协议）→ASML不能自由选择客户；CN需要EUV但不能买；EU是ASML的物理家园但无法独立保护ASML的供应链",
+          "reason": null
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——EUV垄断仍在，但被US-CN-EU三方锁定，策略空间极窄）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": 3,
+          "key": "三重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 3 条",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "BD",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": 3,
+          "key": "交易式",
+          "source": "档案字段(构型)",
+          "text": "技术交易式（双面夹层）——被US和CN同时拉扯。US说\"你不是美国公司——我们要你的数据\"，CN说\"你不是纯粹的中国公司——你的全球运营增加了地缘复杂性\"。和韩国夹层的区别：韩国在",
+          "reason": null
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——全球用户基础仍在增长，但US地缘压力+CN监管压力双向挤压）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "DS",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "↑",
+          "source": "档案字段(方向基线)",
+          "text": "↑（崛起——用效率革命撬动了\"只有US公司能领导AI\"的假设）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "HW",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "↑",
+          "source": "档案字段(方向基线)",
+          "text": "↑（恢复——制裁后重建完成，Ascend芯片成为CN侧AI硬件替代，但NVIDIA的CUDA生态差距巨大）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "NVDA",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "档案字段(方向基线)",
+          "text": "↑（扩张——AI需求爆炸性增长，CUDA生态锁定加深，但CN出口管制是唯一的反向力）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 4 条",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "OAI",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": 3,
+          "key": "交易式",
+          "source": "档案字段(构型)",
+          "text": "技术交易式——与所有人做交易但保留定义权。Microsoft出资但不控制、US政府合作但不指挥、全球用户使用但不拥有、竞争对手追赶但永远落后一代",
+          "reason": null
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "档案字段(方向基线)",
+          "text": "↑（扩张——AI前沿定义权在手，但非营利使命与商业现实的张力在加剧）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 5 条",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "PLTR",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "档案字段(方向基线)",
+          "text": "↑（扩张——US国防+情报支出增长+乌克兰/以色列战争证明了战场AI的价值）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "SMSNG",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——内存/HBM领先，代工追赶TSMC但差距未缩小，被夹在US-CN之间）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "SPX",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "档案字段(方向基线)",
+          "text": "↑（扩张——Starship在推进，Starlink在军事化，US政府深度绑定）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 5 条",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "TSMC",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——技术垄断仍在，但被US-CN双向拉扯，产能正在被分散）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": 3,
+          "key": "三重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 3 条",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "AL",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——作为象征性平台存在，但所有实质性决策都发生在双边/GCC层面）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "ASEAN",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——\"不选边\"策略仍在运作，但US-CN竞争加剧使中间空间缩小）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "AU",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——有限的能力边界内持续推进议程）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 4 条",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "BRICS",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——成员在扩张，但深度整合在缩水，Identity=\"我们不是西方的俱乐部\"——但这是唯一共同点）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "GCC",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——阿拉伯世界唯一有实质功能的机构——但沙特-阿联酋双核心的张力在增长）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "IMF",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——仍然是全球金融消防员，但投票权反映1944年格局，CN的替代性贷款削弱了\"华盛顿共识\"的条件性）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "KP",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": 4,
+          "key": "冻结局",
+          "source": "档案字段(构型)",
+          "text": "冻结局极端版——核武器+先军政治+封闭系统=方法本身就是Identity。日本可以切换方法（冻结局只是方法⑤），朝鲜不能——方法崩解=体制崩解",
+          "reason": null
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——核武锁定+封闭系统，内部脆弱但外部策略空间不变）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": 2,
+          "key": "双",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 1 条",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": 3,
+          "key": "孤立",
+          "source": "档案字段(核心恐惧)",
+          "text": "体制崩溃——不是战败，不是经济衰退，不是被孤立——是统治体系本身的瓦解",
+          "reason": null
+        }
+      }
+    },
+    {
+      "code": "NATO",
+      "matrices_in_folder": 2,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 2,
+          "key": "↓",
+          "source": "档案字段(方向基线)",
+          "text": "↓↓（策略空间持续收窄——美国“撤出”、欧洲“接盘”不能同时发生）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": 3,
+          "key": "三重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 3 条",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "OPEC",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——油价仍有影响力，但全球能源转型+成员国内部作弊+US页岩油的竞争在同时削弱）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "PK",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——核武锁定，CN绑定，但内部分裂+经济脆弱+与IN互锁不可解）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": 2,
+          "key": "双",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 1 条",
+          "reason": null
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "SCO",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 4,
+          "key": "扩张",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——成员在扩张，但内部利益分化加深——CN和RU是双核心，他们的目标不同）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "UN",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——合法性仍在，行动力持续下降，P5僵局无法突破）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "WB",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 3,
+          "key": "维持",
+          "source": "档案字段(方向基线)",
+          "text": "→（维持——仍然是最大的多边发展融资机构，但被AIIB/NDB分流，治理结构反映1944年权力分布）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        }
+      }
+    },
+    {
+      "code": "WTO",
+      "matrices_in_folder": 0,
+      "dims": {
+        "身份连续性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "存在方式": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方法灵活性": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "维持机制": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "方向扩张性": {
+          "value": 2,
+          "key": "↓",
+          "source": "档案字段(方向基线)",
+          "text": "↓（衰退——争端解决机制瘫痪，规则被国家安全例外条款架空，多边贸易谈判停滞超过20年）",
+          "reason": null
+        },
+        "秩序价值": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "他者复杂度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
+        },
+        "恐惧深度": {
+          "value": null,
+          "key": null,
+          "source": null,
+          "text": null,
+          "reason": "矩阵与该档案字段都未命中量表词（不填默认）"
         }
       }
     }

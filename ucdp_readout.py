@@ -38,6 +38,7 @@ import os
 import sys
 import zipfile
 from collections import Counter, defaultdict
+from itertools import combinations
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -106,6 +107,10 @@ def build() -> int:
 
     per = defaultdict(lambda: defaultdict(lambda: {"abroad": 0, "home": 0, "unknown": 0,
                                                    "deaths_abroad": 0}))
+    # ★ 双边对计数：type-1 事件里，两个主体同时出现的年份分布。
+    #   为什么要它：排除性断言常是【双边】的（「印度无法对巴基斯坦发动全面战争」），
+    #   而 per-actor 计数判不了这种断言。UCDP 覆盖到 2025，能判 2020+ 的窗口。
+    pairs = defaultdict(lambda: defaultdict(int))
     with zipfile.ZipFile(ZIP) as z, z.open(MEMBER) as fh:
         rdr = csv.DictReader(io.TextIOWrapper(fh, encoding="utf-8", errors="replace"))
         for row in rdr:
@@ -132,10 +137,14 @@ def build() -> int:
                 else:
                     b["abroad"] += 1
                     b["deaths_abroad"] += best
+            if len(codes) >= 2:
+                for x, yy in combinations(sorted(codes), 2):
+                    pairs["%s-%s" % (x, yy)][y] += 1
 
     data = {"source": "UCDP GED v26.1", "rows_scanned": n,
             "own_gw": own,
             "gw_names": {k: v.most_common(1)[0][0] for k, v in gw_name.items()},
+            "pairs": {k: dict(sorted(v.items())) for k, v in sorted(pairs.items())},
             "actors": {c: dict(sorted(ys.items())) for c, ys in sorted(per.items())}}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as fh:

@@ -23,7 +23,10 @@
     "event_date": "1991-08-02",
     "time_lock": "1991年1月15日——联合国安理会第678号决议的最后期限已过。美军和联军已完成部署（沙漠盾牌→沙漠风暴）。伊拉克拒绝从科威特撤军。此时已知信息如下。",
     "time_lock_note": "★ 这一段来自用户自己在历史回溯工具里填的时间锁定栏（data/exclusions/exclusions-gulf-war.json）。它是【摘要】不是原文 —— 按 F1 的严格标准，它还需要配上当时的原始出处。",
-    "actors": ["Iraq", "Kuwait"]
+    "actors": [
+      "Iraq",
+      "Kuwait"
+    ]
   },
   "diagnoses": [
     {
@@ -32,7 +35,9 @@
       "archive_status": "★ 无档案",
       "fields": {},
       "provenance": {},
-      "unknown_fields": ["全部 —— 47 份档案里没有伊拉克"]
+      "unknown_fields": [
+        "全部 —— 47 份档案里没有伊拉克"
+      ]
     },
     {
       "actor": "Kuwait",
@@ -40,7 +45,9 @@
       "archive_status": "★ 无档案",
       "fields": {},
       "provenance": {},
-      "unknown_fields": ["全部 —— 47 份档案里没有科威特"]
+      "unknown_fields": [
+        "全部 —— 47 份档案里没有科威特"
+      ]
     }
   ],
   "paths": [
@@ -53,14 +60,30 @@
         {
           "stage": "空袭",
           "discriminating": false,
-          "observable": {"object": "巴格达与科威特战区", "indicator": "大规模空袭开始", "threshold": null, "source": null},
-          "window": {"from": "1991-01-15", "to": "1991-03-15"}
+          "observable": {
+            "object": "巴格达与科威特战区",
+            "indicator": "大规模空袭开始",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-15",
+            "to": "1991-03-15"
+          }
         },
         {
           "stage": "地面进攻",
           "discriminating": false,
-          "observable": {"object": "联军地面部队", "indicator": "进入科威特境内", "threshold": null, "source": null},
-          "window": {"from": "1991-01-15", "to": "1991-06-30"}
+          "observable": {
+            "object": "联军地面部队",
+            "indicator": "进入科威特境内",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-15",
+            "to": "1991-06-30"
+          }
         },
         {
           "stage": "停在边境",
@@ -71,10 +94,17 @@
             "threshold": "该双边对在窗口内【无事件记录】",
             "source": "UCDP:dyad_absent(AUS/GB/US, IQ, 1991-1993)"
           },
-          "window": {"from": "1991-02-28", "to": "1993-12-31"}
+          "window": {
+            "from": "1991-02-28",
+            "to": "1993-12-31"
+          }
         }
       ],
-      "rules_out": ["伊拉克政权倒台", "联军占领巴格达", "战争跨年"]
+      "rules_out": [
+        "伊拉克政权倒台",
+        "联军占领巴格达",
+        "战争跨年"
+      ]
     },
     {
       "id": "IQ-KW@1991-P02",
@@ -85,14 +115,30 @@
         {
           "stage": "空袭",
           "discriminating": false,
-          "observable": {"object": "巴格达与科威特战区", "indicator": "大规模空袭开始", "threshold": null, "source": null},
-          "window": {"from": "1991-01-15", "to": "1991-03-15"}
+          "observable": {
+            "object": "巴格达与科威特战区",
+            "indicator": "大规模空袭开始",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-15",
+            "to": "1991-03-15"
+          }
         },
         {
           "stage": "地面进攻",
           "discriminating": false,
-          "observable": {"object": "联军地面部队", "indicator": "进入科威特境内", "threshold": null, "source": null},
-          "window": {"from": "1991-01-15", "to": "1991-06-30"}
+          "observable": {
+            "object": "联军地面部队",
+            "indicator": "进入科威特境内",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-15",
+            "to": "1991-06-30"
+          }
         },
         {
           "stage": "占领巴格达",
@@ -103,10 +149,16 @@
             "threshold": "该双边对在窗口内【出现事件记录】",
             "source": "UCDP:dyad_present(AUS/GB/US, IQ, 1991-1993)"
           },
-          "window": {"from": "1991-02-28", "to": "1993-12-31"}
+          "window": {
+            "from": "1991-02-28",
+            "to": "1993-12-31"
+          }
         }
       ],
-      "rules_out": ["联军停在边境", "萨达姆政权存续"]
+      "rules_out": [
+        "联军停在边境",
+        "萨达姆政权存续"
+      ]
     },
     {
       "id": "IQ-KW@1991-P03",
@@ -117,23 +169,70 @@
         {
           "stage": "宣布撤军",
           "discriminating": true,
-          "observable": {"object": "伊拉克政府", "indicator": "在最后期限前宣布从科威特撤军", "threshold": null, "source": null},
-          "window": {"from": "1991-01-15", "to": "1991-01-16"}
+          "observable": {
+            "object": "伊拉克政府",
+            "indicator": "在最后期限前宣布从科威特撤军",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-15",
+            "to": "1991-01-16"
+          },
+          "evidence": {
+            "slug": "govinfo.gov_PPP_1991_book1_doc_pg176_htm.html",
+            "observed": false,
+            "quote": "Saddam Hussein's radio statement last night contained the same diatribe as previous comments, with no commitment to complying with the 12 United Nations resolutions. His speech changes nothing.",
+            "note": "★ 照实记：这份依据【只覆盖了 2 月 26 日那次声明】，而窗口问的是【最后期限（1 月 15 日）之前】。它证明「2 月那次不算撤军」，但【没有独立证明 1 月 15 日之前也没有宣布】。所以 observed=False 的依据强度是【部分】的，不是完整的。",
+            "witness_type": "contemporary",
+            "published": "",
+            "url": "https://www.govinfo.gov/content/pkg/PPP-1991-book1/html/PPP-1991-book1-doc-pg176.htm",
+            "verified_open": true
+          }
         },
         {
           "stage": "联军收手",
           "discriminating": true,
-          "observable": {"object": "联军", "indicator": "停止进攻", "threshold": null, "source": null},
-          "window": {"from": "1991-01-15", "to": "1991-03-31"}
+          "observable": {
+            "object": "联军",
+            "indicator": "停止进攻",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-15",
+            "to": "1991-03-31"
+          },
+          "evidence": {
+            "slug": "govinfo.gov_PPP_1991_book1_doc_pg187_htm.html",
+            "observed": true,
+            "quote": "Address to the Nation on the Suspension of Allied Offensive Combat Operations in the Persian Gulf — George H. W. Bush, February 27, 1991",
+            "note": "★ 这是【总统原始文件】，它就是「暂停进攻作战」那道命令本身。★ 但注意一个缺口：P03 的假设是「伊拉克撤军 ⇒ 联军收手」，而实际原因【不是撤军，是伊拉克战败】。⇒ 阶段被确认了，**因果链没有被验证**。这个缺口目前没有任何东西能查。",
+            "witness_type": "contemporary",
+            "published": "",
+            "url": "https://www.govinfo.gov/content/pkg/PPP-1991-book1/html/PPP-1991-book1-doc-pg187.htm",
+            "verified_open": true
+          }
         },
         {
           "stage": "制裁松动",
           "discriminating": true,
-          "observable": {"object": "联合国安理会", "indicator": "开始分阶段解除对伊制裁", "threshold": null, "source": null},
-          "window": {"from": "1991-01-15", "to": "1993-12-31"}
+          "observable": {
+            "object": "联合国安理会",
+            "indicator": "开始分阶段解除对伊制裁",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-15",
+            "to": "1993-12-31"
+          }
         }
       ],
-      "rules_out": ["战争爆发", "科威特被长期占领"]
+      "rules_out": [
+        "战争爆发",
+        "科威特被长期占领"
+      ]
     },
     {
       "id": "IQ-KW@1991-P04",
@@ -144,23 +243,60 @@
         {
           "stage": "以色列还击",
           "discriminating": true,
-          "observable": {"object": "以色列", "indicator": "对伊拉克本土实施军事报复", "threshold": null, "source": null},
-          "window": {"from": "1991-01-17", "to": "1991-03-31"}
+          "observable": {
+            "object": "以色列",
+            "indicator": "对伊拉克本土实施军事报复",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-17",
+            "to": "1991-03-31"
+          },
+          "evidence": {
+            "slug": "jta.org_schools_closed_streets_were_empty_as_isr.html",
+            "observed": false,
+            "quote": "Schools Closed, Streets Were Empty As Israel Awaited Military Action — January 17, 1991. The Education Ministry ordered Israeli schools closed Wednesday after consultations with the...",
+            "note": "★ 两个独立来源互相印证：JTA（1991-01-17）「Israel Awaited」＋ Baltimore Sun（1991-01-19）「Israeli 'restraint' hailed, but action now more likely」。⇒ 「以色列没有还击」这件事，拿到的是【当时还在等待／克制】的正面证据，而不是「搜不到」。",
+            "witness_type": "contemporary",
+            "published": "",
+            "url": "https://www.jta.org/archive/schools-closed-streets-were-empty-as-israel-awaited-military-action",
+            "verified_open": true
+          }
         },
         {
           "stage": "盟友退出",
           "discriminating": true,
-          "observable": {"object": "阿拉伯国家（参与多国部队者）", "indicator": "退出联军", "threshold": null, "source": null},
-          "window": {"from": "1991-01-17", "to": "1991-06-30"}
+          "observable": {
+            "object": "阿拉伯国家（参与多国部队者）",
+            "indicator": "退出联军",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-17",
+            "to": "1991-06-30"
+          }
         },
         {
           "stage": "联军瓦解",
           "discriminating": true,
-          "observable": {"object": "联军", "indicator": "无法继续作战", "threshold": null, "source": null},
-          "window": {"from": "1991-01-17", "to": "1991-12-31"}
+          "observable": {
+            "object": "联军",
+            "indicator": "无法继续作战",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-17",
+            "to": "1991-12-31"
+          }
         }
       ],
-      "rules_out": ["联军保持一致", "阿拉伯国家留在联军内"]
+      "rules_out": [
+        "联军保持一致",
+        "阿拉伯国家留在联军内"
+      ]
     },
     {
       "id": "IQ-KW@1991-P05",
@@ -171,14 +307,40 @@
         {
           "stage": "空袭",
           "discriminating": false,
-          "observable": {"object": "巴格达与科威特战区", "indicator": "大规模空袭开始", "threshold": null, "source": null},
-          "window": {"from": "1991-01-15", "to": "1991-03-15"}
+          "observable": {
+            "object": "巴格达与科威特战区",
+            "indicator": "大规模空袭开始",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-01-15",
+            "to": "1991-03-15"
+          }
         },
         {
           "stage": "地面僵持",
           "discriminating": true,
-          "observable": {"object": "双方地面部队", "indicator": "地面战持续超过 3 个月未分胜负", "threshold": null, "source": null},
-          "window": {"from": "1991-02-24", "to": "1991-12-31"}
+          "observable": {
+            "object": "双方地面部队",
+            "indicator": "地面战持续超过 3 个月未分胜负",
+            "threshold": null,
+            "source": null
+          },
+          "window": {
+            "from": "1991-02-24",
+            "to": "1991-12-31"
+          },
+          "evidence": {
+            "slug": "news.bbc.co.uk_2515289_stm.html",
+            "observed": false,
+            "quote": "BBC ON THIS DAY | 28 February 1991: Jubilation follows Gulf War ceasefire",
+            "note": "★ 地面战 2 月 24 日开始、2 月 28 日停火 —— 【100 小时】，与「持续超过 3 个月」相差两个数量级。依据是停火当天的报道。",
+            "witness_type": "unknown",
+            "published": "",
+            "url": "http://news.bbc.co.uk/onthisday/hi/dates/stories/february/28/newsid_2515000/2515289.stm",
+            "verified_open": true
+          }
         },
         {
           "stage": "战争跨年",
@@ -189,10 +351,15 @@
             "threshold": "该双边对在 1992 年及以后【仍有事件记录】",
             "source": "UCDP:dyad_present(IQ, KW, 1992-1995)"
           },
-          "window": {"from": "1992-01-01", "to": "1995-12-31"}
+          "window": {
+            "from": "1992-01-01",
+            "to": "1995-12-31"
+          }
         }
       ],
-      "rules_out": ["速战速决"]
+      "rules_out": [
+        "速战速决"
+      ]
     }
   ],
   "exclusions": [
@@ -206,7 +373,10 @@
         "threshold": "该双边对在 1991 窗口内【出现事件记录】",
         "source": "UCDP:dyad_present(AUS/GB/US, IQ, 1991-1991)"
       },
-      "window": {"from": "1991-02-24", "to": "1994-02-24"},
+      "window": {
+        "from": "1991-02-24",
+        "to": "1994-02-24"
+      },
       "why": "原记录的 criterion 写的是「联合国决议和阿拉伯盟友共同约束」—— 那是【理由】，不是【判据】。见迁移报告。"
     }
   ],

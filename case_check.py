@@ -234,26 +234,72 @@ def check_discriminating(case: dict, thresh: float = 0.5) -> dict:
 
 
 # ══ 主检查 ══════════════════════════════════════════════════════════════════════
+def load_sources() -> dict:
+    """读依据档案索引。key = 快照文件名。"""
+    p = os.path.join(HERE, "data", "sources", "index.json")
+    if not os.path.exists(p):
+        return {}
+    with io.open(p, encoding="utf-8") as fh:
+        return {r["archived_snapshot"].split("/")[-1]: r for r in json.load(fh).get("sources", [])}
+
+
+def check_evidence(ev: dict, sources: dict) -> tuple:
+    """★★ 依据的三道机器检查 —— 缺任何一道，该判断【退回待人工】。
+
+    这是让「填了依据」不等于「过了」的机制。三道都是可机器判的：
+      ① slug 在索引里          —— 不在 ⇒ 这个存档来源不明
+      ② verified_open == True   —— 取不到 ⇒ 这条依据不存在
+      ③ witness_type == contemporary —— 事后的不能用于时间锁定
+    """
+    if not ev:
+        return None, "没有 evidence 块"
+    slug = ev.get("slug")
+    rec = sources.get(slug)
+    if not rec:
+        return None, "① 依据 %s 不在索引里 ⇒ 来源不明" % (slug or "（未给）")
+    if not rec.get("verified_open"):
+        return None, "② verified_open=false ⇒ 这条依据不存在"
+    if rec.get("witness_type") != "contemporary":
+        return None, ("③ witness_type=%s ⇒ 不能用于时间锁定"
+                      % rec.get("witness_type"))
+    if ev.get("observed") is None:
+        return None, "依据合格，但没写 observed（是观察到了还是没观察到）"
+    return bool(ev["observed"]), ""
+
+
 def check_case(case: dict, dyads: dict) -> dict:
     rows, pending = [], []
+    sources = load_sources()
 
-    def judge(jid, kind, obs, window):
+    def judge(jid, kind, obs, window, evidence=None):
         src = (obs or {}).get("source")
-        if not src:
+
+        def to_manual(why):
             pending.append({"judgment_id": jid, "kind": kind,
                             "observable_object": (obs or {}).get("object"),
                             "observable_indicator": (obs or {}).get("indicator"),
-                            "why_manual": "没有 source ⇒ 没有数据源可核",
+                            "why_manual": why,
                             "window_to": (window or {}).get("to")})
             return {"verdict": "manual"}
+
+        # ① 每条判断都可以带【人判＋依据可核】的 evidence —— 走三道机器闸
+        if evidence:
+            ok, why = check_evidence(evidence, sources)
+            if ok is None:
+                return to_manual("evidence 不合格：%s" % why)
+            # 三道过了 ⇒ 用人写的 observed 来映射，但标明依据来源是人＋存档
+            v = ("falsified" if ok else "not_yet_falsified") if kind == "exclusion" \
+                else ("confirmed" if ok else "missed")
+            return {"verdict": v, "basis": "human_with_evidence",
+                    "evidence_slug": evidence.get("slug"),
+                    "evidence_quote": (evidence.get("quote") or "")[:120],
+                    "detail": "★ 人判＋依据可核（过了三道机器闸：在索引里／verified_open／contemporary）"}
+
+        if not src:
+            return to_manual("没有 source 也没有 evidence ⇒ 没有任何依据")
         r = check_ucdp_present(dyads, src) or check_ucdp_deaths(dyads, src)
         if r is None:
-            pending.append({"judgment_id": jid, "kind": kind,
-                            "observable_object": (obs or {}).get("object"),
-                            "observable_indicator": (obs or {}).get("indicator"),
-                            "why_manual": "source 的写法本工具不认识：%s" % src,
-                            "window_to": (window or {}).get("to")})
-            return {"verdict": "manual"}
+            return to_manual("source 的写法本工具不认识：%s" % src)
         r["source"] = src
         # ★★ 映射交给这里做，按【断言方向】——
         #   修之前我把 source 的真假直接当成断言的真假，结果排除断言 X01
@@ -261,18 +307,23 @@ def check_case(case: dict, dyads: dict) -> dict:
         #   排除断言：观察到了 ⇒ 证伪；**没观察到 ⇒ 尚未被证伪（永远不是「证实」）**
         #   路径阶段：观察到了 ⇒ 确认；没观察到 ⇒ 落空
         #   数据不够   ⇒ 判「数据不够」，两样都不许说
-        obs = r.get("observed")
-        if obs is None:
+        obs_r = r.get("observed")
+        if obs_r is None:
             r["verdict"] = "insufficient_data"
         elif kind == "exclusion":
-            r["verdict"] = "falsified" if obs else "not_yet_falsified"
+            r["verdict"] = "falsified" if obs_r else "not_yet_falsified"
         else:
-            r["verdict"] = "confirmed" if obs else "missed"
+            # ★★ 这里曾经写成 `if obs` —— 而 `obs` 是【函数参数】(observable 字典)，
+            #   永远是真值 ⇒ **所有走数据层的路径阶段都被判成「确认」**，
+            #   连「窗口内无事件记录」的 P02/占领巴格达 也是。
+            #   根因：我为了加 evidence 把局部变量改名成 obs_r，漏改了这一行。
+            #   **变量遮蔽，而且距离很近，读代码看不出来。**
+            r["verdict"] = "confirmed" if obs_r else "missed"
         return r
 
     # ① 排除断言：发生了 ⇒ 证伪
     for x in case.get("exclusions", []):
-        r = judge(x["id"], "exclusion", x.get("observable"), x.get("window"))
+        r = judge(x["id"], "exclusion", x.get("observable"), x.get("window"), x.get("evidence"))
         rows.append(("排除", x["id"], x.get("content"), r))
 
     # ② 路径推演：只数 discriminating 的
@@ -280,13 +331,15 @@ def check_case(case: dict, dyads: dict) -> dict:
         disc = [s for s in p.get("stages", []) if s.get("discriminating")]
         for i, st in enumerate(disc, 1):
             jid = "%s/%s#%d" % (p["id"], st["stage"], i)
-            r = judge(jid, "path_stage", st.get("observable"), st.get("window"))
+            r = judge(jid, "path_stage", st.get("observable"), st.get("window"), st.get("evidence"))
             rows.append(("路径", jid, st["stage"], r))
 
-    auto = [r for _k, _i, _c, r in rows if r.get("verdict") != "manual"]
+    auto = [r for _k, _i, _c, r in rows
+            if r.get("verdict") != "manual" and r.get("basis") != "human_with_evidence"]
+    ev = [r for _k, _i, _c, r in rows if r.get("basis") == "human_with_evidence"]
     manual = [r for _k, _i, _c, r in rows if r.get("verdict") == "manual"]
-    return {"rows": rows, "pending": pending,
-            "n_judgeable": len(rows), "n_auto": len(auto), "n_manual": len(manual)}
+    return {"rows": rows, "pending": pending, "n_judgeable": len(rows),
+            "n_auto": len(auto), "n_evidence": len(ev), "n_manual": len(manual)}
 
 
 def main() -> int:
@@ -350,7 +403,9 @@ def main() -> int:
         tot = r["n_judgeable"]
         print("\n  ── 读数")
         print("     可判判断总数（排除 ＋ 区分性阶段）：%d" % tot)
-        print("     机器可判：%d　待人工：%d" % (r["n_auto"], r["n_manual"]))
+        print("     ① 机器自动判（数据层直接判）：%d" % r["n_auto"])
+        print("     ② 人判＋依据可核（过了三道机器闸）：%d" % r["n_evidence"])
+        print("     ③ 待人工（连依据都没有）：%d" % r["n_manual"])
         if tot:
             print("     **待人工占比：%.0f%%**" % (100.0 * r["n_manual"] / tot))
             print("     （这个数字就是这一跑要量出来的东西：")
@@ -453,6 +508,18 @@ def selftest() -> int:
               "observable": {"object": "以色列", "indicator": "对伊拉克本土实施军事报复"}}]}]}
         ck("★★反向：observable 明显不同的两条不该被提示",
            check_discriminating(_fake)["hits"] == [], str(check_discriminating(_fake)["hits"]))
+
+        # ★★ 路径阶段的判定必须与 observed 一致 —— 上面那个变量遮蔽 bug 就是这条该抓的
+        _pv = {j: r.get("verdict") for k, j, _c, r in res["rows"] if k == "路径"}
+        ck("★★路径阶段：窗口内【无】事件记录的，不许判成「确认」",
+           not any(v == "confirmed" for j, v in _pv.items()
+                   if j.startswith("IQ-KW@1991-P02") or "战争跨年" in j),
+           str({j: v for j, v in _pv.items() if "P02" in j or "战争跨年" in j}))
+        ck("★★路径阶段：确实无记录的 P01/停在边境 应判「确认」（它的 observable 就是「无」）",
+           _pv.get("IQ-KW@1991-P01/停在边境#1") == "confirmed",
+           str(_pv.get("IQ-KW@1991-P01/停在边境#1")))
+        ck("★★总体：路径阶段里既有 confirmed 也有 missed（不是一边倒）",
+           {"confirmed", "missed"} <= set(_pv.values()), str(sorted(set(_pv.values()))))
 
         ck("★★★排除断言的判定词里【永远不出现「确认」】—— 单向可证伪",
            all(r.get("verdict") in ("falsified", "not_yet_falsified", "manual", "insufficient_data")

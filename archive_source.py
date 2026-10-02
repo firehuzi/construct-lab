@@ -68,6 +68,12 @@ def guess_witness(url: str, published: str | None) -> str:
     for pat in RETRO_HINTS:
         if re.search(pat, low):
             return "retrospective"
+    # ★ BBC「On This Day」这类存档页：URL 里就编码了日期，
+    #   而正文里日期是分开写的（导航「28 February」＋ 标题「1991: Jubilation…」），
+    #   抠不出一个完整日期 ⇒ 第一版判成了 unknown，而 unknown 不能用于时间锁定
+    #   ⇒ **一条真正的当时依据被判成了不可用。**
+    if re.search(r"/(onthisday|this-day|today-in-history|on-this-day)/", low):
+        return "contemporary"
     # 路径里带 1991/01/19 这类日期 ⇒ 当时的存档页
     m = re.search(r"/(19|20)(\d{2})/(\d{2})/", url)
     if m:
@@ -138,14 +144,18 @@ def fetch(url: str, timeout: int = 30):
 
 
 def archive(url: str, outlet: str = "", published: str = "", query_used: str = "",
-            witness_type: str | None = None, do_fetch: bool = True) -> dict:
+            witness_type: str | None = None, witness_basis: str = "",
+            do_fetch: bool = True) -> dict:
     os.makedirs(SRC_DIR, exist_ok=True)
     name = slug(url)
     rec = {"url": url, "slug": name, "outlet": outlet, "published": published,
            "query_used": query_used,
            "fetched_at": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
            "witness_type": witness_type or guess_witness(url, published),
-           "doc_date": None, "witness_basis": None,
+           # ★ 显式覆盖必须留下【依据】—— 否则就是「我说它是当时的」而已。
+           #   放在建记录时设，不能只放在取回成功的分支里 —— 否则 do_fetch=False 时它会空着。
+           "doc_date": None,
+           "witness_basis": (witness_basis or "★ 人工指定（未给依据）") if witness_type else None,
            "archived_snapshot": None, "verified_open": False,
            "sha256": None, "bytes": 0, "http_status": None, "content_type": "",
            "final_url": None, "error": None}
@@ -177,6 +187,9 @@ def archive(url: str, outlet: str = "", published: str = "", query_used: str = "
                     txt = ""
                 wt, dd, basis = witness_from_content(txt, url, published)
                 rec["witness_type"], rec["doc_date"], rec["witness_basis"] = wt, dd, basis
+            else:
+                # ★ 显式覆盖必须留下【依据】—— 否则就是「我说它是当时的」而已
+                rec["witness_basis"] = witness_basis or "★ 人工指定（未给依据）"
         else:
             rec["error"] = r.get("error")
     return rec
@@ -327,6 +340,16 @@ def selftest() -> int:
     ck("★★带当年日期的存档页 ⇒ contemporary",
        guess_witness("https://www.baltimoresun.com/1991/01/19/israeli-restraint-hailed/", None)
        == "contemporary")
+    ck("★★BBC On This Day 存档页 ⇒ contemporary（URL 里编码了日期）",
+       guess_witness("http://news.bbc.co.uk/onthisday/hi/dates/stories/february/28/x.stm", None)
+       == "contemporary",
+       guess_witness("http://news.bbc.co.uk/onthisday/hi/dates/stories/february/28/x.stm", None))
+    ck("★显式覆盖也会留下依据字符串",
+       archive("https://example.com/x", witness_type="contemporary",
+               witness_basis="URL 含 onthisday", do_fetch=False)["witness_basis"] == "URL 含 onthisday")
+    ck("★未给依据的显式覆盖要被标出来（不冒充有依据）",
+       "未给依据" in archive("https://example.com/x", witness_type="contemporary",
+                            do_fetch=False)["witness_basis"])
     ck("★★判不出来 ⇒ unknown（保守，不冒充当时的）",
        guess_witness("https://example.com/some/page", None) == "unknown",
        guess_witness("https://example.com/some/page", None))

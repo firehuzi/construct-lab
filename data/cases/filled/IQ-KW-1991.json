@@ -1,0 +1,225 @@
+{
+  "schema": "construct-run-v1",
+  "run_id": "IQ-KW@1991",
+  "committed_at": "2026-10-02T00:00:00+08:00",
+  "arm": "high",
+  "selection": {
+    "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂（UCDP GED v26.1）",
+    "dyad_raw": "Government of Iraq || Government of Kuwait",
+    "year": "1991",
+    "events": 69,
+    "deaths": 21790
+  },
+  "event": {
+    "text": null,
+    "text_note": "★ F1 要求【原文而非转述】。我没有 1991 年当时的报道原文，**所以留空而不是编一段**。补原文是研究工作量（找当时的通讯社报道/政府声明），不是数据管道能代做的。",
+    "source": {
+      "dataset": "UCDP GED v26.1",
+      "dyad": "Government of Iraq || Government of Kuwait",
+      "year": "1991",
+      "events": 69,
+      "deaths": 21790
+    },
+    "event_date": "1991-08-02",
+    "time_lock": "1991年1月15日——联合国安理会第678号决议的最后期限已过。美军和联军已完成部署（沙漠盾牌→沙漠风暴）。伊拉克拒绝从科威特撤军。此时已知信息如下。",
+    "time_lock_note": "★ 这一段来自用户自己在历史回溯工具里填的时间锁定栏（data/exclusions/exclusions-gulf-war.json）。它是【摘要】不是原文 —— 按 F1 的严格标准，它还需要配上当时的原始出处。",
+    "actors": ["Iraq", "Kuwait"]
+  },
+  "diagnoses": [
+    {
+      "actor": "Iraq",
+      "archive_ref": null,
+      "archive_status": "★ 无档案",
+      "fields": {},
+      "provenance": {},
+      "unknown_fields": ["全部 —— 47 份档案里没有伊拉克"]
+    },
+    {
+      "actor": "Kuwait",
+      "archive_ref": null,
+      "archive_status": "★ 无档案",
+      "fields": {},
+      "provenance": {},
+      "unknown_fields": ["全部 —— 47 份档案里没有科威特"]
+    }
+  ],
+  "paths": [
+    {
+      "id": "IQ-KW@1991-P01",
+      "label": "联军解放科威特、不推翻萨达姆",
+      "direction": "affirm",
+      "probability": "high",
+      "stages": [
+        {
+          "stage": "空袭",
+          "discriminating": false,
+          "observable": {"object": "巴格达与科威特战区", "indicator": "大规模空袭开始", "threshold": null, "source": null},
+          "window": {"from": "1991-01-15", "to": "1991-03-15"}
+        },
+        {
+          "stage": "地面进攻",
+          "discriminating": false,
+          "observable": {"object": "联军地面部队", "indicator": "进入科威特境内", "threshold": null, "source": null},
+          "window": {"from": "1991-01-15", "to": "1991-06-30"}
+        },
+        {
+          "stage": "停在边境",
+          "discriminating": true,
+          "observable": {
+            "object": "联军地面部队",
+            "indicator": "停在伊拉克边境，不向巴格达推进",
+            "threshold": "该双边对在窗口内【无事件记录】",
+            "source": "UCDP:dyad_absent(AUS/GB/US, IQ, 1991-1993)"
+          },
+          "window": {"from": "1991-02-28", "to": "1993-12-31"}
+        }
+      ],
+      "rules_out": ["伊拉克政权倒台", "联军占领巴格达", "战争跨年"]
+    },
+    {
+      "id": "IQ-KW@1991-P02",
+      "label": "联军推进至巴格达、推翻萨达姆",
+      "direction": "affirm",
+      "probability": "high",
+      "stages": [
+        {
+          "stage": "空袭",
+          "discriminating": false,
+          "observable": {"object": "巴格达与科威特战区", "indicator": "大规模空袭开始", "threshold": null, "source": null},
+          "window": {"from": "1991-01-15", "to": "1991-03-15"}
+        },
+        {
+          "stage": "地面进攻",
+          "discriminating": false,
+          "observable": {"object": "联军地面部队", "indicator": "进入科威特境内", "threshold": null, "source": null},
+          "window": {"from": "1991-01-15", "to": "1991-06-30"}
+        },
+        {
+          "stage": "占领巴格达",
+          "discriminating": true,
+          "observable": {
+            "object": "联军地面部队",
+            "indicator": "越过伊拉克边境向巴格达推进／占领巴格达",
+            "threshold": "该双边对在窗口内【出现事件记录】",
+            "source": "UCDP:dyad_present(AUS/GB/US, IQ, 1991-1993)"
+          },
+          "window": {"from": "1991-02-28", "to": "1993-12-31"}
+        }
+      ],
+      "rules_out": ["联军停在边境", "萨达姆政权存续"]
+    },
+    {
+      "id": "IQ-KW@1991-P03",
+      "label": "伊拉克主动撤军、避免地面战",
+      "direction": "affirm",
+      "probability": "medium",
+      "stages": [
+        {
+          "stage": "宣布撤军",
+          "discriminating": true,
+          "observable": {"object": "伊拉克政府", "indicator": "在最后期限前宣布从科威特撤军", "threshold": null, "source": null},
+          "window": {"from": "1991-01-15", "to": "1991-01-16"}
+        },
+        {
+          "stage": "联军收手",
+          "discriminating": true,
+          "observable": {"object": "联军", "indicator": "停止进攻", "threshold": null, "source": null},
+          "window": {"from": "1991-01-15", "to": "1991-03-31"}
+        },
+        {
+          "stage": "制裁松动",
+          "discriminating": true,
+          "observable": {"object": "联合国安理会", "indicator": "开始分阶段解除对伊制裁", "threshold": null, "source": null},
+          "window": {"from": "1991-01-15", "to": "1993-12-31"}
+        }
+      ],
+      "rules_out": ["战争爆发", "科威特被长期占领"]
+    },
+    {
+      "id": "IQ-KW@1991-P04",
+      "label": "以色列被拖入、联军破裂",
+      "direction": "affirm",
+      "probability": "medium",
+      "stages": [
+        {
+          "stage": "以色列还击",
+          "discriminating": true,
+          "observable": {"object": "以色列", "indicator": "对伊拉克本土实施军事报复", "threshold": null, "source": null},
+          "window": {"from": "1991-01-17", "to": "1991-03-31"}
+        },
+        {
+          "stage": "盟友退出",
+          "discriminating": true,
+          "observable": {"object": "阿拉伯参战国", "indicator": "退出联军", "threshold": null, "source": null},
+          "window": {"from": "1991-01-17", "to": "1991-06-30"}
+        },
+        {
+          "stage": "联军瓦解",
+          "discriminating": true,
+          "observable": {"object": "联军", "indicator": "无法继续作战", "threshold": null, "source": null},
+          "window": {"from": "1991-01-17", "to": "1991-12-31"}
+        }
+      ],
+      "rules_out": ["联军保持一致", "阿拉伯国家留在联军内"]
+    },
+    {
+      "id": "IQ-KW@1991-P05",
+      "label": "战争长期化",
+      "direction": "affirm",
+      "probability": "low",
+      "stages": [
+        {
+          "stage": "空袭",
+          "discriminating": false,
+          "observable": {"object": "巴格达与科威特战区", "indicator": "大规模空袭开始", "threshold": null, "source": null},
+          "window": {"from": "1991-01-15", "to": "1991-03-15"}
+        },
+        {
+          "stage": "地面僵持",
+          "discriminating": true,
+          "observable": {"object": "双方地面部队", "indicator": "地面战持续超过 3 个月未分胜负", "threshold": null, "source": null},
+          "window": {"from": "1991-02-24", "to": "1991-12-31"}
+        },
+        {
+          "stage": "战争跨年",
+          "discriminating": true,
+          "observable": {
+            "object": "伊拉克与 Kuwait 的双边冲突",
+            "indicator": "战事持续到 1992 年之后",
+            "threshold": "该双边对在 1992 年及以后【仍有事件记录】",
+            "source": "UCDP:dyad_present(IQ, KW, 1992-1995)"
+          },
+          "window": {"from": "1992-01-01", "to": "1995-12-31"}
+        }
+      ],
+      "rules_out": ["速战速决"]
+    }
+  ],
+  "exclusions": [
+    {
+      "id": "IQ-KW@1991-X01",
+      "direction": "exclude",
+      "content": "盟军入侵伊拉克",
+      "observable": {
+        "object": "联军地面部队",
+        "indicator": "越过伊拉克边境，进入伊拉克本土",
+        "threshold": "该双边对在 1991 窗口内【出现事件记录】",
+        "source": "UCDP:dyad_present(AUS/GB/US, IQ, 1991-1991)"
+      },
+      "window": {"from": "1991-02-24", "to": "1994-02-24"},
+      "why": "原记录的 criterion 写的是「联合国决议和阿拉伯盟友共同约束」—— 那是【理由】，不是【判据】。见迁移报告。"
+    }
+  ],
+  "needs_human": [
+    "event.text（F1 原文）—— 我没有，所以留空未编",
+    "event.time_lock 的原始出处（现有的是摘要）",
+    "diagnoses[].fields —— 伊拉克与科威特【都不在 47 档案里】"
+  ],
+  "migration_notes": {
+    "from": "data/exclusions/exclusions-gulf-war.json",
+    "changed": [
+      "criterion「联合国决议和阿拉伯盟友共同约束」→ 拆为 observable.indicator「越过伊拉克边境，进入伊拉克本土」＋ 原句移到 why（它是理由）",
+      "window null → from=1991-02-24（地面战开始）to=1994-02-24（3年）"
+    ]
+  }
+}

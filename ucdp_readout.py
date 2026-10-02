@@ -114,6 +114,8 @@ def build() -> int:
     # ★ 双边【死亡数】：定「全面战争」阈值要用。UCDP 自身的战争定义是
     #   年度战斗相关死亡 ≥ 1000 —— 所以这个数是判排除断言的关键量。
     pair_deaths = defaultdict(lambda: defaultdict(int))
+    # ★ 全部双边对（原始名），案例库的候选池。
+    dyads = {}
     with zipfile.ZipFile(ZIP) as z, z.open(MEMBER) as fh:
         rdr = csv.DictReader(io.TextIOWrapper(fh, encoding="utf-8", errors="replace"))
         for row in rdr:
@@ -146,11 +148,29 @@ def build() -> int:
                     pairs[k][y] += 1
                     pair_deaths[k][y] += best
 
+            # ★ 全部双边对（不只我们 47 个主体之间的）—— 案例库要「一批」，10 个对撑不起来。
+            #   按 side_a / side_b 的【原始名】聚合，不映射到主体码（那样会漏掉没建档的行为体）。
+            #   这是 case_skeleton.py 的候选池来源。
+            a_name = (row.get("side_a") or "").strip()
+            b_name = (row.get("side_b") or "").strip()
+            if a_name and b_name and a_name != b_name:
+                dk = a_name + " || " + b_name
+                dy = dyads.setdefault(dk, {})          # ★ 第一版写成 dyads[dk] ⇒ KeyError
+                if y in dy:
+                    dy[y] = [dy[y][0] + 1, dy[y][1] + best]
+                else:
+                    dy[y] = [1, best]
+                if cid:
+                    cids = set(dy.get("_cid", []))
+                    cids.add(cid)
+                    dy["_cid"] = sorted(cids)
+
     data = {"source": "UCDP GED v26.1", "rows_scanned": n,
             "own_gw": own,
             "gw_names": {k: v.most_common(1)[0][0] for k, v in gw_name.items()},
             "pairs": {k: dict(sorted(v.items())) for k, v in sorted(pairs.items())},
             "pair_deaths": {k: dict(sorted(v.items())) for k, v in sorted(pair_deaths.items())},
+            "dyads": {k: v for k, v in sorted(dyads.items())},
             "actors": {c: dict(sorted(ys.items())) for c, ys in sorted(per.items())}}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as fh:

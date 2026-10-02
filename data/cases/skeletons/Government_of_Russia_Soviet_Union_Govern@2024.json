@@ -1,0 +1,101 @@
+{
+  "schema": "construct-case-skeleton-v1",
+  "case_id": "Government_of_Russia_Soviet_Union_Govern@2024",
+  "arm": "high",
+  "selection": {
+    "rule": "年度战斗死亡 ≥ 1000 ⇒ 高冲突臂；同一双边对里死亡最少的年 ⇒ 对照臂",
+    "dyad_raw": "Government of Russia (Soviet Union) || Government of Ukraine",
+    "year": "2024",
+    "events": 11792,
+    "deaths": 102120
+  },
+  "event": {
+    "text": null,
+    "source": {
+      "dataset": "UCDP GED v26.1",
+      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
+      "year": "2024",
+      "events": 11792,
+      "deaths": 102120
+    },
+    "event_date": "2024",
+    "time_lock": null,
+    "actors": [
+      "Russia",
+      "Ukraine"
+    ]
+  },
+  "data_layer": {
+    "ucdp": {
+      "dyad": "Government of Russia (Soviet Union) || Government of Ukraine",
+      "year": "2024",
+      "events": 11792,
+      "deaths": 102120,
+      "war_threshold": 1000,
+      "meets_war_threshold": true
+    },
+    "archive": {
+      "Russia": {
+        "ref": "ConStruct_Archive\\Tier1\\Russia.md",
+        "status": "有档案"
+      },
+      "Ukraine": {
+        "ref": "ConStruct_Archive\\Tier1\\Ukraine.md",
+        "status": "有档案"
+      }
+    },
+    "coalition_sides": [],
+    "side_is_coalition": false
+  },
+  "path_space": {
+    "paths": [],
+    "exclusions": [],
+    "_fill": {
+      "每条路径": {
+        "label": "一句话（如「联军解放科威特、不推翻萨达姆」）",
+        "stages": [
+          {
+            "stage": "阶段名",
+            "discriminating": "布尔 —— 只数 true 的",
+            "observable": {
+              "object": "谁/什么被观察",
+              "indicator": "看到什么算发生",
+              "threshold": null,
+              "source": null
+            },
+            "window": {
+              "from": "YYYY-MM-DD",
+              "to": "YYYY-MM-DD"
+            }
+          }
+        ],
+        "rules_out": [
+          "这条路径排除了什么 —— 必填，信息量在排除上"
+        ],
+        "probability": "high / medium / low"
+      },
+      "每条排除断言": {
+        "content": "被排除的路径",
+        "direction": "exclude",
+        "observable": {
+          "object": null,
+          "indicator": null
+        },
+        "window": {
+          "from": null,
+          "to": null
+        }
+      },
+      "两条硬规矩": [
+        "区分点写在【行为】上，不是【遭遇】上（海湾那次的教训）",
+        "区分点必须让不同路径在该阶段的 observable 不同（否则它不是区分点）"
+      ]
+    }
+  },
+  "needs_human": [
+    "event.text",
+    "event.time_lock",
+    "path_space.paths",
+    "path_space.exclusions"
+  ]
+}

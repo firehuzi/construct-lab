@@ -219,11 +219,11 @@
           "reason": "无矩阵含该主体/该维度（不填默认）"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "三重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 3 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -281,11 +281,11 @@
           "reason": "无矩阵含该主体/该维度（不填默认）"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "双极",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 2 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -468,9 +468,9 @@
         },
         "他者复杂度": {
           "value": 3,
-          "key": "双极",
-          "source": "矩阵(US 档案)",
-          "text": "双极他者",
+          "key": "三重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 3 条",
           "reason": null
         },
         "恐惧深度": {
@@ -529,11 +529,11 @@
           "reason": "无矩阵含该主体/该维度（不填默认）"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "双极",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 2 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -593,8 +593,8 @@
         "他者复杂度": {
           "value": 4,
           "key": "四重",
-          "source": "矩阵(US 档案)",
-          "text": "四重他者（理想+敌人+观众+内部）",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 4 条",
           "reason": null
         },
         "恐惧深度": {
@@ -653,11 +653,11 @@
           "reason": "无矩阵含该主体/该维度（不填默认）"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 4 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -715,11 +715,11 @@
           "reason": "命中矩阵但无量表词"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": "矩阵(DE 档案)",
-          "text": "秩序伙伴+被赎罪者+内部记忆争冠",
-          "reason": "命中矩阵但无量表词"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 5 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -777,11 +777,11 @@
           "reason": "无矩阵含该主体/该维度（不填默认）"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 4 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -839,11 +839,11 @@
           "reason": "命中矩阵但无量表词"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 5 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -901,11 +901,11 @@
           "reason": null
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 5 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": 4,
@@ -963,11 +963,11 @@
           "reason": "命中矩阵但无量表词"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 4 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -1025,11 +1025,11 @@
           "reason": "无矩阵含该主体/该维度（不填默认）"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 4 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -1087,11 +1087,11 @@
           "reason": "无矩阵含该主体/该维度（不填默认）"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 4 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -1149,11 +1149,11 @@
           "reason": "命中矩阵但无量表词"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "三重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 3 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -1211,11 +1211,11 @@
           "reason": "命中矩阵但无量表词"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 5 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -1273,11 +1273,11 @@
           "reason": "无矩阵含该主体/该维度（不填默认）"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 4 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -1335,11 +1335,11 @@
           "reason": "命中矩阵但无量表词"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 4,
+          "key": "四重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 5 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -1397,11 +1397,11 @@
           "reason": "无矩阵含该主体/该维度（不填默认）"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "三重",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 3 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,
@@ -1459,11 +1459,11 @@
           "reason": "无矩阵含该主体/该维度（不填默认）"
         },
         "他者复杂度": {
-          "value": null,
-          "key": null,
-          "source": null,
-          "text": null,
-          "reason": "无矩阵含该主体/该维度（不填默认）"
+          "value": 3,
+          "key": "双极",
+          "source": "他者系统(结构计数)",
+          "text": "他者系统表 2 条",
+          "reason": null
         },
         "恐惧深度": {
           "value": null,

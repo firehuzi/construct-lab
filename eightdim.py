@@ -189,7 +189,7 @@ def match_scale(dim: str, raw: str):
     return None, None
 
 
-def encode_actor(code: str, mats: list[dict], pool: list[dict]) -> dict:
+def encode_actor(code: str, text: str, mats: list[dict], pool: list[dict]) -> dict:
     # 优先级：本主体文件夹里的矩阵 → 行数多的矩阵
     ordered = sorted(pool, key=lambda p: (p["owner"] != code,
                                           -sum(len(v) for v in p["data"].values())))
@@ -209,6 +209,16 @@ def encode_actor(code: str, mats: list[dict], pool: list[dict]) -> dict:
                 break
         dims[dim] = got or {"value": None, "key": None, "source": None, "text": None,
                             "reason": "无矩阵含该主体/该维度（不填默认）"}
+    # ★★ 他者复杂度：优先用【结构计数】—— 数他者系统表的条目数。
+    #   这是【结构量】而非文本匹配：2 条→双、3 条→三重、4+ 条→四重。
+    #   （我曾一度把它换成矩阵文本匹配，「他者结构」行全域只出现 1 次，
+    #     覆盖率立刻从 82% 掉到 9% —— 换回来。）
+    n = hezhe_count(text)
+    if n:
+        key = "四重" if n >= 4 else "三重" if n == 3 else "双极" if n == 2 else "双"
+        dims["他者复杂度"] = {"value": SCALES["他者复杂度"]["keys"].get(key),
+                             "key": key, "source": "他者系统(结构计数)",
+                             "text": "他者系统表 %d 条" % n, "reason": None}
     return dims
 
 
@@ -219,6 +229,7 @@ def collect() -> list[dict]:
       故以色列的值来自【别人的】矩阵。只遍历「自有矩阵」的主体就会漏掉它们。
     """
     folder_mats: dict[str, list[dict]] = {}
+    folder_text: dict[str, str] = {}
     all_codes: list[str] = []
     for tier in ("Tier1", "Tier2"):
         base = os.path.join(ACTORS_DIR, tier)
@@ -229,10 +240,13 @@ def collect() -> list[dict]:
             if not os.path.isdir(folder):
                 continue
             all_codes.append(name)
-            mats = []
+            mats, chunks = [], []
             for fn in sorted(f for f in os.listdir(folder) if f.endswith(".md")):
                 with open(os.path.join(folder, fn), encoding="utf-8") as fh:
-                    mats += harvest(fh.read())
+                    t = fh.read()
+                chunks.append(t)
+                mats += harvest(t)
+            folder_text[name] = "\n\n".join(chunks)
             if mats:
                 folder_mats[name] = mats
     pool = [{"owner": c, "data": m} for c, ms in folder_mats.items() for m in ms]
@@ -240,7 +254,8 @@ def collect() -> list[dict]:
     for code in all_codes:
         actors.append({"code": code,
                        "matrices_in_folder": len(folder_mats.get(code, [])),
-                       "dims": encode_actor(code, folder_mats.get(code, []), pool)})
+                       "dims": encode_actor(code, folder_text[code],
+                                            folder_mats.get(code, []), pool)})
     return actors
 
 

@@ -1,0 +1,59 @@
+{
+  "schema": "construct-run-v1",
+  "run_id": "AF-PK@2008",
+  "committed_at": "2026-10-02T20:55:40+08:00",
+  "built_by": "s1.py",
+  "arm": "quiet",
+  "selection": {
+    "rule": "UCDP GED v26.1；达战争门槛（死亡 ≥1000）⇒ 高冲突臂，否则低冲突臂",
+    "dyad_raw": "Government of Afghanistan || Government of Pakistan",
+    "year": "2008",
+    "events": 1,
+    "deaths": 1,
+    "dyad_years_in_data": 12,
+    "caveat": null
+  },
+  "event": {
+    "text": null,
+    "source": {
+      "dataset": "UCDP GED v26.1",
+      "dyad": "Government of Afghanistan || Government of Pakistan",
+      "year": "2008",
+      "events": 1,
+      "deaths": 1
+    },
+    "event_date": "2008",
+    "time_lock": null,
+    "actors": [
+      "Afghanistan",
+      "Pakistan"
+    ]
+  },
+  "data_layer": {
+    "ucdp": {
+      "dyad": "Government of Afghanistan || Government of Pakistan",
+      "year": "2008",
+      "events": 1,
+      "deaths": 1,
+      "meets_war_threshold": false
+    },
+    "archive": {
+      "Afghanistan": {
+        "status": "★ 无档案"
+      },
+      "Pakistan": {
+        "status": "有档案"
+      }
+    },
+    "geo": {}
+  },
+  "paths": [],
+  "exclusions": [],
+  "needs_human": [
+    "event.text（F1 原文）—— 入口拿不到，**不许编**",
+    "event.time_lock（F3 时间锁定）—— 必须人定；UCDP 只到年精度",
+    "paths —— 路径空间（3–5 条），见《路径空间写法指南》",
+    "exclusions —— 排除断言",
+    "diagnoses —— 主体诊断（若主体不在 47 档案里，显式标「无档案」）"
+  ]
+}

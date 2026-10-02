@@ -32,6 +32,7 @@ from __future__ import annotations
 import glob
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -304,6 +305,48 @@ INGEST_DIRS = [os.path.join(HERE, "backtest-tool"),
 IN_FALSIFIABLE = "⏳ 可证伪 · 尚未被证伪"
 IN_NO_WINDOW = "⚠️ 可证伪但无窗口 ⇒ 只是「尚未发生」"
 IN_UNFALSIFIABLE = "⛔ 不可证伪 ⇒ 不携带信息（写下时就该拦下）"
+# ★ 第四档：第一个真实记录打出来的缺口 —— 判据非空，但与被排除的路径【对不上】。
+#   实例：excluded=「危机局势进一步加剧 进入核战前奏」/ criterion=「互撤导弹」。
+#   「互撤导弹」不是那件事的判据，它恰恰是【反面】（双方各退一步）——
+#   那其实是一个【路径预测】，被填进了判据栏。
+#   没有这一档，「不可证伪比例」会被算成 0%，看起来完美，其实没在量东西。
+IN_MISMATCH = "⚠️ 判据可能不对题（与被排除的路径无词面重叠）"
+
+
+def _bigrams(s: str) -> set:
+    """中文字符二元组。中文无空格，词面重叠只能按字算 —— 粗，但够触发人工复核。"""
+    t = re.sub(r"[\s\W_]+", "", s or "")
+    if len(t) < 2:
+        return {t} if t else set()
+    return {t[i:i + 2] for i in range(len(t) - 1)}
+
+
+def criterion_overlap(excluded: str, criterion: str) -> float:
+    """判据与被排除路径的【词面重叠度】。
+
+    ⚠️ 这是【粗筛】，不是判定「对题」的算法。语义等价可以是零重叠
+       （例：excluded=「欧盟自主建军」/ criterion=「成员国把防务预算主权上交」）。
+       所以零重叠只报「可能不对题，请人工确认」，绝不自动判错。
+    但它能抓住最常见的那种误填：把【我认为会怎么走】填进判据栏 —— 那必然零重叠。
+    """
+    a, b = _bigrams(excluded), _bigrams(criterion)
+    if not a or not b:
+        return 0.0
+    return len(a & b) / float(min(len(a), len(b)))
+
+
+def ingest_state(exc: str, crit: str, window: str) -> str:
+    """把一条摄入记录判到四档之一。抽成纯函数是为了【四个方向都能单独自证】。"""
+    exc = (exc or "").strip()
+    crit = (crit or "").strip()
+    win = (window or "").strip()
+    if not crit:
+        return IN_UNFALSIFIABLE
+    if criterion_overlap(exc, crit) == 0.0:
+        return IN_MISMATCH
+    if not win:
+        return IN_NO_WINDOW
+    return IN_FALSIFIABLE
 
 
 def ingested_rows() -> list:
@@ -327,19 +370,17 @@ def ingested_rows() -> list:
             for x in rec.get("exclusions", []):
                 crit = (x.get("criterion") or "").strip()
                 win = (x.get("window") or "").strip()
-                if not crit:
-                    st = IN_UNFALSIFIABLE
-                elif not win:
-                    st = IN_NO_WINDOW
-                else:
-                    st = IN_FALSIFIABLE
+                exc = (x.get("excluded") or "").strip()
+                ov = criterion_overlap(exc, crit)
+                st = ingest_state(exc, crit, win)
                 out.append({
                     "id": x.get("id") or "?",
                     "scenario": rec.get("scenario") or x.get("scenario") or "?",
                     "time_lock": rec.get("time_lock") or "",
-                    "excluded": (x.get("excluded") or "").strip(),
+                    "excluded": exc,
                     "criterion": crit,
                     "window": win,
+                    "overlap": ov,
                     "state": st,
                     "from": os.path.relpath(p, ROOT),
                 })
@@ -357,20 +398,29 @@ def print_ingest() -> int:
                                           os.path.relpath(INGEST_DIRS[1], ROOT)))
         print("\n  （这一步是整件事的闭环：断言由工具在写下时就结构化，不再事后从散文里抽。）")
         return 0
-    print("\n  %-22s %-12s %-34s %s" % ("id", "状态", "排除的路径", "判据"))
+    print("\n  %-22s %-12s %-30s %s" % ("id", "状态", "排除的路径", "判据"))
     print("  " + "-" * 92)
     for r in rows:
-        print("  %-22s %-12s %-34s %s" % (r["id"], r["state"].split()[0],
-                                          r["excluded"][:34], r["criterion"][:30] or "（缺）"))
+        print("  %-22s %-12s %-30s %s" % (r["id"], r["state"].split()[0],
+                                          r["excluded"][:30], r["criterion"][:26] or "（缺）"))
+        if r["state"] == IN_MISMATCH:
+            print("  %-22s %-12s ↳ 重叠度 %.2f ⇒ 判据与被排除的路径【没有一个字重叠】"
+                  % ("", "", r["overlap"]))
+            print("  %-22s %-12s   常见原因：把「我认为会怎么走」（路径预测）填进了判据栏。"
+                  % ("", ""))
+            print("  %-22s %-12s   判据要填的是【证伪条件】：出现什么，就说明我排除的那件事发生了。"
+                  % ("", ""))
     tally = {}
     for r in rows:
         tally[r["state"]] = tally.get(r["state"], 0) + 1
     print("  " + "-" * 92)
     for k, v in sorted(tally.items()):
-        print("    %-46s %d" % (k, v))
-    bad = tally.get(IN_UNFALSIFIABLE, 0)
-    print("\n  ★ 关键指标：**不可证伪比例** = %d/%d = %.0f%%"
+        print("    %-50s %d" % (k, v))
+    bad = tally.get(IN_UNFALSIFIABLE, 0) + tally.get(IN_MISMATCH, 0)
+    print("\n  ★ 关键指标：**不可证伪或判据不对题的比例** = %d/%d = %.0f%%"
           % (bad, len(rows), 100.0 * bad / len(rows)))
+    print("     （缺判据 %d 条 ／ 判据不对题 %d 条）"
+          % (tally.get(IN_UNFALSIFIABLE, 0), tally.get(IN_MISMATCH, 0)))
     print("     工具的拦截发生在【写下的那一刻】—— 这正是它比事后抽取强的地方。")
     print("=" * 96)
     return 0
@@ -475,14 +525,37 @@ def selftest() -> int:
     # ── 摄入（工具导出的记录）──
     rows = ingested_rows()
     check("★摄入：没有记录时不崩，返回空表", isinstance(rows, list), str(type(rows)))
+    # 判据 vs 被排除路径：词面重叠（第一个真实记录打出来的缺口）
+    check("★重叠度：真实那一对（核战前奏 vs 互撤导弹）零重叠",
+          criterion_overlap("危机局势进一步加剧 进入核战前奏", "互撤导弹") == 0.0,
+          str(criterion_overlap("危机局势进一步加剧 进入核战前奏", "互撤导弹")))
+    check("★重叠度：对题的一对必须 > 0（不能把对题的也报成不对题）",
+          criterion_overlap("欧盟自主建军", "欧盟成员国把防务预算主权上交") > 0,
+          str(criterion_overlap("欧盟自主建军", "欧盟成员国把防务预算主权上交")))
+    check("★重叠度：零重叠 ⇒ 判 IN_MISMATCH，而不是算成『可证伪』",
+          ingest_state("美国空袭古巴", "互撤导弹", "13天") == IN_MISMATCH)
+    # ingest_state 四个方向逐条钉死
+    check("★ingest_state：缺判据 ⇒ 不可证伪",
+          ingest_state("美国空袭古巴", "", "13天") == IN_UNFALSIFIABLE)
+    check("★ingest_state：判据只有空格 ⇒ 不可证伪（trim）",
+          ingest_state("美国空袭古巴", "   ", "13天") == IN_UNFALSIFIABLE)
+    check("★ingest_state：判据对题但无窗口 ⇒ 只是「尚未发生」",
+          ingest_state("欧盟自主建军", "欧盟把防务预算主权上交", "") == IN_NO_WINDOW)
+    check("★ingest_state：判据对题且有窗口 ⇒ 才算可证伪",
+          ingest_state("欧盟自主建军", "欧盟把防务预算主权上交", "5年") == IN_FALSIFIABLE)
     if rows:
-        check("★摄入：每条都带状态，且状态只有三档",
-              all(r["state"] in (IN_FALSIFIABLE, IN_NO_WINDOW, IN_UNFALSIFIABLE) for r in rows))
-        check("★摄入：可证伪且带窗口的才判『可证伪』",
-              all((r["state"] == IN_FALSIFIABLE) == (bool(r["criterion"]) and bool(r["window"]))
+        check("★摄入：每条都带状态，且状态只有四档",
+              all(r["state"] in (IN_FALSIFIABLE, IN_NO_WINDOW, IN_UNFALSIFIABLE, IN_MISMATCH)
                   for r in rows))
-        check("★摄入：缺判据的一律判『不可证伪』",
+        check("★摄入：缺判据的判『不可证伪』",
               all(r["state"] == IN_UNFALSIFIABLE for r in rows if not r["criterion"]))
+        check("★摄入：判据非空但零重叠的判『不对题』（不是『可证伪』）",
+              all(r["state"] == IN_MISMATCH
+                  for r in rows if r["criterion"] and r["overlap"] == 0.0))
+        check("★摄入：可证伪 = 有判据 且 有重叠 且 有窗口",
+              all((r["state"] == IN_FALSIFIABLE) ==
+                  (bool(r["criterion"]) and r["overlap"] > 0 and bool(r["window"]))
+                  for r in rows))
         print("      （当前摄入目录里有 %d 条真实记录）" % len(rows))
     r9 = evaluate({"check": "ucdpwar:CN-XX:2008"})
     check("★UCDP 战争阈值：没有该双边对 ⇒ 数据不够（不猜）",

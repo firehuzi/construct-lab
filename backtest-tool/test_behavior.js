@@ -104,7 +104,7 @@ function grab(name) {
   return null;
 }
 const wanted = ["startBacktest", "render", "renderStep0", "renderStep4", "renderExclusions",
-                "addExclusion", "removeExclusion", "buildExclusionRecord",
+                "addExclusion", "removeExclusion", "buildExclusionRecord", "criterionOverlap",
                 "exportExclusions", "exportBacktest", "collectState", "commitStep", "goStep"];
 const missing = wanted.filter(w => !grab(w));
 ck("所有需要的函数都能抓到", missing.length === 0, missing.join(","));
@@ -148,8 +148,9 @@ st.exclusions[1] = { excluded: "苏联公开拒绝撤走导弹", criterion: "", 
 h = api.renderExclusions();
 ck("★缺判据 ⇒ 出现「缺判据」告警", h.includes("缺判据 ⇒"), "");
 ck("★缺判据 ⇒ 该行左边框标红（--danger）", /border-left:3px solid var\(--danger\)/.test(h));
-ck("★缺判据 ⇒ 汇总显示不可证伪 1 条", /不可证伪\s*1\s*条/.test(h.replace(/<[^>]+>/g, "")),
-   (h.replace(/<[^>]+>/g, "").match(/不可证伪[^；]*/) || [""])[0]);
+ck("★缺判据 ⇒ 汇总单列「缺判据 1 条」（措辞已从「不可证伪」改为「缺判据」）",
+   /缺判据\s*1\s*条/.test(h.replace(/<[^>]+>/g, "")),
+   (h.replace(/<[^>]+>/g, "").match(/缺判据[^；]*/) || [""])[0]);
 
 // ── 导出：内容必须正确 ────────────────────────────────────────
 downloaded.length = 0;
@@ -248,6 +249,62 @@ ck("★回执里包含排除断言的条数与「缺判据」告警",
 ck("★页面里有「✔ 保存本步」按钮且绑定 commitStep",
    /id="btn-commit"[^>]*onclick="commitStep\(\)"/.test(src) && src.includes("✔ 保存本步"));
 ck("★页面里有 #save-status 元素", /id="save-status"/.test(src));
+
+// ⑧ ★判据 vs 被排除的路径：第一个【真实记录】打出来的缺口
+console.log("\n  ── 第一个真实记录打出来的缺口：判据对不对题");
+ck("★重叠度：真实那一对（核战前奏 vs 互撤导弹）应为 0",
+   api.criterionOverlap("危机局势进一步加剧 进入核战前奏", "互撤导弹") === 0,
+   String(api.criterionOverlap("危机局势进一步加剧 进入核战前奏", "互撤导弹")));
+// ★ 这条是防「把中文剥光」那个坑的：全中文完全相同必须得 1
+ck("★重叠度：同一串中文必须得 1（防 JS 的 \\W 把中文剥光）",
+   api.criterionOverlap("中国", "中国") === 1,
+   String(api.criterionOverlap("中国", "中国")));
+ck("★重叠度：含标点/空格的中文也要保住词面",
+   api.criterionOverlap("欧盟自主建军，五年内", "欧盟自主建军 五年内") === 1,
+   String(api.criterionOverlap("欧盟自主建军，五年内", "欧盟自主建军 五年内")));
+ck("★重叠度：对题的一对必须 > 0（不能把对题的也报成不对题）",
+   api.criterionOverlap("欧盟自主建军", "欧盟把防务预算主权上交") > 0,
+   String(api.criterionOverlap("欧盟自主建军", "欧盟把防务预算主权上交")));
+
+const recMis = api.buildExclusionRecord(
+  { id: "t", name: "T", timePoint: "X" },
+  { exclusions: [
+      { excluded: "危机局势进一步加剧 进入核战前奏", criterion: "互撤导弹", window: "3年" },
+      { excluded: "美国空袭古巴", criterion: "出现美军对古巴本土的空中打击", window: "13天" },
+  ] }, "now");
+ck("★不对题的判据 ⇒ criterion_mismatch=true",
+   recMis.exclusions[0].criterion_mismatch === true);
+ck("★不对题的判据 ⇒ falsifiable=false（【不】算成可证伪）",
+   recMis.exclusions[0].falsifiable === false);
+ck("★不对题的判据 ⇒ note 指出「把路径预测填进了判据栏」",
+   /路径预测|证伪条件/.test(recMis.exclusions[0].note), recMis.exclusions[0].note);
+ck("★summary 单列 criterion_mismatch 计数与 id",
+   recMis.summary.criterion_mismatch === 1 &&
+   recMis.summary.criterion_mismatch_ids[0] === "t-X01",
+   JSON.stringify(recMis.summary));
+ck("★对题的那条不受影响（仍 falsifiable）",
+   recMis.exclusions[1].criterion_mismatch === false &&
+   recMis.exclusions[1].falsifiable === true);
+
+// 界面上要就地提示
+api.startBacktest("cuban-missile");
+api.getState().exclusions = [
+  { excluded: "危机局势进一步加剧 进入核战前奏", criterion: "互撤导弹", window: "3年" }];
+const hMis = api.renderExclusions();
+ck("★界面就地提示「判据可能不对题」", hMis.includes("判据可能不对题"));
+ck("★界面点明原因：把「我认为会怎么走」填进来了",
+   hMis.includes("我认为会怎么走") || hMis.includes("路径预测"));
+ck("★界面明说这是【证伪条件】不是路径预测", hMis.includes("证伪条件"));
+ck("★界面给出可忽略的口子（语义等价可零重叠）",
+   hMis.includes("语义等价") || hMis.includes("忽略此提示"));
+ck("★汇总里单列「判据可能不对题 N 条」", /判据可能不对题\s*1\s*条/.test(hMis.replace(/<[^>]+>/g, "")));
+
+// ⑨ 提交回执里也要报出来
+const r2 = api.commitStep();
+ck("★commitStep 返回 misExc", typeof r2.misExc === "number", JSON.stringify(r2));
+ck("★回执里出现「判据可能不对题」",
+   /判据可能不对题/.test((nodes["save-status"] || {}).innerHTML || ""),
+   (nodes["save-status"] || {}).innerHTML);
 
 console.log(`\n  通过 ${nPass}，失败 ${nFail}`);
 console.log("  ⚠️ 覆盖范围：脚本加载/状态机/渲染/导出内容。**不含** CSS 与实际浏览器事件。");

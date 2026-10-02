@@ -18,7 +18,7 @@ function grab(name) {
   throw new Error("函数 " + name + " 括号不闭合");
 }
 
-const parts = ["buildExclusionRecord", "selfTestExclusion", "esc"].map(grab).join("\n\n");
+const parts = ["criterionOverlap", "buildExclusionRecord", "selfTestExclusion", "esc"].map(grab).join("\n\n");
 const consts = 'const EXCLUSION_SCHEMA = ' +
   JSON.stringify(src.match(/const EXCLUSION_SCHEMA = '([^']+)'/)[1]) + ';';
 

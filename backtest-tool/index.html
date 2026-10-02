@@ -334,11 +334,38 @@ let state = {
 //   写下时补一句判据的代价是零；几个月后从散文里回头抽，代价就是口径不清。
 const EXCLUSION_SCHEMA = 'construct-exclusion-v1';
 
+// ★ 判据与被排除路径的【词面重叠度】。
+//   加这个是因为第一个真实记录就撞上了：excluded=「危机局势进一步加剧 进入核战前奏」/
+//   criterion=「互撤导弹」—— 后者不是前者的判据，它恰恰是【反面】（双方各退一步）。
+//   那其实是一个【路径预测】被填进了判据栏。
+//   ⚠️ 这是粗筛不是判决：语义等价可以零重叠。所以零重叠只报「请确认」，不判错。
+//   ★★ 这里踩过一个严重的坑：JS 的 `\W`【不是】Unicode 感知的（Python 的是）。
+//      我最初写 .replace(/[\s\W_]+/g,'')，结果把中文字【全部剥光】——
+//      任何中文判据都算 0 重叠 ⇒【每一条都被误报「不对题」】。
+//      改用 Unicode 属性转义 \p{L}\p{N}（保留各语言文字与数字）。
+function criterionOverlap(excluded, criterion) {
+  const bg = s => {
+    const t = (s || '').replace(/[^\p{L}\p{N}]/gu, '');
+    const o = [];
+    if (t.length < 2) { if (t) o.push(t); return o; }
+    for (let i = 0; i < t.length - 1; i++) o.push(t.slice(i, i + 2));
+    return o;
+  };
+  const a = bg(excluded), b = bg(criterion);
+  if (!a.length || !b.length) return 0;
+  const bs = new Set(b);
+  let inter = 0;
+  a.forEach(x => { if (bs.has(x)) inter++; });
+  return inter / Math.min(a.length, b.length);
+}
+
 function buildExclusionRecord(bt, st, nowISO) {
   const items = (st.exclusions || []).map((x, i) => {
     const excluded = (x.excluded || '').trim();
     const criterion = (x.criterion || '').trim();
     const win = (x.window || '').trim();
+    const ov = criterionOverlap(excluded, criterion);
+    const mismatch = !!criterion && ov === 0;
     return {
       id: (bt.id || 'bt') + '-X' + String(i + 1).padStart(2, '0'),
       scenario: bt.name,
@@ -346,12 +373,18 @@ function buildExclusionRecord(bt, st, nowISO) {
       excluded: excluded,
       criterion: criterion,
       window: win || null,
-      falsifiable: !!criterion,
-      verdict_at_write: criterion ? '尚未被证伪（写下时）' : '不可证伪 ⇒ 不携带信息',
-      note: criterion ? '' : '缺判据：请写清「什么算它发生了」，否则这条断言无法被检验'
+      criterion_overlap: ov,
+      falsifiable: !!criterion && !mismatch,
+      criterion_mismatch: mismatch,
+      verdict_at_write: !criterion ? '不可证伪 ⇒ 不携带信息'
+                       : (mismatch ? '判据可能不对题 ⇒ 需人工确认' : '尚未被证伪（写下时）'),
+      note: !criterion ? '缺判据：请写清「出现什么就说明我排除的这件事发生了」，否则这条断言无法被检验'
+            : (mismatch ? '判据与被排除的路径零词面重叠：你可能把「我认为会怎么走」填进来了。'
+                          + '判据要填【证伪条件】，不是路径预测。' : '')
     };
   });
   const bad = items.filter(x => !x.falsifiable);
+  const mis = items.filter(x => x.criterion_mismatch);
   const noWin = items.filter(x => x.falsifiable && !x.window);
   return {
     schema: EXCLUSION_SCHEMA,
@@ -362,9 +395,11 @@ function buildExclusionRecord(bt, st, nowISO) {
     exclusions: items,
     summary: {
       total: items.length,
-      falsifiable: items.length - bad.length,
-      unfalsifiable: bad.length,
+      falsifiable: items.filter(x => x.falsifiable).length,
+      unfalsifiable: items.filter(x => !x.falsifiable).length,
       unfalsifiable_ids: bad.map(x => x.id),
+      criterion_mismatch: mis.length,
+      criterion_mismatch_ids: mis.map(x => x.id),
       missing_window_ids: noWin.map(x => x.id)
     }
   };
@@ -637,30 +672,43 @@ function renderExclusions() {
     —— 没有判据的断言无法被检验，也就<strong>不携带信息</strong>。
     但不必等未来：<strong>它一旦发生，你的断言就被证伪</strong>；它没发生，只说明尚未被证伪。</div>`;
   (state.exclusions || []).forEach((x, i) => {
-    const ok = !!(x.criterion || '').trim();
+    const crit = (x.criterion || '').trim();
+    const ov = criterionOverlap((x.excluded || '').trim(), crit);
+    const mismatch = !!crit && ov === 0;
+    const ok = !!crit && !mismatch;
     html += `<div class="path-card" style="border-left:3px solid ${ok ? 'var(--accent)' : 'var(--danger)'}">
       <div class="path-header">
-        <span class="prob-badge ${ok ? 'prob-h' : 'prob-l'}">排除 ${i + 1}${ok ? '' : ' · 缺判据'}</span>
+        <span class="prob-badge ${ok ? 'prob-h' : 'prob-l'}">排除 ${i + 1}${!crit ? ' · 缺判据' : (mismatch ? ' · 判据可能不对题' : '')}</span>
         <button class="btn btn-sm" style="color:var(--danger);border-color:var(--danger)" onclick="removeExclusion(${i})">删除</button>
       </div>
       <div class="field"><label>不可能发生的路径</label>
         <input data-exc="${i}" data-excfield="excluded" value="${esc(x.excluded || '')}"
                placeholder="例：欧盟实现无人机生产自主化"></div>
-      <div class="field"><label>判据 —— 什么算它发生了？（必填）</label>
+      <div class="field"><label>证伪条件 —— 出现什么，就说明【我排除的这件事发生了】？（必填）</label>
         <input data-exc="${i}" data-excfield="criterion" value="${esc(x.criterion || '')}"
-               placeholder="例：欧盟本土无人机年产量 ≥ 其需求量的 50%"></div>
+               placeholder="例：欧盟本土无人机年产量 ≥ 其需求的 50%"></div>
       <div class="field"><label>窗口（可选，但没窗口就只是「尚未发生」）</label>
         <input data-exc="${i}" data-excfield="window" value="${esc(x.window || '')}"
                placeholder="例：5 年 / 至今"></div>
-      ${ok ? '' : '<div class="hint" style="color:var(--danger)">⚠️ 缺判据 ⇒ 这条断言不可证伪，不携带信息</div>'}
+      ${!crit ? '<div class="hint" style="color:var(--danger)">⚠️ 缺判据 ⇒ 这条断言不可证伪，不携带信息</div>' : ''}
+      ${mismatch ? `<div class="hint" style="color:var(--danger)">⚠️ 判据与被排除的路径【没有一个字重叠】（重叠度 ${ov.toFixed(2)}）。<br>
+        常见原因：把「<strong>我认为会怎么走</strong>」（路径预测）填进了判据栏。<br>
+        判据要填的是<strong>证伪条件</strong>：出现什么，就说明你排除的那件事<strong>发生了</strong>。<br>
+        （若两者确实语义等价、只是用词不同，忽略此提示。）</div>` : ''}
     </div>`;
   });
   html += `<button class="btn" onclick="addExclusion()">+ 添加排除断言</button>`;
   const n = (state.exclusions || []).length;
   if (n) {
-    const bad = (state.exclusions || []).filter(x => !(x.criterion || '').trim()).length;
+    let bad = 0, mis = 0;
+    (state.exclusions || []).forEach(x => {
+      const c = (x.criterion || '').trim();
+      if (!c) bad++;
+      else if (criterionOverlap((x.excluded || '').trim(), c) === 0) mis++;
+    });
     html += `<div class="hint" style="margin-top:8px">已写 ${n} 条；
-      可证伪 ${n - bad} 条；<strong style="color:${bad ? 'var(--danger)' : 'var(--accent)'}">不可证伪 ${bad} 条</strong></div>`;
+      可证伪 ${n - bad - mis} 条；<strong style="color:${bad ? 'var(--danger)' : 'var(--accent)'}">缺判据 ${bad} 条</strong>；
+      <strong style="color:${mis ? 'var(--danger)' : 'var(--accent)'}">判据可能不对题 ${mis} 条</strong></div>`;
   }
   html += `</div>`;
   return html;
@@ -859,19 +907,22 @@ function commitStep() {
   const nExc = (state.exclusions || []).filter(x => x && (x.excluded || x.criterion)).length;
   const badExc = (state.exclusions || []).filter(x => x && (x.excluded || '').trim()
                   && !(x.criterion || '').trim()).length;
+  const misExc = (state.exclusions || []).filter(x => x && (x.criterion || '').trim()
+                  && criterionOverlap((x.excluded || '').trim(), (x.criterion || '').trim()) === 0).length;
   const nGq = Object.keys(state.userAnswers || {}).filter(k => state.userAnswers[k]).length;
   const parts = [
     '推演路径 ' + nPaths + ' 条',
-    '排除断言 ' + nExc + ' 条' + (badExc ? '（其中 ' + badExc + ' 条缺判据 ⚠️）' : ''),
+    '排除断言 ' + nExc + ' 条' + (badExc ? '（缺判据 ' + badExc + ' 条 ⚠️）' : '')
+                              + (misExc ? '（判据可能不对题 ' + misExc + ' 条 ⚠️）' : ''),
     '引导题 ' + nGq + ' 题',
     '自由笔记 ' + ((state.pathNotes || '').length) + ' 字',
   ];
   const el = document.getElementById('save-status');
   if (el) {
     el.innerHTML = '✔ <strong>已保存</strong>（第 ' + (currentStep + 1) + ' 步）　' + parts.join('　·　');
-    el.style.color = badExc ? 'var(--danger)' : 'var(--accent)';
+    el.style.color = (badExc || misExc) ? 'var(--danger)' : 'var(--accent)';
   }
-  return { nPaths, nExc, badExc, nGq };
+  return { nPaths, nExc, badExc, misExc, nGq };
 }
 
 function reveal() {
@@ -930,17 +981,25 @@ function exportBacktest() {
     md += `不可证伪 ${rec.summary.unfalsifiable} 条。\n\n`;
     rec.exclusions.forEach(x=>{
       md += `- **${x.excluded||'（未填）'}**\n`;
-      if (x.falsifiable) {
-        md += `  - 判据（什么算它发生了）：${x.criterion}\n`;
+      if (x.criterion_mismatch) {
+        md += `  - ⚠️ **判据可能不对题**：填的是「${x.criterion}」，与被排除的路径零词面重叠\n`;
+        md += `  - 常见原因：把「我认为会怎么走」（路径预测）填进了判据栏\n`;
+        md += `  - 判据要填的是【证伪条件】：出现什么，就说明你排除的那件事发生了\n`;
+      } else if (x.falsifiable) {
+        md += `  - 证伪条件：${x.criterion}\n`;
         md += `  - 窗口：${x.window||'未填 —— 那它目前只是「尚未发生」'}\n`;
         md += `  - 状态：尚未被证伪（写下时）\n`;
       } else {
         md += `  - ⚠️ **未填判据 ⇒ 这条断言不可证伪，不携带信息**\n`;
       }
     });
-    if (rec.summary.unfalsifiable) {
-      md += `\n> ⚠️ 有 ${rec.summary.unfalsifiable} 条断言缺判据（${rec.summary.unfalsifiable_ids.join('、')}）。\n`;
-      md += `> 不可证伪的断言与不可证伪的预测一样：**不携带信息**。请补上「什么算它发生了」。\n`;
+    if (rec.summary.unfalsifiable || rec.summary.criterion_mismatch) {
+      md += `\n> ⚠️ `;
+      if (rec.summary.unfalsifiable)
+        md += `有 ${rec.summary.unfalsifiable} 条断言缺判据（${rec.summary.unfalsifiable_ids.join('、')}）。`;
+      if (rec.summary.criterion_mismatch)
+        md += `有 ${rec.summary.criterion_mismatch} 条判据可能不对题（${rec.summary.criterion_mismatch_ids.join('、')}）。`;
+      md += `\n> 不可证伪的断言与不可证伪的预测一样：**不携带信息**。\n`;
     }
   }
 
@@ -959,16 +1018,23 @@ function exportExclusions() {
     alert('还没有写排除断言。\n\n在「你的路径推演」那一步往下，有「🚫 我排除的路径」一栏。');
     return;
   }
-  if (rec.summary.unfalsifiable) {
-    const ok = confirm(`有 ${rec.summary.unfalsifiable} 条断言【缺判据】，不可证伪，不携带信息。\n\n` +
-                       `仍然导出吗？（建议先补上「什么算它发生了」）`);
-    if (!ok) return;
+  if (rec.summary.unfalsifiable || rec.summary.criterion_mismatch) {
+    const msgs = [];
+    if (rec.summary.unfalsifiable)
+      msgs.push('有 ' + rec.summary.unfalsifiable + ' 条【缺判据】，不可证伪，不携带信息。');
+    if (rec.summary.criterion_mismatch)
+      msgs.push('有 ' + rec.summary.criterion_mismatch + ' 条【判据可能不对题】'
+                + '（与被排除的路径零词面重叠）—— 很可能把「我认为会怎么走」填进了判据栏。');
+    if (!confirm(msgs.join('\n\n') + '\n\n仍然导出吗？（建议先改）')) return;
   }
   download(JSON.stringify(rec, null, 2),
            `exclusions-${currentBT.id}.json`, 'application/json');
 }
 
 // ★ 自证：这段逻辑必须能【失败】才可信。控制台里调 selfTestExclusion()。
+//   ★ 改过一轮：原来占位符用 'X' / 'Y≥1' / 'Y'，它们互相零重叠 ——
+//     加了「判据对不对题」检查后，那几条自己变成了「不对题」，断言全崩。
+//     改用【真实形状的中文对】，并补上不对题方向。
 function selfTestExclusion() {
   const bt = {id:'t', name:'T', timePoint:'X'};
   let n = 0, fail = 0;
@@ -977,35 +1043,57 @@ function selfTestExclusion() {
     else { fail++; console.log('  ❌ ' + name + '   ' + (detail || '')); }
   };
 
-  // ① 缺判据 ⇒ 必须判为不可证伪（这是整个扩展的目的所在）
-  let r = buildExclusionRecord(bt, {exclusions:[{excluded:'X', criterion:'', window:''}]}, 'now');
+  // 0) 重叠度：中文必须保住（防 JS 的 \W 把中文剥光那个坑）
+  ck('★重叠度：同一串中文得 1', criterionOverlap('中国', '中国') === 1);
+  ck('★重叠度：真实那一对（核战前奏 vs 互撤导弹）得 0',
+     criterionOverlap('危机局势进一步加剧 进入核战前奏', '互撤导弹') === 0);
+  ck('重叠度：对题的一对 > 0',
+     criterionOverlap('欧盟自主建军', '欧盟把防务预算主权上交') > 0);
+
+  // 1) 缺判据 ⇒ 不可证伪（这是整个扩展的目的）
+  let r = buildExclusionRecord(bt, {exclusions:[{excluded:'欧盟自主建军', criterion:'', window:'5年'}]}, 'now');
   ck('缺判据 ⇒ falsifiable=false', r.exclusions[0].falsifiable === false);
   ck('缺判据 ⇒ 计入 unfalsifiable', r.summary.unfalsifiable === 1);
   ck('缺判据 ⇒ note 说明「不携带信息／无法被检验」',
      /不携带信息|无法被检验/.test(r.exclusions[0].note), r.exclusions[0].note);
 
-  // ② 有判据 ⇒ 可证伪
-  r = buildExclusionRecord(bt, {exclusions:[{excluded:'X', criterion:'Y≥1', window:'5年'}]}, 'now');
-  ck('有判据 ⇒ falsifiable=true', r.exclusions[0].falsifiable === true);
-  ck('有判据 ⇒ unfalsifiable=0', r.summary.unfalsifiable === 0);
+  // 2) 判据对题且有窗口 ⇒ 可证伪
+  r = buildExclusionRecord(bt, {exclusions:[
+      {excluded:'欧盟自主建军', criterion:'欧盟把防务预算主权上交', window:'5年'}]}, 'now');
+  ck('判据对题 ⇒ falsifiable=true', r.exclusions[0].falsifiable === true);
+  ck('判据对题 ⇒ unfalsifiable=0', r.summary.unfalsifiable === 0);
+  ck('判据对题 ⇒ criterion_mismatch=0', r.summary.criterion_mismatch === 0);
 
-  // ③ 判据只有空白字符 ⇒ 也算缺（必须 trim）
-  r = buildExclusionRecord(bt, {exclusions:[{excluded:'X', criterion:'   ', window:''}]}, 'now');
+  // 3) ★判据不对题 ⇒ 单列（真实记录打出来的那一档）
+  r = buildExclusionRecord(bt, {exclusions:[
+      {excluded:'危机局势进一步加剧 进入核战前奏', criterion:'互撤导弹', window:'3年'}]}, 'now');
+  ck('★判据零重叠 ⇒ criterion_mismatch=true', r.exclusions[0].criterion_mismatch === true);
+  ck('★判据零重叠 ⇒ falsifiable=false（不算成可证伪）', r.exclusions[0].falsifiable === false);
+  ck('★判据零重叠 ⇒ summary 单列计数与 id',
+     r.summary.criterion_mismatch === 1 && r.summary.criterion_mismatch_ids[0] === 't-X01');
+  ck('★判据零重叠 ⇒ note 指出可能把路径预测填进判据栏',
+     /路径预测|证伪条件/.test(r.exclusions[0].note), r.exclusions[0].note);
+
+  // 4) 判据只有空白字符 ⇒ 也算缺（必须 trim）
+  r = buildExclusionRecord(bt, {exclusions:[{excluded:'欧盟自主建军', criterion:'   ', window:''}]}, 'now');
   ck('★判据只有空格 ⇒ 也算缺（trim）', r.exclusions[0].falsifiable === false);
 
-  // ④ 有判据但无窗口 ⇒ 仍可证伪，但要单列提醒
-  r = buildExclusionRecord(bt, {exclusions:[{excluded:'X', criterion:'Y', window:''}]}, 'now');
+  // 5) 有判据但无窗口 ⇒ 仍可证伪，但要单列提醒
+  r = buildExclusionRecord(bt, {exclusions:[
+      {excluded:'欧盟自主建军', criterion:'欧盟把防务预算主权上交', window:''}]}, 'now');
   ck('有判据无窗口 ⇒ 仍可证伪', r.exclusions[0].falsifiable === true);
   ck('有判据无窗口 ⇒ 计入 missing_window_ids', r.summary.missing_window_ids.length === 1);
 
-  // ⑤⑥ 边界：空列表 / 字段未定义
+  // 6) 边界
   r = buildExclusionRecord(bt, {exclusions:[]}, 'now');
   ck('空列表 ⇒ total=0 且不报错', r.summary.total === 0);
   r = buildExclusionRecord(bt, {}, 'now');
   ck('exclusions 未定义 ⇒ 不崩', r.summary.total === 0);
 
-  // ⑦ id 稳定有序
-  r = buildExclusionRecord(bt, {exclusions:[{excluded:'A',criterion:'c'},{excluded:'B',criterion:'c'}]}, 'now');
+  // 7) id 稳定有序
+  r = buildExclusionRecord(bt, {exclusions:[
+      {excluded:'欧盟自主建军', criterion:'欧盟把防务预算主权上交'},
+      {excluded:'伊朗承认以色列', criterion:'伊朗与以色列建交'}]}, 'now');
   ck('id 稳定有序', r.exclusions[0].id === 't-X01' && r.exclusions[1].id === 't-X02',
      r.exclusions.map(x=>x.id).join(','));
 

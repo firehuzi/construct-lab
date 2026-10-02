@@ -1,0 +1,27 @@
+{
+  "schema": "construct-exclusion-v1",
+  "exported_at": "2026-10-02T06:41:58.398Z",
+  "scenario": "古巴导弹危机",
+  "scenario_id": "cuban-missile",
+  "time_lock": "1962年10月22日——肯尼迪发表电视讲话，宣布对古巴实施海上封锁。此时已知信息如下。",
+  "exclusions": [
+    {
+      "id": "cuban-missile-X01",
+      "scenario": "古巴导弹危机",
+      "time_point": "1962年10月22日——肯尼迪发表电视讲话，宣布对古巴实施海上封锁。此时已知信息如下。",
+      "excluded": "危机局势进一步加剧 进入核战前奏",
+      "criterion": "互撤导弹",
+      "window": "3年",
+      "falsifiable": true,
+      "verdict_at_write": "尚未被证伪（写下时）",
+      "note": ""
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "falsifiable": 1,
+    "unfalsifiable": 0,
+    "unfalsifiable_ids": [],
+    "missing_window_ids": []
+  }
+}

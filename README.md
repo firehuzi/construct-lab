@@ -99,3 +99,18 @@ MIT License — 见 [LICENSE](LICENSE)
 - **公众号**: 地缘推演台
 - **Substack**: [constructlab.substack.com](https://constructlab.substack.com)
 - **站点**: [construct-lab.site](https://construct-lab.site)
+
+---
+
+## 分析工具（引擎/工具层新版）
+
+`tool/index.html` 是**构建产物**（单文件、可双击直接打开）。
+
+```bash
+python build_tool.py             # 构建
+python build_tool.py --selftest  # 14 条自证
+```
+
+板块① 历史回溯（时间锁推演）／② 排除断言账／③ 主体档案。
+详见 [tool/README.md](tool/README.md)。
+
